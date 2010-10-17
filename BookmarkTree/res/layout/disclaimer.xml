@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/disclaimerBody"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+>
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingLeft="10dip"
+		android:paddingRight="10dip"
+	>	
+
+		<TextView 
+			android:id="@+id/disclaimerTitle"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Bookmark Tree {version}"
+			android:textStyle="bold"
+			android:textSize="18dp"
+		/>
+
+<TextView style="@style/DisclaimerText"
+android:text="Bookmark Tree lets you view the browser's bookmarks as a folder-like tree structure.
+\n
+\nBasic Usage:
+\n* Long-click to edit selected item and define/change the folder structure.
+\n* Short-click on bookmark to open link.
+\n* Short-click on folder to expand/collapse.
+\n* Menu/Settings for advanced settings
+"
+/>
+
+<TextView style="@style/DisclaimerText" android:text="" />
+
+<TextView style="@style/DisclaimerText"
+android:text="This app will update your bookmark data, so please BACKUP YOUR BOOKMARKS before
+changing them. Seriously, I really mean it. Use 'Browser Backup &amp; Restore' (link below)
+or any other backup app from the android market to do so.
+"
+/>
+
+<TextView style="@style/DisclaimerText" android:text="" />
+
+<TextView style="@style/DisclaimerText"
+	android:text="This app is open source:"
+/>
+<TextView style="@style/DisclaimerText"
+	android:singleLine="true"
+	android:text="https://dynamicg-android-apps.googlecode.com/svn/trunk/BookmarkTree"
+/>
+<TextView style="@style/DisclaimerText"
+	android:singleLine="true"
+	android:text="Programmed by dynamicg.android@gmail.com"
+/>
+<TextView android:id="@+id/disclaimerSvnRevision"
+	style="@style/DisclaimerText"
+	android:text="SVN Revision: ${revision}"
+/>
+
+<TextView style="@style/DisclaimerText" android:text="" />
+
+<TextView style="@style/DisclaimerText"
+	android:text="Link to 'Browser Bookmark &amp; Restore':"
+/>
+<TextView style="@style/DisclaimerText"
+	android:singleLine="true"
+	android:text="http://market.android.com/details?id=com.happydroid.bookmarks"
+/>
+
+<TextView style="@style/DisclaimerText" android:text="\n\n" />
+	
+	</LinearLayout>
+
+</ScrollView>

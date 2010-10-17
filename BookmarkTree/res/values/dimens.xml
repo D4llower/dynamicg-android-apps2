@@ -1,0 +1,5 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<dimen name="mainPadding">6dip</dimen>
+	<dimen name="iconRightMargin">10dip</dimen>
+	<dimen name="cellHeight">52dip</dimen>
+</resources>

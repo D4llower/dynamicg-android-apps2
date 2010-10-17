@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <style name="GenericText">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+    </style>
+    <style name="TitleText" parent="GenericText">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+    <style name="UrlText" parent="GenericText">
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <style name="DialogButtonPanel">
+	    <item name="android:background">#555</item>
+	    <item name="android:layout_marginTop">20dip</item>
+	    <item name="android:paddingTop">15dip</item>
+	    <item name="android:paddingBottom">10dip</item>
+	</style>
+    
+    <style name="DialogButton">
+	    <item name="android:layout_width">120dip</item>
+	    <item name="android:layout_height">wrap_content</item>
+	</style>
+    <style name="DialogButtonSave" parent="DialogButton">
+	    <item name="android:text">Save</item>
+	</style>
+    <style name="DialogButtonCancel" parent="DialogButton">
+	    <item name="android:text">Cancel</item>
+	</style>
+
+	<style name="PrefsLabel">
+		<item name="android:textSize">16sp</item>
+        <item name="android:textColor">#fff</item>
+	</style>
+	<style name="PrefsLabelSmall">
+		<item name="android:textSize">12sp</item>
+        <item name="android:textColor">#fff</item>
+	</style>
+	
+	<style name="Divider">
+		<item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:background">?android:attr/listDivider</item>
+	</style>
+	
+	<style name="DisclaimerText">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:autoLink">all</item>
+	</style>
+	
+</resources>
