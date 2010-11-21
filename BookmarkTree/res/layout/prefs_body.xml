@@ -75,7 +75,7 @@
 	    <TableRow>
 	    	<TextView style="@style/PrefsHint" 
 	    		android:layout_span="2"
-	    		android:text="\u2192 Restart app when changed"
+	    		android:text="\u2192 Restart app when changed. \'Compact\' shows more rows per page."
 	    		/>
 	    </TableRow>
     </TableLayout>
