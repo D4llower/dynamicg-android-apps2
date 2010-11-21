@@ -9,8 +9,8 @@
     <supports-screens 
     	android:smallScreens="true"
         android:normalScreens="true"
-        android:largeScreens="false"
-        android:anyDensity="false"
+        android:largeScreens="true"
+        android:anyDensity="true"
         />
         
     <application android:icon="@drawable/icon" android:label="@string/app_name">
