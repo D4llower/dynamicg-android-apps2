@@ -16,9 +16,11 @@ public abstract class RowViewProvider {
 	private static final int childLevelIndention = 32;
 	
 	public final LayoutInflater inflater;
+	public final boolean compact;
 
-	public RowViewProvider(LayoutInflater inflater) {
+	public RowViewProvider(LayoutInflater inflater, boolean compact) {
 		this.inflater = inflater;
+		this.compact = compact;
 		if (log.isDebugEnabled()) {
 			log.info("create RowViewProvider", this);
 		}
@@ -28,8 +30,8 @@ public abstract class RowViewProvider {
 	
 	public static class ProviderOldStyle extends RowViewProvider {
 
-		public ProviderOldStyle(LayoutInflater inflater) {
-			super(inflater);
+		public ProviderOldStyle(LayoutInflater inflater, boolean compact) {
+			super(inflater, compact);
 		}
 
 		private void prepare(View rowview, Bookmark bm) {
@@ -40,12 +42,17 @@ public abstract class RowViewProvider {
 	        View indentionCell = rowview.findViewById(R.id.bmIndention);
 	    	indentionCell.getLayoutParams().width = bm.hasParentFolder() ? bm.getLevel() * childLevelIndention : 0; 
 	    	
-	    	if (bm.isBrowserBookmark()) {
-		        TextView urlCell = (TextView) rowview.findViewById(R.id.bmUrl);
-		        urlCell.setText(bm.getUrl());
+	    	if (!compact) {
+		    	if (bm.isBrowserBookmark()) {
+			        TextView urlCell = (TextView) rowview.findViewById(R.id.bmUrl);
+			        urlCell.setText(bm.getUrl());
+		    	}
 	    	}
 
 	        ImageView iconCell = (ImageView) rowview.findViewById(R.id.bmIcon);
+	    	if (compact && bm.isFolder()) {
+		    	((FaviconImageView)iconCell).isFolder = true;
+	    	}
 			if (bm.isFolder()) {
 		        iconCell.setImageResource(bm.isExpanded() ? R.drawable.folder_open : R.drawable.folder_dflt );
 			}
@@ -57,7 +64,13 @@ public abstract class RowViewProvider {
 		
 		@Override
 		public View getView(Bookmark bm, View convertView, ViewGroup parent) {
-	        int resid = bm.isFolder() ? R.layout.list_row_folder : R.layout.list_row_bookmark;
+	        int resid;
+	        if (compact) {
+	        	resid = R.layout.list_row_compact;
+	        }
+	        else {
+	        	resid = bm.isFolder() ? R.layout.list15_row_folder : R.layout.list15_row_bookmark;
+	        }
 	        View rowview = inflater.inflate(resid, null);
 	        prepare(rowview, bm);
 			return rowview;
@@ -75,8 +88,11 @@ public abstract class RowViewProvider {
 
 	public static class ProviderModern extends RowViewProvider {
 
-		public ProviderModern(LayoutInflater inflater) {
-			super(inflater);
+		private final int layoutId;
+
+		public ProviderModern(LayoutInflater inflater, boolean compact) {
+			super(inflater, compact);
+			this.layoutId = compact ? R.layout.list_row_compact : R.layout.list20_row_relative;
 		}
 		
 		private void prepare(ViewHolder holder, Bookmark bm) {
@@ -84,13 +100,15 @@ public abstract class RowViewProvider {
 			holder.titleCell.setText(bm.getDisplayTitle());
 	    	holder.indentionCell.getLayoutParams().width = bm.hasParentFolder() ? bm.getLevel() * childLevelIndention : 0; 
 	    	
-	    	if (bm.isBrowserBookmark()) {
-		        holder.urlCell.setText(bm.getUrl());
-		        holder.urlCell.setVisibility(View.VISIBLE);
-	    	}
-	    	else if (holder.urlCell!=null) {
-	    		holder.urlCell.setText(null);
-	    		holder.urlCell.setVisibility(View.GONE);
+	    	if (!compact) {
+		    	if (bm.isBrowserBookmark()) {
+			        holder.urlCell.setText(bm.getUrl());
+			        holder.urlCell.setVisibility(View.VISIBLE);
+		    	}
+		    	else if (holder.urlCell!=null) {
+		    		holder.urlCell.setText(null);
+		    		holder.urlCell.setVisibility(View.GONE);
+		    	}
 	    	}
 
 	    	holder.iconCell.isFolder = bm.isFolder();
@@ -111,13 +129,15 @@ public abstract class RowViewProvider {
 				holder = (ViewHolder)convertView.getTag();
 			}
 			else {
-		        convertView = inflater.inflate(R.layout.list_row_relative, parent, false);
+		        convertView = inflater.inflate(layoutId, parent, false);
 		        
 				holder = new ViewHolder();
 				holder.titleCell = (TextView) convertView.findViewById(R.id.bmTitle);
 				holder.indentionCell = convertView.findViewById(R.id.bmIndention);
 				holder.iconCell = (FaviconImageView) convertView.findViewById(R.id.bmIcon);
-				holder.urlCell = (TextView) convertView.findViewById(R.id.bmUrl);
+				if (!compact) {
+					holder.urlCell = (TextView) convertView.findViewById(R.id.bmUrl);
+				}
 		    	convertView.setTag(holder);
 			}
 			

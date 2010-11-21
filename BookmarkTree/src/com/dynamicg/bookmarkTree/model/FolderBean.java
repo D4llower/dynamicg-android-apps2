@@ -1,7 +1,7 @@
 package com.dynamicg.bookmarkTree.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import android.graphics.Bitmap;
 
@@ -14,7 +14,7 @@ public class FolderBean extends Bookmark {
 	
 	private String fullTitle;
 	private boolean expanded = false;
-	private HashSet<Bookmark> children = new HashSet<Bookmark>();
+	private ArrayList<Bookmark> children = new ArrayList<Bookmark>();
 	
 	public FolderBean(String fullTitle, String nodeTitle, int level) {
 		super(nodeTitle, level);

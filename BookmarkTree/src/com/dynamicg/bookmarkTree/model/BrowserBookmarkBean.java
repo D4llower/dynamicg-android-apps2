@@ -19,6 +19,10 @@ public class BrowserBookmarkBean extends Bookmark {
 		this.favicon = favicon;
 	}
 
+	public String toString() {
+		return fullTitle + " {B}"; // for debug
+	}
+	
 	public Integer getId() {
 		return id;
 	}

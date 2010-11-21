@@ -16,7 +16,7 @@ public class DisclaimerPopup {
 	
 	public static void showOnce(BookmarkTreeContext ctx) {
 		PreferencesWrapper prefs = ctx.getPreferencesWrapper();
-		if ( CURRENT_DISCLAIMER_VERSION == prefs.getDisclaimerLastDisplayed() ) {
+		if ( CURRENT_DISCLAIMER_VERSION == prefs.prefsBean.getDisclaimerLastDisplayed() ) {
 			return;
 		}
 		show(ctx);

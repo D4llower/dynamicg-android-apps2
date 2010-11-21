@@ -5,10 +5,17 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
     </style>
+    
     <style name="TitleText" parent="GenericText">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">#fff</item>
     </style>
+    
+    <style name="TitleTextCompact" parent="GenericText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+    
     <style name="UrlText" parent="GenericText">
         <item name="android:textSize">14sp</item>
     </style>
@@ -24,9 +31,11 @@
 	    <item name="android:layout_width">120dip</item>
 	    <item name="android:layout_height">wrap_content</item>
 	</style>
+	
     <style name="DialogButtonSave" parent="DialogButton">
 	    <item name="android:text">Save</item>
 	</style>
+	
     <style name="DialogButtonCancel" parent="DialogButton">
 	    <item name="android:text">Cancel</item>
 	</style>
@@ -35,9 +44,16 @@
 		<item name="android:textSize">16sp</item>
         <item name="android:textColor">#fff</item>
 	</style>
+	
 	<style name="PrefsLabelSmall">
 		<item name="android:textSize">12sp</item>
         <item name="android:textColor">#fff</item>
+	</style>
+	<style name="PrefsHint">
+		<item name="android:textSize">12sp</item>
+        <item name="android:textColor">#ccc</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
 	</style>
 	
 	<style name="Divider">
@@ -51,5 +67,21 @@
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:autoLink">all</item>
 	</style>
-	
+
+    <style name="PrefsGroup">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">#666</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_marginTop">10dip</item>
+        <item name="android:layout_marginLeft">2dip</item>
+        <item name="android:layout_marginRight">2dip</item>
+        <item name="android:layout_marginBottom">2dip</item>
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:paddingRight">4dip</item>
+        <item name="android:paddingTop">2dip</item>
+        <item name="android:paddingBottom">2dip</item>
+    </style>
+
 </resources>

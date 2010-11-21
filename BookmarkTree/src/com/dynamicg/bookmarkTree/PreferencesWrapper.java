@@ -16,83 +16,88 @@ public class PreferencesWrapper {
 	private static final String KEY_DISCLAIMER = "disclaimerLastDisplayed";
 	private static final String KEY_SHOW_DELETE_ICON = "showDeleteIcon";
 	private static final String KEY_OPTIMISED_LAYOUT = "optimisedLayout";
+	private static final String KEY_LIST_STYLE = "listStyle";
+	private static final String KEY_SORT_OPTION = "sortOption";
 	
 	private final Context context;
-	
-	private String folderSeparator;
-	private String nodeConcatenation;
-	private int disclaimerLastDisplayed;
-	private int showDeleteIcon;
-	private int optimisedLayout;
+	public final PreferencesBean prefsBean;
 	
 	public PreferencesWrapper(Context context) {
 		this.context = context;
+		prefsBean = new PreferencesBean();
 		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		setFolderSeparator ( settings.getString(KEY_FOLDER_SEPARATOR, DEFVALUE_FOLDER_SEPARATOR) );
-		disclaimerLastDisplayed = settings.getInt(KEY_DISCLAIMER, 0);
-		showDeleteIcon = settings.getInt(KEY_SHOW_DELETE_ICON, 1);
+		prefsBean.disclaimerLastDisplayed = settings.getInt(KEY_DISCLAIMER, 0);
+		prefsBean.showDeleteIcon = settings.getInt(KEY_SHOW_DELETE_ICON, 1);
 		
 		int defaultOptimisation=0;
 		if (!settings.contains(KEY_OPTIMISED_LAYOUT)) {
 			defaultOptimisation = VersionAccessor.isEclairOrHigher() ? 1 : 0;
 		}
-		optimisedLayout = settings.getInt(KEY_OPTIMISED_LAYOUT, defaultOptimisation);
+		prefsBean.optimisedLayout = settings.getInt(KEY_OPTIMISED_LAYOUT, defaultOptimisation);
+		
+		prefsBean.listStyle = settings.getInt(KEY_LIST_STYLE,0);
+		prefsBean.sortOption = settings.getInt(KEY_SORT_OPTION,0);
 	}
 	
 	public void write() {
 		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		if (log.isDebugEnabled()) {
-			log.debug("write prefs", folderSeparator);
+			log.debug("write prefs - folderSeparator", prefsBean.folderSeparator);
+			log.debug("write prefs - listStyle", prefsBean.listStyle);
+			log.debug("write prefs - sortOption", prefsBean.sortOption);
 		}
-		editor.putString(KEY_FOLDER_SEPARATOR, folderSeparator);
-		editor.putInt(KEY_DISCLAIMER, disclaimerLastDisplayed);
-		editor.putInt(KEY_SHOW_DELETE_ICON, showDeleteIcon);
-		editor.putInt(KEY_OPTIMISED_LAYOUT, optimisedLayout);
+		editor.putString(KEY_FOLDER_SEPARATOR, prefsBean.folderSeparator);
+		editor.putInt(KEY_DISCLAIMER, prefsBean.disclaimerLastDisplayed);
+		editor.putInt(KEY_SHOW_DELETE_ICON, prefsBean.showDeleteIcon);
+		editor.putInt(KEY_OPTIMISED_LAYOUT, prefsBean.optimisedLayout);
+		editor.putInt(KEY_LIST_STYLE, prefsBean.listStyle);
+		editor.putInt(KEY_SORT_OPTION, prefsBean.sortOption);
 		editor.commit();
 	}
 	
+	public PreferencesBean getPrefsBean() {
+		return prefsBean;
+	}
+	
 	private void setFolderSeparator(String folderSeparator) {
-		this.folderSeparator = folderSeparator;
-		this.nodeConcatenation = " "+folderSeparator+" ";
+		prefsBean.folderSeparator = folderSeparator;
+		prefsBean.nodeConcatenation = " "+folderSeparator+" ";
 	}
 	
 	public void setNewSeparator(String newSeparator) {
 		setFolderSeparator(newSeparator.trim());
 	}
 
-	public String getFolderSeparator() {
-		return folderSeparator;
-	}
-	
-	public String getNodeConcatenation() {
-		return nodeConcatenation;
-	}
-	
-	public int getDisclaimerLastDisplayed() {
-		return disclaimerLastDisplayed;
-	}
-
 	public boolean isShowDeleteIcon() {
-		return showDeleteIcon==1;
+		return prefsBean.showDeleteIcon==1;
 	}
-	
 	public void setShowDeleteIcon(boolean checkboxCheckedState) {
-		showDeleteIcon = checkboxCheckedState?1:0;
+		prefsBean.showDeleteIcon = checkboxCheckedState?1:0;
 	}
 	
 	public boolean isOptimisedLayout() {
-		return optimisedLayout==1;
+		return prefsBean.optimisedLayout==1;
 	}
-	
 	public void setOptimisedLayout(boolean checkboxCheckedState) {
-		optimisedLayout = checkboxCheckedState?1:0;
+		prefsBean.optimisedLayout = checkboxCheckedState?1:0;
 	}
-	
 	
 	public void storeDisclaimerLastDisplayed(int newDisclaimerVersion) {
-		disclaimerLastDisplayed = newDisclaimerVersion;
+		prefsBean.disclaimerLastDisplayed = newDisclaimerVersion;
 		write();
+	}
+	
+	public static final int SORT_ALPHA = 0;
+	public static final int SORT_FOLDERS_BEFORE_BM = 1;
+	public static final int SORT_BM_BEFORE_FOLDERS = 2;
+	
+	public static final int LIST_STYLE_CLASSIC = 0;
+	public static final int LIST_STYLE_COMPACT = 1;
+	
+	public boolean isCompact() {
+		return prefsBean.listStyle==LIST_STYLE_COMPACT;
 	}
 	
 }

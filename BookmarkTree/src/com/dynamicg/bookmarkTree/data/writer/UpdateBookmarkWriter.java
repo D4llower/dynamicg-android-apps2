@@ -41,7 +41,9 @@ public class UpdateBookmarkWriter extends BookmarkWriterA {
 		}
 		
 		if ( !titleChanged && !parentFolderChanged) {
-			log.debug("no changes - quit");
+			if (log.isDebugEnabled()) {
+				log.debug("no changes - quit");
+			}
 			return;
 		}
 		

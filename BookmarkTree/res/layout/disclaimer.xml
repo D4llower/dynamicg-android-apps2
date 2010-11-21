@@ -50,7 +50,7 @@ or any other backup app from the android market to do so.
 />
 <TextView style="@style/DisclaimerText"
 	android:singleLine="true"
-	android:text="https://dynamicg-android-apps.googlecode.com/svn/trunk/BookmarkTree"
+	android:text="https://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree"
 />
 <TextView style="@style/DisclaimerText"
 	android:singleLine="true"

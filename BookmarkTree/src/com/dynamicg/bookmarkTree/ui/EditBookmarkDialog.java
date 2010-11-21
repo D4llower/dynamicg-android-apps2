@@ -107,7 +107,9 @@ public class EditBookmarkDialog extends Dialog {
 
 		// sync position
 		int pos = bookmark.getParentFolder()!=null ? folders.indexOf(bookmark.getParentFolder()) : -1 ;
-		log.debug("parent folder Spinner", bookmark.getParentFolder(), pos );
+		if (log.isDebugEnabled()) {
+			log.debug("parent folder Spinner", bookmark.getParentFolder(), pos );
+		}
 		if (pos>=0) {
 			parentFolderSpinner.setSelection(pos);
 		}

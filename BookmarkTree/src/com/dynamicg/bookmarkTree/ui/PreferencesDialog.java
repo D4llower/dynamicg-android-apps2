@@ -16,8 +16,10 @@ import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.data.writer.AlphaSortWriter;
@@ -35,6 +37,8 @@ public class PreferencesDialog extends Dialog {
     
 	private final BookmarkTreeContext ctx;
 	private final String currentSeparator;
+	private final PreferencesWrapper prefsWrapper;
+	private final SpinnerUtil spinnerUtil;
 
 	private EditText separatorItem;
 	private CheckBox doFullUpdateCheckbox;
@@ -46,6 +50,8 @@ public class PreferencesDialog extends Dialog {
 	public PreferencesDialog(BookmarkTreeContext ctx) {
 		super(ctx.activity);
 		this.ctx = ctx;
+		this.prefsWrapper = ctx.getPreferencesWrapper();
+		this.spinnerUtil = new SpinnerUtil(this);
 		setContentView(R.layout.prefs_dialog);
 
 		currentSeparator = ctx.getFolderSeparator();
@@ -57,7 +63,7 @@ public class PreferencesDialog extends Dialog {
 
 		super.onCreate(savedInstanceState);
 
-		setTitle("Preferences and Settings");
+		setTitle("Preferences");
 
 		separatorItem = (EditText)findViewById(R.id.prefsSeparator);
 		separatorItem.setText(currentSeparator);
@@ -78,28 +84,34 @@ public class PreferencesDialog extends Dialog {
 		doFullUpdateCheckbox = (CheckBox)findViewById(R.id.prefsFullUpdateOnChange);
 		checkForChangedSeparator(); // inactivate intially
 		
-		Button sortAlpha = (Button)findViewById(R.id.prefsSortAlpha);
+		Button sortAlpha = (Button)findViewById(R.id.prefsActionSortAlpha);
 		sortAlpha.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new SimpleProgressDialog(ctx.activity, "Please wait...") {
+				new SimpleAlertDialog(ctx.activity, "Sort browser bookmarks?", "OK", "Cancel") {
 					@Override
-					public void backgroundWork() {
-						new AlphaSortWriter(ctx);
-					}
-					@Override
-					public void done() {
-						ctx.reloadAndRefresh(); // needs to be done by main thread
+					public void onPositiveButton() {
+						new SimpleProgressDialog(ctx.activity, "Please wait...") {
+							@Override
+							public void backgroundWork() {
+								new AlphaSortWriter(ctx);
+							}
+							@Override
+							public void done() {
+								ctx.reloadAndRefresh(); // needs to be done by main thread
+								Toast.makeText(getContext(), "Bookmark sort done", Toast.LENGTH_SHORT).show();
+							}
+						};
 					}
 				};
 			}
 		});
 		
 		showDeleteIconCheckbox = (CheckBox)findViewById(R.id.prefsDeletionActive);
-		showDeleteIconCheckbox.setChecked(ctx.getPreferencesWrapper().isShowDeleteIcon());
+		showDeleteIconCheckbox.setChecked(prefsWrapper.isShowDeleteIcon());
 
 		optimiseLayout = (CheckBox)findViewById(R.id.prefsOptimiseLayout);
-		optimiseLayout.setChecked(ctx.getPreferencesWrapper().isOptimisedLayout());
+		optimiseLayout.setChecked(prefsWrapper.isOptimisedLayout());
 
 		new DialogButtonPanelWrapper(this,R.id.prefsButtonOk,R.id.prefsButtonCancel) {
 			@Override
@@ -108,6 +120,10 @@ public class PreferencesDialog extends Dialog {
 			}
 		};
 
+		// attach spinners
+		spinnerUtil.bind ( R.id.prefsListStyle, prefsWrapper.prefsBean.getListStyle(), SpinnerUtil.getListStyleItems() );
+		spinnerUtil.bind ( R.id.prefsSortOption, prefsWrapper.prefsBean.getSortOption(), SpinnerUtil.getSortOptionItems() );
+		
 	}
 	
 	private void checkForChangedSeparator() {
@@ -141,9 +157,20 @@ public class PreferencesDialog extends Dialog {
 	
 	private void saveMain() {
 		processSeparatorUpdate();
-		ctx.getPreferencesWrapper().setShowDeleteIcon(showDeleteIconCheckbox.isChecked());
-		ctx.getPreferencesWrapper().setOptimisedLayout(optimiseLayout.isChecked());
-		ctx.getPreferencesWrapper().write();
+		prefsWrapper.setShowDeleteIcon(showDeleteIconCheckbox.isChecked());
+		prefsWrapper.setOptimisedLayout(optimiseLayout.isChecked());
+		
+		prefsWrapper.prefsBean.setListStyle(spinnerUtil.getCurrentValue(R.id.prefsListStyle));
+		prefsWrapper.prefsBean.setSortOption(spinnerUtil.getCurrentValue(R.id.prefsSortOption));
+		
+		// see if "refresh" is required
+		if ( spinnerUtil.isChanged(R.id.prefsListStyle)
+				|| spinnerUtil.isChanged(R.id.prefsSortOption)
+				) {
+			dataRefreshRequired = true;
+		}
+		
+		prefsWrapper.write();
 	}
 
 	private void savePostprocessing() {
@@ -161,7 +188,7 @@ public class PreferencesDialog extends Dialog {
 			return;
 		}
 
-		ctx.getPreferencesWrapper().setNewSeparator(newSeparator);
+		prefsWrapper.setNewSeparator(newSeparator);
 
 		if (doFullUpdateCheckbox.isChecked()) {
 			new SeparatorChangedBookmarkWriter(ctx, currentSeparator, newSeparator);

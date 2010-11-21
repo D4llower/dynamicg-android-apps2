@@ -29,12 +29,13 @@ public class BookmarkListAdapter extends BaseAdapter {
 
 	public BookmarkListAdapter(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
+		boolean compact = ctx.getPreferencesWrapper().isCompact();
 		
 		if (ctx.getPreferencesWrapper().isOptimisedLayout()) {
-			rowViewProvider = new RowViewProvider.ProviderModern(ctx.getLayoutInflater());; 
+			rowViewProvider = new RowViewProvider.ProviderModern(ctx.getLayoutInflater(), compact);; 
 		}
 		else {
-			rowViewProvider = new RowViewProvider.ProviderOldStyle(ctx.getLayoutInflater());
+			rowViewProvider = new RowViewProvider.ProviderOldStyle(ctx.getLayoutInflater(), compact);
 		}
 		
 		this.listview = (ListView)ctx.activity.findViewById(R.id.mainList);
@@ -128,6 +129,11 @@ public class BookmarkListAdapter extends BaseAdapter {
 	// called by click event and via menu actions
 	public void redraw() {
 		updateBookmarkList();
+//		if (rowViewProvider!=null) {
+//			rowViewProvider.compact = ctx.getPreferencesWrapper().isCompact();
+//		}
+		// => does not work with 2.0++ due to convert view caching
+		
 		// force repaint
 		listview.invalidateViews();
 	}

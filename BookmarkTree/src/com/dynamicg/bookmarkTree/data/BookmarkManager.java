@@ -23,7 +23,9 @@ public class BookmarkManager {
 			loadBookmarks();
 		}
 		else {
-			log.debug("reuse cache");
+			if (log.isDebugEnabled()) {
+				log.debug("reuse cache");
+			}
 		}
 	}
 	
@@ -36,6 +38,16 @@ public class BookmarkManager {
 				foldersCache.add((FolderBean)bm);
 			}
 		}
+		
+		if (log.isTraceEnabled()) {
+			log.debug("############# bookmarksCache size", bookmarksCache.size());
+			
+			for (Bookmark item:bookmarksCache) {
+				System.err.println("=> "+item);
+			}
+			
+		}
+		
 	}
 	
 	public ArrayList<Bookmark> getAllBookmarks() {

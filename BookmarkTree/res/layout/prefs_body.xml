@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/mainPadding"
+    >
+
+	<!-- ====================== Setup ====================== -->
+	
+	<TextView style="@style/PrefsGroup" android:layout_marginTop="0dip" android:text="Setup" /> 
+	
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_height="wrap_content"
+	    android:layout_width="fill_parent"
+	    android:orientation="horizontal"
+	    android:padding="@dimen/mainPadding"
+	    >
+    
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Internal folder separator:"
+		    style="@style/PrefsLabel"
+		    />
+		    
+	    <EditText
+	    	android:id="@+id/prefsSeparator"
+		    android:layout_width="60dip"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="10dip"
+		    android:singleLine="true"
+		    android:maxLength="2"
+		    />
+	    
+    </LinearLayout>
+    
+    <CheckBox style="@style/PrefsLabel"
+    	android:id="@+id/prefsFullUpdateOnChange"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Update all bookmarks\nwith new separator"
+	    />
+	    
+	<!-- ====================== Presentation ====================== -->
+
+	<TextView style="@style/PrefsGroup" android:text="Presentation" /> 
+    
+    <TableLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:padding="@dimen/mainPadding"
+	    >
+	    <TableRow>
+	    	<TextView style="@style/PrefsLabel"
+	    		android:text="Sort:" 
+	    		android:layout_gravity="center_vertical"
+	    		/>
+	    	<Spinner android:id="@+id/prefsSortOption"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="5dip"
+			    />
+	    </TableRow>
+	    <TableRow>
+	    	<TextView style="@style/PrefsLabel" 
+	    		android:text="List style:" 
+	    		android:layout_gravity="center_vertical"
+	    		/>
+	    	<Spinner android:id="@+id/prefsListStyle"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="5dip"
+			    />
+	    </TableRow>
+	    <TableRow>
+	    	<TextView style="@style/PrefsHint" 
+	    		android:layout_span="2"
+	    		android:text="\u2192 Restart app when changed"
+	    		/>
+	    </TableRow>
+    </TableLayout>
+    
+	<!-- ====================== Special Ops ====================== -->
+	
+	<TextView style="@style/PrefsGroup" android:text="Additional options" /> 
+	
+    <CheckBox style="@style/PrefsLabel"
+    	android:id="@+id/prefsDeletionActive"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Show 'Delete' icon in Edit"
+	    />
+	    
+    <CheckBox style="@style/PrefsLabel"
+    	android:id="@+id/prefsOptimiseLayout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Optimise for Android 2.0++"
+	    />
+   	<TextView style="@style/PrefsHint" 
+   		android:layout_span="2"
+   		android:text="\u2192 Disable if layout broken. Restart when changed."
+   		/>
+	    
+    <Button
+    	android:id="@+id/prefsActionSortAlpha"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="Sort bookmarks A-Z"
+	    android:layout_marginTop="10dip"
+	    />
+
+</LinearLayout>

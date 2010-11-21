@@ -23,11 +23,11 @@ public class BookmarkTreeContext {
 	}
 	
 	public String getFolderSeparator() {
-		return preferencesWrapper.getFolderSeparator();
+		return preferencesWrapper.prefsBean.getFolderSeparator();
 	}
 	
 	public String getNodeConcatenation() {
-		return preferencesWrapper.getNodeConcatenation();
+		return preferencesWrapper.prefsBean.getNodeConcatenation();
 	}
 	
 	public LayoutInflater getLayoutInflater() {

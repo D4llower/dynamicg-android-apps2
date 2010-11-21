@@ -1,97 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:minWidth="280dip"
     >
-
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_height="wrap_content"
+	    
+	<ScrollView
+	    android:layout_height="fill_parent"
 	    android:layout_width="fill_parent"
-	    android:minWidth="280dip"
-	    android:orientation="vertical"
-	    android:padding="@dimen/mainPadding"
+		android:layout_marginBottom="60dip"
 	    >
+		<include layout="@layout/prefs_body" />
+	</ScrollView>
 	
-		<View android:layout_width="fill_parent" style="@style/Divider" /> 
-		
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:layout_height="wrap_content"
-		    android:layout_width="fill_parent"
-		    android:orientation="horizontal"
-		    android:padding="@dimen/mainPadding"
-		    >
-	    
-		    <TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="Internal folder separator:"
-			    style="@style/PrefsLabel"
-			    />
-			    
-		    <EditText
-		    	android:id="@+id/prefsSeparator"
-			    android:layout_width="60dip"
-			    android:layout_height="wrap_content"
-			    android:layout_marginLeft="10dip"
-			    android:singleLine="true"
-			    android:maxLength="2"
-			    />
-		    
-	    </LinearLayout>
-	    
-	    <CheckBox style="@style/PrefsLabel"
-	    	android:id="@+id/prefsFullUpdateOnChange"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="Update all bookmarks\nwith new separator"
-		    />
-	    
-		<View android:layout_width="fill_parent" style="@style/Divider" /> 
-		
-	    <CheckBox style="@style/PrefsLabel"
-	    	android:id="@+id/prefsDeletionActive"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="Show 'Delete' icon in Edit"
-		    />
-		    
-	    <CheckBox style="@style/PrefsLabelSmall"
-	    	android:id="@+id/prefsOptimiseLayout"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="Optimisation for Android 2.0++.\nPlease disable if layout is broken.\nNeeds restart after change."
-		    />
-		    
-		<View android:layout_width="fill_parent" style="@style/Divider" /> 
-		
+	<LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+		android:background="#555"
+	    android:padding="8dip"
+		android:layout_marginTop="-60dip"
+	    >
 	    <Button
-	    	android:id="@+id/prefsSortAlpha"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="Sort bookmarks A-Z"
-		    android:layout_gravity="right"
-		    />
+	    	android:id="@+id/prefsButtonOk"
+	    	style="@style/DialogButtonSave"
+	        />
+	    <Button
+	    	android:id="@+id/prefsButtonCancel"
+	    	style="@style/DialogButtonCancel"
+	        />
+    </LinearLayout>
 	    
-		<View android:layout_width="fill_parent" style="@style/Divider" /> 
-		    
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal"
-		    android:gravity="center_horizontal"
-		    style="@style/DialogButtonPanel"
-		    >
-		    <Button
-		    	android:id="@+id/prefsButtonOk"
-		    	style="@style/DialogButtonSave"
-		        />
-		    <Button
-		    	android:id="@+id/prefsButtonCancel"
-		    	style="@style/DialogButtonCancel"
-		        />
-	    </LinearLayout>
-	    
-	</LinearLayout>
-
-</ScrollView>
+</LinearLayout>
