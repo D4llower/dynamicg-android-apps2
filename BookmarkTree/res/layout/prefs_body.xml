@@ -107,7 +107,8 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="Sort bookmarks A-Z"
-	    android:layout_marginTop="10dip"
+	    android:layout_marginTop="20dip"
+	    android:layout_marginBottom="10dip"
 	    />
 
 </LinearLayout>
