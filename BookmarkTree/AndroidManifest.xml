@@ -20,7 +20,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-			<meta-data android:name="svnrevision" android:value="$Rev: 1606 $" />
+			<meta-data android:name="svnrevision" android:value="$Rev$" />
         </activity>
     </application>
     
