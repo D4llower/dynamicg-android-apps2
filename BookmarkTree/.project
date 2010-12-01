@@ -30,10 +30,4 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<variableList>
-		<variable>
-			<name>timerec_lib</name>
-			<value>file:/C:/workspace/android/timerec.lib/src</value>
-		</variable>
-	</variableList>
 </projectDescription>
