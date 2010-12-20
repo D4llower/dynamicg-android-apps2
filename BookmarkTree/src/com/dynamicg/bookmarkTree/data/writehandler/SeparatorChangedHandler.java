@@ -3,6 +3,7 @@ package com.dynamicg.bookmarkTree.data.writehandler;
 import java.util.ArrayList;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.data.writer.BookmarkUpdateWriter;
 import com.dynamicg.bookmarkTree.data.writer.BookmarkWriterA;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.main.Logger;
@@ -15,13 +16,13 @@ public class SeparatorChangedHandler {
 	private final BookmarkTreeContext ctx;
 	private final String oldSeparator;
 	private final String newSeparator;
-	private final BookmarkUpdateHandler updadateWriter;
+	private final BookmarkUpdateWriter updateWriter;
 	
 	public SeparatorChangedHandler(BookmarkTreeContext ctx, String oldSeparator, String newSeparator) {
 		this.ctx = ctx;
 		this.oldSeparator = oldSeparator;
 		this.newSeparator = newSeparator;
-		this.updadateWriter = new BookmarkUpdateHandler(ctx);
+		this.updateWriter = new BookmarkUpdateWriter(ctx);
 		fullProcess();
 	}
 
@@ -45,7 +46,7 @@ public class SeparatorChangedHandler {
 		if (log.isDebugEnabled()) {
 			log.debug("update - write", oldTitle, newTitle);
 		}
-		updadateWriter.updateBookmarkTitle(bm.getId(), newTitle);
+		updateWriter.updateBookmarkTitle(bm.getId(), newTitle);
 	}
 	
 }

@@ -4,17 +4,18 @@ import java.util.Collection;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.data.writer.BookmarkUpdateWriter;
-import com.dynamicg.bookmarkTree.data.writer.BookmarkWriterA;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.common.main.Logger;
 
-public class BookmarkUpdateHandler extends BookmarkWriterA {
+public class BookmarkUpdateHandler {
 
 	private static final Logger log = new Logger(BookmarkUpdateHandler.class);
 	
+	private final BookmarkTreeContext ctx;
+	
 	public BookmarkUpdateHandler(BookmarkTreeContext ctx) {
-		super(ctx);
+		this.ctx = ctx;
 	}
 
 	private void updateBookmarkTitle(Bookmark bm) {
