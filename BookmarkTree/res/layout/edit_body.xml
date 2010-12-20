@@ -7,6 +7,9 @@
     android:padding="@dimen/mainPadding"
     >
     
+    <!-- ruler to allow more width on landscape mode (otherwise we get trimmed down to the button panel width) -->
+    <View android:layout_width="380dip" android:layout_height="0dip" />
+    
     <!-- TITLE -->
     <TextView style="@style/EditBodyLabel" android:text="Title:" />
     <EditText style="@style/EditBodyTextInput"
