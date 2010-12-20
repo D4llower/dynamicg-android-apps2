@@ -8,14 +8,14 @@
     >
     
     <!-- TITLE -->
-    <TextView style="@style/CommonLabel" android:text="Title:" />
-    <EditText style="@style/CommonEditText"
+    <TextView style="@style/EditBodyLabel" android:text="Title:" />
+    <EditText style="@style/EditBodyTextInput"
     	android:id="@+id/editBookmarkNewTitle"
 	    android:inputType="textCapWords"
 	    />
 	    
     <!-- FOLDER -->
-    <TextView style="@style/CommonLabel" android:text="Parent folder:" />
+    <TextView style="@style/EditBodyLabel" android:text="Parent folder:" />
     <Spinner 
         android:id="@+id/editBookmarkParentFolder"
         android:layout_width="fill_parent"
@@ -24,8 +24,8 @@
     />
 
     <!-- NEW FOLDER -->
-    <TextView style="@style/CommonLabel" android:text="Add to new folder:" />
-    <EditText style="@style/CommonEditText"
+    <TextView style="@style/EditBodyLabel" android:text="Add to new folder:" />
+    <EditText style="@style/EditBodyTextInput"
         android:id="@+id/editBookmarkAddToNewFolder"
 	    android:inputType="textCapWords"
     />
@@ -36,8 +36,8 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
 	    >
-	    <TextView style="@style/CommonLabel" android:text="URL:" />
-	    <EditText style="@style/CommonEditText"
+	    <TextView style="@style/EditBodyLabel" android:text="URL:" />
+	    <EditText style="@style/EditBodyTextInput"
 	        android:id="@+id/editBookmarkUrl"
 		    android:inputType="textUri"
 	    />
