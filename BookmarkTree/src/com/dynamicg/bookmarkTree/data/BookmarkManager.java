@@ -1,14 +1,15 @@
 package com.dynamicg.bookmarkTree.data;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.Main;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.common.main.Logger;
 
+// TODO:  android:launchMode="singleTask"
 public class BookmarkManager {
 
 	private static final Logger log = new Logger(BookmarkManager.class);
@@ -27,6 +28,14 @@ public class BookmarkManager {
 				log.debug("reuse cache");
 			}
 		}
+		
+		if (ctx.preferencesWrapper.isKeepState()) {
+			if (log.isDebugEnabled()) {
+				log.debug("restore folder state");
+			}
+			FolderStateHandler.restore(this.bookmarksCache);
+		}
+		
 	}
 	
 	private void loadBookmarks() {
@@ -69,48 +78,21 @@ public class BookmarkManager {
 	public void toggleFolders(int action) {
 		if (action==Main.ACTION_EXPAND_ALL) {
 			setAllFolderStates(true);
+			FolderStateHandler.saveExpandedFolders(ctx, bookmarksCache);
 		}
 		else if (action==Main.ACTION_COLLAPSE_ALL) {
 			setAllFolderStates(false);
+			FolderStateHandler.clear();
 		}
 		else {
 			log.warn("undefined toggle action", action);
 		}
 	}
 	
-	
-	private HashSet<String> saveExpandedFolders() {
-		HashSet<String> expandedFolders = new HashSet<String>();
-		for ( Bookmark bm:bookmarksCache ) {
-			if (bm.isExpanded()) {
-				if (log.isTraceEnabled()) {
-					log.debug("save folderState", bm.getFullTitle());
-				}
-				expandedFolders.add(bm.getFullTitle());
-				if (bm.isDirtyFolderPath()) {
-					// if self or parent folder was renamed, rebuild the full text and add
-					expandedFolders.add(bm.rebuildFullTitle(ctx));
-				}
-			}
-		}
-		
-		return expandedFolders;
-	}
-	
 	public void reloadData() {
-		HashSet<String> expandedFolders = saveExpandedFolders();
+		FolderStateHandler.saveExpandedFolders(ctx, this.bookmarksCache);
 		loadBookmarks();
-		
-		// restore folder state
-		for ( Bookmark item:bookmarksCache ) {
-			if ( item.isFolder() && expandedFolders.contains(item.getFullTitle()) ) {
-				if (log.isTraceEnabled()) {
-					log.debug("restore folderState", item.getFullTitle());
-				}
-				item.setExpanded(true);
-			}
-		}
-		
+		FolderStateHandler.restore(this.bookmarksCache);
 	}
 
 	public ArrayList<Bookmark> getPresentationList() {
