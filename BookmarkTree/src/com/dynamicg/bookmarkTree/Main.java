@@ -24,12 +24,17 @@ public class Main extends Activity {
     public static final int ACTION_SETTINGS = ++actionCounter;
     public static final int ACTION_DELETE_BOOKMARK = ++actionCounter;
 
+    private static boolean initialised = false;
+    
     private BookmarkTreeContext ctx;
     
     public void onCreate(Bundle savedInstanceState) {
         
     	super.onCreate(savedInstanceState);
-    	SystemUtil.init(this);
+    	if (!initialised) {
+    		SystemUtil.init(this);
+    		initialised = true;
+    	}
         setContentView(R.layout.main);
     	this.ctx = new BookmarkTreeContext(this);
     	
