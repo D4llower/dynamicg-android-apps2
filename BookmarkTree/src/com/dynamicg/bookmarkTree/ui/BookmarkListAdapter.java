@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.common.main.Logger;
@@ -29,9 +30,9 @@ public class BookmarkListAdapter extends BaseAdapter {
 
 	public BookmarkListAdapter(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
-		boolean compact = ctx.getPreferencesWrapper().isCompact();
+		boolean compact = ctx.preferencesWrapper.isCompact();
 		
-		if (ctx.getPreferencesWrapper().isOptimisedLayout()) {
+		if (ctx.preferencesWrapper.isOptimisedLayout()) {
 			rowViewProvider = new RowViewProvider.ProviderModern(ctx.getLayoutInflater(), compact);; 
 		}
 		else {
@@ -97,6 +98,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 		else if (bm.isFolder()) {
 			bm.setExpanded(!bm.isExpanded());
 			redraw();
+			FolderStateHandler.folderClicked(bm);
 		}
 		else if (bm.getUrl()!=null) {
 			// open url in browser
@@ -130,7 +132,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 	public void redraw() {
 		updateBookmarkList();
 //		if (rowViewProvider!=null) {
-//			rowViewProvider.compact = ctx.getPreferencesWrapper().isCompact();
+//			rowViewProvider.compact = ctx.preferencesWrapper.isCompact();
 //		}
 		// => does not work with 2.0++ due to convert view caching
 		
