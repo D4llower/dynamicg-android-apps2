@@ -11,7 +11,6 @@ public class SystemUtil {
 	private static final String MY_HTC_HERO = "2001459694cb4e56";
 	private static final String MY_HTC_DESIRE = "200145745b9424b8";
 	private static final String EMULATOR_2_2 = "9774d56d682e549c";
-	
 
 	private static String androidId;
 	private static boolean emulator;
