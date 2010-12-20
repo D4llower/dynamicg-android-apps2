@@ -9,6 +9,7 @@ public class PreferencesBean {
 	protected int optimisedLayout;
 	protected int listStyle;
 	protected int sortOption;
+	protected int keepState;
 	
 	public String getFolderSeparator() {
 		return folderSeparator;
@@ -30,6 +31,9 @@ public class PreferencesBean {
 	}
 	public void setSortOption(int sortOption) {
 		this.sortOption = sortOption;
+	}
+	public void setKeepState(int keepState) {
+		this.keepState = keepState;
 	}
 	
 }
