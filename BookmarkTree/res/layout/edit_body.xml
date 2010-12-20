@@ -30,6 +30,19 @@
 	    android:inputType="textCapWords"
     />
 
+    <!-- URL -->
+	<LinearLayout android:id="@+id/editBookmarkUrlContainer"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    >
+	    <TextView style="@style/CommonLabel" android:text="URL:" />
+	    <EditText style="@style/CommonEditText"
+	        android:id="@+id/editBookmarkUrl"
+		    android:inputType="textUri"
+	    />
+	</LinearLayout>
+
     <!-- DELETE -->
 	<LinearLayout
         android:id="@+id/editBookmarkDeletePanel"
