@@ -77,7 +77,9 @@ public class BookmarkManager {
 	public void toggleFolders(int action) {
 		if (action==Main.ACTION_EXPAND_ALL) {
 			setAllFolderStates(true);
-			FolderStateHandler.saveExpandedFolders(ctx, bookmarksCache);
+			if (ctx.preferencesWrapper.isKeepState()) {
+				FolderStateHandler.saveExpandedFolders(ctx, bookmarksCache);
+			}
 		}
 		else if (action==Main.ACTION_COLLAPSE_ALL) {
 			setAllFolderStates(false);
@@ -88,6 +90,7 @@ public class BookmarkManager {
 		}
 	}
 	
+	// on reload we need to save/restore the folder state regardless of the prefs
 	public void reloadData() {
 		FolderStateHandler.saveExpandedFolders(ctx, this.bookmarksCache);
 		loadBookmarks();
