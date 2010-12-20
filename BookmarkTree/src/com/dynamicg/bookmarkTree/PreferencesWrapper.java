@@ -18,6 +18,7 @@ public class PreferencesWrapper {
 	private static final String KEY_OPTIMISED_LAYOUT = "optimisedLayout";
 	private static final String KEY_LIST_STYLE = "listStyle";
 	private static final String KEY_SORT_OPTION = "sortOption";
+	private static final String KEY_KEEP_STATE = "keepState";
 	
 	private final Context context;
 	public final PreferencesBean prefsBean;
@@ -38,6 +39,7 @@ public class PreferencesWrapper {
 		
 		prefsBean.listStyle = settings.getInt(KEY_LIST_STYLE,0);
 		prefsBean.sortOption = settings.getInt(KEY_SORT_OPTION,0);
+		prefsBean.keepState = settings.getInt(KEY_KEEP_STATE,1); // default "ON"
 	}
 	
 	public void write() {
@@ -54,6 +56,7 @@ public class PreferencesWrapper {
 		editor.putInt(KEY_OPTIMISED_LAYOUT, prefsBean.optimisedLayout);
 		editor.putInt(KEY_LIST_STYLE, prefsBean.listStyle);
 		editor.putInt(KEY_SORT_OPTION, prefsBean.sortOption);
+		editor.putInt(KEY_KEEP_STATE, prefsBean.keepState);
 		editor.commit();
 	}
 	
@@ -98,6 +101,10 @@ public class PreferencesWrapper {
 	
 	public boolean isCompact() {
 		return prefsBean.listStyle==LIST_STYLE_COMPACT;
+	}
+	
+	public boolean isKeepState() {
+		return prefsBean.keepState == 1;
 	}
 	
 }
