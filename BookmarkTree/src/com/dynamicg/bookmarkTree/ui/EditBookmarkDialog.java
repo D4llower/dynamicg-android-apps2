@@ -32,6 +32,7 @@ public class EditBookmarkDialog extends Dialog {
 	private EditText newNodeTitleItem;
 	private Spinner parentFolderSpinner;
 	private EditText addToNewFolderItem;
+	private EditText urlItem;
 
 	public EditBookmarkDialog(BookmarkTreeContext ctx, Bookmark bookmark) {
 		super(ctx.activity);
@@ -53,6 +54,14 @@ public class EditBookmarkDialog extends Dialog {
 		newNodeTitleItem = (EditText)findViewById(R.id.editBookmarkNewTitle);
 		newNodeTitleItem.setText(bookmarkTitle);
 
+		if (bookmark.isFolder()) {
+			findViewById(R.id.editBookmarkUrlContainer).setVisibility(View.GONE);
+		}
+		else {
+			urlItem = (EditText)findViewById(R.id.editBookmarkUrl);
+			urlItem.setText(bookmark.getUrl());
+		}
+		
 		parentFolderSpinner = (Spinner)findViewById(R.id.editBookmarkParentFolder);
 		prepareParentFolderSpinner(bookmark);
 
@@ -121,6 +130,7 @@ public class EditBookmarkDialog extends Dialog {
 
 		String newNodeTitle = newNodeTitleItem.getText().toString();
 		String addToNewFolderTitle = addToNewFolderItem.getText().toString();
+		String newUrl = urlItem.getText().toString();
 
 		if (addToNewFolderTitle!=null && addToNewFolderTitle.trim().length()>0) {
 			newNodeTitle = addToNewFolderTitle + ctx.getNodeConcatenation() + newNodeTitle;
@@ -135,7 +145,7 @@ public class EditBookmarkDialog extends Dialog {
 			log.debug("updateBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
 		}
 		BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
-		upd.update(bookmark, newNodeTitle, newParentFolder);
+		upd.update ( bookmark, newNodeTitle, newParentFolder, newUrl );
 
 		ctx.reloadAndRefresh();
 		this.dismiss();
