@@ -71,7 +71,7 @@
 
 	<!-- ====================== done ====================== -->
 	<View
-	    android:layout_height="15dip"
+	    android:layout_height="5dip"
 	    android:layout_width="fill_parent"
 		/>
 		
