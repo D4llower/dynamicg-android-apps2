@@ -72,8 +72,8 @@ public class SpinnerUtil {
 	
 	public static ArrayList<KeyValue> getListStyleItems() {
 		ArrayList<KeyValue> list = new ArrayList<KeyValue>();
-		list.add(new KeyValue(PreferencesWrapper.LIST_STYLE_CLASSIC, "Classic"));
-		list.add(new KeyValue(PreferencesWrapper.LIST_STYLE_COMPACT, "Compact"));
+		list.add(new KeyValue(PreferencesWrapper.LIST_STYLE_CLASSIC, "Large font"));
+		list.add(new KeyValue(PreferencesWrapper.LIST_STYLE_COMPACT, "Medium font"));
 		return list;
 	}
 	
