@@ -1,18 +1,19 @@
-package com.dynamicg.bookmarkTree.data.writer;
+package com.dynamicg.bookmarkTree.data.writehandler;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.data.writer.BookmarkWriterA;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.main.Logger;
 import com.dynamicg.common.main.StringUtil;
 
-public class SeparatorChangedBookmarkWriter extends BookmarkWriterA {
+public class SeparatorChangedHandler extends BookmarkWriterA {
 
-	private static final Logger log = new Logger(SeparatorChangedBookmarkWriter.class);
+	private static final Logger log = new Logger(SeparatorChangedHandler.class);
 	
 	private final String oldSeparator;
 	private final String newSeparator;
 	
-	public SeparatorChangedBookmarkWriter(BookmarkTreeContext ctx, String oldSeparator, String newSeparator) {
+	public SeparatorChangedHandler(BookmarkTreeContext ctx, String oldSeparator, String newSeparator) {
 		super(ctx);
 		this.oldSeparator = oldSeparator;
 		this.newSeparator = newSeparator;

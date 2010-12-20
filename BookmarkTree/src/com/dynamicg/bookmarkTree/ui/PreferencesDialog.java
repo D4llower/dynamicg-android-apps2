@@ -22,8 +22,8 @@ import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
+import com.dynamicg.bookmarkTree.data.writehandler.SeparatorChangedHandler;
 import com.dynamicg.bookmarkTree.data.writer.AlphaSortWriter;
-import com.dynamicg.bookmarkTree.data.writer.SeparatorChangedBookmarkWriter;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.util.CommonDialogHelper;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
@@ -198,7 +198,7 @@ public class PreferencesDialog extends Dialog {
 		prefsWrapper.setNewSeparator(newSeparator);
 
 		if (doFullUpdateCheckbox.isChecked()) {
-			new SeparatorChangedBookmarkWriter(ctx, currentSeparator, newSeparator);
+			new SeparatorChangedHandler(ctx, currentSeparator, newSeparator);
 		}
 
 		dataRefreshRequired = true;
