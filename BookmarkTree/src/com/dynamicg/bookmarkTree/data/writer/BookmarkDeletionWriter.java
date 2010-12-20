@@ -12,7 +12,7 @@ public class BookmarkDeletionWriter extends BookmarkWriterA {
 	public BookmarkDeletionWriter(BookmarkTreeContext ctx) {
 		super(ctx);
 	}
-
+	
 	public void deleteBrowserBookmark(Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("delete bookmark", id);
@@ -20,7 +20,7 @@ public class BookmarkDeletionWriter extends BookmarkWriterA {
 		contenResolver.delete ( Browser.BOOKMARKS_URI
 				, Browser.BookmarkColumns._ID+"=?"
 				, new String[]{Integer.toString(id)}
-		);
+				);
 	}
 
 }

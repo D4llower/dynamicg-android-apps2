@@ -8,6 +8,7 @@ import com.dynamicg.common.main.Logger;
 public class BookmarkDeletionHandler {
 
 	private static final Logger log = new Logger(BookmarkDeletionHandler.class);
+	
 	private final BookmarkTreeContext ctx;
 	
 	public BookmarkDeletionHandler(BookmarkTreeContext ctx, Bookmark selectedBookmark) {
