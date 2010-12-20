@@ -9,7 +9,6 @@ import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.common.main.Logger;
 
-// TODO:  android:launchMode="singleTask"
 public class BookmarkManager {
 
 	private static final Logger log = new Logger(BookmarkManager.class);
