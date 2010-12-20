@@ -1,6 +1,7 @@
 package com.dynamicg.bookmarkTree;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +64,10 @@ public class Main extends Activity {
 			new PreferencesDialog(ctx);
 		}
 		return true;
+	}
+	
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 	}
 	
 }
