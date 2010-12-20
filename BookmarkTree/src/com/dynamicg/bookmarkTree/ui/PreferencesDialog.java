@@ -25,6 +25,7 @@ import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.data.writer.AlphaSortWriter;
 import com.dynamicg.bookmarkTree.data.writer.SeparatorChangedBookmarkWriter;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
+import com.dynamicg.bookmarkTree.util.CommonDialogHelper;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
 import com.dynamicg.common.ui.SimpleAlertDialog;
@@ -44,15 +45,17 @@ public class PreferencesDialog extends Dialog {
 	private CheckBox doFullUpdateCheckbox;
 	private CheckBox showDeleteIconCheckbox;
 	private CheckBox optimiseLayout;
+	private CheckBox keepStateCheckbox;
 
 	private boolean dataRefreshRequired;
 
 	public PreferencesDialog(BookmarkTreeContext ctx) {
 		super(ctx.activity);
 		this.ctx = ctx;
-		this.prefsWrapper = ctx.getPreferencesWrapper();
+		this.prefsWrapper = ctx.preferencesWrapper;
 		this.spinnerUtil = new SpinnerUtil(this);
-		setContentView(R.layout.prefs_dialog);
+		
+		CommonDialogHelper.expandContent(this, R.layout.prefs_body);
 
 		currentSeparator = ctx.getFolderSeparator();
 		this.show();
@@ -113,7 +116,10 @@ public class PreferencesDialog extends Dialog {
 		optimiseLayout = (CheckBox)findViewById(R.id.prefsOptimiseLayout);
 		optimiseLayout.setChecked(prefsWrapper.isOptimisedLayout());
 
-		new DialogButtonPanelWrapper(this,R.id.prefsButtonOk,R.id.prefsButtonCancel) {
+		keepStateCheckbox = (CheckBox)findViewById(R.id.prefsKeepState);
+		keepStateCheckbox.setChecked(prefsWrapper.isKeepState());
+		
+		new DialogButtonPanelWrapper(this) {
 			@Override
 			public void onPositiveButton() {
 				saveClicked();
@@ -162,6 +168,7 @@ public class PreferencesDialog extends Dialog {
 		
 		prefsWrapper.prefsBean.setListStyle(spinnerUtil.getCurrentValue(R.id.prefsListStyle));
 		prefsWrapper.prefsBean.setSortOption(spinnerUtil.getCurrentValue(R.id.prefsSortOption));
+		prefsWrapper.prefsBean.setKeepState(keepStateCheckbox.isChecked()?1:0);
 		
 		// see if "refresh" is required
 		if ( spinnerUtil.isChanged(R.id.prefsListStyle)
