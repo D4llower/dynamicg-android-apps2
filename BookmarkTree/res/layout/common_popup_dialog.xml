@@ -12,7 +12,10 @@
 	    android:layout_width="fill_parent"
 		android:layout_marginBottom="60dip"
 	    >
-		<include layout="@layout/prefs_body" />
+		<ViewStub android:id="@+id/dialogScrollViewBody"
+		    android:layout_height="fill_parent"
+		    android:layout_width="fill_parent"
+			/>
 	</ScrollView>
 	
 	<LinearLayout
