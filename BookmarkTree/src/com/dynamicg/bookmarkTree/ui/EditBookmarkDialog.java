@@ -17,6 +17,7 @@ import com.dynamicg.bookmarkTree.data.writer.DeleteBookmarkWriter;
 import com.dynamicg.bookmarkTree.data.writer.UpdateBookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
+import com.dynamicg.bookmarkTree.util.CommonDialogHelper;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.common.main.Logger;
 import com.dynamicg.common.ui.SimpleAlertDialog;
@@ -36,7 +37,7 @@ public class EditBookmarkDialog extends Dialog {
 		super(ctx.activity);
 		this.ctx = ctx;
 		this.bookmark = bookmark;
-		setContentView(R.layout.edit_bookmark_dialog);
+		CommonDialogHelper.expandContent(this, R.layout.edit_body);
 		this.show();
 	}
 
@@ -57,7 +58,7 @@ public class EditBookmarkDialog extends Dialog {
 
 		addToNewFolderItem = (EditText)findViewById(R.id.editBookmarkAddToNewFolder);
 
-		new DialogButtonPanelWrapper(this, R.id.editBookmarkButtonOk, R.id.editBookmarkButtonCancel ) {
+		new DialogButtonPanelWrapper(this) {
 			@Override
 			public void onPositiveButton() {
 				updateBookmark(bookmark);
@@ -67,7 +68,7 @@ public class EditBookmarkDialog extends Dialog {
 		/*
 		 * delete
 		 */
-		boolean showDeletion = ctx.getPreferencesWrapper().isShowDeleteIcon();
+		boolean showDeletion = ctx.preferencesWrapper.isShowDeleteIcon();
 		if (showDeletion) {
 			TextView deleteTitle = (TextView)findViewById(R.id.editBookmarkDeleteText);
 			deleteTitle.setText(bookmark.isFolder() ? "Delete Folder" : "Delete Bookmark");
