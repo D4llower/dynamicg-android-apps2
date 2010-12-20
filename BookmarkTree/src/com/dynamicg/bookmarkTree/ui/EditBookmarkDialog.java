@@ -126,13 +126,17 @@ public class EditBookmarkDialog extends Dialog {
 
 	}
 
+	private static String getEditTextValue(EditText item) {
+		return item!=null ? item.getText().toString().trim() : null;
+	}
+	
 	private void updateBookmark(Bookmark bookmark) {
 
-		String newNodeTitle = newNodeTitleItem.getText().toString();
-		String addToNewFolderTitle = addToNewFolderItem.getText().toString();
-		String newUrl = urlItem.getText().toString();
+		String newNodeTitle = getEditTextValue(newNodeTitleItem) ;
+		String addToNewFolderTitle = getEditTextValue(addToNewFolderItem);
+		String newUrl = getEditTextValue(urlItem);
 
-		if (addToNewFolderTitle!=null && addToNewFolderTitle.trim().length()>0) {
+		if (addToNewFolderTitle!=null && addToNewFolderTitle.length()>0) {
 			newNodeTitle = addToNewFolderTitle + ctx.getNodeConcatenation() + newNodeTitle;
 		}
 

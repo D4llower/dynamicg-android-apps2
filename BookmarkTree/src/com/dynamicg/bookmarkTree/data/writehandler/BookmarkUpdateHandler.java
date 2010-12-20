@@ -40,12 +40,9 @@ public class BookmarkUpdateHandler {
 		}
 		
 		// prevent update to empty string
-		if (newNodeTitle==null || newNodeTitle.trim().length()==0) {
+		if (newNodeTitle==null || newNodeTitle.length()==0) {
 			newNodeTitle=bookmark.getDisplayTitle();
 		}
-		
-		newNodeTitle = newNodeTitle.trim();
-		newUrl = newUrl.trim();
 		
 		boolean titleChanged = !newNodeTitle.equals(bookmark.getDisplayTitle());
 		boolean parentFolderChanged = newParentFolder!=bookmark.getParentFolder();
