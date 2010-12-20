@@ -25,11 +25,11 @@
 		android:layout_marginTop="-60dip"
 	    >
 	    <Button
-	    	android:id="@+id/prefsButtonOk"
+	    	android:id="@+id/buttonOk"
 	    	style="@style/DialogButtonSave"
 	        />
 	    <Button
-	    	android:id="@+id/prefsButtonCancel"
+	    	android:id="@+id/buttonCancel"
 	    	style="@style/DialogButtonCancel"
 	        />
     </LinearLayout>
