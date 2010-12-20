@@ -16,19 +16,19 @@ public class SeparatorChangedHandler {
 	private final BookmarkTreeContext ctx;
 	private final String oldSeparator;
 	private final String newSeparator;
-	private final BookmarkUpdateWriter updateWriter;
+	private final BookmarkUpdateWriter bookmarkUpdater;
 	
 	public SeparatorChangedHandler(BookmarkTreeContext ctx, String oldSeparator, String newSeparator) {
 		this.ctx = ctx;
 		this.oldSeparator = oldSeparator;
 		this.newSeparator = newSeparator;
-		this.updateWriter = new BookmarkUpdateWriter(ctx);
+		this.bookmarkUpdater = new BookmarkUpdateWriter(ctx);
 		fullProcess();
 	}
 
 	private void fullProcess() {
-		ArrayList<BrowserBookmarkBean> bookmarks = BookmarkWriterA.getBrowserBookmarks(ctx);
-		for (BrowserBookmarkBean bm:bookmarks) {
+		ArrayList<BrowserBookmarkBean> browserBookmarks = BookmarkWriterA.getBrowserBookmarks(ctx);
+		for (BrowserBookmarkBean bm:browserBookmarks) {
 			update(bm);
 		}
 	}
@@ -46,7 +46,7 @@ public class SeparatorChangedHandler {
 		if (log.isDebugEnabled()) {
 			log.debug("update - write", oldTitle, newTitle);
 		}
-		updateWriter.updateBookmarkTitle(bm.getId(), newTitle);
+		bookmarkUpdater.updateTitle ( bm.getId(), newTitle );
 	}
 	
 }
