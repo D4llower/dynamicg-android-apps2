@@ -17,7 +17,8 @@ public class UpdateBookmarkWriter extends BookmarkWriterA {
 
 	private void updateBookmarkTitle(Bookmark bm) {
 		String newTitle = bm.rebuildFullTitle(ctx);
-		updateBookmarkTitle(this, bm.getId(), newTitle);
+		BookmarkUpdateWriter writer = new BookmarkUpdateWriter(ctx);
+		writer.updateTitle(bm.getId(), newTitle);
 	}
 
 	public void update(Bookmark bookmark, String newNodeTitle, FolderBean newParentFolder) {
