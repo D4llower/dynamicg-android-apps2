@@ -1,101 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
     android:layout_width="fill_parent"
-    android:minWidth="290dip"
-    android:maxWidth="360dip"
+    android:orientation="vertical"
+    android:padding="@dimen/mainPadding"
     >
-	
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_height="wrap_content"
+    
+    <!-- TITLE -->
+    <TextView style="@style/CommonLabel" android:text="Title:" />
+    <EditText style="@style/CommonEditText"
+    	android:id="@+id/editBookmarkNewTitle"
+	    android:inputType="textCapWords"
+	    />
+	    
+    <!-- FOLDER -->
+    <TextView style="@style/CommonLabel" android:text="Parent folder:" />
+    <Spinner 
+        android:id="@+id/editBookmarkParentFolder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+    />
+
+    <!-- NEW FOLDER -->
+    <TextView style="@style/CommonLabel" android:text="Add to new folder:" />
+    <EditText style="@style/CommonEditText"
+        android:id="@+id/editBookmarkAddToNewFolder"
+	    android:inputType="textCapWords"
+    />
+
+    <!-- DELETE -->
+	<LinearLayout
+        android:id="@+id/editBookmarkDeletePanel"
 	    android:layout_width="fill_parent"
-	    android:orientation="vertical"
-	    android:padding="@dimen/mainPadding"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:gravity="right|center_vertical"
+		android:layout_marginTop="5dip"
 	    >
-	    
 	    <TextView
-		    android:layout_width="fill_parent"
+	        android:id="@+id/editBookmarkDeleteText"
+		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:text="New title:"
+		    android:layout_marginRight="10dip"
 		    />
-	    	
-	    <EditText
-	    	android:id="@+id/editBookmarkNewTitle"
-		    android:layout_width="fill_parent"
+	    <ImageView
+	        android:id="@+id/editBookmarkDeleteIcon"
+		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:singleLine="true"
-		    android:inputType="textCapWords"
-		    />
-		    
-	    <TextView
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="Parent folder:"
+		    android:layout_marginRight="5dip"
+		    android:focusable="true"
+		    android:src="@drawable/delete"
 		    />
 		    
-	    <Spinner
-	        android:id="@+id/editBookmarkParentFolder"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:drawSelectorOnTop="true"
-	    />
-	
-	    <TextView
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="Add to new folder:"
-		    />
-		    
-	    <EditText
-	        android:id="@+id/editBookmarkAddToNewFolder"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-		    android:singleLine="true"
-		    android:inputType="textCapWords"
-	    />
-	
-		<LinearLayout
-	        android:id="@+id/editBookmarkDeletePanel"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal"
-		    android:gravity="right"
-			android:layout_marginTop="5dip"
-		    >
-		    <TextView
-		        android:id="@+id/editBookmarkDeleteText"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_marginRight="5dip"
-			    />
-		    <ImageView
-		        android:id="@+id/editBookmarkDeleteIcon"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_marginRight="5dip"
-			    android:focusable="true"
-			    android:src="@drawable/delete"
-			    />
-		</LinearLayout>
-		    
-		<LinearLayout
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal"
-		    android:gravity="center_horizontal"
-		    style="@style/DialogButtonPanel"
-		    >
-		    <Button
-		    	android:id="@+id/editBookmarkButtonOk"
-		    	style="@style/DialogButtonSave"
-		        />
-		    <Button
-		    	android:id="@+id/editBookmarkButtonCancel"
-		    	style="@style/DialogButtonCancel"
-		        />
-	    </LinearLayout>
-	    
 	</LinearLayout>
 
-</ScrollView>
+</LinearLayout>
