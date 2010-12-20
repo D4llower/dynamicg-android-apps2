@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.data.writer.BookmarkUpdateWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
+import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.common.main.Logger;
 
@@ -18,13 +19,21 @@ public class BookmarkUpdateHandler {
 		this.ctx = ctx;
 	}
 
-	private void updateBookmarkTitle(Bookmark bm) {
+	private void updateBookmark(Bookmark bm, boolean urlChanged) {
 		String newTitle = bm.rebuildFullTitle(ctx);
-		BookmarkUpdateWriter writer = new BookmarkUpdateWriter(ctx);
-		writer.updateTitle(bm.getId(), newTitle);
+		BookmarkUpdateWriter bookmarkUpdater = new BookmarkUpdateWriter(ctx);
+		if (log.isDebugEnabled()) {
+			log.debug("updateBookmark", urlChanged, newTitle, bm.getUrl());
+		}
+		if (urlChanged) {
+			bookmarkUpdater.updateTitleAndUrl(bm.getId(), newTitle, bm.getUrl());
+		}
+		else {
+			bookmarkUpdater.updateTitle(bm.getId(), newTitle);
+		}
 	}
 
-	public void update(Bookmark bookmark, String newNodeTitle, FolderBean newParentFolder) {
+	public void update(Bookmark bookmark, String newNodeTitle, FolderBean newParentFolder, String newUrl) {
 		
 		if (log.isDebugEnabled()) {
 			log.debug("update", newNodeTitle, newParentFolder);
@@ -36,15 +45,17 @@ public class BookmarkUpdateHandler {
 		}
 		
 		newNodeTitle = newNodeTitle.trim();
+		newUrl = newUrl.trim();
 		
 		boolean titleChanged = !newNodeTitle.equals(bookmark.getDisplayTitle());
 		boolean parentFolderChanged = newParentFolder!=bookmark.getParentFolder();
+		boolean urlChanged = bookmark.isBrowserBookmark() && !newUrl.equals(bookmark.getUrl());
 		
 		if (log.isDebugEnabled()) {
 			log.debug("changeflags T/F", titleChanged, parentFolderChanged);
 		}
 		
-		if ( !titleChanged && !parentFolderChanged) {
+		if ( !titleChanged && !parentFolderChanged && !urlChanged ) {
 			if (log.isDebugEnabled()) {
 				log.debug("no changes - quit");
 			}
@@ -57,10 +68,18 @@ public class BookmarkUpdateHandler {
 		
 		bookmark.setParentFolder(newParentFolder);
 		bookmark.setNodeTitle(newNodeTitle);
+		if (bookmark.isBrowserBookmark()) {
+			((BrowserBookmarkBean)bookmark).setUrl(newUrl);
+		}
 		
 		if (bookmark.isBrowserBookmark()) {
 			// for plain bookmarks - recurse to parent to get full title, then update
-			updateBookmarkTitle(bookmark);
+			if (urlChanged) {
+				updateBookmark(bookmark, true);
+			}
+			else {
+				updateBookmark(bookmark, false);
+			}
 		}
 		else if (bookmark.isFolder()){
 			/*
@@ -74,7 +93,7 @@ public class BookmarkUpdateHandler {
 				if (log.isDebugEnabled()) {
 					log.debug("doUpdate for child", child.getDisplayTitle());
 				}
-				updateBookmarkTitle(child);
+				updateBookmark(child, false);
 			}
 		}
 		
