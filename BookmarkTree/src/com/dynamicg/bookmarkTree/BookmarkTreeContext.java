@@ -12,7 +12,7 @@ public class BookmarkTreeContext {
 	public final Activity activity;
 	public final BookmarkManager bookmarkManager;
 	public final BookmarkListAdapter bookmarkListAdapter;
-	private final PreferencesWrapper preferencesWrapper;
+	public final PreferencesWrapper preferencesWrapper;
 	private LayoutInflater layoutInflater;
 	
 	public BookmarkTreeContext(Activity activity) {
@@ -42,8 +42,4 @@ public class BookmarkTreeContext {
 		bookmarkListAdapter.redraw();
 	}
 
-	public PreferencesWrapper getPreferencesWrapper() {
-		return preferencesWrapper;
-	}
-	
 }
