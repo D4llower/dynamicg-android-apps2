@@ -98,7 +98,9 @@ public class BookmarkListAdapter extends BaseAdapter {
 		else if (bm.isFolder()) {
 			bm.setExpanded(!bm.isExpanded());
 			redraw();
-			FolderStateHandler.folderClicked(bm);
+			if (ctx.preferencesWrapper.isKeepState()) {
+				FolderStateHandler.folderClicked(bm);
+			}
 		}
 		else if (bm.getUrl()!=null) {
 			// open url in browser
