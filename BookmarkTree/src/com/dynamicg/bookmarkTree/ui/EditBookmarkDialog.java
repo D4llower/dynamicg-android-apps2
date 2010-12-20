@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.writehandler.BookmarkDeletionHandler;
-import com.dynamicg.bookmarkTree.data.writer.UpdateBookmarkWriter;
+import com.dynamicg.bookmarkTree.data.writehandler.BookmarkUpdateHandler;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.bookmarkTree.util.CommonDialogHelper;
@@ -134,7 +134,7 @@ public class EditBookmarkDialog extends Dialog {
 		if (log.isDebugEnabled()) {
 			log.debug("updateBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
 		}
-		UpdateBookmarkWriter upd = new UpdateBookmarkWriter(ctx);
+		BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
 		upd.update(bookmark, newNodeTitle, newParentFolder);
 
 		ctx.reloadAndRefresh();

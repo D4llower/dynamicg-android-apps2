@@ -1,17 +1,19 @@
-package com.dynamicg.bookmarkTree.data.writer;
+package com.dynamicg.bookmarkTree.data.writehandler;
 
 import java.util.Collection;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.data.writer.BookmarkUpdateWriter;
+import com.dynamicg.bookmarkTree.data.writer.BookmarkWriterA;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.common.main.Logger;
 
-public class UpdateBookmarkWriter extends BookmarkWriterA {
+public class BookmarkUpdateHandler extends BookmarkWriterA {
 
-	private static final Logger log = new Logger(UpdateBookmarkWriter.class);
+	private static final Logger log = new Logger(BookmarkUpdateHandler.class);
 	
-	public UpdateBookmarkWriter(BookmarkTreeContext ctx) {
+	public BookmarkUpdateHandler(BookmarkTreeContext ctx) {
 		super(ctx);
 	}
 
