@@ -9,12 +9,9 @@ import android.provider.Browser;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
-import com.dynamicg.common.main.Logger;
 
 public abstract class BookmarkWriterA {
 
-	private static final Logger log = new Logger(BookmarkWriterA.class);
-	
 	protected final BookmarkTreeContext ctx;
 	protected final ContentResolver contenResolver;
 
@@ -33,16 +30,6 @@ public abstract class BookmarkWriterA {
 		);
 	}
 
-	protected static void deleteBrowserBookmark(BookmarkWriterA writer, Integer id) {
-		if (log.isDebugEnabled()) {
-			log.debug("delete bookmark", id);
-		}
-		writer.contenResolver.delete ( Browser.BOOKMARKS_URI
-				, Browser.BookmarkColumns._ID+"=?"
-				, new String[]{Integer.toString(id)}
-				);
-	}
-	
 	public ArrayList<BrowserBookmarkBean> getBrowserBookmarks() {
 		 return BrowserBookmarkLoader.loadBrowserBookmarks(ctx.activity);
 	}

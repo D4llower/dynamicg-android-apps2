@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
-import com.dynamicg.bookmarkTree.data.writer.DeleteBookmarkWriter;
+import com.dynamicg.bookmarkTree.data.writehandler.BookmarkDeletionHandler;
 import com.dynamicg.bookmarkTree.data.writer.UpdateBookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
@@ -162,7 +162,7 @@ public class EditBookmarkDialog extends Dialog {
 	}
 	
 	private void deleteBookmark() {
-		new DeleteBookmarkWriter(ctx,bookmark);
+		new BookmarkDeletionHandler(ctx,bookmark);
 		ctx.reloadAndRefresh();
 		this.dismiss();
 	}
