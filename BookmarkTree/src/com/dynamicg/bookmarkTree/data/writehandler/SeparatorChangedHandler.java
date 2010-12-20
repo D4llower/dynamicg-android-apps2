@@ -1,27 +1,34 @@
 package com.dynamicg.bookmarkTree.data.writehandler;
 
+import java.util.ArrayList;
+
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.data.writer.BookmarkWriterA;
+import com.dynamicg.bookmarkTree.data.writer.UpdateBookmarkWriter;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.main.Logger;
 import com.dynamicg.common.main.StringUtil;
 
-public class SeparatorChangedHandler extends BookmarkWriterA {
+public class SeparatorChangedHandler {
 
 	private static final Logger log = new Logger(SeparatorChangedHandler.class);
 	
+	private final BookmarkTreeContext ctx;
 	private final String oldSeparator;
 	private final String newSeparator;
+	private final UpdateBookmarkWriter updadateWriter;
 	
 	public SeparatorChangedHandler(BookmarkTreeContext ctx, String oldSeparator, String newSeparator) {
-		super(ctx);
+		this.ctx = ctx;
 		this.oldSeparator = oldSeparator;
 		this.newSeparator = newSeparator;
+		this.updadateWriter = new UpdateBookmarkWriter(ctx);
 		fullProcess();
 	}
 
 	private void fullProcess() {
-		for (BrowserBookmarkBean bm:getBrowserBookmarks()) {
+		ArrayList<BrowserBookmarkBean> bookmarks = BookmarkWriterA.getBrowserBookmarks(ctx);
+		for (BrowserBookmarkBean bm:bookmarks) {
 			update(bm);
 		}
 	}
@@ -39,7 +46,7 @@ public class SeparatorChangedHandler extends BookmarkWriterA {
 		if (log.isDebugEnabled()) {
 			log.debug("update - write", oldTitle, newTitle);
 		}
-		updateBookmarkTitle(this, bm.getId(), newTitle);
+		updadateWriter.updateBookmarkTitle(bm.getId(), newTitle);
 	}
 	
 }
