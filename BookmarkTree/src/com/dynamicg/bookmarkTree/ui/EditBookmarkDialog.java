@@ -117,8 +117,11 @@ public class EditBookmarkDialog extends Dialog {
 		 * .add <no folder> to top
 		 */
 		ArrayList<FolderBean> folders = new ArrayList<FolderBean>(ctx.bookmarkManager.getAllFolders());
-		folders.removeAll(bookmark.getTree(Bookmark.TYPE_FOLDER));
-		folders.remove(bookmark); // remove 'self' from list
+		if (bookmark.isFolder()) {
+			// this is a folder, so we remove all children from the 'new parent folder' list
+			folders.removeAll(bookmark.getTree(Bookmark.TYPE_FOLDER));
+			folders.remove(bookmark); // remove 'self' from list
+		}
 		folders.add(0, FolderBean.ROOT);
 
 		ArrayAdapter<FolderBean> adapter = new ArrayAdapter<FolderBean>(ctx.activity
