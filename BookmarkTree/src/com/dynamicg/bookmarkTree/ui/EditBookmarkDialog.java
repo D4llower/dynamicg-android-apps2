@@ -19,6 +19,7 @@ import com.dynamicg.bookmarkTree.data.writer.BookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
+import com.dynamicg.bookmarkTree.util.BookmarkUtil;
 import com.dynamicg.bookmarkTree.util.CommonDialogHelper;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.common.main.Logger;
@@ -168,7 +169,7 @@ public class EditBookmarkDialog extends Dialog {
 				// prepend the folder path
 				newNodeTitle = newParentFolder.getFullTitle() + ctx.getNodeConcatenation() + newNodeTitle;
 			}
-			new BookmarkWriter(ctx).insert(newNodeTitle, newUrl);
+			new BookmarkWriter(ctx).insert(newNodeTitle, BookmarkUtil.patchProtocol(newUrl) );
 		}
 		else {
 			BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
