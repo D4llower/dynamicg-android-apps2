@@ -87,15 +87,15 @@ public class SpinnerUtil {
 	public static ArrayList<KeyValue> getListStyleItems(Context context) {
 		SpinnerItems items = new SpinnerItems(context);
 		items.add ( PreferencesWrapper.LIST_STYLE_CLASSIC, R.string.domainStyleClassic );
-		items.add ( PreferencesWrapper.LIST_STYLE_CLASSIC, R.string.domainStyleCompact );
+		items.add ( PreferencesWrapper.LIST_STYLE_COMPACT, R.string.domainStyleCompact );
 		return items.list;
 	}
 	
 	public static ArrayList<KeyValue> getSortOptionItems(Context context) {
 		SpinnerItems items = new SpinnerItems(context);
 		items.add ( PreferencesWrapper.SORT_ALPHA, R.string.domainSortAlphaOverall );
-		items.add ( PreferencesWrapper.SORT_FOLDERS_BEFORE_BM, R.string.domainSortFoldersFirst );
-		items.add ( PreferencesWrapper.SORT_BM_BEFORE_FOLDERS, R.string.domainSortBookmarksFirst );
+		items.add ( PreferencesWrapper.SORT_FOLDERS_FIRST, R.string.domainSortFoldersFirst );
+		items.add ( PreferencesWrapper.SORT_BOOKMARKS_FIRST, R.string.domainSortBookmarksFirst );
 		return items.list;
 	}
 	

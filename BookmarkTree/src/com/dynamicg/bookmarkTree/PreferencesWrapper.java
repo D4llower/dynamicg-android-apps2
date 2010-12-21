@@ -93,8 +93,8 @@ public class PreferencesWrapper {
 	}
 	
 	public static final int SORT_ALPHA = 0;
-	public static final int SORT_FOLDERS_BEFORE_BM = 1;
-	public static final int SORT_BM_BEFORE_FOLDERS = 2;
+	public static final int SORT_FOLDERS_FIRST = 1;
+	public static final int SORT_BOOKMARKS_FIRST = 2;
 	
 	public static final int LIST_STYLE_CLASSIC = 0;
 	public static final int LIST_STYLE_COMPACT = 1;
