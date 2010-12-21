@@ -54,6 +54,7 @@
     <string name="domainSortBookmarksFirst">Bookmarks first</string>
     
     <string name="hintNoIntent">Cannot open this page.</string>
+    <string name="hintTitleMissing">Title is empty. Cannot save.</string>
     <string name="hintUrlMissing">URL is empty. Cannot save.</string>
     
 </resources>

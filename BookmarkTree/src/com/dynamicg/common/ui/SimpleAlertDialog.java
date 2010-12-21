@@ -7,6 +7,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.view.View;
 import android.widget.TextView;
 
+import com.dynamicg.bookmarkTree.R;
+
 public abstract class SimpleAlertDialog {
 
 	private final Context context;
@@ -143,6 +145,11 @@ public abstract class SimpleAlertDialog {
 	 */
 	public boolean showAsMessage() {
 		return false;
+	}
+	
+	public static void plainInfo(Context context, int title) {
+		new SimpleAlertDialog(context, title, R.string.commonClose) {
+		};
 	}
 	
 }

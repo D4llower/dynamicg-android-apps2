@@ -151,9 +151,12 @@ public class EditBookmarkDialog extends Dialog {
 		String addToNewFolderTitle = getEditTextValue(addToNewFolderItem);
 		String newUrl = getEditTextValue(urlItem);
 
+		if (newNodeTitle.length()==0) {
+			SimpleAlertDialog.plainInfo(getContext(), R.string.hintTitleMissing);
+			return;
+		}
 		if (bookmark.isBrowserBookmark() && newUrl.length()==0) {
-			new SimpleAlertDialog(getContext(), R.string.hintUrlMissing, R.string.commonClose) {
-			};
+			SimpleAlertDialog.plainInfo(getContext(), R.string.hintUrlMissing);
 			return;
 		}
 		
