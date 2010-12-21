@@ -24,6 +24,7 @@ import com.dynamicg.common.ui.SimpleAlertDialog;
 public class BookmarkListAdapter extends BaseAdapter {
 
 	private static final Logger log = new Logger(BookmarkListAdapter.class);
+	private static final String PROTOCOL = "http://";
 	
 	private final BookmarkTreeContext ctx;
 	private final ListView listview;
@@ -134,7 +135,19 @@ public class BookmarkListAdapter extends BaseAdapter {
 		listview.invalidateViews();
 	}
 	
-	private void openBookmark(final String url) {
+	private void openBookmark(String bookmarkUrl) {
+		
+		final String url;
+		if (bookmarkUrl==null || bookmarkUrl.trim().length()==0) {
+			url="";
+		}
+		else if (!bookmarkUrl.startsWith(PROTOCOL)) {
+			url=PROTOCOL+bookmarkUrl;
+		}
+		else {
+			url=bookmarkUrl;
+		}
+		
 		Context context = ctx.activity;
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(url));
