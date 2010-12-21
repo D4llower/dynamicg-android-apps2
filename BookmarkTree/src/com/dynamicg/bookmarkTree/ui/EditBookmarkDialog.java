@@ -32,24 +32,24 @@ public class EditBookmarkDialog extends Dialog {
 	
 	private final BookmarkTreeContext ctx;
 	private final Bookmark bookmark;
+	private final boolean forCreateBookmark;
 	
 	private EditText newNodeTitleItem;
 	private Spinner parentFolderSpinner;
 	private EditText addToNewFolderItem;
 	private EditText urlItem;
-	private boolean forCreateBookmark = false;
 
 	public EditBookmarkDialog(BookmarkTreeContext ctx, Bookmark bookmark) {
 		super(ctx.activity);
 		this.ctx = ctx;
 		this.bookmark = bookmark;
+		this.forCreateBookmark = bookmark==NEW_BOOKMARK;
 		CommonDialogHelper.expandContent(this, R.layout.edit_body);
 		this.show();
 	}
 
 	public EditBookmarkDialog(BookmarkTreeContext ctx) {
 		this(ctx, NEW_BOOKMARK);
-		forCreateBookmark = true;
 	}
 	
 	@Override
