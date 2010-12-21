@@ -24,15 +24,6 @@ public class UrlOpener {
 		open();
 	}
 	
-	private void alert(final String url) {
-		new SimpleAlertDialog(context, R.string.hintNoIntent, R.string.commonClose) {
-			@Override
-			public String getPlainBodyText() {
-				return context.getString(R.string.editUrl) + " " + (url.length()==0?"-":url);
-			}
-		};
-	}
-	
 	private String getDefaultMimeType(String url) {
 		String suffix = MimeTypeMap.getFileExtensionFromUrl(url);
 		if (suffix==null) {
@@ -69,7 +60,7 @@ public class UrlOpener {
 	private void open() {
 		
 		if (bookmarkUrl.length()==0) {
-			alert(bookmarkUrl);
+			SimpleAlertDialog.plainInfo(context, R.string.hintEmptyUrl);
 			return;
 		}
 		
