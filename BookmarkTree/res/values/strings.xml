@@ -21,7 +21,7 @@
     <string name="commonPleaseWait">Please wait ...</string>
     <string name="commonClose">Close</string>
     
-    <string name="prefsHintRestart">\u2192 Restart app on changed settings.</string>
+    <string name="prefsHintRestart">\u2192 Restart app when changed.</string>
     <string name="prefsListStyle">List style:</string>
     <string name="prefsSortLabel">Sort:</string>
     <string name="prefsKeepState">Keep folder state on app close</string>
