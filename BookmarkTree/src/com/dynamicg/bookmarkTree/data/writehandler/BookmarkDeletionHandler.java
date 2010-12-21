@@ -1,7 +1,7 @@
 package com.dynamicg.bookmarkTree.data.writehandler;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.bookmarkTree.data.writer.BookmarkDeletionWriter;
+import com.dynamicg.bookmarkTree.data.writer.BookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.common.main.Logger;
 
@@ -18,7 +18,7 @@ public class BookmarkDeletionHandler {
 
 	private void delete(Bookmark selectedBookmark) {
 		
-		BookmarkDeletionWriter deletion = new BookmarkDeletionWriter(ctx);
+		BookmarkWriter deletion = new BookmarkWriter(ctx);
 		
 		if (log.isDebugEnabled()) {
 			log.debug("delete", selectedBookmark.getDisplayTitle());

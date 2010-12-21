@@ -3,7 +3,7 @@ package com.dynamicg.bookmarkTree.data.writehandler;
 import java.util.Collection;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.bookmarkTree.data.writer.BookmarkUpdateWriter;
+import com.dynamicg.bookmarkTree.data.writer.BookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
@@ -21,7 +21,7 @@ public class BookmarkUpdateHandler {
 
 	private void updateBookmark(Bookmark bm, boolean urlChanged) {
 		String newTitle = bm.rebuildFullTitle(ctx);
-		BookmarkUpdateWriter bookmarkUpdater = new BookmarkUpdateWriter(ctx);
+		BookmarkWriter bookmarkUpdater = new BookmarkWriter(ctx);
 		if (log.isDebugEnabled()) {
 			log.debug("updateBookmark", urlChanged, newTitle, bm.getUrl());
 		}
