@@ -91,7 +91,7 @@ public class UrlOpener {
 		}
 		
 		// 4. last try - set "all" mime type
-		context.startActivity(Intent.createChooser ( getIntent(bookmarkUrl, MIME_TYPE_ALL), "Open link" ));
+		context.startActivity(Intent.createChooser ( getIntent(bookmarkUrl, MIME_TYPE_ALL), "Open:" ));
 		
 	}
 	
