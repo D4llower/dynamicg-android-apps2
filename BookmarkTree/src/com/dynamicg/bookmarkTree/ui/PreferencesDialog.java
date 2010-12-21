@@ -61,12 +61,16 @@ public class PreferencesDialog extends Dialog {
 		this.show();
 	}
 
+	private String getText(int res) {
+		return getContext().getString(res);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
-		setTitle("Preferences");
+		setTitle(R.string.commonPreferences);
 
 		separatorItem = (EditText)findViewById(R.id.prefsSeparator);
 		separatorItem.setText(currentSeparator);
@@ -91,10 +95,10 @@ public class PreferencesDialog extends Dialog {
 		sortAlpha.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new SimpleAlertDialog(ctx.activity, "Sort browser bookmarks?", "OK", "Cancel") {
+				new SimpleAlertDialog(ctx.activity, R.string.actionSortBookmarksConfirm, R.string.commonOK, R.string.commonCancel) {
 					@Override
 					public void onPositiveButton() {
-						new SimpleProgressDialog(ctx.activity, "Please wait...") {
+						new SimpleProgressDialog(ctx.activity, getText(R.string.commonPleaseWait) ) {
 							@Override
 							public void backgroundWork() {
 								new AlphaSortWriter(ctx);
@@ -102,7 +106,7 @@ public class PreferencesDialog extends Dialog {
 							@Override
 							public void done() {
 								ctx.reloadAndRefresh(); // needs to be done by main thread
-								Toast.makeText(getContext(), "Bookmark sort done", Toast.LENGTH_SHORT).show();
+								Toast.makeText(getContext(), getText(R.string.actionSortBookmarksDone), Toast.LENGTH_SHORT).show();
 							}
 						};
 					}
@@ -127,8 +131,8 @@ public class PreferencesDialog extends Dialog {
 		};
 
 		// attach spinners
-		spinnerUtil.bind ( R.id.prefsListStyle, prefsWrapper.prefsBean.getListStyle(), SpinnerUtil.getListStyleItems() );
-		spinnerUtil.bind ( R.id.prefsSortOption, prefsWrapper.prefsBean.getSortOption(), SpinnerUtil.getSortOptionItems() );
+		spinnerUtil.bind ( R.id.prefsListStyle, prefsWrapper.prefsBean.getListStyle(), SpinnerUtil.getListStyleItems(getContext()), R.string.prefsListStyle );
+		spinnerUtil.bind ( R.id.prefsSortOption, prefsWrapper.prefsBean.getSortOption(), SpinnerUtil.getSortOptionItems(getContext()), R.string.prefsSortLabel );
 		
 	}
 	
@@ -147,7 +151,7 @@ public class PreferencesDialog extends Dialog {
 			savePostprocessing();
 		}
 		else {
-			new SimpleProgressDialog(ctx.activity, "Please wait...") {
+			new SimpleProgressDialog(ctx.activity, getText(R.string.commonPleaseWait)) {
 				@Override
 				public void backgroundWork() {
 					saveMain();
@@ -173,7 +177,8 @@ public class PreferencesDialog extends Dialog {
 		// see if "refresh" is required
 		if ( spinnerUtil.isChanged(R.id.prefsListStyle)
 				|| spinnerUtil.isChanged(R.id.prefsSortOption)
-				) {
+				) 
+		{
 			dataRefreshRequired = true;
 		}
 		
@@ -206,8 +211,8 @@ public class PreferencesDialog extends Dialog {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_SHOW_DISCLAIMER, 0, "Show disclaimer");
-		menu.add(0, ACTION_DUMP_BOOKMARKS, 0, "Show internal bookmarks");
+		menu.add(0, ACTION_SHOW_DISCLAIMER, 0, "Disclaimer ...");
+		menu.add(0, ACTION_DUMP_BOOKMARKS, 0, "Internal bookmarks ...");
 		return true;
 	}
 
