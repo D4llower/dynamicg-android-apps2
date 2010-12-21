@@ -152,7 +152,7 @@ public class EditBookmarkDialog extends Dialog {
 		String newUrl = getEditTextValue(urlItem);
 
 		if (bookmark.isBrowserBookmark() && newUrl.length()==0) {
-			new SimpleAlertDialog(getContext(), R.string.commonOK, R.string.hintUrlMissing) {
+			new SimpleAlertDialog(getContext(), R.string.hintUrlMissing, R.string.commonClose) {
 			};
 			return;
 		}

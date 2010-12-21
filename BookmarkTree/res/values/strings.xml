@@ -19,6 +19,7 @@
     <string name="commonDeleteFolder">Delete folder</string>
     <string name="commonDeleteBookmark">Delete bookmark</string>
     <string name="commonPleaseWait">Please wait ...</string>
+    <string name="commonClose">Close</string>
     
     <string name="prefsHintRestart">\u2192 Restart app on changed settings.</string>
     <string name="prefsListStyle">List style:</string>

@@ -21,10 +21,10 @@ public class UrlOpener {
 	}
 	
 	private void alert(final String url) {
-		new SimpleAlertDialog(context, R.string.hintNoIntent, R.string.commonOK) {
+		new SimpleAlertDialog(context, R.string.hintNoIntent, R.string.commonClose) {
 			@Override
 			public String getPlainBodyText() {
-				return "URL: " + (url.length()==0?"-":url);
+				return context.getString(R.string.editUrl) + (url.length()==0?"-":url);
 			}
 		};
 	}
