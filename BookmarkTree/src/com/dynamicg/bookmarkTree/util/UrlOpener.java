@@ -86,8 +86,7 @@ public class UrlOpener {
 				context.startActivity(getIntent(bookmarkUrl, mimeType));
 				return;
 			}
-			catch (ActivityNotFoundException e2) {
-			}
+			catch (ActivityNotFoundException e2) {}
 		}
 		
 		// 4. last try - set "all" mime type
