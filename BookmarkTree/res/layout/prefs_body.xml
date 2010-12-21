@@ -7,11 +7,11 @@
 
 	<!-- ====================== Presentation ====================== -->
 
-	<TextView style="@style/PrefsGroup" android:text="Presentation" android:layout_marginTop="0dip" /> 
+	<TextView style="@style/PrefsGroup" android:text="@string/prefsGroupPresentation" android:layout_marginTop="0dip" /> 
     
    	<TextView style="@style/PrefsHint" 
    		android:layout_span="2"
-   		android:text="\u2192 Restart app on changed settings."
+   		android:text="@string/prefsHintRestart"
    		/>
 
     <TableLayout
@@ -21,7 +21,7 @@
 	    >
 	    <TableRow>
 	    	<TextView style="@style/PrefsLabel" 
-	    		android:text="List style:" 
+	    		android:text="@string/prefsListStyle" 
 	    		android:layout_gravity="center_vertical"
 	    		/>
 	    	<Spinner android:id="@+id/prefsListStyle"
@@ -32,7 +32,7 @@
 	    </TableRow>
 	    <TableRow>
 	    	<TextView style="@style/PrefsLabel"
-	    		android:text="Sort:" 
+	    		android:text="@string/prefsSortLabel" 
 	    		android:layout_gravity="center_vertical"
 	    		/>
 	    	<Spinner android:id="@+id/prefsSortOption"
@@ -47,44 +47,43 @@
     	android:id="@+id/prefsKeepState"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="Keep folder state on app close"
+	    android:text="@string/prefsKeepState"
 	    />
 	    
     
 	<!-- ====================== Special Ops ====================== -->
 	
-	<TextView style="@style/PrefsGroup" android:text="Extras" /> 
+	<TextView style="@style/PrefsGroup" android:text="@string/prefsGroupExtras" /> 
 	
     <CheckBox style="@style/PrefsLabel"
     	android:id="@+id/prefsDeletionActive"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="Show 'Delete' icon in Edit"
+	    android:text="@string/prefsShowDelete"
 	    />
 	    
     <CheckBox style="@style/PrefsLabel"
     	android:id="@+id/prefsOptimiseLayout"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="Optimise for Android 2.0++"
+	    android:text="@string/prefsOptimiseLabel"
 	    />
    	<TextView style="@style/PrefsHint" 
-   		android:layout_span="2"
-   		android:text="\u2192 Disable if layout broken. Restart when changed."
+   		android:text="@string/prefsOptimiseHint"
    		/>
 	    
     <Button
     	android:id="@+id/prefsActionSortAlpha"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="Sort bookmarks A-Z"
+	    android:text="@string/prefsSortAZ"
 	    android:layout_marginTop="20dip"
 	    android:layout_marginBottom="10dip"
 	    />
 
 	<!-- ====================== Setup ====================== -->
 	
-	<TextView style="@style/PrefsGroup" android:text="App Setup" /> 
+	<TextView style="@style/PrefsGroup" android:text="@string/prefsGroupSetup" /> 
 	
 	<LinearLayout
 	    android:layout_height="wrap_content"
@@ -96,7 +95,7 @@
 	    <TextView
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:text="Internal folder separator:"
+		    android:text="@string/prefsSeparator"
 		    style="@style/PrefsLabel"
 		    />
 		    
@@ -115,7 +114,7 @@
     	android:id="@+id/prefsFullUpdateOnChange"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="Update all bookmarks\nwith new separator"
+	    android:text="@string/prefsUpdateWithNewSep"
 	    />
 	    
 	<!-- ====================== done ====================== -->

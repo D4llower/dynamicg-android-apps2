@@ -11,14 +11,14 @@
     <View android:layout_width="380dip" android:layout_height="0dip" />
     
     <!-- TITLE -->
-    <TextView style="@style/EditBodyLabel" android:text="Title:" />
+    <TextView style="@style/EditBodyLabel" android:text="@string/editTitle" />
     <EditText style="@style/EditBodyTextInput"
     	android:id="@+id/editBookmarkNewTitle"
 	    android:inputType="textCapWords"
 	    />
 	    
     <!-- FOLDER -->
-    <TextView style="@style/EditBodyLabel" android:text="Parent folder:" />
+    <TextView style="@style/EditBodyLabel" android:text="@string/editParentFolder" />
     <Spinner 
         android:id="@+id/editBookmarkParentFolder"
         android:layout_width="fill_parent"
@@ -27,7 +27,7 @@
     />
 
     <!-- NEW FOLDER -->
-    <TextView style="@style/EditBodyLabel" android:text="Add to new folder:" />
+    <TextView style="@style/EditBodyLabel" android:text="@string/editAddToNewFolder" />
     <EditText style="@style/EditBodyTextInput"
         android:id="@+id/editBookmarkAddToNewFolder"
 	    android:inputType="textCapWords"
@@ -39,7 +39,7 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
 	    >
-	    <TextView style="@style/EditBodyLabel" android:text="URL:" />
+	    <TextView style="@style/EditBodyLabel" android:text="@string/editUrl" />
 	    <EditText style="@style/EditBodyTextInput"
 	        android:id="@+id/editBookmarkUrl"
 		    android:inputType="textUri"
