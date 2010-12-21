@@ -1,4 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+
     <string name="app_name">Bookmark Tree</string>
+    
+    <string name="menuExpandAll">Expand all</string>
+    <string name="menuCollapseAll">Collapse all</string>
+    <string name="menuReload">Reload</string>
+    <string name="menuPrefs">Preferences \u2026</string>
+    <string name="menuCreate">Create \u2026</string>
+
+    <string name="commonOK">OK</string>
+    <string name="commonSave">Save</string>
+    <string name="commonCancel">Cancel</string>
+    <string name="commonPreferences">Preferences</string>
+    <string name="commonEditFolder">Edit folder</string>
+    <string name="commonEditBookmark">Edit bookmark</string>
+    <string name="commonDeleteFolder">Delete folder</string>
+    <string name="commonDeleteBookmark">Delete bookmark</string>
+    <string name="commonPleaseWait">Please wait ...</string>
+    
+    <string name="prefsHintRestart">\u2192 Restart app on changed settings.</string>
+    <string name="prefsListStyle">List style:</string>
+    <string name="prefsSortLabel">Sort:</string>
+    <string name="prefsKeepState">Keep folder state on app close</string>
+    <string name="prefsShowDelete">Show \'Delete\' icon in Edit</string>
+    <string name="prefsOptimiseLabel">Optimise for Android 2.0++</string>
+    <string name="prefsOptimiseHint">\u2192 Disable if layout broken. Restart when changed.</string>
+    <string name="prefsSortAZ">Sort bookmarks A-Z</string>
+    <string name="prefsSeparator">Internal folder separator:</string>
+    <string name="prefsUpdateWithNewSep">Update all bookmarks\nwith new separator</string>
+    
+    <string name="prefsGroupPresentation">Presentation</string>
+    <string name="prefsGroupExtras">Extras</string>
+    <string name="prefsGroupSetup">App setup</string>
+    
+    <string name="editTitle">Title:</string>
+    <string name="editUrl">URL:</string>
+    <string name="editParentFolder">Parent folder:</string>
+    <string name="editAddToNewFolder">Add to new folder:</string>
+
+    <string name="actionDeleteBookmark">Delete this bookmark?</string>
+    <string name="actionDeleteFolderOne">Delete this folder?</string>
+    <string name="actionDeleteFolderMany">Delete this folder with all {1} bookmarks?</string>
+    <string name="actionSortBookmarksConfirm">Sort browser bookmarks?</string>
+    <string name="actionSortBookmarksDone">Bookmark sort done</string>
+
+    <string name="domainStyleClassic">Large font</string>
+    <string name="domainStyleCompact">Medium font</string>
+    <string name="domainSortAlphaOverall">Alpha overall</string>
+    <string name="domainSortFoldersFirst">Folders first</string>
+    <string name="domainSortBookmarksFirst">Bookmarks first</string>
+    
 </resources>
