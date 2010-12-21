@@ -89,7 +89,7 @@ public class EditBookmarkDialog extends Dialog {
 		/*
 		 * delete
 		 */
-		boolean showDeletion = ctx.preferencesWrapper.isShowDeleteIcon();
+		boolean showDeletion = !forCreateBookmark && ctx.preferencesWrapper.isShowDeleteIcon();
 		if (showDeletion) {
 			TextView deleteTitle = (TextView)findViewById(R.id.editBookmarkDeleteText);
 			deleteTitle.setText(bookmark.isFolder() ? "Delete Folder" : "Delete Bookmark");
@@ -109,7 +109,7 @@ public class EditBookmarkDialog extends Dialog {
 		
 	}
 
-	private void prepareParentFolderSpinner(Bookmark bookmark) {
+	private void prepareParentFolderSpinner(final Bookmark bookmark) {
 
 		/*
 		 * .copy the "folders" cache
