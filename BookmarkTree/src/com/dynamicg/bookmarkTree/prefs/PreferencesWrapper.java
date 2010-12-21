@@ -1,8 +1,9 @@
-package com.dynamicg.bookmarkTree;
+package com.dynamicg.bookmarkTree.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.dynamicg.bookmarkTree.VersionAccessor;
 import com.dynamicg.common.main.Logger;
 
 public class PreferencesWrapper {

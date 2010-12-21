@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 
 import com.dynamicg.bookmarkTree.data.BookmarkManager;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.ui.BookmarkListAdapter;
 
 public class BookmarkTreeContext {

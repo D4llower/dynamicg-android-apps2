@@ -11,8 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.dynamicg.bookmarkTree.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 
 public class SpinnerUtil {
 

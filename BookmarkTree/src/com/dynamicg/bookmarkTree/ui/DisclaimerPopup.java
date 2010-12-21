@@ -4,8 +4,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.bookmarkTree.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.main.ContextUtil;
 import com.dynamicg.common.main.StringUtil;
 import com.dynamicg.common.ui.SimpleAlertDialog;

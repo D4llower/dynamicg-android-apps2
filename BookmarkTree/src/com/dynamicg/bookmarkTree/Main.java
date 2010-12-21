@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dynamicg.bookmarkTree.prefs.PreferencesDialog;
 import com.dynamicg.bookmarkTree.ui.DisclaimerPopup;
 import com.dynamicg.bookmarkTree.ui.EditBookmarkDialog;
-import com.dynamicg.bookmarkTree.ui.PreferencesDialog;
 import com.dynamicg.common.main.SystemUtil;
 
 public class Main extends Activity {

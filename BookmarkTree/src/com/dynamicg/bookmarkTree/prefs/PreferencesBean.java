@@ -1,4 +1,4 @@
-package com.dynamicg.bookmarkTree;
+package com.dynamicg.bookmarkTree.prefs;
 
 public class PreferencesBean {
 
