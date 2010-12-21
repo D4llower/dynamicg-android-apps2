@@ -47,7 +47,7 @@ public class UrlOpener {
 			context.startActivity(getIntent(url));
 		}
 		catch (ActivityNotFoundException e1) {
-			if (!BookmarkUtil.startsWithProtocol(url)) {
+			if (!BookmarkUtil.hasProtocol(url)) {
 				url = BookmarkUtil.patchProtocol(bookmarkUrl);
 				try {
 					context.startActivity(getIntent(url));

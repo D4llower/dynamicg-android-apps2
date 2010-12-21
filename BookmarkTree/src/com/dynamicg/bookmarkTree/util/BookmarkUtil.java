@@ -2,6 +2,7 @@ package com.dynamicg.bookmarkTree.util;
 
 public class BookmarkUtil {
 
+	private static final String IDENTIFIER = "://";
 	private static final String PROTOCOL = "http://";
 	
 	public static String patchProtocol(String url) {
@@ -9,7 +10,7 @@ public class BookmarkUtil {
 			return null;
 		}
 		url = url.trim();
-		if (url.length()>0 && !url.startsWith(PROTOCOL)) {
+		if (!hasProtocol(url)) {
 			return PROTOCOL+url;
 		}
 		else {
@@ -17,8 +18,8 @@ public class BookmarkUtil {
 		}
 	}
 	
-	public static boolean startsWithProtocol(String url) {
-		return url.startsWith(PROTOCOL);
+	public static boolean hasProtocol(String url) {
+		return url!=null && url.indexOf(IDENTIFIER)>0;
 	}
 	
 }
