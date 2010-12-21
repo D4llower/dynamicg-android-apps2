@@ -43,6 +43,7 @@ public class UrlOpener {
 		
 		String url = bookmarkUrl;
 		try {
+			//context.startActivity(Intent.createChooser ( getIntent(url), "TEST" ));
 			context.startActivity(getIntent(url));
 		}
 		catch (ActivityNotFoundException e1) {
