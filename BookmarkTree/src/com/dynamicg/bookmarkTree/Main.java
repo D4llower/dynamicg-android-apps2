@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dynamicg.bookmarkTree.ui.DisclaimerPopup;
+import com.dynamicg.bookmarkTree.ui.EditBookmarkDialog;
 import com.dynamicg.bookmarkTree.ui.PreferencesDialog;
 import com.dynamicg.common.main.SystemUtil;
 
@@ -24,6 +25,7 @@ public class Main extends Activity {
     public static final int ACTION_RELOAD = ++actionCounter;
     public static final int ACTION_SETTINGS = ++actionCounter;
     public static final int ACTION_DELETE_BOOKMARK = ++actionCounter;
+    public static final int ACTION_NEW_BM = ++actionCounter;
 
     private static boolean initialised = false;
     
@@ -43,11 +45,17 @@ public class Main extends Activity {
     	
     }
     
+    
+    private void createMenu(Menu menu, int id, int title, int icon) {
+    	menu.add(0, id, 0, title).setIcon(icon);
+    }
+    
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_EXPAND_ALL, 0, "Expand All").setIcon(R.drawable.menu_expand);
-		menu.add(0, ACTION_COLLAPSE_ALL, 0, "Collapse All").setIcon(R.drawable.menu_collapse);
-		menu.add(0, ACTION_RELOAD, 0, "Reload").setIcon(R.drawable.menu_reload);
-		menu.add(0, ACTION_SETTINGS, 0, "Preferences").setIcon(R.drawable.menu_prefs);
+		createMenu(menu, ACTION_EXPAND_ALL, R.string.menuExpandAll, R.drawable.menu_expand);
+		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll, R.drawable.menu_collapse);
+		createMenu(menu, ACTION_RELOAD, R.string.menuReload, R.drawable.menu_reload);
+		createMenu(menu, ACTION_NEW_BM, R.string.menuCreate, R.drawable.menu_create);
+		createMenu(menu, ACTION_SETTINGS, R.string.menuPrefs, R.drawable.menu_prefs);
 		return true;
 	}
 
@@ -62,6 +70,9 @@ public class Main extends Activity {
 		}
 		else if ( id==ACTION_SETTINGS ) {
 			new PreferencesDialog(ctx);
+		}
+		else if ( id==ACTION_NEW_BM ) {
+			new EditBookmarkDialog(ctx);
 		}
 		return true;
 	}
