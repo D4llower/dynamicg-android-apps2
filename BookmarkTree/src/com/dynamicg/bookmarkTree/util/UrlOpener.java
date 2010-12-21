@@ -12,10 +12,10 @@ import com.dynamicg.common.ui.SimpleAlertDialog;
 public class UrlOpener {
 
 	private final Activity context;
-	private final String url;
+	private final String bookmarkUrl;
 
 	public UrlOpener(BookmarkTreeContext ctx, String url) {
-		this.url = url!=null ? url.trim() : "";
+		this.bookmarkUrl = url!=null ? url.trim() : "";
 		this.context = ctx.activity;
 		open();
 	}
@@ -36,17 +36,20 @@ public class UrlOpener {
 	}
 	
 	private void open() {
-		if (url.length()==0) {
-			alert(url);
+		if (bookmarkUrl.length()==0) {
+			alert(bookmarkUrl);
 			return;
 		}
+		
+		String url = bookmarkUrl;
 		try {
 			context.startActivity(getIntent(url));
 		}
 		catch (ActivityNotFoundException e1) {
 			if (!BookmarkUtil.startsWithProtocol(url)) {
+				url = BookmarkUtil.patchProtocol(bookmarkUrl);
 				try {
-					context.startActivity(getIntent(BookmarkUtil.patchProtocol(url)));
+					context.startActivity(getIntent(url));
 				}
 				catch (ActivityNotFoundException e2) {
 					alert(url);
