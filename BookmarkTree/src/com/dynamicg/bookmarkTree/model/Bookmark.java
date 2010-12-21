@@ -189,9 +189,4 @@ public abstract class Bookmark {
 		return buffer.toString();
 	}
 	
-//	@Override
-//	public boolean isValidDropTarget(Object draggedItem) {
-//		return draggedItem!=this && this.isFolder();
-//	}
-	
 }
