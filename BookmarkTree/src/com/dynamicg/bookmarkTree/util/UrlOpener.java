@@ -24,7 +24,7 @@ public class UrlOpener {
 		new SimpleAlertDialog(context, R.string.hintNoIntent, R.string.commonClose) {
 			@Override
 			public String getPlainBodyText() {
-				return context.getString(R.string.editUrl) + (url.length()==0?"-":url);
+				return context.getString(R.string.editUrl) + " " + (url.length()==0?"-":url);
 			}
 		};
 	}
