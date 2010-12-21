@@ -3,6 +3,7 @@ package com.dynamicg.bookmarkTree.ui;
 import java.util.ArrayList;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.ui.SimpleAlertDialog;
 
 public class BookmarkListAdapter extends BaseAdapter {
 
@@ -132,14 +134,20 @@ public class BookmarkListAdapter extends BaseAdapter {
 		listview.invalidateViews();
 	}
 	
-	private void openBookmark(String url) {
+	private void openBookmark(final String url) {
+		Context context = ctx.activity;
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
 		try {
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(url));
-			ctx.activity.startActivity(intent);
+			context.startActivity(intent);
 		}
 		catch (ActivityNotFoundException e){
-			// TODO -- alert 
+			new SimpleAlertDialog(context, R.string.hintNoIntent, R.string.commonOK) {
+				@Override
+				public String getPlainBodyText() {
+					return "URL: " + (url.length()==0?"-":url);
+				}
+			};
 		}
 	}
 	

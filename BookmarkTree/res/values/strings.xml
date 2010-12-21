@@ -52,4 +52,6 @@
     <string name="domainSortFoldersFirst">Folders first</string>
     <string name="domainSortBookmarksFirst">Bookmarks first</string>
     
+    <string name="hintNoIntent">Cannot open this page.</string>
+    
 </resources>
