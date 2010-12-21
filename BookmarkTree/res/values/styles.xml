@@ -32,14 +32,6 @@
 	    <item name="android:layout_height">wrap_content</item>
 	</style>
 	
-    <style name="DialogButtonSave" parent="DialogButton">
-	    <item name="android:text">Save</item>
-	</style>
-	
-    <style name="DialogButtonCancel" parent="DialogButton">
-	    <item name="android:text">Cancel</item>
-	</style>
-
 	<style name="PrefsLabel">
 		<item name="android:textSize">16sp</item>
         <item name="android:textColor">#fff</item>
