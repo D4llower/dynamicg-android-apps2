@@ -35,12 +35,22 @@ public class UrlOpener {
 	
 	private String getDefaultMimeType(String url) {
 		String suffix = MimeTypeMap.getFileExtensionFromUrl(url);
-		if (suffix!=null&&suffix.length()>=0) {
-			return mimeTypeMap.getMimeTypeFromExtension(suffix);
+		if (suffix==null) {
+			return null;
+		}
+		
+		String mimeType = mimeTypeMap.getMimeTypeFromExtension(suffix);
+		if (mimeType!=null) {
+			return mimeType;
+		}
+		else if ( suffix.equals("html") || suffix.equals("htm") ) {
+			// html is NOT in the mime type list (?) 
+			return "text/html";
 		}
 		else {
 			return null;
 		}
+		
 	}
 	
 	private void startPlainIntent(String url) 
