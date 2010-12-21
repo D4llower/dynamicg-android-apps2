@@ -15,17 +15,21 @@ import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.writehandler.BookmarkDeletionHandler;
 import com.dynamicg.bookmarkTree.data.writehandler.BookmarkUpdateHandler;
+import com.dynamicg.bookmarkTree.data.writer.BookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
+import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.bookmarkTree.util.CommonDialogHelper;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.main.StringUtil;
 import com.dynamicg.common.ui.SimpleAlertDialog;
 
 public class EditBookmarkDialog extends Dialog {
 
 	private static final Logger log = new Logger(EditBookmarkDialog.class);
-
+	public static final BrowserBookmarkBean NEW_BOOKMARK = new BrowserBookmarkBean(-1, "", "", null);
+	
 	private final BookmarkTreeContext ctx;
 	private final Bookmark bookmark;
 	
@@ -33,6 +37,7 @@ public class EditBookmarkDialog extends Dialog {
 	private Spinner parentFolderSpinner;
 	private EditText addToNewFolderItem;
 	private EditText urlItem;
+	private boolean forCreateBookmark = false;
 
 	public EditBookmarkDialog(BookmarkTreeContext ctx, Bookmark bookmark) {
 		super(ctx.activity);
@@ -42,24 +47,31 @@ public class EditBookmarkDialog extends Dialog {
 		this.show();
 	}
 
+	public EditBookmarkDialog(BookmarkTreeContext ctx) {
+		this(ctx, NEW_BOOKMARK);
+		forCreateBookmark = true;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		String alertTitle = bookmark.isFolder() ? "Edit Folder" : "Edit Bookmark";
+		setup();
+	}
+	
+	private void setup() {
+		final int alertTitle = bookmark.isBrowserBookmark() ? R.string.commonEditBookmark : R.string.commonEditFolder;
 		setTitle(alertTitle);
 
-		String bookmarkTitle = bookmark.getDisplayTitle();
-
+		final String bookmarkTitle = bookmark.getDisplayTitle();
 		newNodeTitleItem = (EditText)findViewById(R.id.editBookmarkNewTitle);
 		newNodeTitleItem.setText(bookmarkTitle);
 
-		if (bookmark.isFolder()) {
-			findViewById(R.id.editBookmarkUrlContainer).setVisibility(View.GONE);
-		}
-		else {
+		if (bookmark.isBrowserBookmark()) {
 			urlItem = (EditText)findViewById(R.id.editBookmarkUrl);
 			urlItem.setText(bookmark.getUrl());
+		}
+		else {
+			findViewById(R.id.editBookmarkUrlContainer).setVisibility(View.GONE);
 		}
 		
 		parentFolderSpinner = (Spinner)findViewById(R.id.editBookmarkParentFolder);
@@ -70,7 +82,7 @@ public class EditBookmarkDialog extends Dialog {
 		new DialogButtonPanelWrapper(this) {
 			@Override
 			public void onPositiveButton() {
-				updateBookmark(bookmark);
+				saveBookmark(bookmark);
 			}
 		};
 		
@@ -130,7 +142,7 @@ public class EditBookmarkDialog extends Dialog {
 		return item!=null ? item.getText().toString().trim() : null;
 	}
 	
-	private void updateBookmark(Bookmark bookmark) {
+	private void saveBookmark(Bookmark bookmark) {
 
 		String newNodeTitle = getEditTextValue(newNodeTitleItem) ;
 		String addToNewFolderTitle = getEditTextValue(addToNewFolderItem);
@@ -146,7 +158,7 @@ public class EditBookmarkDialog extends Dialog {
 		}
 
 		if (log.isDebugEnabled()) {
-			log.debug("updateBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
+			log.debug("saveBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
 		}
 		BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
 		upd.update ( bookmark, newNodeTitle, newParentFolder, newUrl );
@@ -156,18 +168,28 @@ public class EditBookmarkDialog extends Dialog {
 		
 	}
 
+	private String getText(int res) {
+		return getContext().getString(res);
+	}
+	
 	private void deleteConfirmation() {
 
 		String alertTitle;
 		if (bookmark.isBrowserBookmark()) {
-			alertTitle = "Delete this bookmark?";
+			alertTitle = getText(R.string.actionDeleteBookmark);
 		}
 		else {
 			int num = bookmark.getTree(Bookmark.TYPE_BROWSER_BOOKMARK).size();
-			alertTitle = num<=1 ? "Delete this folder?" : "Delete this folder with all "+num+" bookmarks?" ;
+			if (num<=1) {
+				alertTitle = getText(R.string.actionDeleteFolderOne);
+			}
+			else {
+				alertTitle = StringUtil.replaceFirst ( getText(R.string.actionDeleteFolderMany)
+						, "{1}", Integer.toString(num) );
+			}
 		}
 
-		new SimpleAlertDialog(ctx.activity, alertTitle, "OK", "Cancel") {
+		new SimpleAlertDialog(ctx.activity, alertTitle, R.string.commonOK, R.string.commonCancel) {
 			@Override
 			public void onPositiveButton() {
 				deleteBookmark();
