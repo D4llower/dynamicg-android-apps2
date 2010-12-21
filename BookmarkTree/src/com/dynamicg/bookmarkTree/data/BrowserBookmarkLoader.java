@@ -53,7 +53,7 @@ public class BrowserBookmarkLoader {
 					, crs.getString(2)
 					, getFavicon(crs.getBlob(3))
 			);
-			if (log.isDebugEnabled()) {
+			if (log.isTraceEnabled()) {
 				log.debug("loadBrowserBookmarks",row.getFullTitle(),row.getUrl());
 			}
 			rows.add(row);
