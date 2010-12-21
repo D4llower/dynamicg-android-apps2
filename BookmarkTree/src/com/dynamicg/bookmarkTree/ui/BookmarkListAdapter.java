@@ -87,10 +87,6 @@ public class BookmarkListAdapter extends BaseAdapter {
 	}
 	
 	private void itemClicked(int position) {
-//		if (listview.skipShortClick()) {
-//			// skip if icon is clicked
-//			return;
-//		}
 		Bookmark bm = bookmarks.get(position);
 		if (bm==null) {
 			log.warn("itemClicked - NULL?", position, bookmarks.size());
@@ -104,17 +100,13 @@ public class BookmarkListAdapter extends BaseAdapter {
 		}
 		else if (bm.getUrl()!=null) {
 			// open url in browser
-			Intent i = new Intent(Intent.ACTION_VIEW);
-			i.setData(Uri.parse(bm.getUrl()));
-			ctx.activity.startActivity(i);
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse(bm.getUrl()));
+			ctx.activity.startActivity(intent);
 		}
 	}
 	
 	private boolean itemLongClicked(int position) {
-//		if (listview.skipLongClick()) {
-//			// skip if icon is clicked
-//			return true;
-//		}
 		Bookmark bm = bookmarks.get(position);
 		if (bm==null) {
 			log.warn("itemLongClicked - NULL?", position, bookmarks.size());
