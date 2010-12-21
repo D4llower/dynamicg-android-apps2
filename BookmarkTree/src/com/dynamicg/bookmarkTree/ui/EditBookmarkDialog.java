@@ -54,12 +54,11 @@ public class EditBookmarkDialog extends Dialog {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
-		setup();
-	}
-	
-	private void setup() {
-		final int alertTitle = bookmark.isBrowserBookmark() ? R.string.commonEditBookmark : R.string.commonEditFolder;
+
+		final int alertTitle = forCreateBookmark ? R.string.commonNewBookmark
+				: bookmark.isBrowserBookmark() ? R.string.commonEditBookmark : R.string.commonEditFolder;
 		setTitle(alertTitle);
 
 		final String bookmarkTitle = bookmark.getDisplayTitle();
