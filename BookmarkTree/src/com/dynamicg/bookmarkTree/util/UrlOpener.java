@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.webkit.MimeTypeMap;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.common.ui.SimpleAlertDialog;
 
 public class UrlOpener {
+
+	private static final MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+	private static final String MIME_TYPE_ALL = "*/*";
 
 	private final Activity context;
 	private final String bookmarkUrl;
@@ -29,34 +33,65 @@ public class UrlOpener {
 		};
 	}
 	
-	private Intent getIntent(String url) {
+	private String getDefaultMimeType(String url) {
+		String suffix = MimeTypeMap.getFileExtensionFromUrl(url);
+		if (suffix!=null&&suffix.length()>=0) {
+			return mimeTypeMap.getMimeTypeFromExtension(suffix);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	private void startPlainIntent(String url) 
+	throws ActivityNotFoundException {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(url));
+		context.startActivity(intent);
+	}
+	
+	private Intent getIntent(String url, String mimeType) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setDataAndType(Uri.parse(url), mimeType);
 		return intent;
 	}
 	
 	private void open() {
+		
 		if (bookmarkUrl.length()==0) {
 			alert(bookmarkUrl);
 			return;
 		}
 		
-		String url = bookmarkUrl;
+		// 1. try default intent
 		try {
-			//context.startActivity(Intent.createChooser ( getIntent(url), "TEST" ));
-			context.startActivity(getIntent(url));
+			startPlainIntent(bookmarkUrl);
+			return;
 		}
-		catch (ActivityNotFoundException e1) {
-			if (!BookmarkUtil.hasProtocol(url)) {
-				url = BookmarkUtil.patchProtocol(bookmarkUrl);
-				try {
-					context.startActivity(getIntent(url));
-				}
-				catch (ActivityNotFoundException e2) {
-					alert(url);
-				}
+		catch (ActivityNotFoundException e1) {}
+		
+		// 2. prepend "http://" if no protocol provided
+		if (!BookmarkUtil.hasProtocol(bookmarkUrl)) {
+			try {
+				startPlainIntent ( BookmarkUtil.patchProtocol(bookmarkUrl) );
+				return;
+			}
+			catch (ActivityNotFoundException e2) {}
+		}
+		
+		// 3. link could not open - try to derive mime type
+		String mimeType = getDefaultMimeType(bookmarkUrl);
+		if (mimeType!=null) {
+			try {
+				context.startActivity(getIntent(bookmarkUrl, mimeType));
+				return;
+			}
+			catch (ActivityNotFoundException e2) {
 			}
 		}
+		
+		// 4. last try - set "all" mime type
+		context.startActivity(Intent.createChooser ( getIntent(bookmarkUrl, MIME_TYPE_ALL), "Open link" ));
 		
 	}
 	
