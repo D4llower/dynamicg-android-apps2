@@ -1,6 +1,7 @@
 package com.dynamicg.bookmarkTree.data.writer;
 
 import android.content.ContentValues;
+import android.net.Uri;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
@@ -10,11 +11,10 @@ public class BookmarkWriter extends BookmarkWriterA {
 
 	private static final Logger log = new Logger(BookmarkWriter.class);
 	
-	private final ContentValues values;
+	private final ContentValues values = new ContentValues();
 
 	public BookmarkWriter(BookmarkTreeContext ctx) {
 		super(ctx);
-		values = new ContentValues();
 	}
 
 	private void doUpdate(Integer bookmarkId) {
@@ -34,6 +34,19 @@ public class BookmarkWriter extends BookmarkWriterA {
 		values.put(Browser.BookmarkColumns.TITLE, title);
 		values.put(Browser.BookmarkColumns.URL, url);
 		doUpdate(bookmarkId);
+	}
+	
+	public void insert(String title, String url) {
+		if (log.isDebugEnabled()) {
+			log.debug("create bookmark", title, url);
+		}
+		values.put(Browser.BookmarkColumns.TITLE, title);
+		values.put(Browser.BookmarkColumns.URL, url);
+		values.put(Browser.BookmarkColumns.BOOKMARK, 1);
+		Uri result = contenResolver.insert ( Browser.BOOKMARKS_URI, values );
+		if (log.isDebugEnabled()) {
+			log.debug("row created", result);
+		}
 	}
 	
 	public void deleteBrowserBookmark(Integer id) {
