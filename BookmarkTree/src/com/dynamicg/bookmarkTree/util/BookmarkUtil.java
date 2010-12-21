@@ -17,4 +17,8 @@ public class BookmarkUtil {
 		}
 	}
 	
+	public static boolean startsWithProtocol(String url) {
+		return url.startsWith(PROTOCOL);
+	}
+	
 }

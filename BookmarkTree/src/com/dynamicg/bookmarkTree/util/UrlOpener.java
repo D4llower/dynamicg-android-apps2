@@ -1,0 +1,59 @@
+package com.dynamicg.bookmarkTree.util;
+
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
+
+import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.common.ui.SimpleAlertDialog;
+
+public class UrlOpener {
+
+	private final Activity context;
+	private final String url;
+
+	public UrlOpener(BookmarkTreeContext ctx, String url) {
+		this.url = url!=null ? url.trim() : "";
+		this.context = ctx.activity;
+		open();
+	}
+	
+	private void alert(final String url) {
+		new SimpleAlertDialog(context, R.string.hintNoIntent, R.string.commonOK) {
+			@Override
+			public String getPlainBodyText() {
+				return "URL: " + (url.length()==0?"-":url);
+			}
+		};
+	}
+	
+	private Intent getIntent(String url) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
+		return intent;
+	}
+	
+	private void open() {
+		if (url.length()==0) {
+			alert(url);
+			return;
+		}
+		try {
+			context.startActivity(getIntent(url));
+		}
+		catch (ActivityNotFoundException e1) {
+			if (!BookmarkUtil.startsWithProtocol(url)) {
+				try {
+					context.startActivity(getIntent(BookmarkUtil.patchProtocol(url)));
+				}
+				catch (ActivityNotFoundException e2) {
+					alert(url);
+				}
+			}
+		}
+		
+	}
+	
+}

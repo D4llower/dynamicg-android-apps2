@@ -2,10 +2,6 @@ package com.dynamicg.bookmarkTree.ui;
 
 import java.util.ArrayList;
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,13 +14,12 @@ import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.model.Bookmark;
+import com.dynamicg.bookmarkTree.util.UrlOpener;
 import com.dynamicg.common.main.Logger;
-import com.dynamicg.common.ui.SimpleAlertDialog;
 
 public class BookmarkListAdapter extends BaseAdapter {
 
 	private static final Logger log = new Logger(BookmarkListAdapter.class);
-	private static final String PROTOCOL = "http://";
 	
 	private final BookmarkTreeContext ctx;
 	private final ListView listview;
@@ -103,7 +98,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 			}
 		}
 		else if (bm.getUrl()!=null) {
-			openBookmark(bm.getUrl());
+			new UrlOpener(ctx, bm.getUrl());
 		}
 	}
 	
@@ -133,35 +128,6 @@ public class BookmarkListAdapter extends BaseAdapter {
 		
 		// force repaint
 		listview.invalidateViews();
-	}
-	
-	private void openBookmark(String bookmarkUrl) {
-		
-		final String url;
-		if (bookmarkUrl==null || bookmarkUrl.trim().length()==0) {
-			url="";
-		}
-		else if (!bookmarkUrl.startsWith(PROTOCOL)) {
-			url=PROTOCOL+bookmarkUrl;
-		}
-		else {
-			url=bookmarkUrl;
-		}
-		
-		Context context = ctx.activity;
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(Uri.parse(url));
-		try {
-			context.startActivity(intent);
-		}
-		catch (ActivityNotFoundException e){
-			new SimpleAlertDialog(context, R.string.hintNoIntent, R.string.commonOK) {
-				@Override
-				public String getPlainBodyText() {
-					return "URL: " + (url.length()==0?"-":url);
-				}
-			};
-		}
 	}
 	
 }
