@@ -160,8 +160,18 @@ public class EditBookmarkDialog extends Dialog {
 		if (log.isDebugEnabled()) {
 			log.debug("saveBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
 		}
-		BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
-		upd.update ( bookmark, newNodeTitle, newParentFolder, newUrl );
+		
+		if (bookmark==NEW_BOOKMARK) {
+			if (newParentFolder!=null) {
+				// prepend the folder path
+				newNodeTitle = newParentFolder.getFullTitle() + ctx.getNodeConcatenation() + newNodeTitle;
+			}
+			new BookmarkWriter(ctx).insert(newNodeTitle, newUrl);
+		}
+		else {
+			BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
+			upd.update ( bookmark, newNodeTitle, newParentFolder, newUrl );
+		}
 
 		ctx.reloadAndRefresh();
 		this.dismiss();
