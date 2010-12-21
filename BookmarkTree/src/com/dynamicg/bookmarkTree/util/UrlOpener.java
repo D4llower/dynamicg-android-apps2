@@ -68,7 +68,7 @@ public class UrlOpener {
 			startPlainIntent(bookmarkUrl);
 			return;
 		}
-		catch (ActivityNotFoundException e1) {}
+		catch (ActivityNotFoundException e) {}
 		
 		// 2. prepend "http://" if no protocol provided
 		if (!BookmarkUtil.hasProtocol(bookmarkUrl)) {
@@ -76,7 +76,7 @@ public class UrlOpener {
 				startPlainIntent ( BookmarkUtil.patchProtocol(bookmarkUrl) );
 				return;
 			}
-			catch (ActivityNotFoundException e2) {}
+			catch (ActivityNotFoundException e) {}
 		}
 		
 		// 3. link open issues -> try to derive mime type
@@ -86,7 +86,7 @@ public class UrlOpener {
 				context.startActivity(getIntent(bookmarkUrl, mimeType));
 				return;
 			}
-			catch (ActivityNotFoundException e2) {}
+			catch (ActivityNotFoundException e) {}
 		}
 		
 		// 4. last try - set "all" mime type
