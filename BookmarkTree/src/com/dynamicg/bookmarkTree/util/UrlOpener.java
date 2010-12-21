@@ -79,7 +79,7 @@ public class UrlOpener {
 			catch (ActivityNotFoundException e2) {}
 		}
 		
-		// 3. link could not open - try to derive mime type
+		// 3. link open issues -> try to derive mime type
 		String mimeType = getDefaultMimeType(bookmarkUrl);
 		if (mimeType!=null) {
 			try {
