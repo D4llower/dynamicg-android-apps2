@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.dynamicg.bookmarkTree.PreferencesWrapper;
+import com.dynamicg.bookmarkTree.R;
 
 public class SpinnerUtil {
 
@@ -33,13 +35,14 @@ public class SpinnerUtil {
 		}
 	}
 	
-	public void bind(final int spinnerResId, int currentKey, ArrayList<KeyValue> items) {
+	public void bind(final int spinnerResId, int currentKey, ArrayList<KeyValue> items, int prompt) {
 		Spinner spinner = (Spinner)dialog.findViewById(spinnerResId);
 		ArrayAdapter<KeyValue> adapter = new ArrayAdapter<KeyValue> ( spinner.getContext()
 				, android.R.layout.simple_spinner_item, items);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		spinner.setAdapter(adapter);
+		spinner.setPromptId(prompt);
 		
 		for (int i=0;i<items.size();i++) {
 			if (items.get(i).key==currentKey) {
@@ -70,19 +73,30 @@ public class SpinnerUtil {
 		return dirtyItems.contains(spinnerResId);
 	}
 	
-	public static ArrayList<KeyValue> getListStyleItems() {
-		ArrayList<KeyValue> list = new ArrayList<KeyValue>();
-		list.add(new KeyValue(PreferencesWrapper.LIST_STYLE_CLASSIC, "Large font"));
-		list.add(new KeyValue(PreferencesWrapper.LIST_STYLE_COMPACT, "Medium font"));
-		return list;
+	private static class SpinnerItems {
+		final ArrayList<KeyValue> list = new ArrayList<KeyValue>();
+		final Context context;
+		public SpinnerItems(Context context) {
+			this.context = context;
+		}
+		public void add(int key, int title) {
+			list.add(new KeyValue(key,context.getString(title)));
+		}
 	}
 	
-	public static ArrayList<KeyValue> getSortOptionItems() {
-		ArrayList<KeyValue> list = new ArrayList<KeyValue>();
-		list.add(new KeyValue(PreferencesWrapper.SORT_ALPHA, "Alpha overall"));
-		list.add(new KeyValue(PreferencesWrapper.SORT_FOLDERS_BEFORE_BM, "Folders first"));
-		list.add(new KeyValue(PreferencesWrapper.SORT_BM_BEFORE_FOLDERS, "Bookmarks first"));
-		return list;
+	public static ArrayList<KeyValue> getListStyleItems(Context context) {
+		SpinnerItems items = new SpinnerItems(context);
+		items.add ( PreferencesWrapper.LIST_STYLE_CLASSIC, R.string.domainStyleClassic );
+		items.add ( PreferencesWrapper.LIST_STYLE_CLASSIC, R.string.domainStyleCompact );
+		return items.list;
+	}
+	
+	public static ArrayList<KeyValue> getSortOptionItems(Context context) {
+		SpinnerItems items = new SpinnerItems(context);
+		items.add ( PreferencesWrapper.SORT_ALPHA, R.string.domainSortAlphaOverall );
+		items.add ( PreferencesWrapper.SORT_FOLDERS_BEFORE_BM, R.string.domainSortFoldersFirst );
+		items.add ( PreferencesWrapper.SORT_BM_BEFORE_FOLDERS, R.string.domainSortBookmarksFirst );
+		return items.list;
 	}
 	
 }
