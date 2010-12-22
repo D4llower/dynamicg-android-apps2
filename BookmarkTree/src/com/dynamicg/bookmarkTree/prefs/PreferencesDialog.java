@@ -44,7 +44,6 @@ public class PreferencesDialog extends Dialog {
 
 	private EditText separatorItem;
 	private CheckBox doFullUpdateCheckbox;
-	private CheckBox showDeleteIconCheckbox;
 	private CheckBox optimiseLayout;
 	private CheckBox keepStateCheckbox;
 
@@ -115,9 +114,6 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 		
-		showDeleteIconCheckbox = (CheckBox)findViewById(R.id.prefsDeletionActive);
-		showDeleteIconCheckbox.setChecked(prefsWrapper.isShowDeleteIcon());
-
 		optimiseLayout = (CheckBox)findViewById(R.id.prefsOptimiseLayout);
 		optimiseLayout.setChecked(prefsWrapper.isOptimisedLayout());
 
@@ -167,8 +163,9 @@ public class PreferencesDialog extends Dialog {
 	}
 	
 	private void saveMain() {
+		
 		processSeparatorUpdate();
-		prefsWrapper.setShowDeleteIcon(showDeleteIconCheckbox.isChecked());
+		
 		prefsWrapper.setOptimisedLayout(optimiseLayout.isChecked());
 		
 		prefsWrapper.prefsBean.setListStyle(spinnerUtil.getCurrentValue(R.id.prefsListStyle));

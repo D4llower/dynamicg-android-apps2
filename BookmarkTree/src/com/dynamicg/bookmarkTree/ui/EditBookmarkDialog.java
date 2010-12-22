@@ -89,8 +89,7 @@ public class EditBookmarkDialog extends Dialog {
 		/*
 		 * delete
 		 */
-		boolean showDeletion = !forCreateBookmark && ctx.preferencesWrapper.isShowDeleteIcon();
-		if (showDeletion) {
+		if (!forCreateBookmark) {
 			TextView deleteTitle = (TextView)findViewById(R.id.editBookmarkDeleteText);
 			deleteTitle.setText(bookmark.isFolder() ? "Delete Folder" : "Delete Bookmark");
 			View deleteIcon = findViewById(R.id.editBookmarkDeleteIcon);

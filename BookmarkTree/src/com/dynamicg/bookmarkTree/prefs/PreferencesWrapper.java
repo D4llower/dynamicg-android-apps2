@@ -15,7 +15,6 @@ public class PreferencesWrapper {
 	private static final String DEFVALUE_FOLDER_SEPARATOR = "-";
 	
 	private static final String KEY_DISCLAIMER = "disclaimerLastDisplayed";
-	private static final String KEY_SHOW_DELETE_ICON = "showDeleteIcon";
 	private static final String KEY_OPTIMISED_LAYOUT = "optimisedLayout";
 	private static final String KEY_LIST_STYLE = "listStyle";
 	private static final String KEY_SORT_OPTION = "sortOption";
@@ -30,7 +29,6 @@ public class PreferencesWrapper {
 		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		setFolderSeparator ( settings.getString(KEY_FOLDER_SEPARATOR, DEFVALUE_FOLDER_SEPARATOR) );
 		prefsBean.disclaimerLastDisplayed = settings.getInt(KEY_DISCLAIMER, 0);
-		prefsBean.showDeleteIcon = settings.getInt(KEY_SHOW_DELETE_ICON, 1);
 		
 		int defaultOptimisation=0;
 		if (!settings.contains(KEY_OPTIMISED_LAYOUT)) {
@@ -53,7 +51,6 @@ public class PreferencesWrapper {
 		}
 		editor.putString(KEY_FOLDER_SEPARATOR, prefsBean.folderSeparator);
 		editor.putInt(KEY_DISCLAIMER, prefsBean.disclaimerLastDisplayed);
-		editor.putInt(KEY_SHOW_DELETE_ICON, prefsBean.showDeleteIcon);
 		editor.putInt(KEY_OPTIMISED_LAYOUT, prefsBean.optimisedLayout);
 		editor.putInt(KEY_LIST_STYLE, prefsBean.listStyle);
 		editor.putInt(KEY_SORT_OPTION, prefsBean.sortOption);
@@ -74,13 +71,6 @@ public class PreferencesWrapper {
 		setFolderSeparator(newSeparator.trim());
 	}
 
-	public boolean isShowDeleteIcon() {
-		return prefsBean.showDeleteIcon==1;
-	}
-	public void setShowDeleteIcon(boolean checkboxCheckedState) {
-		prefsBean.showDeleteIcon = checkboxCheckedState?1:0;
-	}
-	
 	public boolean isOptimisedLayout() {
 		return prefsBean.optimisedLayout==1;
 	}

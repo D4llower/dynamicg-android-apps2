@@ -5,7 +5,6 @@ public class PreferencesBean {
 	protected String folderSeparator;
 	protected String nodeConcatenation;
 	protected int disclaimerLastDisplayed;
-	protected int showDeleteIcon;
 	protected int optimisedLayout;
 	protected int listStyle;
 	protected int sortOption;
