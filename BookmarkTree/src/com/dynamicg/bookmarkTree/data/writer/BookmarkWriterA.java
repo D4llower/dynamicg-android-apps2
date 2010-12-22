@@ -11,11 +11,11 @@ import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 public abstract class BookmarkWriterA {
 
 	protected final BookmarkTreeContext ctx;
-	protected final ContentResolver contenResolver;
+	protected final ContentResolver contentResolver;
 
 	public BookmarkWriterA(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
-		contenResolver = ctx.activity.getContentResolver(); 
+		contentResolver = ctx.activity.getContentResolver(); 
 	}
 	
 	public static ArrayList<BrowserBookmarkBean> getBrowserBookmarks(BookmarkTreeContext ctx) {
