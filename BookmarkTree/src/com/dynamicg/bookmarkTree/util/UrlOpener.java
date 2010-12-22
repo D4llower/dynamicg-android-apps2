@@ -12,15 +12,16 @@ import com.dynamicg.common.ui.SimpleAlertDialog;
 
 public class UrlOpener {
 
-	private static final MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 	private static final String MIME_TYPE_ALL = "*/*";
+	private static final String MIME_TYPE_HTML = "text/html";
+	private static final MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 
 	private final Activity context;
 	private final String bookmarkUrl;
 
 	public UrlOpener(BookmarkTreeContext ctx, String url) {
-		this.bookmarkUrl = url!=null ? url.trim() : "";
 		this.context = ctx.activity;
+		this.bookmarkUrl = url!=null ? url.trim() : "";
 		open();
 	}
 	
@@ -35,8 +36,8 @@ public class UrlOpener {
 			return mimeType;
 		}
 		else if ( suffix.equals("html") || suffix.equals("htm") ) {
-			// html is NOT in the mime type list (?) 
-			return "text/html";
+			// html is not in the mime type list (?) 
+			return MIME_TYPE_HTML;
 		}
 		else {
 			return null;
@@ -90,7 +91,7 @@ public class UrlOpener {
 			catch (ActivityNotFoundException e) {}
 		}
 		
-		// 4. last try - set "all" mime type
+		// 4. last try - open with "*/*" mime type and intent chooser
 		context.startActivity(Intent.createChooser ( getIntent(bookmarkUrl, MIME_TYPE_ALL), "Open:" ));
 		
 	}
