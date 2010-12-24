@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="common-build" default=".build">
+
+	<property name="workspace" value="${basedir}/.." />
+	
+	<property name="tmpdir" value="d:/ant.tmp" />
+	<property name="apkdirWin" value="d:\ant.tmp\apk" />
+	
+	<property name="buildproject" value="${tmpdir}/Build.${projectname}" />	
+	
+	<property name="buildprops" value="${workspace}/res/build" />
+    <property file="${buildprops}/local.properties" />
+    <property file="${buildprops}/keystore.properties" />
+    <property file="${buildprops}/build.properties" />
+    <property file="default.properties" />
+
+    <path id="android.antlibs">
+        <pathelement path="${sdk.dir}/tools/lib/anttasks.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/sdklib.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/androidprefs.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/apkbuilder.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/jarutils.jar" />
+    </path>
+
+    <taskdef name="setup"
+        classname="com.android.ant.SetupTask"
+        classpathref="android.antlibs"
+    />
+
+    <setup />
+
+	<target name=".build">
+		
+		<delete dir="${buildproject}" includeemptydirs="true" />
+		
+		<mkdir dir="${buildproject}/src" />
+		
+		<copy todir="${buildproject}/src">
+			<fileset dir="${workspace}/${projectname}/src" includes="**/*.java" />
+		</copy>
+		
+		<!-- exchange loggers -->
+		<property name="loggerSrc" value="${buildproject}/src/com/dynamicg/common/Logger.java" />
+		<delete file="${loggerSrc}" failonerror="yes" />
+		<copy file="${workspace}/BookmarkTree/src/com/dynamicg/common/LoggerPROD.txt" tofile="${loggerSrc}" failonerror="yes" />
+		
+		<antcall target="release" />
+		
+		<property name="apkdir" value="${tmpdir}/apk" />
+		<mkdir dir="${apkdir}" />
+		<move file="${buildproject}/bin/common-build-release.apk" tofile="${apkdir}/${projectname}.apk" overwrite="true" />
+
+		<exec executable="explorer">
+			<arg value="/select,"/>
+			<arg value="${apkdirWin}\${projectname}.apk"/>
+		</exec>
+		
+	</target>
+	
+</project>
