@@ -2,6 +2,8 @@ package com.dynamicg.bookmarkTree;
 
 import java.lang.reflect.Field;
 
+import com.dynamicg.common.Logger;
+
 public class VersionAccessor {
 
 	public static boolean isEclairOrHigher() {
@@ -16,7 +18,7 @@ public class VersionAccessor {
 			}
 		}
 		catch (Throwable t) {
-			System.err.println("exception "+t);
+			Logger.dumpIfDevelopment(t);
 		}
 		return false;
 	}

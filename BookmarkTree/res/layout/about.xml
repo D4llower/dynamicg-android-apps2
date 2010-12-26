@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:paddingLeft="10dip"
+	android:paddingRight="10dip"
+>	
+
+<TextView 
+	android:id="@+id/aboutSubTitle"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:textStyle="bold"
+	android:textSize="18dp"
+/>
+
+<TextView
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="
+\nBasic Usage:
+\n\u2022 Long-click to edit selected item and define the folder structure.
+\n\u2022 Short-click on bookmark to open link.
+\n\u2022 Short-click on folder to expand/collapse.
+\n\u2022 Menu/Preferences for advanced settings
+"
+/>
+<TextView
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:textStyle="bold"
+	android:text="\u2022 Backup your bookmarks before first edit! See Menu/Backup."
+/>
+
+<HorizontalScrollView
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:scrollbars="none"
+	>
+	<TextView android:id="@+id/aboutBodyLinks"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:autoLink="all"
+		/>
+</HorizontalScrollView>
+
+</LinearLayout>
+
+</ScrollView>
+

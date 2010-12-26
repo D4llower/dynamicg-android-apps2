@@ -28,12 +28,10 @@
 		android:layout_marginTop="-60dip"
 	    >
 	    <Button style="@style/DialogButton"
-	    	android:id="@+id/buttonSave"
-	    	android:text="@string/commonSave"
+	    	android:id="@+id/button1"
 	        />
 	    <Button style="@style/DialogButton"
-	    	android:id="@+id/buttonCancel"
-	    	android:text="@string/commonCancel"
+	    	android:id="@+id/button2"
 	        />
     </LinearLayout>
 	    

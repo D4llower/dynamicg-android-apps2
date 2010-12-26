@@ -1,4 +1,4 @@
-package com.dynamicg.bookmarkTree.ui;
+package com.dynamicg.bookmarkTree.dialogs;
 
 import java.util.ArrayList;
 
@@ -20,16 +20,16 @@ import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.bookmarkTree.util.BookmarkUtil;
-import com.dynamicg.bookmarkTree.util.CommonDialogHelper;
+import com.dynamicg.bookmarkTree.util.DialogHelper;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
-import com.dynamicg.common.main.Logger;
-import com.dynamicg.common.main.StringUtil;
-import com.dynamicg.common.ui.SimpleAlertDialog;
+import com.dynamicg.common.Logger;
+import com.dynamicg.common.SimpleAlertDialog;
+import com.dynamicg.common.StringUtil;
 
 public class EditBookmarkDialog extends Dialog {
 
 	private static final Logger log = new Logger(EditBookmarkDialog.class);
-	public static final BrowserBookmarkBean NEW_BOOKMARK = new BrowserBookmarkBean(-1, "", "", null);
+	public static final BrowserBookmarkBean NEW_BOOKMARK = BrowserBookmarkBean.createNew();
 	
 	private final BookmarkTreeContext ctx;
 	private final Bookmark bookmark;
@@ -45,7 +45,7 @@ public class EditBookmarkDialog extends Dialog {
 		this.ctx = ctx;
 		this.bookmark = bookmark;
 		this.forCreateBookmark = bookmark==NEW_BOOKMARK;
-		CommonDialogHelper.expandContent(this, R.layout.edit_body);
+		DialogHelper.expandContent(this, R.layout.edit_body);
 		this.show();
 	}
 
@@ -79,7 +79,7 @@ public class EditBookmarkDialog extends Dialog {
 
 		addToNewFolderItem = (EditText)findViewById(R.id.editBookmarkAddToNewFolder);
 
-		new DialogButtonPanelWrapper(this) {
+		new DialogButtonPanelWrapper(this, DialogButtonPanelWrapper.TYPE_SAVE_CANCEL) {
 			@Override
 			public void onPositiveButton() {
 				saveBookmark(bookmark);
@@ -131,7 +131,7 @@ public class EditBookmarkDialog extends Dialog {
 
 		// sync position
 		int pos = bookmark.getParentFolder()!=null ? folders.indexOf(bookmark.getParentFolder()) : -1 ;
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("parent folder Spinner", bookmark.getParentFolder(), pos );
 		}
 		if (pos>=0) {
@@ -168,7 +168,7 @@ public class EditBookmarkDialog extends Dialog {
 			newParentFolder=null;
 		}
 
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("saveBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
 		}
 		
@@ -205,12 +205,11 @@ public class EditBookmarkDialog extends Dialog {
 				alertTitle = getText(R.string.actionDeleteFolderOne);
 			}
 			else {
-				alertTitle = StringUtil.replaceFirst ( getText(R.string.actionDeleteFolderMany)
-						, "{1}", Integer.toString(num) );
+				alertTitle = StringUtil.textWithParam(getContext(), R.string.actionDeleteFolderMany, num );
 			}
 		}
 
-		new SimpleAlertDialog(ctx.activity, alertTitle, R.string.commonOK, R.string.commonCancel) {
+		new SimpleAlertDialog.OkCancelDialog(ctx.activity, alertTitle) {
 			@Override
 			public void onPositiveButton() {
 				deleteBookmark();

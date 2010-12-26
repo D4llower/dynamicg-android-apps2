@@ -6,7 +6,7 @@ import java.util.HashSet;
 import android.graphics.Bitmap;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public abstract class Bookmark {
 
@@ -113,7 +113,7 @@ public abstract class Bookmark {
 	}
 
 	private void shiftWithChildren(int shift) {
-		if (log.isTraceEnabled()) {
+		if (log.traceEnabled) {
 			log.debug("shiftWithChildren", this.level, getFullTitle());
 		}
 		this.level = this.level + shift;
@@ -129,7 +129,7 @@ public abstract class Bookmark {
 		this.setNodeTitle(parentFolder.getDisplayTitle() + ctx.getNodeConcatenation() + this.getDisplayTitle() );
 		this.setParentFolder(parentFolder.getParentFolder()); 
 		// patch indention on item including children
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("attachToGrandparent ----------> shift children", this.level, getFullTitle());
 		}
 		shiftWithChildren(-1);
@@ -177,13 +177,13 @@ public abstract class Bookmark {
 		while (item!=null) {
 			insertText = item.getDisplayTitle() + ( buffer.length()>0 ? ctx.getNodeConcatenation() : "" ); 
 			buffer.insert ( 0, insertText );
-			if (log.isDebugEnabled()) {
+			if (log.debugEnabled) {
 				log.debug("prependParentTitle iteration", buffer.toString());
 			}
 			item = item.getParentFolder();
 		}
 		
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("getFullTitle", buffer.toString());
 		}
 		return buffer.toString();

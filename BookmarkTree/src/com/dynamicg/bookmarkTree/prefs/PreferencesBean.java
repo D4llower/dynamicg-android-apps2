@@ -9,7 +9,11 @@ public class PreferencesBean {
 	protected int listStyle;
 	protected int sortOption;
 	protected int keepState;
+	protected int scaleIcons;
 	
+	public void setScaleIcons(int scaleIcons) {
+		this.scaleIcons = scaleIcons;
+	}
 	public String getFolderSeparator() {
 		return folderSeparator;
 	}

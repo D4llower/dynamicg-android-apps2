@@ -1,16 +1,20 @@
-package com.dynamicg.common.ui;
+package com.dynamicg.common;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.view.View;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.R;
 
 public abstract class SimpleAlertDialog {
 
+	private static int textviewPaddingScaled;
+	
 	private final Context context;
 	
 	/**
@@ -97,22 +101,26 @@ public abstract class SimpleAlertDialog {
 		}
 		
 		View body = getBody();
+		String plaintext = getPlainBodyText();
+		String scrolltext = getScrollViewText();
+		
 		if (body!=null) {
 			builder.setView(body);
 		}
-		else {
-			String text = getPlainBodyText();
-			if (text!=null && text.length()>0) {
-				builder.setView(createTextView(text));
-			}
+		else if (plaintext!=null && plaintext.length()>0) {
+			builder.setView(createTextView(plaintext));
+		}
+		else if (scrolltext!=null && scrolltext.length()>0) {
+			HorizontalScrollView hscroll = new HorizontalScrollView(context);
+			hscroll.addView(createTextView(scrolltext));
+			
+			ScrollView scroll = new ScrollView(context);
+			scroll.addView(hscroll);
+			
+			builder.setView(scroll);
 		}
 		
 		builder.show();
-		
-//		AlertDialog dialog = builder.show();
-//		System.err.println("-------------------1 "+dialog.getButton(0));
-//		System.err.println("-------------------2 "+dialog.getButton(AlertDialog.BUTTON_POSITIVE));
-//		System.err.println("-------------------3 "+dialog.getButton(AlertDialog.BUTTON1));
 		
 	}
 
@@ -133,10 +141,22 @@ public abstract class SimpleAlertDialog {
 		return null;
 	}
 	
+	public String getScrollViewText() {
+		return null;
+	}
+	
 	public TextView createTextView(String text) {
+		return createTextView(context, text);
+	}
+	
+	public static TextView createTextView(Context context, String text) {
 		TextView textview = new TextView(context);
 		textview.setText(text);
-		textview.setPadding(5,5,5,5);
+		if (textviewPaddingScaled==0) {
+			textviewPaddingScaled = ContextUtil.getScaledSizeInt(context, 5);
+		}
+		int paddingScaled = textviewPaddingScaled;
+		textview.setPadding(paddingScaled,paddingScaled,paddingScaled,paddingScaled);
 		return textview;
 	}
 	
@@ -151,5 +171,18 @@ public abstract class SimpleAlertDialog {
 		new SimpleAlertDialog(context, title, R.string.commonClose) {
 		};
 	}
+	public static void plainInfo(Context context, String title) {
+		new SimpleAlertDialog(context, title, R.string.commonClose) {
+		};
+	}
 	
+	public abstract static class OkCancelDialog extends SimpleAlertDialog {
+		public OkCancelDialog(Context context, String title) {
+			super(context, title, R.string.commonOK, R.string.commonCancel);
+		}
+		public OkCancelDialog(Context context, int title) {
+			super(context, title, R.string.commonOK, R.string.commonCancel);
+		}
+	}
+			
 }

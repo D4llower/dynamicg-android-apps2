@@ -5,7 +5,7 @@ import android.view.ViewStub;
 
 import com.dynamicg.bookmarkTree.R;
 
-public class CommonDialogHelper {
+public class DialogHelper {
 
 	public static void expandContent(Dialog dialog, int layout) {
 		dialog.setContentView(R.layout.common_popup_dialog);

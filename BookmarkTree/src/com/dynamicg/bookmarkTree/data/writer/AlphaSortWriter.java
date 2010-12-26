@@ -6,7 +6,8 @@ import android.content.ContentValues;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
+import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
+import com.dynamicg.bookmarkTree.model.RawDataBean;
 
 public class AlphaSortWriter extends BookmarkWriterA {
 
@@ -18,16 +19,16 @@ public class AlphaSortWriter extends BookmarkWriterA {
 	
 	public AlphaSortWriter(BookmarkTreeContext ctx) {
 		super(ctx);
-		ArrayList<BrowserBookmarkBean> bookmarks = BookmarkWriterA.getBrowserBookmarks(ctx);
+		ArrayList<RawDataBean> bookmarks = BrowserBookmarkLoader.forInternalOps(ctx);
 		// set new "CREATED" values descending (i.e. newest has highest value)
 		nextValue = BASE + bookmarks.size()*INCREMENT;
-		for (BrowserBookmarkBean bm:bookmarks) {
+		for (RawDataBean bm:bookmarks) {
 			nextValue = nextValue - INCREMENT;
-			setCreationDate(bm.getId());
+			setCreationDate(bm.id);
 		}
 	}
 
-	protected void setCreationDate(Integer bookmarkId) {
+	protected void setCreationDate(int bookmarkId) {
 		ContentValues values = new ContentValues();
 		values.put(Browser.BookmarkColumns.CREATED, nextValue);
 		contentResolver.update ( Browser.BOOKMARKS_URI

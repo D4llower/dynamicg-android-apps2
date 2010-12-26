@@ -8,6 +8,7 @@
     <string name="menuReload">Reload</string>
     <string name="menuPrefs">Preferences</string>
     <string name="menuCreate">Create \u2026</string>
+    <string name="menuBackup">Backup \u2026</string>
 
     <string name="commonOK">OK</string>
     <string name="commonSave">Save</string>
@@ -30,6 +31,7 @@
     <string name="prefsSortAZ">Sort bookmarks A-Z</string>
     <string name="prefsSeparator">Internal folder separator:</string>
     <string name="prefsUpdateWithNewSep">Update all bookmarks\nwith new separator</string>
+    <string name="prefsScaleIcons">Scale icons</string>
     
     <string name="prefsGroupPresentation">Presentation</string>
     <string name="prefsGroupExtras">Extras</string>
@@ -55,5 +57,6 @@
     <string name="hintEmptyUrl">URL is empty. Cannot open.</string>
     <string name="hintTitleMissing">Title is empty. Cannot save.</string>
     <string name="hintUrlMissing">URL is empty. Cannot save.</string>
+    <string name="hintReloaded">Reloaded {1} bookmarks</string>
     
 </resources>

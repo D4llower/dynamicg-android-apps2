@@ -8,7 +8,7 @@ import com.dynamicg.bookmarkTree.data.TitleTokenizer.TitleItem;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public class BookmarkDataProcessor {
 
@@ -16,15 +16,17 @@ public class BookmarkDataProcessor {
 	
 	private final BookmarkTreeContext ctx;
 	private final BookmarkSortCache bookmarkSortCache;
+	public final int numBrowserBookmarks;
 	private int maxLevel;
 
 	public BookmarkDataProcessor(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
-		this.bookmarkSortCache = BookmarkSortCache.createInstance(ctx);
-		if (log.isDebugEnabled()) {
+		this.bookmarkSortCache = BookmarkSortCache.createInstance();
+		if (log.debugEnabled) {
 			log.debug("start");
 		}
-		ArrayList<BrowserBookmarkBean> rows = BrowserBookmarkLoader.loadBrowserBookmarks(ctx.activity);
+		ArrayList<BrowserBookmarkBean> rows = BrowserBookmarkLoader.forListAdapter(ctx);
+		numBrowserBookmarks = rows.size();
 		buildTree(rows);
 	}
 	

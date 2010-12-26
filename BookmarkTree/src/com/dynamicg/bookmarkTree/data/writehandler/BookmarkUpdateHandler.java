@@ -7,7 +7,7 @@ import com.dynamicg.bookmarkTree.data.writer.BookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public class BookmarkUpdateHandler {
 
@@ -22,7 +22,7 @@ public class BookmarkUpdateHandler {
 	private void updateBookmark(Bookmark bm, boolean urlChanged) {
 		String newTitle = bm.rebuildFullTitle(ctx);
 		BookmarkWriter bookmarkUpdater = new BookmarkWriter(ctx);
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("updateBookmark", urlChanged, newTitle, bm.getUrl());
 		}
 		if (urlChanged) {
@@ -35,7 +35,7 @@ public class BookmarkUpdateHandler {
 
 	public void update(Bookmark bookmark, String newNodeTitle, FolderBean newParentFolder, String newUrl) {
 		
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("update", newNodeTitle, newParentFolder);
 		}
 		
@@ -48,12 +48,12 @@ public class BookmarkUpdateHandler {
 		boolean parentFolderChanged = newParentFolder!=bookmark.getParentFolder();
 		boolean urlChanged = bookmark.isBrowserBookmark() && !newUrl.equals(bookmark.getUrl());
 		
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("changeflags T/F", titleChanged, parentFolderChanged);
 		}
 		
 		if ( !titleChanged && !parentFolderChanged && !urlChanged ) {
-			if (log.isDebugEnabled()) {
+			if (log.debugEnabled) {
 				log.debug("no changes - quit");
 			}
 			return;
@@ -87,7 +87,7 @@ public class BookmarkUpdateHandler {
 			Collection<Bookmark> children = bookmark.getTree(Bookmark.TYPE_BROWSER_BOOKMARK);
 			for (Bookmark child:children) {
 				// write back the full new title for each browser bookmark below given folder
-				if (log.isDebugEnabled()) {
+				if (log.debugEnabled) {
 					log.debug("doUpdate for child", child.getDisplayTitle());
 				}
 				updateBookmark(child, false);

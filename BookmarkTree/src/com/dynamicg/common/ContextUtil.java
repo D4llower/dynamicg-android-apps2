@@ -1,4 +1,4 @@
-package com.dynamicg.common.main;
+package com.dynamicg.common;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -34,10 +34,19 @@ public class ContextUtil {
 	        svnrevision = svnrevision.split(" ")[1];
     	} 
     	catch (Exception e) {
-    		log.error("get version/revision", e);
+    		log.warn("get version/revision", e);
     	}
     	
     	return new String[]{version, svnrevision};
     }
 
+	private static float DENSITY_SCALE = -1;
+	
+	public static int getScaledSizeInt(Context context, float size) {
+		if (DENSITY_SCALE==-1) {
+			DENSITY_SCALE = context.getResources().getDisplayMetrics().density;
+	    }
+		return (int) (size * DENSITY_SCALE) ;
+	}
+	
 }

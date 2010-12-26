@@ -1,4 +1,4 @@
-package com.dynamicg.bookmarkTree.ui;
+package com.dynamicg.bookmarkTree.prefs;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.dynamicg.bookmarkTree.R;
-import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 
 public class SpinnerUtil {
 

@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public class BookmarkWriter extends BookmarkWriterA {
 
@@ -37,20 +37,20 @@ public class BookmarkWriter extends BookmarkWriterA {
 	}
 	
 	public void insert(String title, String url) {
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("create bookmark", title, url);
 		}
 		values.put(Browser.BookmarkColumns.TITLE, title);
 		values.put(Browser.BookmarkColumns.URL, url);
 		values.put(Browser.BookmarkColumns.BOOKMARK, 1);
 		Uri result = contentResolver.insert ( Browser.BOOKMARKS_URI, values );
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("row created", result);
 		}
 	}
 	
 	public void deleteBrowserBookmark(Integer id) {
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("delete bookmark", id);
 		}
 		contentResolver.delete ( Browser.BOOKMARKS_URI

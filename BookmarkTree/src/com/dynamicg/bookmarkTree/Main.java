@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dynamicg.bookmarkTree.backup.BackupPrefs;
+import com.dynamicg.bookmarkTree.backup.BackupRestoreDialog;
+import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
+import com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog;
 import com.dynamicg.bookmarkTree.prefs.PreferencesDialog;
-import com.dynamicg.bookmarkTree.ui.DisclaimerPopup;
-import com.dynamicg.bookmarkTree.ui.EditBookmarkDialog;
-import com.dynamicg.common.main.SystemUtil;
+import com.dynamicg.common.StringUtil;
+import com.dynamicg.common.SystemUtil;
 
 public class Main extends Activity {
 
@@ -19,30 +22,27 @@ public class Main extends Activity {
 	 * http://www.iconeasy.com/
 	 */
 	
-	private static int actionCounter=-1;
-    public static final int ACTION_COLLAPSE_ALL = ++actionCounter;
-    public static final int ACTION_EXPAND_ALL = ++actionCounter;
-    public static final int ACTION_RELOAD = ++actionCounter;
-    public static final int ACTION_SETTINGS = ++actionCounter;
-    public static final int ACTION_DELETE_BOOKMARK = ++actionCounter;
-    public static final int ACTION_NEW_BM = ++actionCounter;
+    public static final int ACTION_COLLAPSE_ALL = 1;
+    public static final int ACTION_EXPAND_ALL = 2;
+    public static final int ACTION_RELOAD = 3;
+    public static final int ACTION_SETTINGS = 4;
+    public static final int ACTION_DELETE_BOOKMARK = 5;
+    public static final int ACTION_NEW_BM = 6;
+    public static final int ACTION_BACKUP_RESTORE = 7;
 
-    private static boolean initialised = false;
-    
     private BookmarkTreeContext ctx;
+    
+    public Main() {
+    }
     
     public void onCreate(Bundle savedInstanceState) {
         
     	super.onCreate(savedInstanceState);
-    	if (!initialised) {
-    		SystemUtil.init(this);
-    		initialised = true;
-    	}
         setContentView(R.layout.main);
     	this.ctx = new BookmarkTreeContext(this);
     	
-    	DisclaimerPopup.showOnce(ctx);
-    	
+    	BackupPrefs.onStartup(ctx);
+    	AboutDialog.showOnce(ctx);
     }
     
     
@@ -55,6 +55,7 @@ public class Main extends Activity {
 		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll, R.drawable.menu_collapse);
 		createMenu(menu, ACTION_RELOAD, R.string.menuReload, R.drawable.menu_reload);
 		createMenu(menu, ACTION_NEW_BM, R.string.menuCreate, R.drawable.menu_create);
+		createMenu(menu, ACTION_BACKUP_RESTORE, R.string.menuBackup, R.drawable.menu_save);
 		createMenu(menu, ACTION_SETTINGS, R.string.menuPrefs, R.drawable.menu_prefs);
 		return true;
 	}
@@ -67,12 +68,18 @@ public class Main extends Activity {
 		}
 		else if ( id==ACTION_RELOAD ) {
 			ctx.reloadAndRefresh();
+			int numberOfBookmarks = ctx.bookmarkManager.getNumberOfBookmarks();
+			SystemUtil.toastShort(ctx.activity,
+					StringUtil.textWithParam(this, R.string.hintReloaded, numberOfBookmarks));
 		}
 		else if ( id==ACTION_SETTINGS ) {
 			new PreferencesDialog(ctx);
 		}
 		else if ( id==ACTION_NEW_BM ) {
 			new EditBookmarkDialog(ctx);
+		}
+		else if ( id==ACTION_BACKUP_RESTORE ) {
+			new BackupRestoreDialog(ctx);
 		}
 		return true;
 	}

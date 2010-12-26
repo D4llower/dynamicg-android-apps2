@@ -2,29 +2,32 @@
 
 	<property name="workspace" value="${basedir}/../.." />
 	<property environment="env" />
+	<property name="finaldir" value="d:\temp" />
 
 	<property name="backupdir" value="${env.TEMP}\androidDevBackup" />
 	<property name="prjdir" value="${backupdir}\projects" />
-	<property name="targetdir" value="J:\temp\_inbox" />
 
 	<target name="backup">
 
 		<tstamp>
 			<format property="now" pattern="yyyyMMdd-HH.mm.ss" />
 		</tstamp>
+		<property name="zipname" value="btm-${now}.zip"/>
 
 		<mkdir dir="${backupdir}" />
+		
+		<delete dir="${prjdir}" />
 		<mkdir dir="${prjdir}" />
 		
-		<delete dir="${prjdir}" includes="*.zip" />
 		<antcall target="zipProject"><param name="prjname" value="BookmarkTree"/></antcall>
-		<zip destfile="${backupdir}/btm-${now}.zip" basedir="${prjdir}" update="true" />
-
-		<delete dir="${prjdir}" includeemptydirs="true" />
-		<move file="${backupdir}/btm-${now}.zip" todir="${targetdir}"/>
+		<zip destfile="${backupdir}/${zipname}" basedir="${prjdir}" update="true" />
+		<delete dir="${prjdir}" />
+		
+		<move file="${backupdir}/${zipname}" todir="${finaldir}"/>
 		
 		<exec executable="explorer">
-			<arg value="${targetdir}"/>
+			<arg value="/select,"/>
+			<arg value="${finaldir}\${zipname}"/>
 		</exec>
 		
 	</target>
@@ -38,6 +41,7 @@
 			<exclude name="**/*.ap_"/>
 			<exclude name="**/*.dex"/>
 			<exclude name="**/R.java"/>
+			<exclude name="**/keystore.properties"/>
 		</zip>
 	</target>
 	

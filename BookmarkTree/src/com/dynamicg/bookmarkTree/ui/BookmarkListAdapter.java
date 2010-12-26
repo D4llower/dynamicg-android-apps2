@@ -2,6 +2,7 @@ package com.dynamicg.bookmarkTree.ui;
 
 import java.util.ArrayList;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,9 +14,11 @@ import android.widget.ListView;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.util.UrlOpener;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 
 public class BookmarkListAdapter extends BaseAdapter {
 
@@ -23,19 +26,21 @@ public class BookmarkListAdapter extends BaseAdapter {
 	
 	private final BookmarkTreeContext ctx;
 	private final ListView listview;
+	private final LayoutInflater layoutInflater;
 	
 	private ArrayList<Bookmark> bookmarks;
 	private RowViewProvider rowViewProvider;
 
 	public BookmarkListAdapter(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
-		boolean compact = ctx.preferencesWrapper.isCompact();
+		this.layoutInflater = SystemUtil.getLayoutInflater(ctx.activity);
+		boolean compact = BookmarkTreeContext.preferencesWrapper.isCompact();
 		
-		if (ctx.preferencesWrapper.isOptimisedLayout()) {
-			rowViewProvider = new RowViewProvider.ProviderModern(ctx.getLayoutInflater(), compact);; 
+		if (BookmarkTreeContext.preferencesWrapper.isOptimisedLayout()) {
+			rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater, compact);; 
 		}
 		else {
-			rowViewProvider = new RowViewProvider.ProviderOldStyle(ctx.getLayoutInflater(), compact);
+			rowViewProvider = new RowViewProvider.ProviderOldStyle(layoutInflater, compact);
 		}
 		
 		this.listview = (ListView)ctx.activity.findViewById(R.id.mainList);
@@ -93,7 +98,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 		else if (bm.isFolder()) {
 			bm.setExpanded(!bm.isExpanded());
 			redraw();
-			if (ctx.preferencesWrapper.isKeepState()) {
+			if (BookmarkTreeContext.preferencesWrapper.isKeepState()) {
 				FolderStateHandler.folderClicked(bm);
 			}
 		}

@@ -7,7 +7,7 @@ import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.Main;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public class BookmarkManager {
 
@@ -16,6 +16,7 @@ public class BookmarkManager {
 	private final BookmarkTreeContext ctx;
 	private ArrayList<Bookmark> bookmarksCache;
 	private ArrayList<FolderBean> foldersCache;
+	private int numBrowserBokmarks;
 
 	public BookmarkManager(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
@@ -23,13 +24,13 @@ public class BookmarkManager {
 			loadBookmarks();
 		}
 		else {
-			if (log.isDebugEnabled()) {
+			if (log.debugEnabled) {
 				log.debug("reuse cache");
 			}
 		}
 		
-		if (ctx.preferencesWrapper.isKeepState()) {
-			if (log.isDebugEnabled()) {
+		if (BookmarkTreeContext.preferencesWrapper.isKeepState()) {
+			if (log.debugEnabled) {
 				log.debug("restore folder state");
 			}
 			FolderStateHandler.restore(this.bookmarksCache);
@@ -38,7 +39,9 @@ public class BookmarkManager {
 	}
 	
 	private void loadBookmarks() {
-		bookmarksCache = new BookmarkDataProcessor(ctx).getBookmarks();
+		BookmarkDataProcessor processor = new BookmarkDataProcessor(ctx);
+		bookmarksCache = processor.getBookmarks();
+		numBrowserBokmarks = processor.numBrowserBookmarks;
 		
 		foldersCache = new ArrayList<FolderBean>();
 		for (Bookmark bm:bookmarksCache) {
@@ -47,7 +50,7 @@ public class BookmarkManager {
 			}
 		}
 		
-		if (log.isTraceEnabled()) {
+		if (log.traceEnabled) {
 			log.debug("############# bookmarksCache size", bookmarksCache.size());
 			
 			for (Bookmark item:bookmarksCache) {
@@ -77,7 +80,7 @@ public class BookmarkManager {
 	public void toggleFolders(int action) {
 		if (action==Main.ACTION_EXPAND_ALL) {
 			setAllFolderStates(true);
-			if (ctx.preferencesWrapper.isKeepState()) {
+			if (BookmarkTreeContext.preferencesWrapper.isKeepState()) {
 				FolderStateHandler.saveExpandedFolders(ctx, bookmarksCache);
 			}
 		}
@@ -107,4 +110,7 @@ public class BookmarkManager {
 		return list;
 	}
 
+	public int getNumberOfBookmarks() {
+		return numBrowserBokmarks;
+	}
 }

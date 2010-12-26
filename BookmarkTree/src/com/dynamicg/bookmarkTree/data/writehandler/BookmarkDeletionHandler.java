@@ -3,7 +3,7 @@ package com.dynamicg.bookmarkTree.data.writehandler;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.data.writer.BookmarkWriter;
 import com.dynamicg.bookmarkTree.model.Bookmark;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public class BookmarkDeletionHandler {
 
@@ -20,7 +20,7 @@ public class BookmarkDeletionHandler {
 		
 		BookmarkWriter deletion = new BookmarkWriter(ctx);
 		
-		if (log.isDebugEnabled()) {
+		if (log.debugEnabled) {
 			log.debug("delete", selectedBookmark.getDisplayTitle());
 		}
 		

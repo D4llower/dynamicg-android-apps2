@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/mainPadding"
+    >
+
+	<!-- ====================== Backup ====================== -->
+
+	<TextView style="@style/PrefsGroup" android:text="Backup" android:layout_marginTop="0dip" /> 
+
+	<Button android:id="@+id/brBackup"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Create backup"
+		android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"
+		android:width="140dip"
+		/>
+    
+    <CheckBox android:id="@+id/brAutoBackup"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+    
+    <TextView style="@style/PrefsHint" 
+    	android:id="@+id/brStorageHint1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+    <TextView style="@style/PrefsHint" 
+    	android:id="@+id/brStorageHint2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+    
+	<!-- ====================== Restore ====================== -->
+
+	<TextView style="@style/PrefsGroup" android:text="Restore - select file:" /> 
+
+	<RadioGroup android:id="@+id/brRestoreList"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+
+	<!-- ====================== done ====================== -->
+	<View
+	    android:layout_height="15dip"
+	    android:layout_width="fill_parent"
+		/>
+		
+</LinearLayout>

@@ -8,7 +8,7 @@ import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public abstract class BookmarkSortCache {
 
@@ -64,7 +64,7 @@ public abstract class BookmarkSortCache {
 		private void processFolders(Collection<Bookmark> children) {
 			for (Bookmark child:children) {
 				if (child.isFolder()) {
-					if (log.isTraceEnabled()) {
+					if (log.traceEnabled) {
 						log.debug("... do recursion for {"+child+"}");
 					}
 					recursiveAdd((FolderBean)child);
@@ -76,7 +76,7 @@ public abstract class BookmarkSortCache {
 			if (finalList.contains(folder)) {
 				return; // already processed through child recursion
 			}
-			if (log.isTraceEnabled()) {
+			if (log.traceEnabled) {
 				log.debug("recursiveAdd - folder="+folder);
 			}
 			finalList.add(folder); // add "self"
@@ -93,7 +93,7 @@ public abstract class BookmarkSortCache {
 		}
 		
 		public ArrayList<Bookmark> getList() {
-			if (log.isDebugEnabled()) {
+			if (log.debugEnabled) {
 				log.debug("number of folders", folders.size());
 			}
 			
@@ -101,7 +101,7 @@ public abstract class BookmarkSortCache {
 				addTopLevelItems();
 			}
 			for (FolderBean folder:folders) {
-				if (log.isTraceEnabled()) {
+				if (log.traceEnabled) {
 					log.debug("--- loop "+folder+" ["+folder.getChildren().size()+"]");
 				}
 				recursiveAdd(folder);
@@ -110,14 +110,14 @@ public abstract class BookmarkSortCache {
 				addTopLevelItems();
 			}
 			
-			if (log.isDebugEnabled()) {
+			if (log.debugEnabled) {
 				log.debug("getList()", finalList.size());
 			}
 			return finalList;
 		}
 		
 		public void addBookmark(BrowserBookmarkBean bookmark) {
-			if (log.isTraceEnabled()) {
+			if (log.traceEnabled) {
 				System.err.println("ADD BK "+bookmark+"/"+bookmark.getParentFolder());
 			}
 			if (bookmark.getParentFolder()==null) {
@@ -127,15 +127,15 @@ public abstract class BookmarkSortCache {
 		}
 
 		public void addFolder(FolderBean folder) {
-			if (log.isTraceEnabled()) {
+			if (log.traceEnabled) {
 				log.debug("--> add folder", folder);
 			}
 			folders.add(folder);
 		}
 	}
 	
-	public static BookmarkSortCache createInstance(BookmarkTreeContext ctx) {
-		int sortOption = ctx.preferencesWrapper.prefsBean.getSortOption();
+	public static BookmarkSortCache createInstance() {
+		int sortOption = BookmarkTreeContext.preferencesWrapper.prefsBean.getSortOption();
 		switch (sortOption) {
 		case PreferencesWrapper.SORT_FOLDERS_FIRST: return new ByType(true);
 		case PreferencesWrapper.SORT_BOOKMARKS_FIRST: return new ByType(false);

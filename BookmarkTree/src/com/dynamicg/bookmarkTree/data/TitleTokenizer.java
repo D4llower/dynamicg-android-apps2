@@ -2,8 +2,8 @@ package com.dynamicg.bookmarkTree.data;
 
 import java.util.ArrayList;
 
-import com.dynamicg.common.main.Logger;
-import com.dynamicg.common.main.StringUtil;
+import com.dynamicg.common.Logger;
+import com.dynamicg.common.StringUtil;
 
 public class TitleTokenizer {
 
@@ -42,7 +42,7 @@ public class TitleTokenizer {
 			items.add(item);
 			parent = item;
 			
-			if (log.isTraceEnabled()) {
+			if (log.traceEnabled) {
 				log.debug("titleItem", item.nodeTitle, item.fullTitle);
 			}
 		}

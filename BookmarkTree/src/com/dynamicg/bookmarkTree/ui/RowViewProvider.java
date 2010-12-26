@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.model.Bookmark;
-import com.dynamicg.common.main.Logger;
+import com.dynamicg.common.Logger;
 
 public abstract class RowViewProvider {
 
@@ -21,8 +21,8 @@ public abstract class RowViewProvider {
 	public RowViewProvider(LayoutInflater inflater, boolean compact) {
 		this.inflater = inflater;
 		this.compact = compact;
-		if (log.isDebugEnabled()) {
-			log.info("create RowViewProvider", this);
+		if (log.debugEnabled) {
+			log.debug("create RowViewProvider", this);
 		}
 	}
 	
