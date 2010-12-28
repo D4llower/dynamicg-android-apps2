@@ -5,6 +5,9 @@ import android.graphics.BitmapFactory;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 
+/*
+ * Bitmap.setDensity() is API4 so we need to wrap
+ */
 public class BitmapScaleManager {
 
 	private static ScaleWorker scaleWorker;
