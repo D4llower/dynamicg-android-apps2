@@ -11,7 +11,7 @@ public class BackupPrefs {
 
 	private static final Logger log = new Logger(BackupPrefs.class);
 	
-	public static final int DAYS_BETWEEN = log.debugEnabled ? 1 : 20;
+	public static final int DAYS_BETWEEN = log.debugEnabled ? 5 : 20;
 	
 	private static final String KEY_LAST_BACKUP = "backup.last";
 	private static final String KEY_AUTO_ENABLED = "backup.auto";
