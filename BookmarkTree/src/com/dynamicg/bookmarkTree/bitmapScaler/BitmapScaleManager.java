@@ -31,6 +31,10 @@ public class BitmapScaleManager {
 		}
 		
 		Bitmap b = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+		if (b==null) {
+			// error report Dec 28, 2010 8:35:05 PM
+			return null;
+		}
 		if (enabled && scaleWorker!=null) {
 			return scaleWorker.scale(b);
 		}
