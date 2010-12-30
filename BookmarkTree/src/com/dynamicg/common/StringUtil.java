@@ -13,6 +13,11 @@ public class StringUtil {
 		return value.split(Pattern.quote(expr));
 	}
 	
+	/*
+	 * note that neither of these work so we don't use replaceAll
+	 *  System.err.println("x-x".replaceAll("-", "$$"));
+	 *  System.err.println("x-x".replaceAll("-", Pattern.quote("$$")));
+	*/
 	public static String replaceAll(String value, String search, String replace) {
 		return value.replace(search,replace);
 	}
