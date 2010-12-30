@@ -1,0 +1,3 @@
+
+v1.11
+fix StringUtil.replaceAll (do not use RE)
