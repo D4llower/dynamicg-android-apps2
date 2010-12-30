@@ -148,7 +148,7 @@ implements BackupEventListener {
 
 			@Override
 			public String getPlainBodyText() {
-				return StringUtil.replaceFirst(Messages.brSelectedFileLabel, "{1}", backupFile.getName() );
+				return StringUtil.replaceAll(Messages.brSelectedFileLabel, "{1}", backupFile.getName() );
 			}
 
 		};

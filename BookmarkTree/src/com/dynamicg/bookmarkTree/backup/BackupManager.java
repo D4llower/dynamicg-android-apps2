@@ -28,7 +28,7 @@ public class BackupManager {
 	private static final String FMT_STAMP = "%Y-%m-%d.%H-%M-%S";
 	
 	private static String getFilename(Time t) {
-		return StringUtil.replaceFirst(FILE_PATTERN, "{stamp}", t.format(FMT_STAMP));
+		return StringUtil.replaceAll(FILE_PATTERN, "{stamp}", t.format(FMT_STAMP));
 	}
 	private static String getFilename() {
 		Time t = new Time();

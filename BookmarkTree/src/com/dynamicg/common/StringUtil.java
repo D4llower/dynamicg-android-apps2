@@ -13,14 +13,8 @@ public class StringUtil {
 		return value.split(Pattern.quote(expr));
 	}
 	
-	/*
-	 * RE-safe replace
-	 */
 	public static String replaceAll(String value, String search, String replace) {
-		return value.replaceAll(Pattern.quote(search),replace);
-	}
-	public static String replaceFirst(String value, String search, String replace) {
-		return value.replaceFirst(Pattern.quote(search),replace);
+		return value.replace(search,replace);
 	}
 
 	public static String textWithParam(Context context, int res, int p1) {
