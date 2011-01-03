@@ -1,0 +1,23 @@
+
+create shortcut for bookmarks or folders:
+
+http://stackoverflow.com/questions/2908774/android-launcher-shortcuts
+
+private void setupShortcut() {
+    Intent shortcutIntent = new Intent(this, Toggle.class);
+   // shortcutIntent.setClassName(this, Toggle.class.getName());  
+    shortcutIntent.putExtra(EXTRA_KEY, "ToggleShortcut");  
+
+    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  
+
+
+    Intent intent = new Intent();
+    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent); 
+    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "ToggleShortcut");
+    Parcelable iconResource = Intent.ShortcutIconResource.fromContext(this,  R.drawable.app_sample_code);
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconResource);
+    setResult(RESULT_OK, intent);
+
+}
+
+
