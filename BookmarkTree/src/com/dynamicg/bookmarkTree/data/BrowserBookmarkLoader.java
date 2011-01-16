@@ -10,6 +10,7 @@ import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.bitmapScaler.BitmapScaleManager;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.Logger;
 
 public class BrowserBookmarkLoader {
@@ -21,6 +22,9 @@ public class BrowserBookmarkLoader {
 	private static final int FOR_BACKUP_RESTORE = 3;
 	
 	private static String EMPTY = "";
+	
+	private static final String SORT_STD = Browser.BookmarkColumns.TITLE;
+	private static final String SORT_CASE_INSENSITIVE = Browser.BookmarkColumns.TITLE+" COLLATE NOCASE";
 	
 	private static String nvl(String value) {
 		// mask nulls - we got one error report with an NPE on bookmark title (?)
@@ -52,12 +56,18 @@ public class BrowserBookmarkLoader {
 				, Browser.BookmarkColumns.URL
 				, Browser.BookmarkColumns.FAVICON 
 		};
-		String query = Browser.BookmarkColumns.BOOKMARK+"=1"; // query on bookmarks only, skip history
+		
+		// query on bookmarks only, skip history
+		String query = Browser.BookmarkColumns.BOOKMARK+"=1"; 
+		
+		// order by, optionally case-insensitive
+		String sortOrder = PreferencesWrapper.sortCaseInsensitive.isOn() ? SORT_CASE_INSENSITIVE : SORT_STD;
+		
 		Cursor crs = main.managedQuery ( android.provider.Browser.BOOKMARKS_URI
 				, columns
 				, query
 				, null
-				, Browser.BookmarkColumns.TITLE
+				, sortOrder
 		);
 
 		ArrayList rows = new ArrayList();

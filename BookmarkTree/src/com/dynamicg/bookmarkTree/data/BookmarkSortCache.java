@@ -3,7 +3,6 @@ package com.dynamicg.bookmarkTree.data;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
@@ -135,7 +134,7 @@ public abstract class BookmarkSortCache {
 	}
 	
 	public static BookmarkSortCache createInstance() {
-		int sortOption = BookmarkTreeContext.preferencesWrapper.prefsBean.getSortOption();
+		int sortOption = PreferencesWrapper.sortOption.value;
 		switch (sortOption) {
 		case PreferencesWrapper.SORT_FOLDERS_FIRST: return new ByType(true);
 		case PreferencesWrapper.SORT_BOOKMARKS_FIRST: return new ByType(false);

@@ -2,4 +2,6 @@
 	<dimen name="mainPadding">6dip</dimen>
 	<dimen name="iconRightMargin">10dip</dimen>
 	<dimen name="cellHeight">52dip</dimen>
+	<dimen name="prefsDialogWidth">310dip</dimen>
+	<dimen name="prefsTabHeight">36dip</dimen>
 </resources>

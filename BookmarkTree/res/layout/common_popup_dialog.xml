@@ -18,21 +18,6 @@
 			/>
 	</ScrollView>
 	
-	<LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center_horizontal"
-		android:background="#555"
-	    android:padding="8dip"
-		android:layout_marginTop="-60dip"
-	    >
-	    <Button style="@style/DialogButton"
-	    	android:id="@+id/button1"
-	        />
-	    <Button style="@style/DialogButton"
-	    	android:id="@+id/button2"
-	        />
-    </LinearLayout>
-	    
+	<include layout="@layout/common_button_panel" />
+
 </LinearLayout>

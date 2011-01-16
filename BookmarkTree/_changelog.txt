@@ -1,3 +1,5 @@
 
 v1.11
-fix StringUtil.replaceAll (do not use RE)
+.fix StringUtil.replaceAll (do not use RE)
+.option for 'case insensitive sort', default on
+.prefs refactoring

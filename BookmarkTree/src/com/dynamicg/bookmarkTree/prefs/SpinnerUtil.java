@@ -62,6 +62,10 @@ public class SpinnerUtil {
 		
 	}
 	
+	public void bind(final int spinnerResId, PrefEntryInt prefEntry, ArrayList<KeyValue> items, int prompt) {
+		bind(spinnerResId, prefEntry.value, items, prompt);
+	}
+	
 	public int getCurrentValue(int spinnerResId) {
 		Spinner spinner = (Spinner)dialog.findViewById(spinnerResId);
 		KeyValue item = (KeyValue)spinner.getSelectedItem();

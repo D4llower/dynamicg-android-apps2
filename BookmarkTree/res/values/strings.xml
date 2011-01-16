@@ -13,7 +13,6 @@
     <string name="commonOK">OK</string>
     <string name="commonSave">Save</string>
     <string name="commonCancel">Cancel</string>
-    <string name="commonPreferences">Preferences</string>
     <string name="commonEditFolder">Edit folder</string>
     <string name="commonEditBookmark">Edit bookmark</string>
     <string name="commonNewBookmark">New bookmark</string>
@@ -32,10 +31,19 @@
     <string name="prefsSeparator">Internal folder separator:</string>
     <string name="prefsUpdateWithNewSep">Update all bookmarks\nwith new separator</string>
     <string name="prefsScaleIcons">Scale icons</string>
-    
+    <string name="prefsSortCaseInsensitive">Case insensitive sort</string>
+
+    <string name="prefsGroupLayout">Layout</string>
+    <string name="prefsGroupToolsAndSetup">Tools &amp; Setup</string>
     <string name="prefsGroupPresentation">Presentation</string>
     <string name="prefsGroupExtras">Extras</string>
     <string name="prefsGroupSetup">App setup</string>
+    <string name="prefsGroupTools">Tools</string>
+    
+    <string name="prefsGroupColors">Text colors (tap to change)</string>
+    <string name="prefsColorFolder">Folder title</string>
+    <string name="prefsColorBookmarkTitle">Bookmark title</string>
+    <string name="prefsColorBookmarkUrl">Bookmark address</string>
     
     <string name="editTitle">Title:</string>
     <string name="editUrl">URL:</string>
@@ -58,5 +66,6 @@
     <string name="hintTitleMissing">Title is empty. Cannot save.</string>
     <string name="hintUrlMissing">URL is empty. Cannot save.</string>
     <string name="hintReloaded">Reloaded {1} bookmarks</string>
-    
+	<string name="titleColorPicker">Choose color (R/G/B)</string>
+
 </resources>

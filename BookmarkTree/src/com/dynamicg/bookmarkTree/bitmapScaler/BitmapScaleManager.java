@@ -3,7 +3,7 @@ package com.dynamicg.bookmarkTree.bitmapScaler;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 
 /*
  * Bitmap.setDensity() is API4 so we need to wrap
@@ -15,7 +15,7 @@ public class BitmapScaleManager {
 	private static boolean isApi3=false;
 	
 	public static void init() {
-		enabled = BookmarkTreeContext.preferencesWrapper.isScaleIcons();
+		enabled = PreferencesWrapper.scaleIcons.isOn();
 		
 		if (enabled && scaleWorker==null && !isApi3) {
 			try {

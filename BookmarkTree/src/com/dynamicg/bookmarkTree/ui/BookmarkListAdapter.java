@@ -16,6 +16,7 @@ import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog;
 import com.dynamicg.bookmarkTree.model.Bookmark;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.util.UrlOpener;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SystemUtil;
@@ -34,10 +35,10 @@ public class BookmarkListAdapter extends BaseAdapter {
 	public BookmarkListAdapter(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
 		this.layoutInflater = SystemUtil.getLayoutInflater(ctx.activity);
-		boolean compact = BookmarkTreeContext.preferencesWrapper.isCompact();
+		boolean compact = PreferencesWrapper.isCompact();
 		
-		if (BookmarkTreeContext.preferencesWrapper.isOptimisedLayout()) {
-			rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater, compact);; 
+		if (PreferencesWrapper.optimisedLayout.isOn()) {
+			rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater, compact);
 		}
 		else {
 			rowViewProvider = new RowViewProvider.ProviderOldStyle(layoutInflater, compact);
@@ -98,7 +99,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 		else if (bm.isFolder()) {
 			bm.setExpanded(!bm.isExpanded());
 			redraw();
-			if (BookmarkTreeContext.preferencesWrapper.isKeepState()) {
+			if (PreferencesWrapper.keepState.isOn()) {
 				FolderStateHandler.folderClicked(bm);
 			}
 		}
@@ -125,6 +126,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 	
 	// called by click event and via menu actions
 	public void redraw() {
+		rowViewProvider.beforeRedraw();
 		updateBookmarkList();
 //		if (rowViewProvider!=null) {
 //			rowViewProvider.compact = ctx.preferencesWrapper.isCompact();

@@ -7,6 +7,7 @@ import com.dynamicg.bookmarkTree.FolderStateHandler;
 import com.dynamicg.bookmarkTree.Main;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.FolderBean;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.Logger;
 
 public class BookmarkManager {
@@ -29,7 +30,7 @@ public class BookmarkManager {
 			}
 		}
 		
-		if (BookmarkTreeContext.preferencesWrapper.isKeepState()) {
+		if (PreferencesWrapper.keepState.isOn()) {
 			if (log.debugEnabled) {
 				log.debug("restore folder state");
 			}
@@ -80,7 +81,7 @@ public class BookmarkManager {
 	public void toggleFolders(int action) {
 		if (action==Main.ACTION_EXPAND_ALL) {
 			setAllFolderStates(true);
-			if (BookmarkTreeContext.preferencesWrapper.isKeepState()) {
+			if (PreferencesWrapper.keepState.isOn()) {
 				FolderStateHandler.saveExpandedFolders(ctx, bookmarksCache);
 			}
 		}

@@ -14,7 +14,6 @@ public class BookmarkTreeContext {
 	private static final String PREFS_NAME = "dynamicg.bookmarkTree";
 	
 	public static SharedPreferences settings;
-	public static PreferencesWrapper preferencesWrapper;
 	
 	public final Activity activity;
 	public final BookmarkManager bookmarkManager;
@@ -24,7 +23,6 @@ public class BookmarkTreeContext {
 		
 		if (settings==null) {
 			settings = activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-	    	preferencesWrapper = new PreferencesWrapper();
 		}
 		
     	BitmapScaleManager.init();
@@ -35,11 +33,11 @@ public class BookmarkTreeContext {
 	}
 	
 	public String getFolderSeparator() {
-		return preferencesWrapper.prefsBean.getFolderSeparator();
+		return PreferencesWrapper.separatorPreference.getFolderSeparator();
 	}
 	
 	public String getNodeConcatenation() {
-		return preferencesWrapper.prefsBean.getNodeConcatenation();
+		return PreferencesWrapper.separatorPreference.getNodeConcatenation();
 	}
 	
 	public void reloadAndRefresh() {

@@ -1,28 +1,32 @@
 package com.dynamicg.bookmarkTree.dialogs;
 
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
-import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.ContextUtil;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.SystemUtil;
 
 public class AboutDialog {
 
+	private static final String KEY_DISCLAIMER = "disclaimerLastDisplayed";
 	public static final String AUTHOR = "dynamicg.android@gmail.com";
 	
 	private static final int CURRENT_DISCLAIMER_VERSION = 2; 
 	
 	public static void showOnce(BookmarkTreeContext ctx) {
-		PreferencesWrapper prefs = BookmarkTreeContext.preferencesWrapper;
-		if ( CURRENT_DISCLAIMER_VERSION == prefs.prefsBean.getDisclaimerLastDisplayed() ) {
+		int disclaimerLastDisplayed = BookmarkTreeContext.settings.getInt(KEY_DISCLAIMER, 0);
+		if (CURRENT_DISCLAIMER_VERSION == disclaimerLastDisplayed) {
 			return;
 		}
 		show(ctx);
-		prefs.storeDisclaimerLastDisplayed(CURRENT_DISCLAIMER_VERSION);
+		
+		SharedPreferences.Editor editor = BookmarkTreeContext.settings.edit();
+		editor.putInt(KEY_DISCLAIMER, CURRENT_DISCLAIMER_VERSION);
+		editor.commit();
 	}
 	
 	public static void show(final BookmarkTreeContext ctx) {
