@@ -1,7 +1,0 @@
-
-v1.11
-.fix StringUtil.replaceAll (do not use RE)
-.option for 'case insensitive sort', default on
-.settings for text colors
-.prefs refactoring. change dialog to "tabbed"
-
