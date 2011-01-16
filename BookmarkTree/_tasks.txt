@@ -1,17 +1,4 @@
 
-tabbed prefs:
-
-T1: Presentation
--Layout
--Text color
--Extras
-
-T2: Setup & Tools
-
-----------------------------------------------------
-
-
-
 create shortcut for bookmarks or folders:
 
 http://stackoverflow.com/questions/2908774/android-launcher-shortcuts
