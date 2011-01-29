@@ -3,6 +3,7 @@ package com.dynamicg.bookmarkTree;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 import com.dynamicg.bookmarkTree.bitmapScaler.BitmapScaleManager;
 import com.dynamicg.bookmarkTree.data.BookmarkManager;
@@ -25,6 +26,7 @@ public class BookmarkTreeContext {
 			settings = activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		}
 		
+		PreferencesWrapper.initialSetup();
     	BitmapScaleManager.init();
     	
     	this.activity = activity;
@@ -45,4 +47,10 @@ public class BookmarkTreeContext {
 		bookmarkListAdapter.redraw();
 	}
 
+	public static void writeIntPref(String key, int value) {
+		Editor edit = settings.edit();
+		edit.putInt(key, value);
+		edit.commit();
+	}
+	
 }
