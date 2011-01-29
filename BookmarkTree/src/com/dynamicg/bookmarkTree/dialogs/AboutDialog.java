@@ -25,7 +25,7 @@ public abstract class AboutDialog {
 		}
 		show(ctx);
 		PreferencesUpdater.writeIntPref(KEY_DISCLAIMER, CURRENT_DISCLAIMER_VERSION);
-		PreferencesWrapper.setup();
+		PreferencesWrapper.initialSetup();
 	}
 	
 	public static void show(final BookmarkTreeContext ctx) {

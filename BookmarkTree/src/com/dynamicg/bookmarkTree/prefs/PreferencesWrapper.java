@@ -59,7 +59,7 @@ public class PreferencesWrapper {
 	 * . triggered by AboutDialog
 	 * . as of 1.12, default list style is "medium"
 	 */
-	public static void setup() {
+	public static void initialSetup() {
 		PreferencesUpdater.updateAndWrite(listStyle, LIST_SIZE_MEDIUM);
 		PreferencesUpdater.write(optimisedLayout);
 		
