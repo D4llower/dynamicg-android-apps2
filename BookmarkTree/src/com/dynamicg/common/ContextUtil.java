@@ -49,4 +49,15 @@ public class ContextUtil {
 		return (int) (size * DENSITY_SCALE) ;
 	}
 	
+//	public static int getUnscaledSizeInt(Context context, float size) {
+//		if (DENSITY_SCALE==-1) {
+//			DENSITY_SCALE = context.getResources().getDisplayMetrics().density;
+//	    }
+//		return (int) (size / DENSITY_SCALE) ;
+//	}
+	
+	public static int getDimension(Context context, int id) {
+		return (int)context.getResources().getDimension(id);
+	}
+	
 }

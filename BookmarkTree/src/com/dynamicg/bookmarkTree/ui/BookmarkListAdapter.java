@@ -35,13 +35,12 @@ public class BookmarkListAdapter extends BaseAdapter {
 	public BookmarkListAdapter(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
 		this.layoutInflater = SystemUtil.getLayoutInflater(ctx.activity);
-		boolean compact = PreferencesWrapper.isCompact();
 		
 		if (PreferencesWrapper.optimisedLayout.isOn()) {
-			rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater, compact);
+			rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater);
 		}
 		else {
-			rowViewProvider = new RowViewProvider.ProviderOldStyle(layoutInflater, compact);
+			rowViewProvider = new RowViewProvider.ProviderOldStyle(layoutInflater);
 		}
 		
 		this.listview = (ListView)ctx.activity.findViewById(R.id.mainList);

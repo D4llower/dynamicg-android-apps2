@@ -10,6 +10,7 @@ public abstract class DialogButtonPanelWrapper {
 
 	public static final int TYPE_SAVE_CANCEL = 1;
 	public static final int TYPE_CLOSE = 2;
+	public static final int TYPE_CREATE_CANCEL = 3;
 	
 	private final Dialog dialog;
 	
@@ -23,6 +24,9 @@ public abstract class DialogButtonPanelWrapper {
 		}
 		else if (what==TYPE_CLOSE) {
 			setup(R.string.commonClose, 0 );
+		}
+		else if (what==TYPE_CREATE_CANCEL) {
+			setup(R.string.commonCreate, R.string.commonCancel);
 		}
 	}
 	

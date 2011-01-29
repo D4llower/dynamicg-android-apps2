@@ -56,6 +56,27 @@
 	    android:text="@string/prefsUpdateWithNewSep"
 	    />
 	    
+	<!-- ====================== ABOUT ====================== -->
+	<TextView style="@style/PrefsGroup" android:text="About" android:layout_marginTop="10dip" /> 
+	
+    <TextView
+    	android:id="@+id/prefsLinkAbout"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="\u2192 About"
+	    android:layout_marginTop="15dip"
+	    android:focusable="true"
+	    />
+	    
+    <TextView
+    	android:id="@+id/prefsLinkToMarket"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="\u2192 Link to Android Market - please rate"
+	    android:layout_marginTop="15dip"
+	    android:focusable="true"
+	    />
+	
 	<!-- ====================== done ====================== -->
 	<View
 	    android:layout_height="15dip"

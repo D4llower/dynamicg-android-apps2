@@ -82,15 +82,22 @@ public class SpinnerUtil {
 		public SpinnerItems(Context context) {
 			this.context = context;
 		}
-		public void add(int key, int title) {
-			list.add(new KeyValue(key,context.getString(title)));
+		public SpinnerItems() {
+			this.context = null;
+		}
+		public void add(int key, int titleRes) {
+			list.add(new KeyValue(key,context.getString(titleRes)));
+		}
+		public void add(int key, String title) {
+			list.add(new KeyValue(key,title));
 		}
 	}
 	
 	public static ArrayList<KeyValue> getListStyleItems(Context context) {
 		SpinnerItems items = new SpinnerItems(context);
-		items.add ( PreferencesWrapper.LIST_STYLE_CLASSIC, R.string.domainStyleClassic );
-		items.add ( PreferencesWrapper.LIST_STYLE_COMPACT, R.string.domainStyleCompact );
+		items.add ( PreferencesWrapper.LIST_SIZE_LARGE, R.string.domainListStyleLarge);
+		items.add ( PreferencesWrapper.LIST_SIZE_MEDIUM, R.string.domainListStyleMedium );
+		items.add ( PreferencesWrapper.LIST_SIZE_SMALL, R.string.domainListStyleSmall );
 		return items.list;
 	}
 	
@@ -99,6 +106,16 @@ public class SpinnerUtil {
 		items.add ( PreferencesWrapper.SORT_ALPHA, R.string.domainSortAlphaOverall );
 		items.add ( PreferencesWrapper.SORT_FOLDERS_FIRST, R.string.domainSortFoldersFirst );
 		items.add ( PreferencesWrapper.SORT_BOOKMARKS_FIRST, R.string.domainSortBookmarksFirst );
+		return items.list;
+	}
+	
+	public static ArrayList<KeyValue> getBitmapDensity() {
+		SpinnerItems items = new SpinnerItems();
+		items.add (  80, "2.0x (80dpi)" );
+		items.add ( 120, "1.5x (120dpi)" );
+		items.add ( 160, "Default (160dpi)" );
+		items.add ( 240, "0.75x (240dpi)" );
+		items.add ( 320, "0.5x (320dpi)" );
 		return items.list;
 	}
 	

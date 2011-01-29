@@ -20,8 +20,8 @@ import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.bookmarkTree.util.BookmarkUtil;
-import com.dynamicg.bookmarkTree.util.DialogHelper;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
+import com.dynamicg.bookmarkTree.util.DialogHelper;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.StringUtil;
@@ -79,7 +79,8 @@ public class EditBookmarkDialog extends Dialog {
 
 		addToNewFolderItem = (EditText)findViewById(R.id.editBookmarkAddToNewFolder);
 
-		new DialogButtonPanelWrapper(this, DialogButtonPanelWrapper.TYPE_SAVE_CANCEL) {
+		int dialogType = forCreateBookmark ? DialogButtonPanelWrapper.TYPE_CREATE_CANCEL : DialogButtonPanelWrapper.TYPE_SAVE_CANCEL;
+		new DialogButtonPanelWrapper(this, dialogType) {
 			@Override
 			public void onPositiveButton() {
 				saveBookmark(bookmark);
@@ -89,25 +90,48 @@ public class EditBookmarkDialog extends Dialog {
 		/*
 		 * delete
 		 */
-		if (!forCreateBookmark) {
-			TextView deleteTitle = (TextView)findViewById(R.id.editBookmarkDeleteText);
-			deleteTitle.setText(bookmark.isFolder() ? "Delete Folder" : "Delete Bookmark");
+		if (forCreateBookmark) {
+			removePanel(R.id.editBookmarkDeletePanel);
+		}
+		else {
+			TextView deleteLabel = (TextView)findViewById(R.id.editBookmarkDeleteText);
 			View deleteIcon = findViewById(R.id.editBookmarkDeleteIcon);
-			deleteIcon.setOnClickListener(new View.OnClickListener() {
+			deleteLabel.setText(bookmark.isFolder() ? R.string.editLinkDeleteFolder : R.string.editLinkDeleteBookmark);
+			View.OnClickListener deleteAction = (new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					deleteConfirmation();
 				}
 			});
+			deleteIcon.setOnClickListener(deleteAction);
+			deleteLabel.setOnClickListener(deleteAction);
+		}
+		
+		/*
+		 * create shortcut
+		 */
+		if (forCreateBookmark || bookmark.isFolder()) {
+			removePanel(R.id.editBookmarkCreateShortcutPanel);			
 		}
 		else {
-			View view = findViewById(R.id.editBookmarkDeletePanel);
-			view.setVisibility(View.INVISIBLE);
-			view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,0));
+			View.OnClickListener action = new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					new ShortcutCreateDialog(EditBookmarkDialog.this, ctx, bookmark);
+				}
+			};
+			findViewById(R.id.editCreateShortcutIcon).setOnClickListener(action);
+			findViewById(R.id.editCreateShortcutText).setOnClickListener(action);
 		}
 		
 	}
 
+	private void removePanel(int id) {
+		View view = findViewById(id);
+		view.setVisibility(View.INVISIBLE);
+		view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,0));
+	}
+	
 	private void prepareParentFolderSpinner(final Bookmark bookmark) {
 
 		/*

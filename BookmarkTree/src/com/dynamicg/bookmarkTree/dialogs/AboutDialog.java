@@ -10,7 +10,7 @@ import com.dynamicg.common.ContextUtil;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.SystemUtil;
 
-public class AboutDialog {
+public abstract class AboutDialog {
 
 	private static final String KEY_DISCLAIMER = "disclaimerLastDisplayed";
 	public static final String AUTHOR = "dynamicg.android@gmail.com";

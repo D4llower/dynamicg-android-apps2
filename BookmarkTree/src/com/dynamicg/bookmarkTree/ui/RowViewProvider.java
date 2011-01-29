@@ -19,13 +19,17 @@ public abstract class RowViewProvider {
 	private static final int childLevelIndention = 32;
 	
 	public final LayoutInflater inflater;
+	public final boolean listStyleMedium;
+	public final boolean listStyleSmall;
 	public final boolean compact;
 	
 	public boolean applyTextColors;
 
-	public RowViewProvider(LayoutInflater inflater, boolean compact) {
+	public RowViewProvider(LayoutInflater inflater) {
 		this.inflater = inflater;
-		this.compact = compact;
+		this.listStyleMedium = PreferencesWrapper.isListStyleMedium();
+		this.listStyleSmall = PreferencesWrapper.isListStyleSmall();
+		this.compact = listStyleMedium || listStyleSmall;
 		beforeRedraw();
 		
 		if (log.debugEnabled) {
@@ -37,8 +41,8 @@ public abstract class RowViewProvider {
 	
 	public static class ProviderOldStyle extends RowViewProvider {
 
-		public ProviderOldStyle(LayoutInflater inflater, boolean compact) {
-			super(inflater, compact);
+		public ProviderOldStyle(LayoutInflater inflater) {
+			super(inflater);
 		}
 
 		private void prepare(View rowview, Bookmark bm) {
@@ -78,8 +82,11 @@ public abstract class RowViewProvider {
 		@Override
 		public View getView(Bookmark bm, View convertView, ViewGroup parent) {
 	        int resid;
-	        if (compact) {
-	        	resid = R.layout.list_row_compact;
+	        if (listStyleMedium) {
+	        	resid = R.layout.list_row_style_medium;
+	        }
+	        else if (listStyleSmall) {
+	        	resid = R.layout.list_row_style_small;
 	        }
 	        else {
 	        	resid = bm.isFolder() ? R.layout.list15_row_folder : R.layout.list15_row_bookmark;
@@ -102,11 +109,13 @@ public abstract class RowViewProvider {
 
 		private final int layoutId;
 
-		public ProviderModern(LayoutInflater inflater, boolean compact) {
-			super(inflater, compact);
-			this.layoutId = compact ? R.layout.list_row_compact : R.layout.list20_row_relative;
+		public ProviderModern(LayoutInflater inflater) {
+			super(inflater);
+			this.layoutId = listStyleMedium ? R.layout.list_row_style_medium
+					: listStyleSmall ? R.layout.list_row_style_small
+							: R.layout.list20_row_relative;
 		}
-		
+
 		private void prepare(ViewHolder holder, Bookmark bm) {
 			
 			holder.titleCell.setText(bm.getDisplayTitle());

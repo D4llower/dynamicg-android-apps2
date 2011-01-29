@@ -12,10 +12,10 @@ import com.dynamicg.bookmarkTree.model.RawDataBean;
 public class AlphaSortWriter extends BookmarkWriterA {
 
 	// same "created" values as "browser backup&restore"
-	private static final int BASE      = 10000000;
-	private static final int INCREMENT =  1000000;
+	private static final long BASE      = 11000000;
+	private static final long INCREMENT =  1000000;
 	
-	private int nextValue;
+	private long nextValue;
 	
 	public AlphaSortWriter(BookmarkTreeContext ctx) {
 		super(ctx);
@@ -24,13 +24,16 @@ public class AlphaSortWriter extends BookmarkWriterA {
 		nextValue = BASE + bookmarks.size()*INCREMENT;
 		for (RawDataBean bm:bookmarks) {
 			nextValue = nextValue - INCREMENT;
-			setCreationDate(bm.id);
+			setSortItems(bm.id);
 		}
 	}
 
-	protected void setCreationDate(int bookmarkId) {
+	protected void setSortItems(int bookmarkId) {
 		ContentValues values = new ContentValues();
+		
 		values.put(Browser.BookmarkColumns.CREATED, nextValue);
+		values.put(Browser.BookmarkColumns.VISITS, nextValue);
+		
 		contentResolver.update ( Browser.BOOKMARKS_URI
 				, values
 				, Browser.BookmarkColumns._ID+"=?"

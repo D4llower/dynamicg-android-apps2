@@ -54,7 +54,7 @@ public class BrowserBookmarkLoader {
 				, Browser.BookmarkColumns.CREATED
 				, Browser.BookmarkColumns.TITLE
 				, Browser.BookmarkColumns.URL
-				, Browser.BookmarkColumns.FAVICON 
+				, Browser.BookmarkColumns.FAVICON
 		};
 		
 		// query on bookmarks only, skip history

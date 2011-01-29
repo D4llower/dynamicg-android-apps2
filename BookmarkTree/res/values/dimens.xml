@@ -4,4 +4,5 @@
 	<dimen name="cellHeight">52dip</dimen>
 	<dimen name="prefsDialogWidth">310dip</dimen>
 	<dimen name="prefsTabHeight">36dip</dimen>
+	<dimen name="shortcutIconSize">50dip</dimen>
 </resources>

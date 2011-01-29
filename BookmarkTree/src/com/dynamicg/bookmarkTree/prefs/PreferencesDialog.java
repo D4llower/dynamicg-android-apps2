@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,8 +20,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -27,13 +27,12 @@ import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
-import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.data.writehandler.SeparatorChangedHandler;
 import com.dynamicg.bookmarkTree.data.writer.AlphaSortWriter;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog.ColorSelectedListener;
-import com.dynamicg.bookmarkTree.model.RawDataBean;
+import com.dynamicg.bookmarkTree.dialogs.PlainBookmarksDump;
 import com.dynamicg.bookmarkTree.prefs.SpinnerUtil.KeyValue;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
@@ -118,8 +117,33 @@ public class PreferencesDialog extends Dialog {
 			}
 		};
 		
+		setLinks();
+		
 		// see http://devstream.stefanklumpp.com/2010/07/android-display-dialogs-in-fullscreen.html
 		getWindow().setLayout( (int)this.dialogWidth, LayoutParams.FILL_PARENT);
+	}
+	
+	private void setLinks() {
+		
+		View.OnClickListener openMarket = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String url = "market://details?id=com.dynamicg.bookmarkTree";
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				context.startActivity(i);
+			}
+		};
+		TextView linkNode = (TextView)findViewById(R.id.prefsLinkToMarket);
+		linkNode.setOnClickListener(openMarket);
+		
+		findViewById(R.id.prefsLinkAbout).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				AboutDialog.show(ctx);
+			}
+		});
+		
 	}
 	
 	private void setupSeparatorItem() {
@@ -322,7 +346,7 @@ public class PreferencesDialog extends Dialog {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		int id = item.getItemId();
 		if (id==ACTION_DUMP_BOOKMARKS) {
-			dumpBrowserBookmarks();
+			PlainBookmarksDump.show(ctx);
 		}
 		else if (id==ACTION_SHOW_DISCLAIMER) {
 			AboutDialog.show(ctx);
@@ -330,30 +354,4 @@ public class PreferencesDialog extends Dialog {
 		return true;
 	}
 
-	private void dumpBrowserBookmarks() {
-		ctx.reloadAndRefresh(); // so that the gui is really in sync with what we display here
-		final ArrayList<RawDataBean> rows = BrowserBookmarkLoader.forInternalOps(ctx);
-		
-		final StringBuffer sb = new StringBuffer();
-		for (RawDataBean row:rows) {
-			sb.append(row.fullTitle + "\n" );
-		}
-		
-		new SimpleAlertDialog(ctx.activity, "Browser Bookmarks", "Close") {
-			public View getBody() {
-				TextView text = new TextView(ctx.activity);
-				text.setText(sb.toString());
-
-				HorizontalScrollView xscroll = new HorizontalScrollView(ctx.activity);
-				xscroll.addView(text);
-				
-				ScrollView yscroll = new ScrollView(ctx.activity);
-				yscroll.addView(xscroll);
-				yscroll.setPadding(10, 0, 10, 0);
-				
-				return yscroll;
-			}
-		};
-	}
-	
 }

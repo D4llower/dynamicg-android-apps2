@@ -2,8 +2,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="40dip"
+    android:layout_height="34dip"
     android:padding="2dip"
+    android:paddingTop="0dip"
+    android:paddingBottom="0dip"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     >
@@ -11,7 +13,7 @@
     <FrameLayout
 	    android:id="@+id/bmIndention"
         android:layout_width="0dip"
-        android:layout_height="36dip"
+        android:layout_height="34dip"
     	/>
     
     <com.dynamicg.bookmarkTree.ui.FaviconImageView 
@@ -20,11 +22,11 @@
         android:layout_height="32dip"
         android:scaleType="centerInside"
         android:layout_marginRight="@dimen/iconRightMargin"
-        android:layout_marginTop="2dip"
-        android:layout_marginBottom="2dip"
+        android:layout_marginTop="0dip"
+        android:layout_marginBottom="0dip"
         />
         
-    <TextView style="@style/TitleTextCompact"
+    <TextView style="@style/TitleTextSizeSmall"
         android:id="@+id/bmTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

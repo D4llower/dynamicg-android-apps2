@@ -4,25 +4,26 @@ import android.graphics.Bitmap;
 
 import com.dynamicg.bookmarkTree.bitmapScaler.BitmapScaleManager.ScaleWorker;
 
-public class BitmapScalerAPI4 implements ScaleWorker {
+/*
+ * Bitmap.set/getDensity is not available
+ */
+public class BitmapScalerAPI3 implements ScaleWorker {
 
-	public BitmapScalerAPI4() {
+	public BitmapScalerAPI3() {
 	}
 	
 	@Override
 	public Bitmap scaleForList(Bitmap b) {
-		b.setDensity(DFLT_DENSITY);
 		return b;
 	}
 
 	@Override
 	public void setDensity(Bitmap b, int density) {
-		b.setDensity(density);
 	}
 	
 	@Override
 	public int getDensity(Bitmap b) {
-		return b.getDensity();
+		return DFLT_DENSITY;
 	}
-	
+
 }

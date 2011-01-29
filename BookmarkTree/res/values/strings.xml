@@ -16,10 +16,10 @@
     <string name="commonEditFolder">Edit folder</string>
     <string name="commonEditBookmark">Edit bookmark</string>
     <string name="commonNewBookmark">New bookmark</string>
-    <string name="commonDeleteFolder">Delete folder</string>
-    <string name="commonDeleteBookmark">Delete bookmark</string>
     <string name="commonPleaseWait">Please wait ...</string>
     <string name="commonClose">Close</string>
+    <string name="commonCreate">Create</string>
+    <string name="commonCreateShortcut">Create shortcut</string>
     
     <string name="prefsHintRestart">\u2192 Restart app when changed.</string>
     <string name="prefsListStyle">List style:</string>
@@ -49,6 +49,8 @@
     <string name="editUrl">URL:</string>
     <string name="editParentFolder">Parent folder:</string>
     <string name="editAddToNewFolder">Add to new folder:</string>
+    <string name="editLinkDeleteFolder">Delete folder</string>
+    <string name="editLinkDeleteBookmark">Delete bookmark</string>
 
     <string name="actionDeleteBookmark">Delete this bookmark?</string>
     <string name="actionDeleteFolderOne">Delete this folder?</string>
@@ -56,8 +58,9 @@
     <string name="actionSortBookmarksConfirm">Sort browser bookmarks?</string>
     <string name="actionSortBookmarksDone">Bookmark sort done</string>
 
-    <string name="domainStyleClassic">Large font</string>
-    <string name="domainStyleCompact">Medium font</string>
+    <string name="domainListStyleLarge">Large font</string>
+    <string name="domainListStyleMedium">Medium font (18sp)</string>
+    <string name="domainListStyleSmall">Medium font (16sp)</string>
     <string name="domainSortAlphaOverall">Alpha overall</string>
     <string name="domainSortFoldersFirst">Folders first</string>
     <string name="domainSortBookmarksFirst">Bookmarks first</string>
@@ -68,4 +71,8 @@
     <string name="hintReloaded">Reloaded {1} bookmarks</string>
 	<string name="titleColorPicker">Choose color (R/G/B)</string>
 
+    <string name="shortcutIconScale">Icon scaling</string>
+    <string name="shortcutIconPreviewLabel">Icon preview:</string>
+    <string name="shortcutBackgroundColor">Background color</string>
+    
 </resources>
