@@ -1,7 +1,6 @@
 package com.dynamicg.bookmarkTree.prefs;
 
 import android.graphics.Color;
-import android.text.format.Time;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.VersionAccessor;
@@ -11,7 +10,6 @@ public class PreferencesWrapper {
 	protected static final String KEY_FOLDER_SEPARATOR = "separator";
 	protected static final String DEFVALUE_FOLDER_SEPARATOR = "-";
 	
-	private static final String KEY_DATE_INITIALISED = "dateInitialised";
 	private static final String KEY_OPTIMISED_LAYOUT = "optimisedLayout";
 	
 	public static final PrefEntryInt listStyle = new PrefEntryInt("listStyle", 0);
@@ -52,19 +50,6 @@ public class PreferencesWrapper {
 	}
 	public static boolean isListStyleSmall() {
 		return listStyle.value == LIST_SIZE_SMALL;
-	}
-	
-	public static void initialSetup() {
-		if (BookmarkTreeContext.settings.contains(KEY_DATE_INITIALISED)) {
-			return;
-		}
-		
-		Time t = new Time();
-		t.setToNow();
-		String now = t.format("%Y%m%d");
-		int value = Integer.parseInt(now);
-		PreferencesUpdater.writeIntPref(KEY_DATE_INITIALISED, value);
-		PreferencesUpdater.writeAll();
 	}
 	
 }

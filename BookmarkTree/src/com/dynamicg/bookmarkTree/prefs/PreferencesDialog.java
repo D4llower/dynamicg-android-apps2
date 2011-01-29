@@ -294,7 +294,7 @@ public class PreferencesDialog extends Dialog {
 			dataRefreshRequired = true;
 		}
 		
-		PreferencesUpdater.writeAll();
+		PreferencesUpdater.write();
 		
 		if (toastForReopen) {
 			SystemUtil.toastShort(context, "Please restart the app");

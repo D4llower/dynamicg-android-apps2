@@ -1,9 +1,9 @@
 package com.dynamicg.bookmarkTree.backup;
 
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
 
@@ -75,7 +75,12 @@ public class BackupPrefs {
 	}
 	
 	private static void writePref(String key, int value) {
-		PreferencesUpdater.writeIntPref(key, value);
+		Editor edit = settings.edit();
+		edit.putInt(key, value);
+		edit.commit();
+		if (log.debugEnabled) {
+			log.debug("write pref", key, value);
+		}
 	}
 
 	public static boolean isAutoBackupEnabled() {

@@ -25,7 +25,6 @@ public class BookmarkTreeContext {
 			settings = activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		}
 		
-		PreferencesWrapper.initialSetup();
     	BitmapScaleManager.init();
     	
     	this.activity = activity;
