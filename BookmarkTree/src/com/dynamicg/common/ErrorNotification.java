@@ -20,7 +20,8 @@ public class ErrorNotification {
 	}
 	
 	private static void emailError(Context context, Throwable exception) {
-		String title = "Bookmark Tree - Error ("+Locale.getDefault().getLanguage()+")";
+		String version = ContextUtil.getVersion(context)[0];
+		String title = "Bookmark Tree "+version+" - Error ("+Locale.getDefault().getLanguage()+")";
 		String body = SystemUtil.getExceptionText(exception);
 		createIntent(context, title, body);
 	}
