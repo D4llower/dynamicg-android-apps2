@@ -53,5 +53,8 @@ public class PreferencesUpdater {
 		item.value = newValue;
 		writeIntPref(item.name, item.value);
 	}
+	public static void write(PrefEntryInt item) {
+		writeIntPref(item.name, item.value);
+	}
 	
 }
