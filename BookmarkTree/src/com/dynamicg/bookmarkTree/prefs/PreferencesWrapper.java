@@ -56,6 +56,7 @@ public class PreferencesWrapper {
 	
 	/*
 	 * postprocessing on first call
+	 * . triggered by AboutDialog
 	 * . as of 1.12, default list style is "medium"
 	 */
 	public static void setup() {
