@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.ContextUtil;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.SystemUtil;
@@ -24,6 +25,7 @@ public abstract class AboutDialog {
 		}
 		show(ctx);
 		PreferencesUpdater.writeIntPref(KEY_DISCLAIMER, CURRENT_DISCLAIMER_VERSION);
+		PreferencesWrapper.setup();
 	}
 	
 	public static void show(final BookmarkTreeContext ctx) {
