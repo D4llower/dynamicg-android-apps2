@@ -13,18 +13,17 @@ import com.dynamicg.common.SystemUtil;
 
 public abstract class AboutDialog {
 
-	private static final String KEY_DISCLAIMER = "disclaimerLastDisplayed";
 	public static final String AUTHOR = "dynamicg.android@gmail.com";
 	
 	private static final int CURRENT_DISCLAIMER_VERSION = 2; 
 	
 	public static void showOnce(BookmarkTreeContext ctx) {
-		int disclaimerLastDisplayed = BookmarkTreeContext.settings.getInt(KEY_DISCLAIMER, 0);
+		int disclaimerLastDisplayed = BookmarkTreeContext.settings.getInt(PreferencesWrapper.KEY_DISCLAIMER, 0);
 		if (CURRENT_DISCLAIMER_VERSION == disclaimerLastDisplayed) {
 			return;
 		}
 		show(ctx);
-		PreferencesUpdater.writeIntPref(KEY_DISCLAIMER, CURRENT_DISCLAIMER_VERSION);
+		PreferencesUpdater.writeIntPref(PreferencesWrapper.KEY_DISCLAIMER, CURRENT_DISCLAIMER_VERSION);
 		PreferencesWrapper.initialSetup();
 	}
 	

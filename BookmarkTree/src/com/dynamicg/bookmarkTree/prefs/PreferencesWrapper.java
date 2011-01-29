@@ -11,6 +11,7 @@ public class PreferencesWrapper {
 	protected static final String KEY_FOLDER_SEPARATOR = "separator";
 	protected static final String DEFVALUE_FOLDER_SEPARATOR = "-";
 	
+	public static final String KEY_DISCLAIMER = "disclaimerLastDisplayed";
 	private static final String KEY_DATE_INITIALISED = "dateInitialised";
 	private static final String KEY_OPTIMISED_LAYOUT = "optimisedLayout";
 	
@@ -60,6 +61,7 @@ public class PreferencesWrapper {
 	 * . as of 1.12, default list style is "medium"
 	 */
 	public static void initialSetup() {
+		
 		PreferencesUpdater.updateAndWrite(listStyle, LIST_SIZE_MEDIUM);
 		PreferencesUpdater.write(optimisedLayout);
 		
