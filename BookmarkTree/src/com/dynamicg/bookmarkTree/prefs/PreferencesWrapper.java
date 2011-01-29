@@ -61,7 +61,7 @@ public class PreferencesWrapper {
 		
 		Time t = new Time();
 		t.setToNow();
-		String now = t.format("%Y%m%d%H%M%S");
+		String now = t.format("%Y%m%d");
 		int value = Integer.parseInt(now);
 		PreferencesUpdater.writeIntPref(KEY_DATE_INITIALISED, value);
 		PreferencesUpdater.writeAll();
