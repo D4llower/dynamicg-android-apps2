@@ -15,6 +15,7 @@ public class PrefEntryInt {
 	public PrefEntryInt(String name, int defValue) {
 		this.name = name;
 		this.value = BookmarkTreeContext.settings.getInt(name, defValue);
+		this.updatedValue = this.value; // for "initial save"
 		cache.add(this);
 	}
 	
