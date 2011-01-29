@@ -49,8 +49,8 @@ public class PreferencesUpdater {
 		edit.commit();
 	}
 	
-	public static void updateAndWrite(PrefEntryInt item) {
-		item.value = item.updatedValue;
+	public static void updateAndWrite(PrefEntryInt item, int newValue) {
+		item.value = newValue;
 		writeIntPref(item.name, item.value);
 	}
 	
