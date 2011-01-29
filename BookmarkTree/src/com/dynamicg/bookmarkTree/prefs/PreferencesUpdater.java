@@ -10,7 +10,7 @@ public class PreferencesUpdater {
 
 	private static final Logger log = new Logger(PreferencesUpdater.class);
 	
-	public static void write() {
+	public static void writeAll() {
 		SharedPreferences.Editor editor = BookmarkTreeContext.settings.edit();
 		
 		// separator handled separately
