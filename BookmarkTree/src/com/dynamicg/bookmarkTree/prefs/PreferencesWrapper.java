@@ -1,6 +1,7 @@
 package com.dynamicg.bookmarkTree.prefs;
 
 import android.graphics.Color;
+import android.text.format.Time;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.VersionAccessor;
@@ -10,6 +11,7 @@ public class PreferencesWrapper {
 	protected static final String KEY_FOLDER_SEPARATOR = "separator";
 	protected static final String DEFVALUE_FOLDER_SEPARATOR = "-";
 	
+	private static final String KEY_DATE_INITIALISED = "dateInitialised";
 	private static final String KEY_OPTIMISED_LAYOUT = "optimisedLayout";
 	
 	public static final PrefEntryInt listStyle = new PrefEntryInt("listStyle", 0);
@@ -50,6 +52,23 @@ public class PreferencesWrapper {
 	}
 	public static boolean isListStyleSmall() {
 		return listStyle.value == LIST_SIZE_SMALL;
+	}
+	
+	/*
+	 * postprocessing on first call
+	 * . as of 1.12, default list style is "medium"
+	 */
+	public static void setup() {
+		PreferencesUpdater.updateAndWrite(listStyle, LIST_SIZE_MEDIUM);
+		PreferencesUpdater.write(optimisedLayout);
+		
+		// "init date" value
+		Time t = new Time();
+		t.setToNow();
+		String now = t.format("%Y%m%d");
+		int value = Integer.parseInt(now);
+		PreferencesUpdater.writeIntPref(KEY_DATE_INITIALISED, value);
+		
 	}
 	
 }
