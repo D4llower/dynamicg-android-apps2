@@ -57,7 +57,6 @@ public class PreferencesWrapper {
 	
 	/*
 	 * extra handling on first call (i.e. after installation)
-	 * . as of 1.12, default list style is "medium"
 	 */
 	public static void initialSetup() {
 		
@@ -66,8 +65,8 @@ public class PreferencesWrapper {
 			return;
 		}
 		
-		PreferencesUpdater.updateAndWrite(listStyle, LIST_SIZE_MEDIUM);
-		PreferencesUpdater.write(optimisedLayout);
+		PreferencesUpdater.updateAndWrite(listStyle, LIST_SIZE_MEDIUM); // as of 1.12, default list style is "medium"
+		PreferencesUpdater.write(optimisedLayout); // no need to calculate the default every time
 		
 		// "init date" value
 		Time t = new Time();
