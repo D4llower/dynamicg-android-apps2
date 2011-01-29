@@ -1,6 +1,7 @@
 package com.dynamicg.bookmarkTree.prefs;
 
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.common.Logger;
@@ -39,4 +40,13 @@ public class PreferencesUpdater {
 		setFolderSeparator(newSeparator.trim());
 	}
 
+	public static void writeIntPref(String key, int value) {
+		if (log.debugEnabled) {
+			log.debug("write int pref", key, value);
+		}
+		Editor edit = BookmarkTreeContext.settings.edit();
+		edit.putInt(key, value);
+		edit.commit();
+	}
+	
 }
