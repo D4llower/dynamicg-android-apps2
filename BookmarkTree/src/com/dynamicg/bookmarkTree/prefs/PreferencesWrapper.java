@@ -56,11 +56,15 @@ public class PreferencesWrapper {
 	}
 	
 	/*
-	 * postprocessing on first call
-	 * . triggered by AboutDialog
+	 * extra handling on first call (i.e. after installation)
 	 * . as of 1.12, default list style is "medium"
 	 */
 	public static void initialSetup() {
+		
+		if (BookmarkTreeContext.settings.contains(KEY_DISCLAIMER)) {
+			// if this key is available, the disclaimer has already been shown
+			return;
+		}
 		
 		PreferencesUpdater.updateAndWrite(listStyle, LIST_SIZE_MEDIUM);
 		PreferencesUpdater.write(optimisedLayout);
