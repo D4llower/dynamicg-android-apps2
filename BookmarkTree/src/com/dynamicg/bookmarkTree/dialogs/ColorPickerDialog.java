@@ -56,8 +56,8 @@ public class ColorPickerDialog extends Dialog {
 		
 		paddingLayout = ContextUtil.getScaledSizeInt(context, 10);
 		
-		paddingSeekbarTop = ContextUtil.getScaledSizeInt(context, 10);
-		paddingSeekbarBottom = ContextUtil.getScaledSizeInt(context, 30);
+		paddingSeekbarTop = ContextUtil.getScaledSizeInt(context, 8);
+		paddingSeekbarBottom = ContextUtil.getScaledSizeInt(context, 27);
 		paddingSeekbarLR = ContextUtil.getScaledSizeInt(context, 15);
 		
 		initColor(color);
