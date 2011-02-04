@@ -1,0 +1,32 @@
+
+v1.08
+- refactor Writers
+- URL edit
+- multiple "view" intent tries
+
+v1.09
+- implement backup/restore
+- add "scale icon" pref
+- field access to logger, disable for prod build
+- refactoring of "BookmarkBeans"
+
+v1.10
+- fix NPE in BitmapScaler
+
+v1.11
+- fix StringUtil.replaceAll (do not use RE)
+- option for 'case insensitive sort', default on
+- settings for text colors
+- prefs refactoring. change dialog to "tabbed"
+
+v1.12
+- add "create shortcut"
+ => requires new privilege "com.android.launcher.permission.INSTALL_SHORTCUT" 
+- list styles: large, medium 18sp, medium 16sp
+- link to Market app on prefs tab2
+- fix a-z sort (set "visits")
+
+v1.13
+- "setProgressDrawable" on ColorPicker
+- highlight and link "backup hint"
+- "indented underline" on "about" links
