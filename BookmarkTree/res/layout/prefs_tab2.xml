@@ -63,20 +63,18 @@
 	<!-- ====================== ABOUT ====================== -->
 	<TextView style="@style/PrefsGroup" android:text="About" android:layout_marginTop="10dip" /> 
 	
-    <TextView
+    <TextView style="@style/PrefsClickText"
     	android:id="@+id/prefsLinkAbout"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
 	    android:layout_marginTop="15dip"
-	    android:focusable="true"
+	    android:textSize="14sp"
+	    android:padding="4dp"
 	    />
 	    
-    <TextView
+    <TextView style="@style/PrefsClickText"
     	android:id="@+id/prefsLinkToMarket"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
 	    android:layout_marginTop="15dip"
-	    android:focusable="true"
+	    android:textSize="14sp"
+	    android:padding="4dp"
 	    />
 	
 	<!-- ====================== done ====================== -->
