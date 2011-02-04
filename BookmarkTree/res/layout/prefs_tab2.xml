@@ -16,9 +16,13 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="@string/prefsSortAZ"
-	    android:layout_marginTop="20dip"
-	    android:layout_marginBottom="10dip"
+	    android:layout_marginTop="10dip"
 	    />
+   	<TextView style="@style/PrefsHint" 
+   		android:layout_span="2"
+   		android:text="\u2192 This will sort the bookmarks A-Z for usage within the browser"
+	    android:layout_marginBottom="5dip"
+   		/>
 
 	<!-- ====================== Setup ====================== -->
 	
@@ -63,7 +67,6 @@
     	android:id="@+id/prefsLinkAbout"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="\u2192 About"
 	    android:layout_marginTop="15dip"
 	    android:focusable="true"
 	    />
@@ -72,7 +75,6 @@
     	android:id="@+id/prefsLinkToMarket"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="\u2192 Link to Android Market - please rate"
 	    android:layout_marginTop="15dip"
 	    android:focusable="true"
 	    />

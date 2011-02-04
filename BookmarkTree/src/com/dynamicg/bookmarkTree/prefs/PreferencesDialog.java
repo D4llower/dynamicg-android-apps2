@@ -136,13 +136,16 @@ public class PreferencesDialog extends Dialog {
 		};
 		TextView linkNode = (TextView)findViewById(R.id.prefsLinkToMarket);
 		linkNode.setOnClickListener(openMarket);
+		LayoutUtil.indentedFocusable(linkNode, "\u2192 ", context.getString(R.string.prefsLinkToMarket));
 		
-		findViewById(R.id.prefsLinkAbout).setOnClickListener(new View.OnClickListener() {
+		TextView aboutNode = (TextView)findViewById(R.id.prefsLinkAbout);
+		aboutNode.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				AboutDialog.show(ctx);
 			}
 		});
+		LayoutUtil.indentedFocusable(aboutNode, "\u2192 ", context.getString(R.string.commonAbout));
 		
 	}
 	

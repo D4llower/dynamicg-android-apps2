@@ -1,2 +1,0 @@
-- add hint to "sort a-z"
-- underline the links "about" and "market"

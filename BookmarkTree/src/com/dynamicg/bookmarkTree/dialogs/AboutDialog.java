@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.bookmarkTree.backup.BackupRestoreDialog;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.ContextUtil;
@@ -48,6 +49,14 @@ public abstract class AboutDialog {
 					;
 				TextView revisionItem = (TextView)body.findViewById(R.id.aboutBodyLinks);
 				revisionItem.setText(revisionText);
+				
+				View backupHint = body.findViewById(R.id.aboutBackupHint);
+				backupHint.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						new BackupRestoreDialog(ctx);
+					}
+				});
 				
 				return body;
 			}

@@ -3,6 +3,7 @@ package com.dynamicg.bookmarkTree.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -19,11 +20,14 @@ import com.dynamicg.common.ContextUtil;
 
 public class ColorPickerDialog extends Dialog {
 
+	private static final int TEXTSIZE = 22;
+	
 	private final Context context;
 	private final ColorSelectedListener colorSelectedListener;
 	
 	private final int paddingLayout;
 	private final int paddingSeekbarTop;
+	private final int paddingSeekbarBottom;
 	private final int paddingSeekbarLR;
 	
 	private TextView titleCell;
@@ -46,9 +50,12 @@ public class ColorPickerDialog extends Dialog {
 		this.colorSelectedListener = colorSelectedListener;
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		maximizeWindowWidth();
 		
 		paddingLayout = ContextUtil.getScaledSizeInt(context, 10);
-		paddingSeekbarTop = ContextUtil.getScaledSizeInt(context, 30);
+		
+		paddingSeekbarTop = ContextUtil.getScaledSizeInt(context, 10);
+		paddingSeekbarBottom = ContextUtil.getScaledSizeInt(context, 30);
 		paddingSeekbarLR = ContextUtil.getScaledSizeInt(context, 15);
 		
 		initColor(color);
@@ -65,24 +72,22 @@ public class ColorPickerDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
+		LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		
 		LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(LinearLayout.VERTICAL);
-		layout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		layout.setLayoutParams(layoutParams);
 		layout.setPadding(paddingLayout,paddingLayout,paddingLayout,paddingLayout);
 		layout.setBackgroundColor(Color.BLACK);
 		
 		this.titleCell = new TextView(context);
 		titleCell.setText(R.string.titleColorPicker);
-		titleCell.setTextSize(22);
+		titleCell.setTextSize(TEXTSIZE);
 		layout.addView(titleCell);
 
-		layout.addView ( createBar(colorPickerRed) );
-		layout.addView ( createBar(colorPickerGreen) );
-		layout.addView ( createBar(colorPickerBlue) );
-		
-		TextView margin = new TextView(context);
-		margin.setHeight(paddingSeekbarTop);
-		layout.addView(margin);
+		layout.addView ( createBar(colorPickerRed, R.drawable.progress_bg_red) );
+		layout.addView ( createBar(colorPickerGreen, R.drawable.progress_bg_green) );
+		layout.addView ( createBar(colorPickerBlue, R.drawable.progress_bg_blue) );
 		
 		Button btSave = new Button(context);
 		btSave.setText(R.string.commonOK);
@@ -106,6 +111,13 @@ public class ColorPickerDialog extends Dialog {
 		scrollView.addView(layout);
 		this.setContentView(scrollView);
 		
+		// maximize window width
+		//LayoutUtil.maximizeDialog(this);
+		maximizeWindowWidth();
+	}
+	
+	private void maximizeWindowWidth() {
+		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 	}
 	
 	private int getSelectedColor() {
@@ -116,12 +128,18 @@ public class ColorPickerDialog extends Dialog {
 		titleCell.setTextColor(getSelectedColor());
 	}
 	
-	private SeekBar createBar(final IntHolder target) {
+	private Drawable getBackground(int res) {
+		return context.getResources().getDrawable(res);
+	}
+	
+	private SeekBar createBar(final IntHolder target, int background) {
 		
 		SeekBar slider = new SeekBar(context);
+		slider.setProgressDrawable(getBackground(background));
+		
 		slider.setMax(255);
 		slider.setProgress(target.value);
-		slider.setPadding(paddingSeekbarLR, paddingSeekbarTop, paddingSeekbarLR, 0);
+		slider.setPadding(paddingSeekbarLR, paddingSeekbarTop, paddingSeekbarLR, paddingSeekbarBottom);
 		
 		slider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			private void update(SeekBar seekBar) {

@@ -43,7 +43,7 @@
 
 	<!-- ====================== Hint ====================== -->
     <TextView style="@style/PrefsHint"
-    	android:text="\u2192 \'Create shortcut\' is Beta. Icon scaling does not work on 1.5 devices." 
+    	android:text="\u2192 Icon scaling does not work on 1.5 devices." 
     	android:layout_marginTop="5dip"
     	/>
     
