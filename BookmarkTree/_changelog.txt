@@ -28,5 +28,5 @@ v1.12
 
 v1.13
 - "setProgressDrawable" on ColorPicker
-- highlight and link "backup hint"
-- "indented underline" on "about" links
+- highlight and link the backup hint on About page
+- "indented underline" on "about" links (prefs tab2)
