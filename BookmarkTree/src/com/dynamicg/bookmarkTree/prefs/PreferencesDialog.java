@@ -105,9 +105,9 @@ public class PreferencesDialog extends Dialog {
 		bindSpinner ( R.id.prefsSortOption, PreferencesWrapper.sortOption, SpinnerUtil.getSortOptionItems(context), R.string.prefsSortLabel );
 		
 		// color items
-		bindColorPicker(R.id.prefsColorFolder, PreferencesWrapper.colorFolder);
-		bindColorPicker(R.id.prefsColorBookmarkTitle, PreferencesWrapper.colorBookmarkTitle);
-		bindColorPicker(R.id.prefsColorBookmarkUrl, PreferencesWrapper.colorBookmarkUrl);
+		bindColorPicker(R.id.prefsColorFolder, PreferencesWrapper.colorFolder, R.string.prefsColorFolder);
+		bindColorPicker(R.id.prefsColorBookmarkTitle, PreferencesWrapper.colorBookmarkTitle, R.string.prefsColorBookmarkTitle);
+		bindColorPicker(R.id.prefsColorBookmarkUrl, PreferencesWrapper.colorBookmarkUrl, R.string.prefsColorBookmarkUrl);
 		
 		// save/cancel panel
 		new DialogButtonPanelWrapper(this, DialogButtonPanelWrapper.TYPE_SAVE_CANCEL) {
@@ -225,12 +225,13 @@ public class PreferencesDialog extends Dialog {
 		return box;
 	}
 	
-	private void bindColorPicker(int id, final PrefEntryInt prefEntry) {
+	private void bindColorPicker(int id, final PrefEntryInt prefEntry, int titleRes) {
 		prefToViewMap.put(prefEntry, id);
 
 		TextView link = (TextView)findViewById(id);
-		LayoutUtil.underline(link);
-
+		//LayoutUtil.underline(link);
+		LayoutUtil.indentedFocusable(link, "\u2022 ", context.getString(titleRes) );
+		
 		final ColorSelectedListener colorSelectedListener = new ColorSelectedListener() {
 			@Override
 			public void colorSelected(int selectedColor) {
