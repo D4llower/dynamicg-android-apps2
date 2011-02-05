@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
@@ -95,11 +96,11 @@ public class ColorPickerDialog extends Dialog {
 		layout.addView(titleCell);
 
 		addMarginCell(layout, 5);
-		layout.addView ( createBar(colorPickerRed, R.drawable.progress_bg_red) );
+		addProgressBar(layout, colorPickerRed, R.drawable.progress_bg_red);
 		addMarginCell(layout, 30);
-		layout.addView ( createBar(colorPickerGreen, R.drawable.progress_bg_green) );
+		addProgressBar(layout, colorPickerGreen, R.drawable.progress_bg_green);
 		addMarginCell(layout, 30);
-		layout.addView ( createBar(colorPickerBlue, R.drawable.progress_bg_blue) );
+		addProgressBar(layout, colorPickerBlue, R.drawable.progress_bg_blue);
 		addMarginCell(layout, 20);
 		
 		updateTitleColor();
@@ -176,7 +177,7 @@ public class ColorPickerDialog extends Dialog {
 		return context.getResources().getDrawable(res);
 	}
 	
-	private SeekBar createBar(final IntHolder target, int background) {
+	private void addProgressBar(ViewGroup parent, final IntHolder target, int background) {
 		
 		SeekBar slider = new SeekBar(context);
 		slider.setProgressDrawable(getBackground(background));
@@ -203,7 +204,7 @@ public class ColorPickerDialog extends Dialog {
 			}
 		});
 		
-		return slider;
+		parent.addView(slider);
 	}
 	
 }
