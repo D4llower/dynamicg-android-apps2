@@ -28,8 +28,7 @@ public class ColorPickerDialog extends Dialog {
 	private final ColorSelectedListener colorSelectedListener;
 	
 	private final int paddingLayout;
-	private final int paddingSeekbarTop;
-	private final int paddingSeekbarBottom;
+	private final int paddingSeekbarTB;
 	private final int paddingSeekbarLR;
 	
 	private TextView titleCell;
@@ -54,21 +53,29 @@ public class ColorPickerDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		maximizeWindowWidth();
 		
-		paddingLayout = ContextUtil.getScaledSizeInt(context, 10);
-		
-		paddingSeekbarTop = ContextUtil.getScaledSizeInt(context, 8);
-		paddingSeekbarBottom = ContextUtil.getScaledSizeInt(context, 27);
-		paddingSeekbarLR = ContextUtil.getScaledSizeInt(context, 15);
+		paddingLayout = scale(10);
+		paddingSeekbarLR = scale(15);
+		paddingSeekbarTB = scale(3);
 		
 		initColor(color);
 		
 		this.show();
 	}
 
+	private int scale(int i) {
+		return ContextUtil.getScaledSizeInt(context, i);
+	}
+	
 	private void initColor(final int color) {
 		colorPickerRed.value = Color.red(color);
 		colorPickerGreen.value = Color.green(color);
 		colorPickerBlue.value = Color.blue(color);
+	}
+	
+	private void addMarginCell(LinearLayout parent, int h) {
+		TextView cell = new TextView(context);
+		cell.setHeight(scale(h));
+		parent.addView(cell);
 	}
 	
 	@Override
@@ -87,9 +94,13 @@ public class ColorPickerDialog extends Dialog {
 		titleCell.setTextSize(TEXTSIZE);
 		layout.addView(titleCell);
 
+		addMarginCell(layout, 5);
 		layout.addView ( createBar(colorPickerRed, R.drawable.progress_bg_red) );
+		addMarginCell(layout, 30);
 		layout.addView ( createBar(colorPickerGreen, R.drawable.progress_bg_green) );
+		addMarginCell(layout, 30);
 		layout.addView ( createBar(colorPickerBlue, R.drawable.progress_bg_blue) );
+		addMarginCell(layout, 20);
 		
 		updateTitleColor();
 		
@@ -110,7 +121,7 @@ public class ColorPickerDialog extends Dialog {
 	
 	private void addButtonPanel(LinearLayout parent) {
 		
-		int scaledButtonWidth = ContextUtil.getScaledSizeInt(context, BUTTON_WIDTH);
+		int scaledButtonWidth = scale(BUTTON_WIDTH);
 		LinearLayout panel = new LinearLayout(context);
 		panel.setOrientation(LinearLayout.HORIZONTAL);
 		panel.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -172,7 +183,7 @@ public class ColorPickerDialog extends Dialog {
 		
 		slider.setMax(255);
 		slider.setProgress(target.value);
-		slider.setPadding(paddingSeekbarLR, paddingSeekbarTop, paddingSeekbarLR, paddingSeekbarBottom);
+		slider.setPadding(paddingSeekbarLR, paddingSeekbarTB, paddingSeekbarLR, paddingSeekbarTB);
 		
 		slider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			private void update(SeekBar seekBar) {
