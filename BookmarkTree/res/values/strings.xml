@@ -71,7 +71,7 @@
     <string name="hintTitleMissing">Title is empty. Cannot save.</string>
     <string name="hintUrlMissing">URL is empty. Cannot save.</string>
     <string name="hintReloaded">Reloaded {1} bookmarks</string>
-	<string name="titleColorPicker">Choose color</string>
+	<string name="titleColorPicker">Set color</string>
 
     <string name="shortcutIconScale">Icon scaling</string>
     <string name="shortcutIconPreviewLabel">Icon preview:</string>
