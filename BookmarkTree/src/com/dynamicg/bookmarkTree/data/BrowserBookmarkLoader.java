@@ -7,10 +7,10 @@ import android.database.Cursor;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.bookmarkTree.bitmapScaler.BitmapScaleManager;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
+import com.dynamicg.bookmarkTree.util.BitmapScaleManager;
 import com.dynamicg.common.Logger;
 
 public class BrowserBookmarkLoader {
@@ -31,23 +31,20 @@ public class BrowserBookmarkLoader {
 		return value==null?EMPTY:value;
 	}
 	
-	@SuppressWarnings({ "unchecked" })
 	public static ArrayList<BrowserBookmarkBean> forListAdapter(BookmarkTreeContext ctx) {
-		return (ArrayList<BrowserBookmarkBean>)readBrowserBookmarks(ctx.activity, FOR_DISPLAY);
+		return readBrowserBookmarks(ctx.activity, FOR_DISPLAY);
 	}
 	
-	@SuppressWarnings({ "unchecked" })
 	public static ArrayList<RawDataBean> forInternalOps(BookmarkTreeContext ctx) {
-		return (ArrayList<RawDataBean>)readBrowserBookmarks(ctx.activity, FOR_INTERNAL_OP);
+		return readBrowserBookmarks(ctx.activity, FOR_INTERNAL_OP);
 	}
 	
-	@SuppressWarnings({ "unchecked" })
 	public static ArrayList<RawDataBean> forBackup(BookmarkTreeContext ctx) {
-		return (ArrayList<RawDataBean>)readBrowserBookmarks(ctx.activity, FOR_BACKUP_RESTORE);
+		return readBrowserBookmarks(ctx.activity, FOR_BACKUP_RESTORE);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static ArrayList readBrowserBookmarks(Activity main, int what) {
+	@SuppressWarnings("unchecked")
+	private static <E> ArrayList<E> readBrowserBookmarks(Activity main, int what) {
 
 		String[] columns = new String[] {
 				Browser.BookmarkColumns._ID
@@ -70,7 +67,7 @@ public class BrowserBookmarkLoader {
 				, sortOrder
 		);
 
-		ArrayList rows = new ArrayList();
+		ArrayList<E> rows = new ArrayList<E>();
 		
 		// see error report "Aug 13, 2010 10:19:37 PM"
 		if (crs==null) {
@@ -87,7 +84,7 @@ public class BrowserBookmarkLoader {
 				bean.url = nvl(crs.getString(3));
 				bean.favicon = crs.getBlob(4);
 				
-				rows.add(bean);
+				rows.add((E)bean);
 				if (log.traceEnabled) {
 					log.debug("loadBrowserBookmarks", bean.fullTitle, bean.url, bean.created);
 				}
@@ -105,7 +102,7 @@ public class BrowserBookmarkLoader {
 					bean.favicon = BitmapScaleManager.getIcon(crs.getBlob(4));
 				}
 				
-				rows.add(bean);
+				rows.add((E)bean);
 				if (log.traceEnabled) {
 					log.debug("loadBrowserBookmarks", bean.id, bean.fullTitle, bean.url);
 				}

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.R;
@@ -39,65 +38,6 @@ public abstract class RowViewProvider {
 	
 	public abstract View getView(Bookmark bm, View convertView, ViewGroup parent);
 	
-	public static class ProviderOldStyle extends RowViewProvider {
-
-		public ProviderOldStyle(LayoutInflater inflater) {
-			super(inflater);
-		}
-
-		private void prepare(View rowview, Bookmark bm) {
-			
-	        TextView titleCell = (TextView) rowview.findViewById(R.id.bmTitle);
-	        titleCell.setText(bm.getDisplayTitle());
-	        if (applyTextColors) {
-	        	titleCell.setTextColor(bm.isFolder() ? PreferencesWrapper.colorFolder.value : PreferencesWrapper.colorBookmarkTitle.value );
-	        }
-	        
-	        View indentionCell = rowview.findViewById(R.id.bmIndention);
-	    	indentionCell.getLayoutParams().width = bm.hasParentFolder() ? bm.getLevel() * childLevelIndention : 0; 
-	    	
-	    	if (!compact) {
-		    	if (bm.isBrowserBookmark()) {
-			        TextView urlCell = (TextView) rowview.findViewById(R.id.bmUrl);
-			        urlCell.setText(bm.getUrl());
-			        if (applyTextColors) {
-			        	urlCell.setTextColor(PreferencesWrapper.colorBookmarkUrl.value);
-			        }
-		    	}
-	    	}
-
-	        ImageView iconCell = (ImageView) rowview.findViewById(R.id.bmIcon);
-	    	if (compact && bm.isFolder()) {
-		    	((FaviconImageView)iconCell).isFolder = true;
-	    	}
-			if (bm.isFolder()) {
-		        iconCell.setImageResource(bm.isExpanded() ? R.drawable.folder_open : R.drawable.folder_dflt );
-			}
-			else {
-		        iconCell.setImageBitmap(bm.getFavicon());
-			}
-	        
-		}
-		
-		@Override
-		public View getView(Bookmark bm, View convertView, ViewGroup parent) {
-	        int resid;
-	        if (listStyleMedium) {
-	        	resid = R.layout.list_row_style_medium;
-	        }
-	        else if (listStyleSmall) {
-	        	resid = R.layout.list_row_style_small;
-	        }
-	        else {
-	        	resid = bm.isFolder() ? R.layout.list15_row_folder : R.layout.list15_row_bookmark;
-	        }
-	        View rowview = inflater.inflate(resid, null);
-	        prepare(rowview, bm);
-			return rowview;
-		}
-		
-	}
-	
 	static class ViewHolder {
 		TextView titleCell;
 		View indentionCell;
@@ -111,9 +51,9 @@ public abstract class RowViewProvider {
 
 		public ProviderModern(LayoutInflater inflater) {
 			super(inflater);
-			this.layoutId = listStyleMedium ? R.layout.list_row_style_medium
-					: listStyleSmall ? R.layout.list_row_style_small
-							: R.layout.list20_row_relative;
+			this.layoutId = listStyleSmall ? R.layout.list_row_style_small
+					: listStyleMedium ? R.layout.list_row_style_medium
+							: R.layout.list_row_style_large;
 		}
 
 		private void prepare(ViewHolder holder, Bookmark bm) {

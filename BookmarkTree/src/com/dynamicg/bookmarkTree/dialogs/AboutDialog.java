@@ -1,5 +1,6 @@
 package com.dynamicg.bookmarkTree.dialogs;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,24 +30,27 @@ public abstract class AboutDialog {
 	
 	public static void show(final BookmarkTreeContext ctx) {
 
-		final String[] appinfo = ContextUtil.getVersion(ctx.activity);
+		final Context context = ctx.activity;
+		final String[] appinfo = ContextUtil.getVersion(context);
 
-		new SimpleAlertDialog(ctx.activity, "About", "Close") {
+		new SimpleAlertDialog(context, R.string.commonAbout, R.string.commonClose) {
 			@Override
 			public View getBody() {
-				View body = SystemUtil.getLayoutInflater(ctx.activity).inflate(R.layout.about, null);
+				View body = SystemUtil.getLayoutInflater(context).inflate(R.layout.about, null);
 
-				String title = "Bookmark Tree Manager "+appinfo[0];
+				String title = context.getString(R.string.app_name)+" "+appinfo[0];
 				TextView titleItem = (TextView)body.findViewById(R.id.aboutSubTitle);
 				titleItem.setText(title);
 				
-				String revisionText = "\nThis app is open source:"
+				String txtOpenSource = "\nThis app is open source:"
 					+ "\nhttps://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree"
-					+ "\n"
-					+ "\nProgrammed by "+AUTHOR
+					+ "\n";
+				String txtAuthor = "\nProgrammed by "+AUTHOR
 					+ "\nSVN Revision: " + (appinfo[1])
 					+ "\n"
 					;
+				
+				String revisionText = txtOpenSource + txtAuthor;
 				TextView revisionItem = (TextView)body.findViewById(R.id.aboutBodyLinks);
 				revisionItem.setText(revisionText);
 				

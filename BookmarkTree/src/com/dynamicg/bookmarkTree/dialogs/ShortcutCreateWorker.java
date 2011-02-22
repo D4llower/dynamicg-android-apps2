@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.net.Uri;
 
 import com.dynamicg.bookmarkTree.R;
-import com.dynamicg.bookmarkTree.bitmapScaler.BitmapScaleManager;
 import com.dynamicg.common.ContextUtil;
 import com.dynamicg.common.Logger;
 
@@ -52,8 +51,8 @@ public class ShortcutCreateWorker {
 		// scale favicon
 		// => note we copy the icon first as we're going to overwrite the density
 		Bitmap favicon = originalFavicon.copy(originalFavicon.getConfig(), true);
-		int currentDensity = BitmapScaleManager.getDensity(favicon);
-		BitmapScaleManager.scale(favicon, targetDensity);
+		int currentDensity = favicon.getDensity();
+		favicon.setDensity(targetDensity);
 		
 		// draw centered
 		float densityPatch = (float)currentDensity / (float)targetDensity;

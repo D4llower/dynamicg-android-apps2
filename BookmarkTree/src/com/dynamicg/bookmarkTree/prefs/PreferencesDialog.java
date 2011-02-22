@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.StyleSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,8 +59,7 @@ public class PreferencesDialog extends Dialog {
 
 	private EditText separatorItem;
 	private CheckBox doFullUpdateCheckbox;
-	private CheckBox optimiseLayout;
-	private CheckBox scaleIconsCheckbox;
+	//private CheckBox scaleIconsCheckbox;
 
 	private boolean dataRefreshRequired;
 	
@@ -95,14 +98,13 @@ public class PreferencesDialog extends Dialog {
 		checkForChangedSeparator(); // inactivate intially
 		
 		// bind checkboxes
-		optimiseLayout = bindCheckbox(R.id.prefsOptimiseLayout, PreferencesWrapper.optimisedLayout);
-		scaleIconsCheckbox = bindCheckbox(R.id.prefsScaleIcons, PreferencesWrapper.scaleIcons);
 		bindCheckbox(R.id.prefsKeepState, PreferencesWrapper.keepState);
 		bindCheckbox(R.id.prefsSortCaseInsensitive, PreferencesWrapper.sortCaseInsensitive);
 		
 		// bind spinners
 		bindSpinner ( R.id.prefsListStyle, PreferencesWrapper.listStyle, SpinnerUtil.getListStyleItems(context), R.string.prefsListStyle );
 		bindSpinner ( R.id.prefsSortOption, PreferencesWrapper.sortOption, SpinnerUtil.getSortOptionItems(context), R.string.prefsSortLabel );
+		bindSpinner ( R.id.prefsIconScaling, PreferencesWrapper.iconScaling, SpinnerUtil.getIconScalingItems(), R.string.prefsIconScaling );
 		
 		// color items
 		bindColorPicker(R.id.prefsColorFolder, PreferencesWrapper.colorFolder, R.string.prefsColorFolder);
@@ -174,7 +176,7 @@ public class PreferencesDialog extends Dialog {
 				new SimpleAlertDialog.OkCancelDialog(ctx.activity, R.string.actionSortBookmarksConfirm) {
 					@Override
 					public void onPositiveButton() {
-						new SimpleProgressDialog(ctx.activity, context.getString(R.string.commonPleaseWait) ) {
+						new SimpleProgressDialog(ctx.activity, R.string.commonPleaseWait ) {
 							@Override
 							public void backgroundWork() {
 								new AlphaSortWriter(ctx);
@@ -203,7 +205,7 @@ public class PreferencesDialog extends Dialog {
 		for ( int i=0;i<layouts.length;i++) {
 			tspec = tabs.newTabSpec("tab"+i);
 			tspec.setContent(layouts[i]);
-			tspec.setIndicator ( context.getString(titles[i]) );
+			tspec.setIndicator ( bold(context.getString(titles[i])) );
 			tabs.addTab(tspec);
 			// smaller tab height
 			child = tabs.getTabWidget().getChildAt(i);
@@ -211,6 +213,12 @@ public class PreferencesDialog extends Dialog {
 			child.setPadding(0,child.getPaddingTop(),0,child.getPaddingBottom());
 		}
 		
+	}
+	
+	private static SpannableString bold(String text) {
+		SpannableString str = new SpannableString(text);
+		str.setSpan(new StyleSpan(Typeface.BOLD), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		return str;
 	}
 	
 	private void bindSpinner(int spinnerResId, PrefEntryInt prefEntry, ArrayList<KeyValue> items, int prompt) {
@@ -262,7 +270,7 @@ public class PreferencesDialog extends Dialog {
 			savePostprocessing();
 		}
 		else {
-			new SimpleProgressDialog(ctx.activity, context.getString(R.string.commonPleaseWait)) {
+			new SimpleProgressDialog(ctx.activity, R.string.commonPleaseWait) {
 				@Override
 				public void backgroundWork() {
 					saveMain();
@@ -280,8 +288,7 @@ public class PreferencesDialog extends Dialog {
 		
 		boolean toastForReopen =
 			PreferencesWrapper.listStyle.value != spinnerUtil.getCurrentValue(R.id.prefsListStyle)
-			|| PreferencesWrapper.optimisedLayout.isOn() != optimiseLayout.isChecked()
-			|| PreferencesWrapper.scaleIcons.isOn() != scaleIconsCheckbox.isChecked()
+			|| PreferencesWrapper.iconScaling.value != spinnerUtil.getCurrentValue(R.id.prefsIconScaling)
 			;
 		
 		processSeparatorUpdate();
@@ -301,7 +308,7 @@ public class PreferencesDialog extends Dialog {
 		PreferencesUpdater.writeAll();
 		
 		if (toastForReopen) {
-			SystemUtil.toastShort(context, "Please restart the app");
+			SystemUtil.toastShort(context, context.getString(R.string.hintRestartApp));
 		}
 	}
 
@@ -341,7 +348,7 @@ public class PreferencesDialog extends Dialog {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_SHOW_DISCLAIMER, 0, "About ...");
+		menu.add(0, ACTION_SHOW_DISCLAIMER, 0, context.getString(R.string.commonAbout));
 		menu.add(0, ACTION_DUMP_BOOKMARKS, 0, "Internal bookmarks ...");
 		return true;
 	}

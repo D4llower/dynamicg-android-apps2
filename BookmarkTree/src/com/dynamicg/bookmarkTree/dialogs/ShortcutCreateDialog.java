@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
-import com.dynamicg.bookmarkTree.bitmapScaler.BitmapScaleManager;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.prefs.SpinnerUtil;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
@@ -24,6 +23,8 @@ import com.dynamicg.common.Logger;
 public class ShortcutCreateDialog extends Dialog {
 
 	private static final Logger log = new Logger(ShortcutCreateDialog.class);
+
+	private static final int DEFAULT_DENSITY = 160;
 
 	private final Context context;
 	private final Bookmark bookmark;
@@ -98,9 +99,9 @@ public class ShortcutCreateDialog extends Dialog {
 		 * DENSITY
 		 */
 		setLabel(R.id.shortcutIconDensityLabel, R.string.shortcutIconScale);
-		int defaultDensity = BitmapScaleManager.ScaleWorker.DFLT_DENSITY;
+		int defaultDensity = DEFAULT_DENSITY;
 		densitySpinner = (Spinner)findViewById(R.id.shortcutIconDensity);
-		spinnerUtil.bind ( R.id.shortcutIconDensity, defaultDensity, SpinnerUtil.getBitmapDensity(), R.string.shortcutIconScale);
+		spinnerUtil.bind ( R.id.shortcutIconDensity, defaultDensity, SpinnerUtil.getShortcutBitmapDensity(), R.string.shortcutIconScale);
 		
 		// override the default "on change" listener:
 		final long initGracetime = System.currentTimeMillis() + 300l; // screen setup triggers "onItemSeleced" so we catch the initial call

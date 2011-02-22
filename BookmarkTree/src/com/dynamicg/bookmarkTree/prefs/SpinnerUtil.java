@@ -109,13 +109,25 @@ public class SpinnerUtil {
 		return items.list;
 	}
 	
-	public static ArrayList<KeyValue> getBitmapDensity() {
+	public static ArrayList<KeyValue> getShortcutBitmapDensity() {
 		SpinnerItems items = new SpinnerItems();
 		items.add (  80, "2.0x (80dpi)" );
 		items.add ( 120, "1.5x (120dpi)" );
 		items.add ( 160, "Default (160dpi)" );
 		items.add ( 240, "0.75x (240dpi)" );
 		items.add ( 320, "0.5x (320dpi)" );
+		return items.list;
+	}
+	
+	public static ArrayList<KeyValue> getIconScalingItems() {
+		SpinnerItems items = new SpinnerItems();
+		items.add ( PreferencesWrapper.ICON_SCALING_NONE, "None" );
+		items.add ( PreferencesWrapper.ICON_SCALING_160, "160dpi" );
+		items.add ( PreferencesWrapper.ICON_SCALING_160_120, "160dpi, 120dpi" );
+		items.add ( PreferencesWrapper.ICON_SCALING_160_100, "160dpi, 100dpi" );
+		items.add ( PreferencesWrapper.ICON_SCALING_160_80, "160dpi, 80dpi" );
+		items.add ( PreferencesWrapper.ICON_SCALING_240, "240dpi" );
+		items.add ( PreferencesWrapper.ICON_SCALING_240_160, "240dpi, 160dpi" );
 		return items.list;
 	}
 	

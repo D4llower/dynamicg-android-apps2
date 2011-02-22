@@ -36,12 +36,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 		this.ctx = ctx;
 		this.layoutInflater = SystemUtil.getLayoutInflater(ctx.activity);
 		
-		if (PreferencesWrapper.optimisedLayout.isOn()) {
-			rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater);
-		}
-		else {
-			rowViewProvider = new RowViewProvider.ProviderOldStyle(layoutInflater);
-		}
+		this.rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater);
 		
 		this.listview = (ListView)ctx.activity.findViewById(R.id.mainList);
 		
