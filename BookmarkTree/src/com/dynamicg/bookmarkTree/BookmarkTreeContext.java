@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.dynamicg.bookmarkTree.bitmapScaler.BitmapScaleManager;
 import com.dynamicg.bookmarkTree.data.BookmarkManager;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.ui.BookmarkListAdapter;
+import com.dynamicg.bookmarkTree.util.BitmapScaleManager;
 
 public class BookmarkTreeContext {
 
