@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
 import com.dynamicg.common.Logger;
-import com.dynamicg.common.SimpleAlertDialog;
 
 public class BackupPrefs {
 
@@ -37,16 +36,16 @@ public class BackupPrefs {
 		
 	}
 	
-	@SuppressWarnings("unused")
-	private static void initialBackupConfirmation(final BookmarkTreeContext ctx) {
-		new SimpleAlertDialog.OkCancelDialog(ctx.activity, Messages.brEnableAutoBackup) {
-			@Override
-			public void onPositiveButton() {
-				writePref(KEY_AUTO_ENABLED, 1);
-				startBackup(ctx);
-			}
-		};
-	}
+//	@SuppressWarnings("unused")
+//	private static void initialBackupConfirmation(final BookmarkTreeContext ctx) {
+//		new SimpleAlertDialog.OkCancelDialog(ctx.activity, Messages.brEnableAutoBackup) {
+//			@Override
+//			public void onPositiveButton() {
+//				writePref(KEY_AUTO_ENABLED, 1);
+//				startBackup(ctx);
+//			}
+//		};
+//	}
 	
 	private static int getDayNr() {
 		long now = System.currentTimeMillis();

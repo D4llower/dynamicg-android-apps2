@@ -53,7 +53,7 @@ implements BackupEventListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
-		setTitle(Messages.brDialogTitle);
+		setTitle(R.string.brDialogTitle);
 		
 		Button backup = (Button)findViewById(R.id.brBackup);
 		backup.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ implements BackupEventListener {
 			}
 		};
 		
-		((TextView)findViewById(R.id.brStorageHint1)).setText(Messages.brStorageHint);
+		((TextView)findViewById(R.id.brStorageHint1)).setText(R.string.brStorageHint);
 		
 		String backupdir = SDCardCheck.getBackupDir().toString();
 		((TextView)findViewById(R.id.brStorageHint2)).setText(backupdir);
@@ -83,7 +83,7 @@ implements BackupEventListener {
 	
 	private void setupAutoBackup() {
 		CheckBox autoBackup = (CheckBox)findViewById(R.id.brAutoBackup);
-		String autoBackupLabel = StringUtil.textWithParam(Messages.brAutoBackupLabel, BackupPrefs.DAYS_BETWEEN); 
+		String autoBackupLabel = StringUtil.textWithParam(context, R.string.brAutoBackupLabel, BackupPrefs.DAYS_BETWEEN); 
 		autoBackup.setText(autoBackupLabel);
 		autoBackup.setChecked(BackupPrefs.isAutoBackupEnabled());
 		
@@ -91,7 +91,7 @@ implements BackupEventListener {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				BackupPrefs.writeAutoBackupEnabled(isChecked);
-				SystemUtil.toastShort(context, "Auto backup "+(isChecked?"enabled":"disabled"));
+				SystemUtil.toastShort(context, context.getString(isChecked?R.string.hintAutoBackupEnabled:R.string.hintAutoBackupDisabled));
 			}
 		});
 		
@@ -104,7 +104,7 @@ implements BackupEventListener {
 		
 		final ArrayList<File> backupFiles = BackupManager.getBackupFiles();
 		if (backupFiles.size()==0) {
-			TextView hint = SimpleAlertDialog.createTextView(context, Messages.brNoFilesForRestore);
+			TextView hint = SimpleAlertDialog.createTextView(context, R.string.brNoFilesForRestore);
 			backupListGroup.addView(hint);
 		}
 		
@@ -134,7 +134,7 @@ implements BackupEventListener {
 	}
 	
 	private void restore(final RadioGroup group, final File backupFile) {
-		new SimpleAlertDialog.OkCancelDialog(context, Messages.brRestoreConfirmation) {
+		new SimpleAlertDialog.OkCancelDialog(context, R.string.brRestoreConfirmation) {
 			
 			@Override
 			public void onPositiveButton() {
@@ -148,7 +148,7 @@ implements BackupEventListener {
 
 			@Override
 			public String getPlainBodyText() {
-				return StringUtil.replaceAll(Messages.brSelectedFileLabel, "{1}", backupFile.getName() );
+				return StringUtil.textWithParam(context, R.string.brSelectedFileLabel, backupFile.getName() );
 			}
 
 		};
@@ -171,11 +171,11 @@ implements BackupEventListener {
 	}
 	
 	private String getDeletionOldLabel() {
-		return StringUtil.textWithParam(Messages.brDeleteOld, DELETION_DAYS_LIMIT);
+		return StringUtil.textWithParam(context, R.string.brDeleteOld, DELETION_DAYS_LIMIT);
 	}
 	
 	private void deleteConfirmation(final int what) {
-		String msg = what==ACTION_DELETE_ALL ? Messages.brDeleteAll
+		String msg = what==ACTION_DELETE_ALL ? context.getString(R.string.brDeleteAll)
 				: what==ACTION_DELETE_OLD ? getDeletionOldLabel()
 						: "<undefined>";
 		new SimpleAlertDialog.OkCancelDialog(context, msg+"?") {
@@ -189,7 +189,7 @@ implements BackupEventListener {
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, ACTION_DELETE_OLD, 0, getDeletionOldLabel());
-		menu.add(0, ACTION_DELETE_ALL, 0, Messages.brDeleteAll);
+		menu.add(0, ACTION_DELETE_ALL, 0, context.getString(R.string.brDeleteAll) );
 		return true;
 	}
 

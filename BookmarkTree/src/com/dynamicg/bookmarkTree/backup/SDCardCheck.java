@@ -8,6 +8,7 @@ import android.os.Environment;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
+import com.dynamicg.common.StringUtil;
 
 public class SDCardCheck {
 
@@ -15,12 +16,13 @@ public class SDCardCheck {
 	
 	private final File backupdir = getBackupDir();
 	private final String sdCardState = Environment.getExternalStorageState();
-	private final String errorTitle = "SD Card access error";
+	private final String errorTitle;
 	
 	private final Context context;
 
 	public SDCardCheck(Context context) {
 		this.context = context;
+		errorTitle = context.getString(R.string.sdcardErrorTitle);
 	}
 	
 	public static final File getBackupDir() {
@@ -45,6 +47,14 @@ public class SDCardCheck {
 			}
 		};
 	}
+	private static void alert(Context context,String title, int res, String param) {
+		String body = StringUtil.textWithParam(context, res, param);
+		alert(context, title, body);
+	}
+	private static void alert(Context context,String title, int res, File param) {
+		String body = StringUtil.textWithParam(context, res, param.getAbsolutePath());
+		alert(context, title, body);
+	}
 	
 	public File readyForWrite() {
 		
@@ -53,15 +63,15 @@ public class SDCardCheck {
 		}
 		
 		if (!Environment.MEDIA_MOUNTED.equals(sdCardState)) {
-			alert(context, errorTitle, "SD Card is not mounted.\nCurrent state is '"+sdCardState+"'");
+			alert(context, errorTitle, R.string.sdcardErrorNotAvailable, sdCardState);
 			return null;
 		}
 		else if (backupdir.exists() && backupdir.canRead() && !backupdir.canWrite()) {
-			alert(context, errorTitle, "Directory "+backupdir+" is read only");
+			alert(context, errorTitle, R.string.sdcardErrorDirReadOnly, backupdir);
 			return null;
 		}
 		else if (!backupdir.exists() || !backupdir.isDirectory()) {
-			alert(context, errorTitle, "Could not create backup directory:\n"+backupdir);
+			alert(context, errorTitle, R.string.sdcardErrorDirCreateFailed, backupdir);
 			return null;
 		}
 		else {
@@ -80,7 +90,7 @@ public class SDCardCheck {
 			return false;
 		}
 		else if (!backupdir.exists()) {
-			alert(context, errorTitle, "Backup directory does not exist:\n"+backupdir);
+			alert(context, errorTitle, R.string.sdcardErrorDirMissing, backupdir);
 			return false;
 		}
 		
@@ -91,7 +101,7 @@ public class SDCardCheck {
 		if ( !Environment.MEDIA_MOUNTED.equals(sdCardState)
 				&& !Environment.MEDIA_MOUNTED_READ_ONLY.equals(sdCardState) )
 		{
-			alert(context, errorTitle, "SD Card is not available.\nCurrent state is '"+sdCardState+"'");
+			alert(context, errorTitle, R.string.sdcardErrorNotAvailable, sdCardState);
 			return false;
 		}
 		return true;

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.text.format.Time;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
@@ -92,7 +93,7 @@ public class BackupManager {
 			locktable.add(filename);
 		}
 		
-		new SimpleProgressDialog(context, Messages.brProgressCreateBackup) {
+		new SimpleProgressDialog(context, R.string.brProgressCreateBackup) {
 			
 			int numberOfRows;
 			
@@ -119,7 +120,7 @@ public class BackupManager {
 			
 			@Override
 			public void done() {
-				String text = Messages.brHintBackupCreated
+				String text = context.getString(R.string.brHintBackupCreated)
 				.replace("{1}", filename)
 				.replace("{2}", Integer.toString(numberOfRows))
 				;
@@ -140,26 +141,37 @@ public class BackupManager {
 		
 	}
 	
+	public static String getProgressMessageText(Context context, int step) {
+		return StringUtil.textWithParam(context, R.string.brProgressRestoreBookmarks, step);
+	}
+	public static void updateProgressMessageText(BookmarkTreeContext ctx, SimpleProgressDialog progress, int step) {
+		progress.updateProgressMessage ( BackupManager.getProgressMessageText(ctx.activity,step) );
+	}
+	
 	public synchronized static void restore ( final BookmarkTreeContext ctx
 			, final File xmlfile
 			, final BackupEventListener backupDoneListener
 			) 
 	{
 		
-		if (!new SDCardCheck(ctx.activity).readyForRead()) {
+		final Context context = ctx.activity;
+		
+		if (!new SDCardCheck(context).readyForRead()) {
 			return;
 		}
 		
-		new SimpleProgressDialog(ctx.activity, Messages.brProgressRestoreBookmarks) {
+		
+		new SimpleProgressDialog(context, getProgressMessageText(context,1) ) {
 			
 			int numberOfRows;
 			
 			@Override
 			public void backgroundWork() {
 				try {
+					updateProgressMessageText(ctx, this, 2);
 					ArrayList<RawDataBean> rows = new XmlReader(xmlfile).read();
 					numberOfRows = rows.size();
-					RestoreWriter.replaceFull(ctx, rows);
+					RestoreWriter.replaceFull(ctx, rows, this);
 				}
 				catch (RuntimeException e) {
 					throw (RuntimeException)e;
@@ -171,8 +183,8 @@ public class BackupManager {
 			
 			@Override
 			public void done() {
-				String text = StringUtil.textWithParam(Messages.brHintBookmarksRestored, numberOfRows);
-				SystemUtil.toastLong(ctx.activity, text);
+				String text = StringUtil.textWithParam(context, R.string.brHintBookmarksRestored, numberOfRows);
+				SystemUtil.toastLong(context, text);
 				backupDoneListener.restoreDone();
 			}
 			
