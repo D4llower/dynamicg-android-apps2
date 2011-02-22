@@ -15,12 +15,12 @@
     	android:id="@+id/prefsActionSortAlpha"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:text="@string/prefsSortAZ"
+	    android:text="@string/prefsSortAlphaTitle"
 	    android:layout_marginTop="10dip"
 	    />
    	<TextView style="@style/PrefsHint" 
    		android:layout_span="2"
-   		android:text="\u2192 This will sort the bookmarks A-Z for usage within the browser"
+   		android:text="@string/prefsSortAlphaHint"
 	    android:layout_marginBottom="5dip"
    		/>
 
@@ -61,7 +61,7 @@
 	    />
 	    
 	<!-- ====================== ABOUT ====================== -->
-	<TextView style="@style/PrefsGroup" android:text="About" android:layout_marginTop="10dip" /> 
+	<TextView style="@style/PrefsGroup" android:text="@string/commonAbout" android:layout_marginTop="10dip" /> 
 	
     <TextView style="@style/PrefsClickText"
     	android:id="@+id/prefsLinkAbout"
