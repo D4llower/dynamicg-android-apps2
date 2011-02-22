@@ -24,21 +24,14 @@
 <TextView
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:text="
-\nBasic Usage:
-\n\u2022 Long-click to edit selected item and define the folder structure.
-\n\u2022 Short-click on bookmark to open link.
-\n\u2022 Short-click on folder to expand/collapse.
-\n\u2022 Menu/Preferences for advanced settings
-"
-/>
+	android:text="@string/aboutUsage"/>
 <TextView
 	android:id="@+id/aboutBackupHint"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:textStyle="bold"
 	android:textColor="#ffff66"
-	android:text="\u2022 Backup your bookmarks before first edit! See Menu/Backup, or click here."
+	android:text="@string/aboutDoBackup"
 />
 
 <HorizontalScrollView

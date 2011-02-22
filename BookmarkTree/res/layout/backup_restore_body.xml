@@ -7,12 +7,12 @@
 
 	<!-- ====================== Backup ====================== -->
 
-	<TextView style="@style/PrefsGroup" android:text="Backup" android:layout_marginTop="0dip" /> 
+	<TextView style="@style/PrefsGroup" android:text="@string/bckBackup" android:layout_marginTop="0dip" /> 
 
 	<Button android:id="@+id/brBackup"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Create backup"
+		android:text="@string/bckCreateBackup"
 		android:layout_marginTop="10dip"
 		android:layout_marginBottom="10dip"
 		android:width="140dip"
@@ -36,7 +36,7 @@
     
 	<!-- ====================== Restore ====================== -->
 
-	<TextView style="@style/PrefsGroup" android:text="Restore - select file:" /> 
+	<TextView style="@style/PrefsGroup" android:text="@string/bckRestoreSelection" /> 
 
 	<RadioGroup android:id="@+id/brRestoreList"
 		android:layout_width="wrap_content"
