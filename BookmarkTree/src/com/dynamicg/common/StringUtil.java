@@ -25,6 +25,9 @@ public class StringUtil {
 	public static String textWithParam(Context context, int res, int p1) {
 		return context.getString(res).replace("{1}", Integer.toString(p1));
 	}
+	public static String textWithParam(Context context, int res, String p1) {
+		return context.getString(res).replace("{1}", p1);
+	}
 	public static String textWithParam(String text, int p1) {
 		return text.replace("{1}", Integer.toString(p1) );
 	}
