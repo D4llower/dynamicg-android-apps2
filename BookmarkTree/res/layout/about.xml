@@ -30,7 +30,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:textStyle="bold"
-	android:textColor="#ffff66"
+	android:textColor="#ffff33"
 	android:text="@string/aboutDoBackup"
 />
 
