@@ -255,8 +255,13 @@ public class EditBookmarkDialog extends Dialog {
 	}
 	
 	private void deleteBookmark() {
-		new BookmarkDeletionHandler(ctx,bookmark);
-		ctx.reloadAndRefresh();
+		try {
+			new BookmarkDeletionHandler(ctx,bookmark);
+			ctx.reloadAndRefresh();
+		}
+		catch (final Throwable exception) {
+			ErrorNotification.notifyError(getContext(), exception);
+		}
 		this.dismiss();
 	}
 	
