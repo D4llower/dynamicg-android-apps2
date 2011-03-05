@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.net.Uri;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
@@ -16,8 +15,6 @@ public class RestoreWriter {
 
 	private static final Logger log = new Logger(RestoreWriter.class);
 
-	private static final Uri BOOKMARKS_URI = android.provider.Browser.BOOKMARKS_URI;
-	
 	private static ContentValues[] transform(ArrayList<RawDataBean> rows) {
 		ArrayList<ContentValues> list = new ArrayList<ContentValues>();
 		ContentValues entry;
@@ -49,14 +46,14 @@ public class RestoreWriter {
 		
 		// delete existing entries
 		BackupManager.updateProgressMessageText(ctx, progress, 4);
-		contentResolver.delete ( BOOKMARKS_URI
+		contentResolver.delete ( Browser.BOOKMARKS_URI
 				, Browser.BookmarkColumns.BOOKMARK+"=1"
 				, new String[]{}
 		);
 		
 		// insert
 		BackupManager.updateProgressMessageText(ctx, progress, 5);
-		contentResolver.bulkInsert(BOOKMARKS_URI, newValues);
+		contentResolver.bulkInsert ( Browser.BOOKMARKS_URI, newValues );
 		
 	}
 	
