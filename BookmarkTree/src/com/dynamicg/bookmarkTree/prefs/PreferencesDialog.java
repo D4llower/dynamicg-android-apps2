@@ -5,11 +5,9 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -126,18 +124,8 @@ public class PreferencesDialog extends Dialog {
 	}
 	
 	private void setLinks() {
-		
-		View.OnClickListener openMarket = new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String url = "market://details?id=com.dynamicg.bookmarkTree";
-				Intent i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse(url));
-				context.startActivity(i);
-			}
-		};
 		TextView linkNode = (TextView)findViewById(R.id.prefsLinkToMarket);
-		linkNode.setOnClickListener(openMarket);
+		linkNode.setOnClickListener(MarketLinkHelper.getMarketAppLink(context));
 		LayoutUtil.indentedFocusable(linkNode, "\u2192 ", context.getString(R.string.prefsLinkToMarket));
 		
 		TextView aboutNode = (TextView)findViewById(R.id.prefsLinkAbout);
