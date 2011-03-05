@@ -32,7 +32,8 @@ v1.13
 - "indented underline" on "about" links (prefs tab2)
 
 v1.14
-- remove 1.5/1.6 compatibility
+- remove 1.5 compatibility
 - add "icon scaling" spinner
 - remove "extras" on Prefs
 - move texts to strings.xml
+- Donation link
