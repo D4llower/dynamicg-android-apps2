@@ -63,9 +63,9 @@
 	<!-- ====================== ABOUT ====================== -->
 	<TextView style="@style/PrefsGroup" android:text="@string/commonAbout" android:layout_marginTop="10dip" /> 
 	
-    <TextView style="@style/AboutLink" android:id="@+id/prefsLinkAbout" />
     <TextView style="@style/AboutLink" android:id="@+id/prefsLinkMarket" />
     <TextView style="@style/AboutLink" android:id="@+id/prefsLinkDonationApp" />
+    <TextView style="@style/AboutLink" android:id="@+id/prefsLinkAbout" />
     
 	<!-- ====================== done ====================== -->
 	<View
