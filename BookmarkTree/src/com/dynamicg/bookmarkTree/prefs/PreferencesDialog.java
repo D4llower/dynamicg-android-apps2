@@ -45,7 +45,6 @@ import com.dynamicg.common.SystemUtil;
 public class PreferencesDialog extends Dialog {
 
 	private static final int ACTION_DUMP_BOOKMARKS = 1;
-    private static final int ACTION_SHOW_DISCLAIMER = 2;
     
 	private final BookmarkTreeContext ctx;
 	private final Context context;
@@ -356,7 +355,6 @@ public class PreferencesDialog extends Dialog {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_SHOW_DISCLAIMER, 0, context.getString(R.string.commonAbout));
 		menu.add(0, ACTION_DUMP_BOOKMARKS, 0, "Internal bookmarks ...");
 		return true;
 	}
@@ -366,9 +364,6 @@ public class PreferencesDialog extends Dialog {
 		int id = item.getItemId();
 		if (id==ACTION_DUMP_BOOKMARKS) {
 			PlainBookmarksDump.show(ctx);
-		}
-		else if (id==ACTION_SHOW_DISCLAIMER) {
-			AboutDialog.show(ctx);
 		}
 		return true;
 	}
