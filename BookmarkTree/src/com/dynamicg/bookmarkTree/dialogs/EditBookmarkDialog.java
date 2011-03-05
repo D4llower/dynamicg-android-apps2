@@ -22,6 +22,7 @@ import com.dynamicg.bookmarkTree.model.FolderBean;
 import com.dynamicg.bookmarkTree.util.BookmarkUtil;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.bookmarkTree.util.DialogHelper;
+import com.dynamicg.common.ErrorNotification;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.StringUtil;
@@ -196,16 +197,28 @@ public class EditBookmarkDialog extends Dialog {
 			log.debug("saveBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
 		}
 		
-		if (bookmark==NEW_BOOKMARK) {
-			if (newParentFolder!=null) {
-				// prepend the folder path
-				newNodeTitle = newParentFolder.getFullTitle() + ctx.getNodeConcatenation() + newNodeTitle;
+		try {
+			if (bookmark==NEW_BOOKMARK) {
+				if (newParentFolder!=null) {
+					// prepend the folder path
+					newNodeTitle = newParentFolder.getFullTitle() + ctx.getNodeConcatenation() + newNodeTitle;
+				}
+				new BookmarkWriter(ctx).insert(newNodeTitle, BookmarkUtil.patchProtocol(newUrl) );
 			}
-			new BookmarkWriter(ctx).insert(newNodeTitle, BookmarkUtil.patchProtocol(newUrl) );
+			else {
+				BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
+				upd.update ( bookmark, newNodeTitle, newParentFolder, newUrl );
+			}
 		}
-		else {
-			BookmarkUpdateHandler upd = new BookmarkUpdateHandler(ctx);
-			upd.update ( bookmark, newNodeTitle, newParentFolder, newUrl );
+		catch (final Throwable exception) {
+			ErrorNotification.notifyError(getContext(), exception);
+//			// java.lang.IllegalArgumentException: Unknown URL content://browser/bookmarks
+//			if (exception instanceof IllegalArgumentException && exception.toString().indexOf("Unknown URL")>=0) {
+//				SimpleAlertDialog.plainInfo(getContext(), "Error: cannot locate webkit database");
+//			}
+//			else {
+//				ErrorNotification.notifyError(getContext(), exception);
+//			}
 		}
 
 		ctx.reloadAndRefresh();

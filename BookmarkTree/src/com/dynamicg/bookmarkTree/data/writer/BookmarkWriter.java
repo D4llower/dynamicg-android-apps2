@@ -49,15 +49,6 @@ public class BookmarkWriter extends BookmarkWriterA {
 		}
 	}
 	
-/* TODO handle exception
-java.lang.IllegalArgumentException: Unknown URL content://browser/bookmarks
-at android.content.ContentResolver.insert(ContentResolver.java:583)
-at com.dynamicg.bookmarkTree.data.writer.BookmarkWriter.insert(BookmarkWriter.java:46)
-at com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog.saveBookmark(EditBookmarkDialog.java:204)
-at com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog.access$100(EditBookmarkDialog.java:29)
-at com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog$1.onPositiveButton(EditBookmarkDialog.java:86)
-at com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper$1.onClick(DialogButtonPanelWrapper.java:42)
- */
 	public void deleteBrowserBookmark(Integer id) {
 		if (log.debugEnabled) {
 			log.debug("delete bookmark", id);
