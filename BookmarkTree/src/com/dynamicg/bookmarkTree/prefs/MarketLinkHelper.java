@@ -10,8 +10,8 @@ import com.dynamicg.common.SystemUtil;
 
 public class MarketLinkHelper {
 
-	public static final String APP_URL_MARKET = "market://details?id=com.dynamicg.bookmarkTree";
-	public static final String APP_URL_FALLBACK = "http://market.android.com/details?id=com.dynamicg.bookmarkTree";
+	private static final String APP_PKG = "com.dynamicg.bookmarkTree";
+	private static final String DONATION_PKG = "com.dynamicg.timerecording.pro";
 	
 	private static void openUrlIntent(Context context, String url) {
 		Intent i = new Intent(Intent.ACTION_VIEW);
@@ -19,14 +19,14 @@ public class MarketLinkHelper {
 		context.startActivity(i);
 	}
 	
-	private static void openMarketIntent(Context context, String url, String fallbackUrl) {
+	private static void openMarketIntent(Context context, String pkg) {
 		try {
-			openUrlIntent(context, url);
+			openUrlIntent(context, "market://details?id="+pkg);
 		}
 		catch (ActivityNotFoundException e) {
 			// Android Market not installed? try with HTTP url
 			SystemUtil.toastShort(context, "Cannot open Android Market app (?)");
-			openUrlIntent(context, fallbackUrl);
+			openUrlIntent(context, "http://market.android.com/details?id="+pkg);
 		}
 	}
 
@@ -34,7 +34,16 @@ public class MarketLinkHelper {
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openMarketIntent(context, APP_URL_MARKET, APP_URL_FALLBACK);
+				openMarketIntent(context, APP_PKG);
+			}
+		};
+	}
+
+	public static View.OnClickListener getDonationLink(final Context context) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openMarketIntent(context, DONATION_PKG);
 			}
 		};
 	}

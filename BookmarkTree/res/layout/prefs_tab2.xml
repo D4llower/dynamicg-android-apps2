@@ -63,20 +63,10 @@
 	<!-- ====================== ABOUT ====================== -->
 	<TextView style="@style/PrefsGroup" android:text="@string/commonAbout" android:layout_marginTop="10dip" /> 
 	
-    <TextView style="@style/PrefsClickText"
-    	android:id="@+id/prefsLinkAbout"
-	    android:layout_marginTop="15dip"
-	    android:textSize="14sp"
-	    android:padding="4dp"
-	    />
-	    
-    <TextView style="@style/PrefsClickText"
-    	android:id="@+id/prefsLinkToMarket"
-	    android:layout_marginTop="15dip"
-	    android:textSize="14sp"
-	    android:padding="4dp"
-	    />
-	
+    <TextView style="@style/AboutLink" android:id="@+id/prefsLinkAbout" />
+    <TextView style="@style/AboutLink" android:id="@+id/prefsLinkMarket" />
+    <TextView style="@style/AboutLink" android:id="@+id/prefsLinkDonationApp" />
+    
 	<!-- ====================== done ====================== -->
 	<View
 	    android:layout_height="15dip"

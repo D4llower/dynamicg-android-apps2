@@ -112,4 +112,10 @@
         <item name="android:layout_marginBottom">4dip</item>
 	</style>
 	
+	<style name="AboutLink" parent="PrefsClickText">
+	    <item name="android:layout_marginTop">15dip</item>
+	    <item name="android:textSize">14sp</item>
+	    <item name="android:padding">4dp</item>
+	</style>
+	
 </resources>

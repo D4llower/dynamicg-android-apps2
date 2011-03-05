@@ -124,18 +124,38 @@ public class PreferencesDialog extends Dialog {
 	}
 	
 	private void setLinks() {
-		TextView linkNode = (TextView)findViewById(R.id.prefsLinkToMarket);
-		linkNode.setOnClickListener(MarketLinkHelper.getMarketAppLink(context));
-		LayoutUtil.indentedFocusable(linkNode, "\u2192 ", context.getString(R.string.prefsLinkToMarket));
 		
-		TextView aboutNode = (TextView)findViewById(R.id.prefsLinkAbout);
-		aboutNode.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				AboutDialog.show(ctx);
-			}
-		});
-		LayoutUtil.indentedFocusable(aboutNode, "\u2192 ", context.getString(R.string.commonAbout));
+		/*
+		 * APP LINK
+		 */
+		{
+			TextView linkNode = (TextView)findViewById(R.id.prefsLinkMarket);
+			linkNode.setOnClickListener(MarketLinkHelper.getMarketAppLink(context));
+			LayoutUtil.indentedFocusable(linkNode, "\u2192 ", context.getString(R.string.prefsLinkToMarket));
+		}
+		
+		/*
+		 * DONATION LINK
+		 */
+		{
+			TextView donationNode = (TextView)findViewById(R.id.prefsLinkDonationApp);
+			donationNode.setOnClickListener(MarketLinkHelper.getDonationLink(context));
+			LayoutUtil.indentedFocusable(donationNode, "\u2192 ", context.getString(R.string.prefsLinkDonationApp));
+		}
+		
+		/*
+		 * ABOUT
+		 */
+		{
+			TextView aboutNode = (TextView)findViewById(R.id.prefsLinkAbout);
+			aboutNode.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					AboutDialog.show(ctx);
+				}
+			});
+			LayoutUtil.indentedFocusable(aboutNode, "\u2192 ", context.getString(R.string.commonAbout));
+		}
 		
 	}
 	

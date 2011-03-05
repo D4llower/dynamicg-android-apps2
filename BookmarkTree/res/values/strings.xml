@@ -32,6 +32,7 @@
     <string name="prefsUpdateWithNewSep">Update all bookmarks\nwith new separator</string>
     <string name="prefsSortCaseInsensitive">Case insensitive sort</string>
     <string name="prefsLinkToMarket">Link to Android Market - please rate</string>
+    <string name="prefsLinkDonationApp">Link to Donation App</string>
     <string name="prefsIconScaling">Icon\nscaling:</string>
     <string name="prefsIconScalingHint">\u2192 second value is for small icons</string>
 
