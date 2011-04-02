@@ -63,7 +63,7 @@ public class TitleTokenizer {
 	}
 	
 	public TitleItem getLast() {
-		return items.get(items.size()-1);
+		return items.get(items.size()-1); // TODO - fix ArrayIndexOutOfBoundsException (?)
 	}
 	
 }
