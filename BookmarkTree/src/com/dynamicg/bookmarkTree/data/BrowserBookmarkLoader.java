@@ -109,9 +109,16 @@ public class BrowserBookmarkLoader {
 			}
 		}
 		
-		if (!crs.isClosed()) {
-			crs.close();
-		}
+		/*
+		 * we don't close the cursor, this will hopefully solve this one:
+		 * java.lang.RuntimeException: Unable to resume activity {com.dynamicg.bookmarkTree/com.dynamicg.bookmarkTree.Main}: java.lang.IllegalStateException: trying to requery an already closed cursor
+		 * 
+		 * if this does not work we should change from "managedQuery" to ContentResolver
+		 */
+//		if (!crs.isClosed()) {
+//			crs.close();
+//		}
+		
 		
 		return rows;
 	}
