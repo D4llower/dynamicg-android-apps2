@@ -3,7 +3,7 @@
       package="com.dynamicg.bookmarkTree"
       android:installLocation="auto"
       android:versionCode="14"
-      android:versionName="1.14"
+      android:versionName="1.14.1"
       >
       
     <supports-screens 
