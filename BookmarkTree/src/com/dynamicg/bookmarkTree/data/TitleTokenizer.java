@@ -62,8 +62,20 @@ public class TitleTokenizer {
 		return items.get(i);
 	}
 	
+	private static final TitleItem EMPTY_ITEM;
+	static {
+		EMPTY_ITEM = new TitleItem();
+		EMPTY_ITEM.fullTitle = ".";
+		EMPTY_ITEM.nodeTitle = ".";
+	}
+	
 	public TitleItem getLast() {
-		return items.get(items.size()-1); // TODO - fix ArrayIndexOutOfBoundsException (?)
+		try {
+			return items.get(items.size()-1);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// fix error report <Mar 22, 2011 9:26:58 AM>
+			return EMPTY_ITEM;
+		}
 	}
 	
 }
