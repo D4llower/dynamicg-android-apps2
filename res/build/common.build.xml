@@ -35,6 +35,7 @@
 		
 		<mkdir dir="${buildproject}/src" />
 		
+		<!-- copy src -->
 		<copy todir="${buildproject}/src">
 			<fileset dir="${workspace}/${projectname}/src" includes="**/*.java" />
 		</copy>
@@ -43,6 +44,9 @@
 		<property name="loggerSrc" value="${buildproject}/src/com/dynamicg/common/Logger.java" />
 		<delete file="${loggerSrc}" failonerror="yes" />
 		<copy file="${workspace}/BookmarkTree/src/com/dynamicg/common/LoggerPROD.txt" tofile="${loggerSrc}" failonerror="yes" />
+		
+		<!-- libs dir -->
+		<mkdir dir="${buildproject}/libs" />
 		
 		<antcall target="release" />
 		
