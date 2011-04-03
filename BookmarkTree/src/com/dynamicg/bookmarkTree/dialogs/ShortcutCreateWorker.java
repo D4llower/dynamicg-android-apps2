@@ -25,17 +25,17 @@ public class ShortcutCreateWorker {
 		this.context = context;
 	}
 	
-	public Bitmap getIcon(Bitmap originalFavicon, int bgcolor, int targetDensity) {
+	public Bitmap getIcon(Bitmap originalFavicon, int bgcolor, final float faviconTargetDensity) {
 		
 		// see http://developer.android.com/guide/topics/graphics/index.html
-		final int shortcutIconSize = ContextUtil.getDimension(context, R.dimen.shortcutIconSize);
-		final Bitmap target = Bitmap.createBitmap(shortcutIconSize, shortcutIconSize, Bitmap.Config.ARGB_8888);
+		final int shortcutSizeScaled = ContextUtil.getDimension(context, R.dimen.shortcutIconSize);
+		final Bitmap shortcutBitmap = Bitmap.createBitmap ( shortcutSizeScaled, shortcutSizeScaled, Bitmap.Config.ARGB_8888);
 		final Canvas canvas = new Canvas();
 		
-		canvas.setBitmap(target);
+		canvas.setBitmap(shortcutBitmap);
 		
 		// solid background
-		RectF rect = new RectF(0,0,shortcutIconSize,shortcutIconSize);
+		RectF rect = new RectF(0,0,shortcutSizeScaled,shortcutSizeScaled);
 		Paint paint = new Paint();
 		paint.setColor(bgcolor);
 		paint.setStyle(Style.FILL);
@@ -45,34 +45,34 @@ public class ShortcutCreateWorker {
 		
 		if (originalFavicon==null) {
 			// prevent NPE
-			return target;
+			return shortcutBitmap;
 		}
 		
 		// scale favicon
 		// => note we copy the icon first as we're going to overwrite the density
+		final float shortcutDensity = shortcutBitmap.getDensity();
 		Bitmap favicon = originalFavicon.copy(originalFavicon.getConfig(), true);
-		int currentDensity = favicon.getDensity();
-		favicon.setDensity(targetDensity);
+		favicon.setDensity((int)faviconTargetDensity);
 		
-		// draw centered
-		float densityPatch = (float)currentDensity / (float)targetDensity;
-		float patchedIconW = favicon.getWidth()*densityPatch;
-		float patchedIconH = favicon.getHeight()*densityPatch;
-		float xOffset = (shortcutIconSize - ContextUtil.getScaledSizeInt(context,patchedIconW) ) / 2;
-		float yOffset = (shortcutIconSize - ContextUtil.getScaledSizeInt(context,patchedIconH) ) / 2;
+		/*
+		 * draw centered
+		 */
+		final float faviconW = favicon.getWidth();
+		final float faviconH = favicon.getHeight();
+		final float scalePatch = shortcutDensity / faviconTargetDensity;
+		final float faviconPatchedW = faviconW * scalePatch;
+		final float faviconPatchedH = faviconH * scalePatch ;
 		
-//		float xOffsetUnscaled = ContextUtil.getUnscaledSizeInt(context, xOffset);
-//		float yOffsetUnscaled = ContextUtil.getUnscaledSizeInt(context, xOffset);
+		final float xOffset = (float)(shortcutSizeScaled - faviconPatchedW) / 2f;
+		final float yOffset = (float)(shortcutSizeScaled - faviconPatchedH) / 2f;
 		
 		if (log.debugEnabled) {
-			log.debug("--> icon def");
-			log.debug("shortcutIconSize", shortcutIconSize);
-			log.debug("current/target density", currentDensity, targetDensity);
-			log.debug("favicon original width/height", favicon.getWidth(), favicon.getHeight());
-			log.debug("densityPatch", densityPatch);
-			log.debug("favicon patched width/height", patchedIconW, patchedIconH );
+			log.debug("--> dimensions");
+			log.debug("shortcutSizeScaled", shortcutSizeScaled);
+			log.debug("favicon width/height", faviconW, faviconH);
+			log.debug("favicon patched width/height", faviconPatchedW, faviconPatchedH);
+			log.debug("shortcutDensity, faviconTargetDensity, scalePatch ", shortcutDensity, faviconTargetDensity, scalePatch);
 			log.debug("offset", xOffset, yOffset);
-//			log.debug("unscaled offset", xOffsetUnscaled, yOffsetUnscaled);
 		}
 
 		canvas.drawBitmap ( favicon
@@ -81,7 +81,7 @@ public class ShortcutCreateWorker {
 				, null
 				);
 		
-		return target;
+		return shortcutBitmap;
 		
 	}
 	
