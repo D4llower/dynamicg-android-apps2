@@ -65,7 +65,9 @@ public class ShortcutCreateWorker {
 //		float yOffsetUnscaled = ContextUtil.getUnscaledSizeInt(context, xOffset);
 		
 		if (log.debugEnabled) {
+			log.debug("--> icon def");
 			log.debug("shortcutIconSize", shortcutIconSize);
+			log.debug("current/target density", currentDensity, targetDensity);
 			log.debug("favicon original width/height", favicon.getWidth(), favicon.getHeight());
 			log.debug("densityPatch", densityPatch);
 			log.debug("favicon patched width/height", patchedIconW, patchedIconH );
