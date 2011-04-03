@@ -91,7 +91,7 @@ public class ShortcutCreateDialog extends Dialog {
 						drawPreviewIcon();
 					}
 				};
-				new ColorPickerDialog(context,backgroundColor,colorChangedListener);
+				new ColorPickerDialog(context, backgroundColor, colorChangedListener, true);
 			}
 		});
 

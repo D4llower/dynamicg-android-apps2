@@ -31,12 +31,14 @@ public class ColorPickerDialog extends Dialog {
 	private final int paddingLayout;
 	private final int paddingSeekbarTB;
 	private final int paddingSeekbarLR;
+	private final boolean withAlpha;
 	
 	private TextView titleCell;
 	
 	private IntHolder colorPickerRed = new IntHolder();
 	private IntHolder colorPickerGreen = new IntHolder();
 	private IntHolder colorPickerBlue = new IntHolder();
+	private IntHolder colorPickerAlpha = new IntHolder();
 
 	private static class IntHolder {
 		public int value=0;
@@ -46,10 +48,11 @@ public class ColorPickerDialog extends Dialog {
 		public void colorSelected(int selectedColor);
 	}
 	
-	public ColorPickerDialog(Context context, int color, ColorSelectedListener colorSelectedListener) {
+	public ColorPickerDialog(Context context, int color, ColorSelectedListener colorSelectedListener, boolean withAlpha) {
 		super(context);
 		this.context = context;
 		this.colorSelectedListener = colorSelectedListener;
+		this.withAlpha = withAlpha;
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		maximizeWindowWidth();
@@ -71,6 +74,9 @@ public class ColorPickerDialog extends Dialog {
 		colorPickerRed.value = Color.red(color);
 		colorPickerGreen.value = Color.green(color);
 		colorPickerBlue.value = Color.blue(color);
+		if (withAlpha) {
+			colorPickerAlpha.value = Color.alpha(color);
+		}
 	}
 	
 	private void addMarginCell(LinearLayout parent, int h) {
@@ -101,6 +107,10 @@ public class ColorPickerDialog extends Dialog {
 		addProgressBar(layout, colorPickerGreen, R.drawable.progress_bg_green);
 		addMarginCell(layout, 30);
 		addProgressBar(layout, colorPickerBlue, R.drawable.progress_bg_blue);
+		if (withAlpha) {
+			addMarginCell(layout, 30);
+			addProgressBar(layout, colorPickerAlpha, R.drawable.progress_bg_alpha);
+		}
 		addMarginCell(layout, 20);
 		
 		updateTitleColor();
@@ -112,7 +122,6 @@ public class ColorPickerDialog extends Dialog {
 		this.setContentView(scrollView);
 		
 		// maximize window width
-		//LayoutUtil.maximizeDialog(this);
 		maximizeWindowWidth();
 	}
 	
@@ -166,7 +175,12 @@ public class ColorPickerDialog extends Dialog {
 	}
 	
 	private int getSelectedColor() {
-		return Color.rgb(colorPickerRed.value, colorPickerGreen.value, colorPickerBlue.value);
+		if (withAlpha) {
+			return Color.argb(colorPickerAlpha.value, colorPickerRed.value, colorPickerGreen.value, colorPickerBlue.value);
+		}
+		else {
+			return Color.rgb(colorPickerRed.value, colorPickerGreen.value, colorPickerBlue.value);
+		}
 	}
 	
 	private void updateTitleColor() {

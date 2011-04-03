@@ -257,7 +257,7 @@ public class PreferencesDialog extends Dialog {
 		link.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new ColorPickerDialog(context, prefEntry.updatedValue, colorSelectedListener);
+				new ColorPickerDialog(context, prefEntry.updatedValue, colorSelectedListener, false);
 			}
 		});
 	}
