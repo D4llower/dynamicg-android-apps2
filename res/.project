@@ -8,4 +8,11 @@
 	</buildSpec>
 	<natures>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>ant-rules/main_rules.xml</name>
+			<type>1</type>
+			<location>C:/app/android-sdk_r06-windows/android-sdk-windows/tools/ant/main_rules.xml</location>
+		</link>
+	</linkedResources>
 </projectDescription>
