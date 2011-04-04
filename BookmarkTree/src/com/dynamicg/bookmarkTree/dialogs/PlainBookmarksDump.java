@@ -28,6 +28,7 @@ public abstract class PlainBookmarksDump {
 			if (log.debugEnabled) {
 				line =
 					row.fullTitle 
+					+ " ["+ (row.id) +"]" 
 					+ " ["+ (row.created/div) +"]" 
 					+ "\n";
 			}
