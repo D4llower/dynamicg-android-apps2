@@ -18,11 +18,17 @@ public class BookmarkWriter extends BookmarkWriterA {
 	}
 
 	private void doUpdate(Integer bookmarkId) {
-		contentResolver.update ( Browser.BOOKMARKS_URI
+		if (log.debugEnabled) {
+			log.debug("doUpdate ...", bookmarkId);
+		}
+		int result = contentResolver.update ( Browser.BOOKMARKS_URI
 				, values
 				, Browser.BookmarkColumns._ID+"=?"
 				, new String[]{Integer.toString(bookmarkId)}
 		);
+		if (log.debugEnabled) {
+			log.debug("doUpdate done", result);
+		}
 	}
 	
 	public void updateTitle(Integer bookmarkId, String title) {
