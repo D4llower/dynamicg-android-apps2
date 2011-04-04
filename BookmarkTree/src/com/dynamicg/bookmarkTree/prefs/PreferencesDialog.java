@@ -273,16 +273,22 @@ public class PreferencesDialog extends Dialog {
 	
 	private void saveClicked() {
 		
+		final Handler pleaseReloadToastHandler = new Handler() {
+			public void handleMessage(Message msg) {
+				SystemUtil.toastShort(context, context.getString(R.string.hintRestartApp));
+			}
+		};
+		
 		boolean massUpdateTitles = this.doFullUpdateCheckbox.isChecked();
 		if (!massUpdateTitles) {
-			saveMain();
+			saveMain(pleaseReloadToastHandler);
 			savePostprocessing();
 		}
 		else {
 			new SimpleProgressDialog(ctx.activity, R.string.commonPleaseWait) {
 				@Override
 				public void backgroundWork() {
-					saveMain();
+					saveMain(pleaseReloadToastHandler);
 				}
 				@Override
 				public void done() {
@@ -293,7 +299,7 @@ public class PreferencesDialog extends Dialog {
 			
 	}
 	
-	private void saveMain() {
+	private void saveMain(Handler pleaseReloadToastHandler) {
 		
 		boolean toastForReopen =
 			PreferencesWrapper.listStyle.value != spinnerUtil.getCurrentValue(R.id.prefsListStyle)
@@ -318,13 +324,8 @@ public class PreferencesDialog extends Dialog {
 		
 		// fix for "java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()"
 		// with "changed separator" this will be called within a thread so we have to route through a message handler
-		Handler toastHandler = new Handler() {
-			public void handleMessage(Message msg) {
-				SystemUtil.toastShort(context, context.getString(R.string.hintRestartApp));
-			}
-		};
 		if (toastForReopen) {
-			toastHandler.sendEmptyMessage(0);
+			pleaseReloadToastHandler.sendEmptyMessage(0);
 		}
 	}
 
