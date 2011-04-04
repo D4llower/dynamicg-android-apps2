@@ -9,6 +9,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -314,8 +316,15 @@ public class PreferencesDialog extends Dialog {
 		
 		PreferencesUpdater.writeAll();
 		
+		// fix for "java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()"
+		// with "changed separator" this will be called within a thread so we have to route through a message handler
+		Handler toastHandler = new Handler() {
+			public void handleMessage(Message msg) {
+				SystemUtil.toastShort(context, context.getString(R.string.hintRestartApp));
+			}
+		};
 		if (toastForReopen) {
-			SystemUtil.toastShort(context, context.getString(R.string.hintRestartApp));
+			toastHandler.sendEmptyMessage(0);
 		}
 	}
 
