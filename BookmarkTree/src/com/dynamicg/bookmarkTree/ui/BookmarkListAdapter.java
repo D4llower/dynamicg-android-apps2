@@ -63,6 +63,11 @@ public class BookmarkListAdapter extends BaseAdapter {
 			}
 		});
 		
+		
+		// FOR TESTING:
+//		Bookmark b = bookmarks.get(bookmarks.size()-1);
+//    	new EditBookmarkDialog(ctx, b);
+		
 	}
 	
 	public View getView(final int position, View convertView, ViewGroup parent) {
