@@ -19,7 +19,7 @@ public class MobNetSettingsHandler {
 		final int icon3G = R.drawable.stat_sys_data_inandout_3g_25x25;
 		final int iconEmpty = R.drawable.ic_placeholder;
 		
-		final CharSequence tickerText = context.getString(R.string.statusBarTickerText);
+		final CharSequence tickerText = context.getString(R.string.app_name);
 		final CharSequence contentTitle = context.getString(R.string.statusPanelTitle);
 		final CharSequence contentText = context.getString(R.string.statusPanelHint);
 		
