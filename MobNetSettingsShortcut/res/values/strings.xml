@@ -4,5 +4,5 @@
     <string name="statusBarTickerText">Mobile network settings shortcut</string>
     <string name="statusPanelTitle">Mobile network settings</string>
     <string name="statusPanelHint">Select to open settings.</string>
-    <string name="startupToast">Shortcut added to status panel</string>
+    <string name="startupToast">Shortcut added to notification panel</string>
 </resources>
