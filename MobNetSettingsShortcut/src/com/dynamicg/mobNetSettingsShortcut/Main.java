@@ -18,6 +18,7 @@ public class Main extends Activity {
     	 * there is no "post installation" service where we could set up the notification 
     	 * bar, so we leave the main activity in.
     	 * pointless for regular users, but would otherwise require restarting the phone
+    	 * after installation just to get this thing started up
     	 */
         MobNetSettingsHandler.setupNotification(this);
         Toast.makeText(this, R.string.startupToast, Toast.LENGTH_SHORT).show();
