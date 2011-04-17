@@ -10,9 +10,9 @@
 	
 	<property name="buildprops" value="${workspace}/res/build" />
     <property file="${buildprops}/local.properties" />
-    <property file="${buildprops}/keystore.properties" />
     <property file="${buildprops}/build.properties" />
     <property file="default.properties" />
+	<property file="c:/keystore/keystore.properties" />
 
     <path id="android.antlibs">
         <pathelement path="${sdk.dir}/tools/lib/anttasks.jar" />
