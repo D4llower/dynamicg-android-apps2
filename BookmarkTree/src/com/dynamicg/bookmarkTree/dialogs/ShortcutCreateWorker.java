@@ -52,6 +52,12 @@ public class ShortcutCreateWorker {
 		// => note we copy the icon first as we're going to overwrite the density
 		final float shortcutDensity = shortcutBitmap.getDensity();
 		Bitmap favicon = originalFavicon.copy(originalFavicon.getConfig(), true);
+		/* TODO - fix null pointer exception:
+			java.lang.NullPointerException
+			at android.graphics.Bitmap.copy(Bitmap.java:315)
+			at com.dynamicg.bookmarkTree.dialogs.ShortcutCreateWorker.getIcon(ShortcutCreateWorker.java:54)
+		*/
+		
 		favicon.setDensity((int)faviconTargetDensity);
 		
 		/*
