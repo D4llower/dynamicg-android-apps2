@@ -37,7 +37,7 @@ implements BackupEventListener {
 	private final BookmarkTreeContext ctx;
 	private final Activity context;
 
-	public BackupRestoreDialog(BookmarkTreeContext ctx) {
+	public BackupRestoreDialog(BookmarkTreeContext ctx, boolean autoBackup) {
 		super(ctx.activity);
 		this.ctx = ctx;
 		this.context = ctx.activity;
@@ -47,9 +47,19 @@ implements BackupEventListener {
 		this.show();
 		
 		// check sd card
-		new SDCardCheck(context).checkMountedSdCard();
+		SDCardCheck sdCardCheck = new SDCardCheck(context);
+		sdCardCheck.checkMountedSdCard();
+		
+		if (autoBackup && sdCardCheck.readyForWrite()!=null) {
+			createBackup();
+		}
+		
 	}
 
+	public BackupRestoreDialog(BookmarkTreeContext ctx) {
+		this(ctx, false);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		

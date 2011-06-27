@@ -19,9 +19,9 @@ public abstract class AboutDialog {
 	
 	private static final int CURRENT_DISCLAIMER_VERSION = 2; 
 	
-	public static void showOnce(BookmarkTreeContext ctx) {
+	public static void showOnce(BookmarkTreeContext ctx, boolean force) {
 		int disclaimerLastDisplayed = BookmarkTreeContext.settings.getInt(PreferencesWrapper.KEY_DISCLAIMER, 0);
-		if (CURRENT_DISCLAIMER_VERSION == disclaimerLastDisplayed) {
+		if ( !force && CURRENT_DISCLAIMER_VERSION == disclaimerLastDisplayed) {
 			return;
 		}
 		show(ctx);
@@ -33,7 +33,7 @@ public abstract class AboutDialog {
 		final Context context = ctx.activity;
 		final String[] appinfo = ContextUtil.getVersion(context);
 
-		new SimpleAlertDialog(context, R.string.commonAbout, R.string.commonClose) {
+		new SimpleAlertDialog(context, R.string.commonAbout, R.string.bckCreateBackup, R.string.commonClose) {
 			@Override
 			public View getBody() {
 				View body = SystemUtil.getLayoutInflater(context).inflate(R.layout.about, null);
@@ -64,8 +64,18 @@ public abstract class AboutDialog {
 				
 				return body;
 			}
+			
+			@Override
+			public void onPositiveButton() {
+				new BackupRestoreDialog(ctx, true);
+			}
+			
+			@Override
+			public void onNegativeButton() {
+				// dismiss
+			}
+			
 		};
 	}
-
 
 }
