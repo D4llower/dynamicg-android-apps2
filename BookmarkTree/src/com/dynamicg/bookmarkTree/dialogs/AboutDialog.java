@@ -54,13 +54,13 @@ public abstract class AboutDialog {
 				TextView revisionItem = (TextView)body.findViewById(R.id.aboutBodyLinks);
 				revisionItem.setText(revisionText);
 				
-				View backupHint = body.findViewById(R.id.aboutBackupHint);
-				backupHint.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						new BackupRestoreDialog(ctx);
-					}
-				});
+//				View backupHint = body.findViewById(R.id.aboutBackupHint);
+//				backupHint.setOnClickListener(new View.OnClickListener() {
+//					@Override
+//					public void onClick(View v) {
+//						new BackupRestoreDialog(ctx);
+//					}
+//				});
 				
 				return body;
 			}

@@ -109,6 +109,6 @@
 \n\u2022 Short-click on folder to expand/collapse.
 \n\u2022 Menu/Preferences for advanced settings
 </string>
-	<string name="aboutDoBackup">\u2022 Backup your bookmarks before first edit! See Menu/Backup, or click here.</string>
+	<string name="aboutDoBackup">\u2022 Backup your bookmarks before first edit! See Menu/Backup.</string>
 	
 </resources>

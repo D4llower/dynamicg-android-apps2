@@ -42,7 +42,7 @@ public class Main extends Activity {
     	this.ctx = new BookmarkTreeContext(this);
     	
     	BackupPrefs.onStartup(ctx);
-    	AboutDialog.showOnce(ctx);
+    	AboutDialog.showOnce(ctx, false); // for debugging
     }
     
     
