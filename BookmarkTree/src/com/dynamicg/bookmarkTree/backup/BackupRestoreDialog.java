@@ -36,10 +36,12 @@ implements BackupEventListener {
     
 	private final BookmarkTreeContext ctx;
 	private final Activity context;
+	private final boolean autoBackup;
 
 	public BackupRestoreDialog(BookmarkTreeContext ctx, boolean autoBackup) {
 		super(ctx.activity);
 		this.ctx = ctx;
+		this.autoBackup = autoBackup;
 		this.context = ctx.activity;
 		
 		DialogHelper.expandContent(this, R.layout.backup_restore_body);
@@ -170,7 +172,12 @@ implements BackupEventListener {
 	
 	@Override
 	public void backupDone() {
-		refreshBackupFilesList();
+		if (autoBackup) {
+			dismiss(); // auto close
+		}
+		else {
+			refreshBackupFilesList();
+		}
 	}
 
 	@Override
