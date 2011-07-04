@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport"
+	content="width=device-width, height=device-height, target-densityDpi=device-dpi">
+<title>weatherstation</title>
+<script language="javascript" type="text/javascript" src="jquery.js"></script>
+<script language="javascript" type="text/javascript"
+	src="jquery.flot.js"></script>
+</head>
+<body>
+<div id="placeholder" style="width: 100%; height: 200px;"></div>
+
+<div id="chartlinks" style="padding-top: 10px;">
+<div id="title" style="padding-top: 10px;"></div>
+<div style="padding-top: 10px;"><a href="previous">&larr;</a>
+&nbsp;&nbsp;|&nbsp;&nbsp; <span id="chartDate"></span>
+&nbsp;&nbsp;|&nbsp;&nbsp; <a href="next">&rarr;</a></div>
+<div style="padding-top: 10px;">Chart:&nbsp;<a href="daychart">Tag</a>
+&nbsp;&nbsp;|&nbsp;&nbsp; <a href="monthchart">Monat</a>
+&nbsp;&nbsp;|&nbsp;&nbsp; <a href="yearchart">Jahr</a></div>
+</div>
+
+
+<script id="source" language="javascript" type="text/javascript">
+
+	function swipeRight() {
+		updateGraph("" + window.chartInterface.getNextUrl());
+	}
+
+	function swipeLeft() {
+		updateGraph("" + window.chartInterface.getPreviousUrl());
+	}
+
+	function updateGraph(dataurl) {
+
+		var chartDate = "" + window.chartInterface.getChartDate();
+		$("#chartDate").html(chartDate);
+
+		var options = {
+			xaxis : {
+				mode : "time"
+			},
+			selection : {
+				mode : "x"
+			},
+			grid : {
+				backgroundColor : {
+					colors : [ "#FFF", "#EEE" ]
+				}
+			}
+		};
+
+		var data = [];
+
+		var placeholder = $("#placeholder");
+
+		function onDataReceived(series) {
+			$.plot(placeholder, [ series ], options);
+		}
+
+		$.ajax({
+			url : dataurl,
+			method : 'GET',
+			dataType : 'json',
+			success : onDataReceived
+		});
+	}
+
+	$(function() {
+
+		var dataurl = "" + window.chartInterface.getDayUrl();
+		var chartDate = "" + window.chartInterface.getChartDate();
+		var title = "" + window.chartInterface.getTitle();
+		$("#title").html(title);
+		$("#chartDate").html(chartDate);
+		updateGraph(dataurl);
+
+		$('#chartlinks div a').click(function(ev) {
+			ev.preventDefault();
+			var dataurl = "";
+
+			if (ev.target.href.match("previous")) {
+				dataurl = "" + window.chartInterface.getPreviousUrl();
+			}
+			if (ev.target.href.match("monthchart")) {
+				dataurl = "" + window.chartInterface.getMonthUrl();
+			}
+			if (ev.target.href.match("daychart")) {
+				dataurl = "" + window.chartInterface.getDayUrl();
+			}
+			if (ev.target.href.match("yearchart")) {
+				dataurl = "" + window.chartInterface.getYearUrl();
+			}
+			if (ev.target.href.match("next")) {
+				dataurl = "" + window.chartInterface.getNextUrl();
+			}
+
+			updateGraph(dataurl);
+		});
+
+	});
+</script>
+
+
+</body>
+</html>

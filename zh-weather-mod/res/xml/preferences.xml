@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory>
+		<ListPreference 
+			android:title="@string/app_name"
+			android:summary="@string/settings_weatherstations_summary"
+			android:key="settings_weatherstations" 
+			android:defaultValue="1"
+			android:entries="@array/settings_weatherstations_array" android:entryValues="@array/settings_weatherstations_values"/>
+	</PreferenceCategory>
+</PreferenceScreen>
