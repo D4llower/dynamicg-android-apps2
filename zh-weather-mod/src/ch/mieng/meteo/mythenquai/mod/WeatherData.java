@@ -260,7 +260,7 @@ public class WeatherData {
 		if (json!=null) {
 			try {
 				String s = json.getString(ZEIT);
-				if (s.length()>0) {
+				if (s.length()>0 && s.indexOf(" ")>0) {
 					return s.split(" ")[1];
 				}
 				return s;
