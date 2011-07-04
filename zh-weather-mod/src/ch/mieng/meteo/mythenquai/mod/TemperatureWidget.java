@@ -39,6 +39,7 @@ public class TemperatureWidget extends AppWidgetProvider {
         updateViews.setTextViewText(R.id.TAIR, weatherData.getWeatherAirTemperature());
         updateViews.setTextViewText(R.id.THUM, weatherData.getWeatherAirHumidity());
         updateViews.setTextViewText(R.id.TZH, WeatherView.getStationIndicator(context));
+        updateViews.setTextViewText(R.id.ZEIT, weatherData.getTime());
         
         Intent intent = new Intent(context, WeatherView.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);

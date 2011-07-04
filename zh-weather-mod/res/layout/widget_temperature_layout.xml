@@ -1,42 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:focusable="true"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     style="@style/WidgetBackground"
     android:gravity="center"
    >
+	
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:focusable="true"
+	    android:orientation="horizontal"
+	    android:gravity="center"
+	    android:paddingTop="8dip"
+	   >
+	   
+	<!-- parent has a layout with of 294dp (4cells) and heigth 72dp (1cell)  -->
+	<!-- 160dip = 1 inch = 2.54 cm  -->
+	
+	     <TextView android:id="@+id/TZH"
+	         android:layout_width="wrap_content"
+	         android:layout_height="fill_parent" 
+	         android:text="ZH"
+	         android:textSize="12sp"
+	         style="@style/Text.Widget"
+	         />
+	   
+	     <TextView android:id="@+id/TAIR"
+	         android:layout_width="wrap_content"
+	         android:layout_height="fill_parent" 
+	         android:layout_toRightOf="@id/TZH"
+	         android:text="-14.6°" 
+	         style="@style/Text.Widget"
+	         android:paddingLeft="10dp"
+	         android:paddingRight="10dp"
+	         />
+	    
+	    <TextView android:id="@+id/THUM"
+	         android:layout_width="wrap_content"
+	         android:layout_height="fill_parent" 
+	         android:layout_toRightOf="@id/TAIR"
+	         android:text="100%" 
+	         style="@style/Text.Widget"
+	    />
+	 
+	</LinearLayout>
 
-<!-- parent has a layout with of 294dp (4cells) and heigth 72dp (1cell)  -->
-<!-- 160dip = 1 inch = 2.54 cm  -->
-
-     <TextView android:id="@+id/TZH"
+    <TextView android:id="@+id/ZEIT"
          android:layout_width="wrap_content"
-         android:layout_height="fill_parent" 
-         android:text="ZH"
-         android:textSize="12sp"
+         android:layout_height="wrap_content"
+         android:layout_gravity="right" 
+         android:text="11:34"
+         android:textSize="11sp"
          style="@style/Text.Widget"
-         />
-   
-     <TextView android:id="@+id/TAIR"
-         android:layout_width="wrap_content"
-         android:layout_height="fill_parent" 
-         android:layout_toRightOf="@id/TZH"
-         android:text="-14.6°" 
-         style="@style/Text.Widget"
-         android:paddingLeft="10dp"
-         android:paddingRight="10dp"
-         />
-    
-    <TextView android:id="@+id/THUM"
-         android:layout_width="wrap_content"
-         android:layout_height="fill_parent" 
-         android:layout_toRightOf="@id/TAIR"
-         android:text="100%" 
-         style="@style/Text.Widget"
+         android:paddingRight="22dip"
+         android:paddingBottom="0dip"
     />
- 
-</LinearLayout>
 
+</LinearLayout>

@@ -256,6 +256,21 @@ public class WeatherData {
 		return "";
 	}
 
+	public String getTime() {
+		if (json!=null) {
+			try {
+				String s = json.getString(ZEIT);
+				if (s.length()>0) {
+					return s.split(" ")[1];
+				}
+				return s;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
+
 	
 	
 }
