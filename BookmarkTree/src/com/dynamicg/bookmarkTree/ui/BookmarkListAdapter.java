@@ -97,6 +97,13 @@ public class BookmarkListAdapter extends BaseAdapter {
 		}
 		else if (bm.isFolder()) {
 			bm.setExpanded(!bm.isExpanded());
+			
+//			if (bm.isExpanded() && position==bookmarks.size()-1) {
+//				listview.scrollBy(0, 15);
+//			}
+			// this does not properly work - display is shifted but internally click events get routed to the "original item" at that position
+			// also, content below that item is not drawn
+			
 			redraw();
 			if (PreferencesWrapper.keepState.isOn()) {
 				FolderStateHandler.folderClicked(bm);
