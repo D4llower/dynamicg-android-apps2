@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlSerializer;
 
-import com.dynamicg.bookmarkTree.model.RawDataBean;
-
 import android.text.format.Time;
 import android.util.Xml;
+
+import com.dynamicg.bookmarkTree.model.RawDataBean;
+import com.dynamicg.common.XmlBackupException;
 
 public class XmlWriter {
 
@@ -71,15 +72,21 @@ public class XmlWriter {
 		serializer.startTag(null, Tags.BODY);
 		
 		for (RawDataBean b:bookmarks) {
-			serializer.startTag(null, Tags.ROW);
 			
-			//addTextNode(Tags.ID, b.id); // ID is not restored so we skip it
-			addTextNode(Tags.CREATED, b.created);
-			addTextNode(Tags.TITLE, b.fullTitle);
-			addTextNode(Tags.URL, b.url);
-			addTextNode(Tags.FAVICON, getIconData(b));
-			
-			serializer.endTag(null, Tags.ROW);
+			try {
+				serializer.startTag(null, Tags.ROW);
+				
+				//addTextNode(Tags.ID, b.id); // ID is not restored so we skip it
+				addTextNode(Tags.CREATED, b.created);
+				addTextNode(Tags.TITLE, b.fullTitle);
+				addTextNode(Tags.URL, b.url);
+				addTextNode(Tags.FAVICON, getIconData(b));
+				
+				serializer.endTag(null, Tags.ROW);
+			}
+			catch (Throwable t) {
+				throw new XmlBackupException("["+b.fullTitle+"] failed", t);
+			}
 		}
 		
 		serializer.endTag(null, Tags.BODY);
