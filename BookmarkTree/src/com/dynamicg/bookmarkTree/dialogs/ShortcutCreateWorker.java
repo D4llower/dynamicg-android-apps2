@@ -30,6 +30,8 @@ public class ShortcutCreateWorker {
 		// see http://developer.android.com/guide/topics/graphics/index.html
 		final int shortcutSizeScaled = ContextUtil.getDimension(context, R.dimen.shortcutIconSize);
 		final Bitmap shortcutBitmap = Bitmap.createBitmap ( shortcutSizeScaled, shortcutSizeScaled, Bitmap.Config.ARGB_8888);
+		final float shortcutDensity = shortcutBitmap.getDensity();
+		
 		final Canvas canvas = new Canvas();
 		
 		canvas.setBitmap(shortcutBitmap);
@@ -50,13 +52,13 @@ public class ShortcutCreateWorker {
 		
 		// scale favicon
 		// => note we copy the icon first as we're going to overwrite the density
-		final float shortcutDensity = shortcutBitmap.getDensity();
-		Bitmap favicon = originalFavicon.copy(originalFavicon.getConfig(), true);
-		/* TODO - fix null pointer exception:
-			java.lang.NullPointerException
-			at android.graphics.Bitmap.copy(Bitmap.java:315)
-			at com.dynamicg.bookmarkTree.dialogs.ShortcutCreateWorker.getIcon(ShortcutCreateWorker.java:54)
-		*/
+		Bitmap favicon;
+		try {
+			favicon = originalFavicon.copy(originalFavicon.getConfig(), true);
+		}
+		catch (NullPointerException npe) {
+			return shortcutBitmap; // we got a few NPE reports. probably getConfig returns null occasionally?
+		}
 		
 		favicon.setDensity((int)faviconTargetDensity);
 		
