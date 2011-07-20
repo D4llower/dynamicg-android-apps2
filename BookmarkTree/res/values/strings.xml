@@ -25,7 +25,6 @@
     <string name="prefsHintRestart">\u2192 Restart app when changed.</string>
     <string name="prefsListStyle">List style:</string>
     <string name="prefsSortLabel">Sort:</string>
-    <string name="prefsKeepState">Keep folder state on app close</string>
     <string name="prefsSortAlphaTitle">Sort bookmarks A-Z</string>
     <string name="prefsSortAlphaHint">\u2192 This will sort the bookmarks A-Z for usage within the browser</string>
     <string name="prefsSeparator">Folder separator:</string>

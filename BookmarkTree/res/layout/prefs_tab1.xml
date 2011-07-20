@@ -60,13 +60,6 @@
 	    android:text="@string/prefsSortCaseInsensitive"
 	    />
 	    
-    <CheckBox style="@style/PrefsLabel"
-    	android:id="@+id/prefsKeepState"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="@string/prefsKeepState"
-	    />
-    
 	<!-- ====================== Colors ====================== -->
 	
 	<TextView style="@style/PrefsGroup" android:text="@string/prefsGroupColors" /> 

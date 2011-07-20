@@ -97,7 +97,6 @@ public class PreferencesDialog extends Dialog {
 		checkForChangedSeparator(); // inactivate intially
 		
 		// bind checkboxes
-		bindCheckbox(R.id.prefsKeepState, PreferencesWrapper.keepState);
 		bindCheckbox(R.id.prefsSortCaseInsensitive, PreferencesWrapper.sortCaseInsensitive);
 		
 		// bind spinners
