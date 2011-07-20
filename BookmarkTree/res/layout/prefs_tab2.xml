@@ -11,6 +11,10 @@
 	
 	<TextView style="@style/PrefsGroupFirst" android:text="@string/prefsGroupSetup" /> 
 	
+   	<TextView style="@style/PrefsHint" 
+   		android:text="@string/prefsSeparatorHint"
+   		/>
+   		
 	<LinearLayout
 	    android:layout_height="wrap_content"
 	    android:layout_width="fill_parent"
