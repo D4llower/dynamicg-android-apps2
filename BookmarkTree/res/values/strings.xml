@@ -110,7 +110,7 @@
 </string>
 	<string name="aboutDoBackup">\u2022 Backup your bookmarks before first edit! See Menu/Backup.</string>
 	
-	<string name="prefsSeparatorHint">\u2192 The \'Folder separator\' splits the browser bookmarks into folders and links.
+	<string name="prefsSeparatorHint">\u2192 The \'Folder separator\' splits the browser bookmarks title into folders and links.
 \n\u2192 Sample: With separator \'-\', the original bookmark \'A - B - C\' will become folder \'A\', subfolder \'B\' and link \'C\'.
 </string>
 	
