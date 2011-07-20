@@ -7,26 +7,9 @@
 	android:padding="5dip"
 	>
 
-	<!-- ====================== Tools ====================== -->
-	
-	<TextView style="@style/PrefsGroupFirst" android:text="@string/prefsGroupTools" /> 
-	
-    <Button
-    	android:id="@+id/prefsActionSortAlpha"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="@string/prefsSortAlphaTitle"
-	    android:layout_marginTop="10dip"
-	    />
-   	<TextView style="@style/PrefsHint" 
-   		android:layout_span="2"
-   		android:text="@string/prefsSortAlphaHint"
-	    android:layout_marginBottom="5dip"
-   		/>
-
 	<!-- ====================== Setup ====================== -->
 	
-	<TextView style="@style/PrefsGroup" android:text="@string/prefsGroupSetup" /> 
+	<TextView style="@style/PrefsGroupFirst" android:text="@string/prefsGroupSetup" /> 
 	
 	<LinearLayout
 	    android:layout_height="wrap_content"
@@ -60,6 +43,23 @@
 	    android:text="@string/prefsUpdateWithNewSep"
 	    />
 	    
+	<!-- ====================== Tools ====================== -->
+	
+	<TextView style="@style/PrefsGroup" android:text="@string/prefsGroupTools" /> 
+	
+    <Button
+    	android:id="@+id/prefsActionSortAlpha"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/prefsSortAlphaTitle"
+	    android:layout_marginTop="10dip"
+	    />
+   	<TextView style="@style/PrefsHint" 
+   		android:layout_span="2"
+   		android:text="@string/prefsSortAlphaHint"
+	    android:layout_marginBottom="5dip"
+   		/>
+
 	<!-- ====================== ABOUT ====================== -->
 	<TextView style="@style/PrefsGroup" android:text="@string/commonAbout" android:layout_marginTop="10dip" /> 
 	
