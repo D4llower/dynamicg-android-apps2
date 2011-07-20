@@ -40,7 +40,6 @@ public class PreferencesWrapper {
 	 */
 	public static final PrefEntryInt listStyle = new PrefEntryInt("listStyle", 0);
 	public static final PrefEntryInt sortOption = new PrefEntryInt("sortOption", 0);
-	public static final PrefEntryInt keepState = new PrefEntryInt("keepState", 1);
 	public static final PrefEntryInt iconScaling = new PrefEntryInt("scaleIcons", ICON_SCALING_160_120);
 	public static final PrefEntryInt sortCaseInsensitive = new PrefEntryInt("sortCaseInsensitive", 1);
 
@@ -53,6 +52,10 @@ public class PreferencesWrapper {
 		String separator = BookmarkTreeContext.settings.getString(KEY_FOLDER_SEPARATOR, DEFVALUE_FOLDER_SEPARATOR);
 		PreferencesUpdater.setFolderSeparator(separator);
 	}
+	
+	// removed from screen - is now always on:
+	//public static final PrefEntryInt keepState = new PrefEntryInt("keepState", 1);
+	public static final boolean isKeepState = true;
 	
 	/*
 	 * WRAPPERS

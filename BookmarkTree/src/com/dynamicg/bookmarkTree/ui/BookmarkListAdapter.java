@@ -105,7 +105,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 			// also, content below that item is not drawn
 			
 			redraw();
-			if (PreferencesWrapper.keepState.isOn()) {
+			if (PreferencesWrapper.isKeepState) {
 				FolderStateHandler.folderClicked(bm);
 			}
 		}
