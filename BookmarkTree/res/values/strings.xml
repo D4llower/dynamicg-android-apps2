@@ -112,6 +112,7 @@
 	
 	<string name="prefsSeparatorHint">\u2192 The \'Folder separator\' splits the browser bookmarks title into folders and links.
 \n\u2192 Sample: With separator \'-\', the original bookmark \'A - B - C\' will become folder \'A\', subfolder \'B\' and link \'C\'.
+\n\u2192 Also see Menu/Internal bookmarks
 </string>
 	
 </resources>
