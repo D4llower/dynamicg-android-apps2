@@ -132,6 +132,11 @@ public class BackupManager {
 				}
 			}
 			
+			@Override
+			public String getErrorTitle() {
+				return "Cannot create backup";
+			}
+			
 		};
 		
 	}
@@ -181,6 +186,11 @@ public class BackupManager {
 				String text = StringUtil.textWithParam(context, R.string.brHintBookmarksRestored, numberOfRows);
 				SystemUtil.toastLong(context, text);
 				backupDoneListener.restoreDone();
+			}
+			
+			@Override
+			public String getErrorTitle() {
+				return "Cannot restore";
 			}
 			
 		};

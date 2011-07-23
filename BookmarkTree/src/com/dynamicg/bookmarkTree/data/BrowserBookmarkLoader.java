@@ -49,7 +49,7 @@ public class BrowserBookmarkLoader {
 			return readBrowserBookmarksImpl(main, what);
 		}
 		catch (Throwable t) {
-			ErrorNotification.notifyError(main, "Error: Cannot read bookmarks", t);
+			ErrorNotification.notifyError(main, "Cannot read bookmarks", t);
 			return new ArrayList<E>();
 		}
 	}

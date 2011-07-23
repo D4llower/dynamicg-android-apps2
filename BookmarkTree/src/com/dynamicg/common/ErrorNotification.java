@@ -26,12 +26,11 @@ public class ErrorNotification {
 		createIntent(context, title, body);
 	}
 	
-	public static void notifyError(Context context, Throwable e) {
-		notifyError(context, "Error", e);
-	}
-	
 	public static void notifyError(final Context context, final String title, final Throwable e) {
-		new SimpleAlertDialog(context, title, "Email DEV", context.getString(R.string.commonClose) ) {
+		new SimpleAlertDialog ( context, "Error: "+title
+				, "Email DEV", context.getString(R.string.commonClose) 
+				) 
+		{
 			
 			@Override
 			public String getScrollViewText() {

@@ -194,6 +194,11 @@ public class PreferencesDialog extends Dialog {
 								ctx.reloadAndRefresh(); // needs to be done by main thread
 								SystemUtil.toastShort(context, context.getString(R.string.actionSortBookmarksDone));
 							}
+							@Override
+							public String getErrorTitle() {
+								return "Alpha sort failed";
+							}
+							
 						};
 					}
 				};
@@ -293,6 +298,11 @@ public class PreferencesDialog extends Dialog {
 				public void done() {
 					savePostprocessing();
 				}
+				@Override
+				public String getErrorTitle() {
+					return "Separator update failed";
+				}
+				
 			};
 		}
 			

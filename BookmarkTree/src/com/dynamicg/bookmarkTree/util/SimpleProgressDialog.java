@@ -67,12 +67,13 @@ public abstract class SimpleProgressDialog {
 	
 	public abstract void backgroundWork();
 	public abstract void done();
+	public abstract String getErrorTitle();
 	
 	/*
 	 * override in implementations if required
 	 */
 	public final void handleError(Throwable e) {
-		ErrorNotification.notifyError(context, e);
+		ErrorNotification.notifyError(context, getErrorTitle(), e);
 	}
 	
 	public void updateProgressMessage(String text) {
