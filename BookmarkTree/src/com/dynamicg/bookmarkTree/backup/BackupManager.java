@@ -132,11 +132,6 @@ public class BackupManager {
 				}
 			}
 			
-			@Override
-			public void handleError(Throwable e) {
-				super.handleError(e);
-			}
-			
 		};
 		
 	}
@@ -186,11 +181,6 @@ public class BackupManager {
 				String text = StringUtil.textWithParam(context, R.string.brHintBookmarksRestored, numberOfRows);
 				SystemUtil.toastLong(context, text);
 				backupDoneListener.restoreDone();
-			}
-			
-			@Override
-			public void handleError(Throwable e) {
-				super.handleError(e);
 			}
 			
 		};
