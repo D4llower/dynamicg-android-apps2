@@ -211,7 +211,7 @@ public class EditBookmarkDialog extends Dialog {
 			}
 		}
 		catch (final Throwable exception) {
-			ErrorNotification.notifyError(getContext(), exception);
+			ErrorNotification.notifyError(getContext(), "Error: Cannot save bookmark", exception);
 //			// java.lang.IllegalArgumentException: Unknown URL content://browser/bookmarks
 //			if (exception instanceof IllegalArgumentException && exception.toString().indexOf("Unknown URL")>=0) {
 //				SimpleAlertDialog.plainInfo(getContext(), "Error: cannot locate webkit database");
@@ -260,7 +260,7 @@ public class EditBookmarkDialog extends Dialog {
 			ctx.reloadAndRefresh();
 		}
 		catch (final Throwable exception) {
-			ErrorNotification.notifyError(getContext(), exception);
+			ErrorNotification.notifyError(getContext(), "Error: Cannot delete bookmark", exception);
 		}
 		this.dismiss();
 	}
