@@ -11,6 +11,7 @@ import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.bookmarkTree.util.BitmapScaleManager;
+import com.dynamicg.common.ErrorNotification;
 import com.dynamicg.common.Logger;
 
 public class BrowserBookmarkLoader {
@@ -43,8 +44,18 @@ public class BrowserBookmarkLoader {
 		return readBrowserBookmarks(ctx.activity, FOR_BACKUP_RESTORE);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private static <E> ArrayList<E> readBrowserBookmarks(Activity main, int what) {
+		try {
+			return readBrowserBookmarksImpl(main, what);
+		}
+		catch (Throwable t) {
+			ErrorNotification.notifyError(main, t);
+			return new ArrayList<E>();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static <E> ArrayList<E> readBrowserBookmarksImpl(Activity main, int what) {
 
 		String[] columns = new String[] {
 				Browser.BookmarkColumns._ID
