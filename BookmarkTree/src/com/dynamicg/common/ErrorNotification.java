@@ -19,18 +19,16 @@ public class ErrorNotification {
 		context.startActivity(Intent.createChooser(msg, "Send error report"));
 	}
 	
-	private static void emailError(Context context, Throwable exception) {
+	private static void emailError(Context context, String alertTitle, Throwable exception) {
 		String version = ContextUtil.getVersion(context)[0];
 		String title = "Bookmark Tree "+version+" - Error ("+Locale.getDefault().getLanguage()+")";
-		String body = SystemUtil.getExceptionText(exception);
+		String body = alertTitle+"\n\n"+SystemUtil.getExceptionText(exception);
 		createIntent(context, title, body);
 	}
 	
 	public static void notifyError(final Context context, final String title, final Throwable e) {
-		new SimpleAlertDialog ( context, "Error: "+title
-				, "Email DEV", context.getString(R.string.commonClose) 
-				) 
-		{
+		final String alertTitle =  "Error: "+title;
+		new SimpleAlertDialog ( context, alertTitle, "Email DEV", context.getString(R.string.commonClose)) {
 			
 			@Override
 			public String getScrollViewText() {
@@ -39,7 +37,7 @@ public class ErrorNotification {
 	
 			@Override
 			public void onPositiveButton() {
-				emailError(context, e);
+				emailError(context, alertTitle, e);
 			}
 			
 		};
