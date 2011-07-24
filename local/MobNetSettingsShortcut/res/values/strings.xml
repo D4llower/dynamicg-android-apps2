@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mobile Network Settings Shortcut</string>
+    <string name="statusPanelTitle">Mobile network settings</string>
+    <string name="statusPanelHint">Select to open settings.</string>
+    <string name="startupToast">Shortcut added to notification panel</string>
+</resources>
