@@ -27,6 +27,7 @@ import android.widget.RemoteViews;
 
 public class TemperatureWidget extends AppWidgetProvider {
 	
+	private static final long INIT_DELAY_SECS = 120; 
 	private static boolean initDone = false;
 	
     @Override
@@ -62,7 +63,7 @@ public class TemperatureWidget extends AppWidgetProvider {
 		// delayed update call after boot
 		Intent intent = new Intent(context, UpdateService.class);
 		AlarmManager am = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
-		long triggerAtTime = System.currentTimeMillis() + 30*1000l;
+		long triggerAtTime = System.currentTimeMillis() + INIT_DELAY_SECS*1000l;
 		
 		PendingIntent alarmIntent = PendingIntent.getService(context, 0, intent, 0);
 		am.set(AlarmManager.RTC_WAKEUP, triggerAtTime, alarmIntent);
