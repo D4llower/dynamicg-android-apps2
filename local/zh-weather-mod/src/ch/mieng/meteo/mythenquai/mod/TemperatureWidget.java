@@ -16,6 +16,8 @@
 
 package ch.mieng.meteo.mythenquai.mod;
 
+import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -25,10 +27,18 @@ import android.widget.RemoteViews;
 
 public class TemperatureWidget extends AppWidgetProvider {
 	
+	private static boolean initDone = false;
+	
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
             int[] appWidgetIds) {
         context.startService(new Intent(context, UpdateService.class));
+        
+        if (!initDone) {
+        	initDone = true;
+        	delayedInit(context);
+        }
+        
     }
     
     static public RemoteViews buildUpdate(Context context, WeatherData weatherData) {
@@ -47,6 +57,18 @@ public class TemperatureWidget extends AppWidgetProvider {
 
         return updateViews;
     }
+
+	public void delayedInit(Context context) {
+		super.onEnabled(context);
+		
+		// update call after reboot
+		Intent intent = new Intent(context, UpdateService.class);
+		AlarmManager am = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
+		long triggerAtTime = System.currentTimeMillis() + 20*1000l;
+		
+		PendingIntent alarmIntent = PendingIntent.getService(context, 0, intent, 0);
+		am.set(AlarmManager.RTC_WAKEUP, triggerAtTime, alarmIntent);
+	}
     
  
 }
