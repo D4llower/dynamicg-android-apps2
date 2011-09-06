@@ -59,9 +59,7 @@ public class TemperatureWidget extends AppWidgetProvider {
     }
 
 	public void delayedInit(Context context) {
-		super.onEnabled(context);
-		
-		// update call after reboot
+		// delayed update call after boot
 		Intent intent = new Intent(context, UpdateService.class);
 		AlarmManager am = (AlarmManager)context.getSystemService(Activity.ALARM_SERVICE);
 		long triggerAtTime = System.currentTimeMillis() + 20*1000l;
