@@ -36,13 +36,23 @@ public class TemperatureWidget extends AppWidgetProvider {
         context.startService(new Intent(context, UpdateService.class));
         
         if (!initDone) {
-        	initDone = true;
+            appWidgetManager.updateAppWidget(appWidgetIds, attachInitalClick(context));
         	delayedInit(context);
         }
         
+    	initDone = true;
+    	
     }
     
-    static public RemoteViews buildUpdate(Context context, WeatherData weatherData) {
+    private RemoteViews attachInitalClick(Context context) {
+        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
+        Intent intent = new Intent(context, WeatherView.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
+        return updateViews;
+	}
+
+	static public RemoteViews buildUpdate(Context context, WeatherData weatherData) {
    
         RemoteViews updateViews = null;
         
