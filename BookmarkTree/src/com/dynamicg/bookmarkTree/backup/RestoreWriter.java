@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.data.writer.UriProvider;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
 import com.dynamicg.common.Logger;
@@ -46,14 +47,14 @@ public class RestoreWriter {
 		
 		// delete existing entries
 		BackupManager.updateProgressMessageText(ctx, progress, 4);
-		contentResolver.delete ( Browser.BOOKMARKS_URI
+		contentResolver.delete ( UriProvider.DELETE
 				, Browser.BookmarkColumns.BOOKMARK+"=1"
 				, new String[]{}
 		);
 		
 		// insert
 		BackupManager.updateProgressMessageText(ctx, progress, 5);
-		contentResolver.bulkInsert ( Browser.BOOKMARKS_URI, newValues );
+		contentResolver.bulkInsert ( UriProvider.INSERT, newValues );
 		
 	}
 	

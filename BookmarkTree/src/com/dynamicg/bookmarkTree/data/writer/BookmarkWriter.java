@@ -22,7 +22,7 @@ public class BookmarkWriter extends BookmarkWriterA {
 		if (log.debugEnabled) {
 			log.debug("doUpdate ...", bookmarkId, values);
 		}
-		int result = contentResolver.update ( UriProvider.getURI(UriProvider.UPDATE)
+		int result = contentResolver.update ( UriProvider.UPDATE
 				, values
 				, Browser.BookmarkColumns._ID+"=?"
 				, new String[]{Integer.toString(bookmarkId)}
@@ -50,7 +50,7 @@ public class BookmarkWriter extends BookmarkWriterA {
 		values.put(Browser.BookmarkColumns.TITLE, title);
 		values.put(Browser.BookmarkColumns.URL, url);
 		values.put(Browser.BookmarkColumns.BOOKMARK, 1);
-		Uri result = contentResolver.insert (  UriProvider.getURI(UriProvider.INSERT), values );
+		Uri result = contentResolver.insert (  UriProvider.INSERT, values );
 		if (log.debugEnabled) {
 			log.debug("row created", result);
 		}
@@ -60,7 +60,7 @@ public class BookmarkWriter extends BookmarkWriterA {
 		if (log.debugEnabled) {
 			log.debug("delete bookmark", id);
 		}
-		contentResolver.delete (  UriProvider.getURI(UriProvider.DELETE)
+		contentResolver.delete (  UriProvider.DELETE
 				, Browser.BookmarkColumns._ID+"=?"
 				, new String[]{Integer.toString(id)}
 				);

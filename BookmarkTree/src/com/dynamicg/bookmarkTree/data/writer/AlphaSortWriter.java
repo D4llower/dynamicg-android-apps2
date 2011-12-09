@@ -34,7 +34,7 @@ public class AlphaSortWriter extends BookmarkWriterA {
 		values.put(Browser.BookmarkColumns.CREATED, nextValue);
 		values.put(Browser.BookmarkColumns.VISITS, nextValue);
 		
-		contentResolver.update ( Browser.BOOKMARKS_URI
+		contentResolver.update ( UriProvider.UPDATE
 				, values
 				, Browser.BookmarkColumns._ID+"=?"
 				, new String[]{Integer.toString(bookmarkId)}
