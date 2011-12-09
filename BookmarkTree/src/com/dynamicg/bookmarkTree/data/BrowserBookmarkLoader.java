@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.data.writer.UriProvider;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
@@ -71,7 +72,7 @@ public class BrowserBookmarkLoader {
 		// order by, optionally case-insensitive
 		String sortOrder = PreferencesWrapper.sortCaseInsensitive.isOn() ? SORT_CASE_INSENSITIVE : SORT_STD;
 		
-		Cursor crs = main.managedQuery ( android.provider.Browser.BOOKMARKS_URI
+		Cursor crs = main.managedQuery ( UriProvider.QUERY
 				, columns
 				, query
 				, null
