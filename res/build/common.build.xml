@@ -11,7 +11,7 @@
 	<property name="buildprops" value="${workspace}/res/build" />
     <property file="${buildprops}/local.properties" />
     <property file="${buildprops}/build.properties" />
-    <property file="default.properties" />
+    <property file="project.properties" />
 	<property file="c:/keystore/keystore.properties" />
 
     <path id="android.antlibs">
@@ -22,12 +22,22 @@
         <pathelement path="${sdk.dir}/tools/lib/jarutils.jar" />
     </path>
 
-    <taskdef name="setup"
-        classname="com.android.ant.SetupTask"
-        classpathref="android.antlibs"
+    <import file="${sdk.dir}/tools/ant/build.xml" />
+	
+    <setup
+    	projectTypeOut="project"
+    	androidJarFileOut=""
+		androidAidlFileOut=""
+    	renderScriptExeOut="" 
+    	renderScriptIncludeDirOut=""
+    	bootclasspathrefOut=""
+    	projectLibrariesRootOut=""
+    	projectLibrariesJarsOut=""
+    	projectLibrariesResOut=""
+    	projectLibrariesPackageOut=""
+    	projectLibrariesLibsOut=""
+    	targetApiOut="8"
     />
-
-    <setup />
 
 	<target name=".build">
 		
