@@ -47,8 +47,9 @@ public class RestoreWriter {
 		
 		// delete existing entries
 		BackupManager.updateProgressMessageText(ctx, progress, 4);
+		final String whereClause = UriProvider.isHoneycombOrNewer() ? "" : Browser.BookmarkColumns.BOOKMARK+"=1";
 		contentResolver.delete ( UriProvider.DELETE
-				, Browser.BookmarkColumns.BOOKMARK+"=1"
+				, whereClause
 				, new String[]{}
 		);
 		

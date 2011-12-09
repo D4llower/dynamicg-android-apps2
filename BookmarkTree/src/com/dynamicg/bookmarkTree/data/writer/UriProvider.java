@@ -12,7 +12,7 @@ public class UriProvider {
 	public static final Uri DELETE;
 	
 	static {
-		if (android.os.Build.VERSION.SDK_INT >= 11) {
+		if (isHoneycombOrNewer()) {
 			// honeycomb + ICS
 			Uri plain = Uri.parse("content://browser/bookmarks");
 			Uri qualified = Uri.parse("content://com.android.browser/bookmarks");
@@ -27,6 +27,10 @@ public class UriProvider {
 			UPDATE = Browser.BOOKMARKS_URI;
 			DELETE = Browser.BOOKMARKS_URI;
 		}
+	}
+	
+	public static boolean isHoneycombOrNewer() {
+		return android.os.Build.VERSION.SDK_INT >= 11;
 	}
 	
 }
