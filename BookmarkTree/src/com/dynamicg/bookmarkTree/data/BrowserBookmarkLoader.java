@@ -21,7 +21,7 @@ public class BrowserBookmarkLoader {
 
 	private static final int FOR_DISPLAY = 1;
 	private static final int FOR_INTERNAL_OP = 2;
-	private static final int FOR_BACKUP_RESTORE = 3;
+	private static final int FOR_BACKUP = 3;
 	
 	private static String EMPTY = "";
 	
@@ -42,7 +42,7 @@ public class BrowserBookmarkLoader {
 	}
 	
 	public static ArrayList<RawDataBean> forBackup(BookmarkTreeContext ctx) {
-		return readBrowserBookmarks(ctx.activity, FOR_BACKUP_RESTORE);
+		return readBrowserBookmarks(ctx.activity, FOR_BACKUP);
 	}
 	
 	private static <E> ArrayList<E> readBrowserBookmarks(Activity main, int what) {
@@ -86,7 +86,7 @@ public class BrowserBookmarkLoader {
 			return rows;
 		}
 		
-		if (what==FOR_BACKUP_RESTORE || what==FOR_INTERNAL_OP) {
+		if (what==FOR_BACKUP || what==FOR_INTERNAL_OP) {
 			RawDataBean bean;
 			while ( crs.moveToNext() ) {
 				bean = new RawDataBean();
