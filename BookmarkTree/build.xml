@@ -3,7 +3,6 @@
 	
 	<property name="workspace" value="${basedir}/.." />
 	<property name="projectname" value="BookmarkTree" />
-	<property name="appNamespace" value="com.dynamicg.bookmarkTree" /> <!-- property required for TimeRecording build -->
 	
 	<target name="main">
 		<ant antfile="${workspace}/res/build/common.build.xml" target=".build">
