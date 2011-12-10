@@ -122,10 +122,12 @@ implements BackupEventListener {
 		
 		RadioButton rb;
 		String filename;
+		String strippedFilename;
 		for ( int pos=0 ; pos<backupFiles.size() ; pos++ ) {
 			rb = new RadioButton(context);
 			filename = backupFiles.get(pos).getName();
-			rb.setText(filename);
+			strippedFilename = filename.endsWith(".xml") ? filename.substring(0, filename.length()-4) : filename;
+			rb.setText(strippedFilename);
 			rb.setId(pos);
 			backupListGroup.addView(rb);
 		}
