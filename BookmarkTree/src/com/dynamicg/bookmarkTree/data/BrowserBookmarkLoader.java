@@ -50,6 +50,11 @@ public class BrowserBookmarkLoader {
 			return readBrowserBookmarksImpl(main, what);
 		}
 		catch (Throwable t) {
+			if (what==FOR_BACKUP) {
+				// backup has its own thread with separate exception handler
+				RuntimeException rt = t instanceof RuntimeException ? (RuntimeException)t : new RuntimeException(t);
+				throw rt;
+			}
 			ErrorNotification.notifyError(main, "Cannot read bookmarks", t);
 			return new ArrayList<E>();
 		}
