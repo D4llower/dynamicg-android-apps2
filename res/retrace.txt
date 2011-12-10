@@ -1,0 +1,5 @@
+SET DIR=C:\app\android-sdk_r06-windows\android-sdk-windows\tools\proguard\bin
+cd /d %DIR%
+start notepad stack.txt
+
+rem retrace.bat C:\workspace\androidBookmarkTree\res\proguard\mapping-117.txt stack.txt
