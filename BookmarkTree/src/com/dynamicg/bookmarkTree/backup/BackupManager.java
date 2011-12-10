@@ -124,7 +124,7 @@ public class BackupManager {
 				.replace("{1}", filename)
 				.replace("{2}", Integer.toString(numberOfRows))
 				;
-				SystemUtil.toastLong(ctx.activity, text);
+				SystemUtil.toastShort(ctx.activity, text);
 				BackupPrefs.registerBackup();
 				if (backupDoneListener!=null) {
 					// "refresh GUI" or "register" callback
@@ -184,7 +184,7 @@ public class BackupManager {
 			@Override
 			public void done() {
 				String text = StringUtil.textWithParam(context, R.string.brHintBookmarksRestored, numberOfRows);
-				SystemUtil.toastLong(context, text);
+				SystemUtil.toastShort(context, text);
 				backupDoneListener.restoreDone();
 			}
 			
