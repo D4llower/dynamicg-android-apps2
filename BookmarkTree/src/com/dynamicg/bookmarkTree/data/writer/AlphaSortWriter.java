@@ -9,7 +9,6 @@ import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 
-// TODO ## disable on ICS
 public class AlphaSortWriter extends BookmarkWriterA {
 
 	// same "created" values as "browser backup&restore"

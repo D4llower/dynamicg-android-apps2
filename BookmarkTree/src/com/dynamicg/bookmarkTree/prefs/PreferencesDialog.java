@@ -33,6 +33,7 @@ import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.writehandler.SeparatorChangedHandler;
 import com.dynamicg.bookmarkTree.data.writer.AlphaSortWriter;
+import com.dynamicg.bookmarkTree.data.writer.UriProvider;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog.ColorSelectedListener;
@@ -118,6 +119,11 @@ public class PreferencesDialog extends Dialog {
 		};
 		
 		setLinks();
+		
+		if (UriProvider.isHoneycombOrNewer()) {
+			// disable "Tools" with Sort
+			findViewById(R.id.prefsToolsContainer).setVisibility(View.GONE);
+		}
 		
 		// see http://devstream.stefanklumpp.com/2010/07/android-display-dialogs-in-fullscreen.html
 		getWindow().setLayout( (int)this.dialogWidth, LayoutParams.FILL_PARENT);
