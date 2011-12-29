@@ -33,7 +33,6 @@ import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.writehandler.SeparatorChangedHandler;
 import com.dynamicg.bookmarkTree.data.writer.AlphaSortWriter;
-import com.dynamicg.bookmarkTree.data.writer.UriProvider;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog.ColorSelectedListener;
