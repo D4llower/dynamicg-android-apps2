@@ -120,7 +120,7 @@ public class PreferencesDialog extends Dialog {
 		
 		setLinks();
 		
-		if (UriProvider.isHoneycombOrNewer()) {
+		if (SystemUtil.isHoneycombOrNewer()) {
 			// disable "Tools" with Sort
 			findViewById(R.id.prefsToolsContainer).setVisibility(View.GONE);
 		}

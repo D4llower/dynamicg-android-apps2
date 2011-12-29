@@ -32,4 +32,8 @@ public class SystemUtil {
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
 	
+	public static boolean isHoneycombOrNewer() {
+		return android.os.Build.VERSION.SDK_INT >= 11;
+	}
+	
 }

@@ -11,6 +11,7 @@ import com.dynamicg.bookmarkTree.data.writer.UriProvider;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 
 public class RestoreWriter {
 
@@ -47,7 +48,7 @@ public class RestoreWriter {
 		
 		// delete existing entries
 		BackupManager.updateProgressMessageText(ctx, progress, 4);
-		final String whereClause = UriProvider.isHoneycombOrNewer() ? "" : Browser.BookmarkColumns.BOOKMARK+"=1";
+		final String whereClause = SystemUtil.isHoneycombOrNewer() ? "" : Browser.BookmarkColumns.BOOKMARK+"=1";
 		contentResolver.delete ( UriProvider.DELETE
 				, whereClause
 				, new String[]{}
