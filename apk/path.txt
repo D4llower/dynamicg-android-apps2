@@ -1,1 +1,2 @@
-https://dynamicg-android-apps2.googlecode.com/svn/trunk/apk/
+APK: https://dynamicg-android-apps2.googlecode.com/svn/trunk/apk/
+SRC: https://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree
