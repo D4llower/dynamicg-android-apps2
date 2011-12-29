@@ -62,6 +62,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 				return itemLongClicked(position);
 			}
 		});
+		listview.setLongClickable(true);
 		
 		
 		// FOR TESTING:
