@@ -1,4 +1,0 @@
-
-listview performance:
-http://stackoverflow.com/questions/1320478/how-to-load-the-listview-smoothly-in-android
-http://code.google.com/events/io/2009/sessions/TurboChargeUiAndroidFast.html
