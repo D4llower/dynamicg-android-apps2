@@ -116,6 +116,7 @@ public class BrowserBookmarkLoader {
 				bean.fullTitle = nvl(crs.getString(2));
 				bean.url = nvl(crs.getString(3));
 				if (what==FOR_DISPLAY) {
+					// TODO ## catch the occasional "out of memory" here
 					bean.favicon = BitmapScaleManager.getIcon(crs.getBlob(4));
 				}
 				

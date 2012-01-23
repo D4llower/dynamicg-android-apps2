@@ -18,7 +18,6 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.common.StringUtil;
 import com.dynamicg.common.SystemUtil;
 
-//TODO - validation after backup (?)
 public class BackupManager {
 
 	private static final Logger log = new Logger(BackupManager.class);
