@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="WidgetBackground">
+    
+    <style name="WidgetMainStyle">
          <item name="android:background">@drawable/background1x1</item>  
-    </style>
+         <item name="android:layout_height">68dip</item>  
+         <item name="android:layout_width">fill_parent</item>  
+	</style>
    
     <style name="BulletPoint">
         <item name="android:text">\u2022</item>

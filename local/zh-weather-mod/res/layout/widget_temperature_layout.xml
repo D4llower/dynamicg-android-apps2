@@ -2,11 +2,9 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
     android:focusable="true"
     android:orientation="vertical"
-    style="@style/WidgetBackground"
+    style="@style/WidgetMainStyle"
     android:gravity="center"
    >
 	
