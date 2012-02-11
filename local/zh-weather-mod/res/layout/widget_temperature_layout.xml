@@ -16,7 +16,6 @@
 	    android:focusable="true"
 	    android:orientation="horizontal"
 	    android:gravity="center"
-	    android:paddingTop="2dip"
 	   >
 	   
 	<!-- parent has a layout with of 294dp (4cells) and heigth 72dp (1cell)  -->
@@ -27,7 +26,7 @@
 	         android:layout_height="fill_parent" 
 	         android:text="ZH"
 	         android:textSize="10sp"
-	         android:paddingLeft="2dp"
+	         android:paddingLeft="4dp"
 	         style="@style/Text.Widget"
 	         />
 	   
@@ -37,8 +36,8 @@
 	         android:layout_toRightOf="@id/TZH"
 	         android:text="-14.6°" 
 	         style="@style/Text.Widget"
-	         android:paddingLeft="10dp"
-	         android:paddingRight="2dp"
+	         android:paddingLeft="12dp"
+	         android:paddingRight="6dp"
 	         />
 	    
 	</LinearLayout>
