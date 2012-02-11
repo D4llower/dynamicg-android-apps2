@@ -16,6 +16,7 @@
 
 package ch.mieng.meteo.mythenquai.mod;
 
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -58,9 +59,14 @@ public class TemperatureWidget extends AppWidgetProvider {
         
         updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_layout);
         updateViews.setTextViewText(R.id.TAIR, weatherData.getWeatherAirTemperature());
-        updateViews.setTextViewText(R.id.THUM, weatherData.getWeatherAirHumidity());
+        // updateViews.setTextViewText(R.id.THUM, weatherData.getWeatherAirHumidity());
         updateViews.setTextViewText(R.id.TZH, WeatherView.getStationIndicator(context));
-        updateViews.setTextViewText(R.id.ZEIT, weatherData.getTime());
+        
+        String time = weatherData.getTime();
+        if (time.length()>5) {
+        	time = time.substring(0,5); // remove "Uhr"
+        }
+        updateViews.setTextViewText(R.id.ZEIT, time);
         
         Intent intent = new Intent(context, WeatherView.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
