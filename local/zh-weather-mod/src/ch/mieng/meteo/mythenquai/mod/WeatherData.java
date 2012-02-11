@@ -185,7 +185,7 @@ public class WeatherData {
 				map.put(mapValue, values.getString(i));
 				list.add(map);
 			} catch (JSONException e) {
-				Log.e("getJsonAsStringArray", "", e);
+				//Log.e("getJsonAsStringArray", "", e);
 			}
 		}
 		return list;
