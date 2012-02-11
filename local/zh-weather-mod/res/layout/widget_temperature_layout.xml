@@ -16,7 +16,7 @@
 	    android:focusable="true"
 	    android:orientation="horizontal"
 	    android:gravity="center"
-	    android:paddingTop="8dip"
+	    android:paddingTop="2dip"
 	   >
 	   
 	<!-- parent has a layout with of 294dp (4cells) and heigth 72dp (1cell)  -->
@@ -48,7 +48,7 @@
          android:layout_height="wrap_content"
          android:layout_gravity="right" 
          android:text="11:34"
-         android:textSize="11sp"
+         android:textSize="10sp"
          style="@style/Text.Widget"
          android:paddingRight="14dip"
          android:paddingBottom="0dip"
