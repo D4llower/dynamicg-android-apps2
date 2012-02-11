@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="WidgetBackground">
-         <item name="android:background">@drawable/widget_bg_2x1</item>  
+         <item name="android:background">@drawable/background1x1</item>  
     </style>
    
     <style name="BulletPoint">
