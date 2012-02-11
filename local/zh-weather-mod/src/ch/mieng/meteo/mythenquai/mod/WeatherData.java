@@ -56,11 +56,11 @@ public class WeatherData {
 	final static String PEGEL = "Pegel";
 	final static String TAUPUNKT = "Taupunkt";
 	final static String WASSERTEMPERATUR = "Wassertemperatur";
-	final static String WINDBOEWEN = "Windböen (max) 10 min.";
+	final static String WINDBOEWEN = "Windboeen (max) 10 min.";
 	final static String WINDCHILL = "Windchill";
 	final static String WINDGESCHW = "Windgeschw. Ã˜ 10min.";
 	final static String WINDRICHTUNG = "Windrichtung";
-	final static String WINDSTAERKE = "Windstärke Ã˜ 10 min.";
+	final static String WINDSTAERKE = "Windstaerke Ã˜ 10 min.";
 	final static String ZEIT = "Zeit";
 	
 	final static String sortOrder[] = {LUFTTEMPERATUR, LUFTFEUCHTE, WASSERTEMPERATUR, TAUPUNKT, WINDBOEWEN, WINDGESCHW, WINDSTAERKE, WINDRICHTUNG, NIEDERSCHLAG, LUFTDRUCK, WINDCHILL, PEGEL, ZEIT };
