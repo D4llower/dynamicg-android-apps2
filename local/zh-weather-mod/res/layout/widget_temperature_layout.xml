@@ -8,48 +8,20 @@
     android:gravity="center"
    >
 	
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:focusable="true"
-	    android:orientation="horizontal"
-	    android:gravity="center"
-	   >
-	   
-	<!-- parent has a layout with of 294dp (4cells) and heigth 72dp (1cell)  -->
-	<!-- 160dip = 1 inch = 2.54 cm  -->
-	
-	     <TextView android:id="@+id/TZH"
-	         android:layout_width="wrap_content"
-	         android:layout_height="fill_parent" 
-	         android:text="ZH"
-	         android:textSize="10sp"
-	         android:paddingLeft="4dp"
-	         android:gravity="left"
-	         style="@style/Text.Widget"
-	         />
-	   
-	     <TextView android:id="@+id/TAIR"
-	         android:layout_width="wrap_content"
-	         android:layout_height="fill_parent" 
-	         android:layout_toRightOf="@id/TZH"
-	         android:text="-14.6°" 
-	         android:paddingRight="6dp"
-	         android:gravity="right"
-	         style="@style/Text.Widget"
-	         />
-	    
-	</LinearLayout>
-
-    <TextView android:id="@+id/ZEIT"
+     <TextView android:id="@+id/TAIR"
          android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_gravity="right" 
-         android:text="11:34"
-         android:textSize="10sp"
+         android:layout_height="wrap_content" 
+         android:layout_gravity="center"
          style="@style/Text.Widget"
-         android:paddingRight="14dip"
-         android:paddingBottom="0dip"
-    />
+         android:paddingBottom="2dip"
+         />
+    
+	<TextView android:id="@+id/ZEIT"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="10sp"
+		android:layout_gravity="center" 
+		style="@style/Text.Widget"
+		/>
 
 </LinearLayout>
