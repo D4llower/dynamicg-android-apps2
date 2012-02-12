@@ -25,6 +25,7 @@
 	         android:text="ZH"
 	         android:textSize="10sp"
 	         android:paddingLeft="4dp"
+	         android:gravity="left"
 	         style="@style/Text.Widget"
 	         />
 	   
@@ -33,9 +34,9 @@
 	         android:layout_height="fill_parent" 
 	         android:layout_toRightOf="@id/TZH"
 	         android:text="-14.6°" 
-	         style="@style/Text.Widget"
-	         android:paddingLeft="12dp"
 	         android:paddingRight="6dp"
+	         android:gravity="right"
+	         style="@style/Text.Widget"
 	         />
 	    
 	</LinearLayout>
