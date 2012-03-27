@@ -45,11 +45,15 @@ public class TemperatureWidget extends AppWidgetProvider {
     	
     }
     
-    private RemoteViews attachInitalClick(Context context) {
-        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
+    private static void setClickIntent(Context context, RemoteViews updateViews) {
         Intent intent = new Intent(context, WeatherView.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
+    }
+    
+    private RemoteViews attachInitalClick(Context context) {
+        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
+        setClickIntent(context, updateViews);
         return updateViews;
 	}
 
@@ -69,9 +73,7 @@ public class TemperatureWidget extends AppWidgetProvider {
         time = WeatherView.getStationIndicator(context) + " " + time;
         updateViews.setTextViewText(R.id.ZEIT, time);
         
-        Intent intent = new Intent(context, WeatherView.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
+        setClickIntent(context, updateViews);
 
         return updateViews;
     }
