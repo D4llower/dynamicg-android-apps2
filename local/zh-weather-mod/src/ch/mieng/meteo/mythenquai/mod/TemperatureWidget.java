@@ -34,15 +34,27 @@ public class TemperatureWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
             int[] appWidgetIds) {
+    	
+    	/*
+    	 * set click intent
+    	 */
+        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
+        setClickIntent(context, updateViews);
+        appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
+        
+        /*
+         * refresh data
+         */
         context.startService(new Intent(context, UpdateService.class));
         
+        /*
+         * delayed init on first start
+         */
         if (!initDone) {
-            appWidgetManager.updateAppWidget(appWidgetIds, attachInitalClick(context));
         	delayedInit(context);
+        	initDone = true;
         }
         
-    	initDone = true;
-    	
     }
     
     private static void setClickIntent(Context context, RemoteViews updateViews) {
@@ -51,12 +63,6 @@ public class TemperatureWidget extends AppWidgetProvider {
         updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
     }
     
-    private RemoteViews attachInitalClick(Context context) {
-        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
-        setClickIntent(context, updateViews);
-        return updateViews;
-	}
-
 	static public RemoteViews buildUpdate(Context context, WeatherData weatherData) {
    
         RemoteViews updateViews = null;
