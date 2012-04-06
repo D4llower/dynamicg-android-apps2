@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="BookmarkTree" default="main">
-	
+<project name="ZhWeatherMod" default="main">
 	<property name="workspace" value="${basedir}/.." />
 	<property name="projectname" value="zh-weather-mod" />
-	
 	<target name="main">
 		<ant antfile="${workspace}/res/build/common.build.xml" target=".build">
 			<property name="projectname" value="${projectname}" />
