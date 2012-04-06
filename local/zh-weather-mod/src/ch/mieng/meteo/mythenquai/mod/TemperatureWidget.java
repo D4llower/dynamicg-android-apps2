@@ -38,9 +38,11 @@ public class TemperatureWidget extends AppWidgetProvider {
     	/*
     	 * set click intent
     	 */
-        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
-        setClickIntent(context, updateViews);
-        appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
+    	if (!initDone) {
+	        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
+	        setClickIntent(context, updateViews);
+	        appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
+    	}
         
         /*
          * refresh data
