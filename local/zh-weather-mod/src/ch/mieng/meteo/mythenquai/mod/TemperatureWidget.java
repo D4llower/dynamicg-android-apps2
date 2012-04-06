@@ -29,7 +29,7 @@ import android.widget.RemoteViews;
 public class TemperatureWidget extends AppWidgetProvider {
 	
 	private static final long INIT_DELAY_SECS = 120; 
-	private static boolean initDone = false;
+	private boolean initRequired = false;
 	
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -38,7 +38,7 @@ public class TemperatureWidget extends AppWidgetProvider {
     	/*
     	 * set click intent
     	 */
-    	if (!initDone) {
+    	if (initRequired) {
 	        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
 	        setClickIntent(context, updateViews);
 	        appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
@@ -52,14 +52,20 @@ public class TemperatureWidget extends AppWidgetProvider {
         /*
          * delayed init on first start
          */
-        if (!initDone) {
+        if (initRequired) {
         	delayedInit(context);
-        	initDone = true;
+        	initRequired = false;
         }
         
     }
     
-    private static void setClickIntent(Context context, RemoteViews updateViews) {
+    @Override
+	public void onEnabled(Context context) {
+		super.onEnabled(context);
+		this.initRequired = true;
+	}
+
+	private static void setClickIntent(Context context, RemoteViews updateViews) {
         Intent intent = new Intent(context, WeatherView.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
