@@ -83,7 +83,7 @@
 	<string name="hintAutoBackupEnabled">Auto backup enabled</string>
 	<string name="hintAutoBackupDisabled">Auto backup disabled</string>
     
-	<string name="brDialogTitle">Backup and restore</string>
+	<string name="brDialogTitle">Backup &amp; restore</string>
 	<string name="brRestoreConfirmation">Restore bookmarks?</string>
 	<string name="brSelectedFileLabel">Selected file:\n{1}</string>
 	<string name="brProgressCreateBackup">Creating backup \u2026</string>
@@ -95,7 +95,9 @@
 	<string name="brDeleteOld">Delete backups >{1} days</string>
 	<string name="brDeleteAll">Delete all backups</string>
 	<string name="brAutoBackupLabel">Auto backup every {1} days</string>
-    
+	<string name="brDeleteOldGrp">Admin</string>
+	<string name="brDeleteOldBackups">Delete old backups</string>
+		
 	<string name="sdcardErrorTitle">SD Card access error</string>
 	<string name="sdcardErrorDirReadOnly">Directory {1} is read only</string>
 	<string name="sdcardErrorDirCreateFailed">Could not create backup directory:\n{1}</string>

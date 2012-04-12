@@ -75,7 +75,7 @@ implements BackupEventListener {
 			}
 		});
 		
-		refreshBackupFilesList();
+		int numFiles = refreshBackupFilesList();
 		
 		new DialogButtonPanelWrapper(this, DialogButtonPanelWrapper.TYPE_CLOSE) {
 			@Override
@@ -91,6 +91,20 @@ implements BackupEventListener {
 		
 		setupAutoBackup();
 		
+		if (numFiles==0) {
+			findViewById(R.id.brAdminGroup).setVisibility(View.GONE);
+			findViewById(R.id.brDeleteOldButton).setVisibility(View.GONE);
+		}
+		else {
+			Button deleteOld = (Button)findViewById(R.id.brDeleteOldButton);
+			deleteOld.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					deleteConfirmation(ACTION_DELETE_OLD);
+				}
+			});
+		}
+
 	}
 	
 	private void setupAutoBackup() {
@@ -109,7 +123,7 @@ implements BackupEventListener {
 		
 	}
 	
-	private void refreshBackupFilesList() {
+	private int refreshBackupFilesList() {
 		
 		final RadioGroup backupListGroup = (RadioGroup)findViewById(R.id.brRestoreList);
 		backupListGroup.removeAllViews(); // for repeated calls
@@ -145,6 +159,8 @@ implements BackupEventListener {
 				}
 			}
 		});
+		
+		return backupFiles.size();
 	}
 	
 	private void restore(final RadioGroup group, final File backupFile) {

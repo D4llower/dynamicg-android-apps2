@@ -145,10 +145,6 @@ public class ColorPickerDialog extends Dialog {
 					if (colorSelectedListener!=null) {
 						colorSelectedListener.colorSelected(getSelectedColor());
 					}
-					else {
-						// for debugging
-						System.err.println("COLOR SELECTED:"+getSelectedColor());
-					}
 					dismiss();
 				}
 			});

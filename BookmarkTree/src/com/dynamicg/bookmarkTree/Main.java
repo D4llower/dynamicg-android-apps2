@@ -11,6 +11,7 @@ import com.dynamicg.bookmarkTree.backup.BackupRestoreDialog;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog;
 import com.dynamicg.bookmarkTree.prefs.PreferencesDialog;
+import com.dynamicg.common.ErrorNotification;
 import com.dynamicg.common.StringUtil;
 import com.dynamicg.common.SystemUtil;
 
@@ -20,6 +21,9 @@ public class Main extends Activity {
 	 * icons sources:
 	 * http://www.veryicon.com/search/bookmark/ 
 	 * http://www.iconeasy.com/
+	 * 
+	 * http://www.softicons.com
+	 * http://www.softicons.com/free-icons/folder-icons/latt-for-os-x-icons-by-rick-patrick
 	 */
 	
     public static final int ACTION_COLLAPSE_ALL = 1;
@@ -36,13 +40,16 @@ public class Main extends Activity {
     }
     
     public void onCreate(Bundle savedInstanceState) {
-        
     	super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    	this.ctx = new BookmarkTreeContext(this);
-    	
-    	BackupPrefs.onStartup(ctx);
-    	AboutDialog.showOnce(ctx, false); // for debugging
+    	try {
+	        setContentView(R.layout.main);
+	    	this.ctx = new BookmarkTreeContext(this);
+	    	BackupPrefs.onStartup(ctx);
+	    	AboutDialog.showOnce(ctx, false); // for debugging
+    	}
+    	catch (Throwable t) {
+    		ErrorNotification.notifyError(this, "App error", t);
+    	}
     }
     
     
@@ -55,7 +62,7 @@ public class Main extends Activity {
 		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll, R.drawable.menu_collapse);
 		createMenu(menu, ACTION_RELOAD, R.string.menuReload, R.drawable.menu_reload);
 		createMenu(menu, ACTION_NEW_BM, R.string.menuCreate, R.drawable.menu_create);
-		createMenu(menu, ACTION_BACKUP_RESTORE, R.string.menuBackup, R.drawable.menu_save);
+		createMenu(menu, ACTION_BACKUP_RESTORE, SystemUtil.isHoneycombOrNewer()?R.string.brDialogTitle:R.string.menuBackup, R.drawable.menu_save);
 		createMenu(menu, ACTION_SETTINGS, R.string.menuPrefs, R.drawable.menu_prefs);
 		return true;
 	}

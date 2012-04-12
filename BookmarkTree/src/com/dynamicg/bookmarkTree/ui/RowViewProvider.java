@@ -11,6 +11,7 @@ import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.prefs.PrefEntryInt;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 
 public abstract class RowViewProvider {
 
@@ -80,7 +81,12 @@ public abstract class RowViewProvider {
 
 	    	holder.iconCell.isFolder = bm.isFolder();
 			if (bm.isFolder()) {
-		        holder.iconCell.setImageResource(bm.isExpanded() ? R.drawable.folder_open : R.drawable.folder_dflt );
+				if (SystemUtil.isHoneycombOrNewer()) {
+			        holder.iconCell.setImageResource(bm.isExpanded() ? R.drawable.folder_holo_open : R.drawable.folder_holo_closed);
+				}
+				else {
+			        holder.iconCell.setImageResource(bm.isExpanded() ? R.drawable.folder_std_open : R.drawable.folder_std_closed);
+				}
 			}
 			else {
 				holder.iconCell.setImageBitmap(bm.getFavicon());

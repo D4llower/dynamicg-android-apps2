@@ -38,7 +38,6 @@ public class FolderStateHandler {
 	}
 	
 	public static void restore ( ArrayList<Bookmark> bookmarksCache ) {
-		System.err.println("expandedFolders:"+expandedFolders.size());
 		for ( Bookmark item:bookmarksCache ) {
 			if ( item.isFolder() && expandedFolders.contains(item.getFullTitle()) ) {
 				if (log.traceEnabled) {
