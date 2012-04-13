@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.common.ContextUtil;
+import com.dynamicg.common.SystemUtil;
 
 public class ColorPickerDialog extends Dialog {
 
@@ -129,40 +130,43 @@ public class ColorPickerDialog extends Dialog {
 		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 	}
 	
+	private Button createButton(int labelId) {
+		Button button = new Button(context);
+		button.setText(labelId);
+		button.setWidth(scale(BUTTON_WIDTH));
+		return button;
+	}
+	
 	private void addButtonPanel(LinearLayout parent) {
-		
-		int scaledButtonWidth = scale(BUTTON_WIDTH);
 		LinearLayout panel = new LinearLayout(context);
 		panel.setOrientation(LinearLayout.HORIZONTAL);
 		panel.setGravity(Gravity.CENTER_HORIZONTAL);
 		
-		{
-			Button btSave = new Button(context);
-			btSave.setText(R.string.commonOK);
-			btSave.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (colorSelectedListener!=null) {
-						colorSelectedListener.colorSelected(getSelectedColor());
-					}
-					dismiss();
+		Button btSave = createButton(R.string.commonOK);
+		btSave.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (colorSelectedListener!=null) {
+					colorSelectedListener.colorSelected(getSelectedColor());
 				}
-			});
-			btSave.setWidth(scaledButtonWidth);
-			
+				dismiss();
+			}
+		});
+
+		Button btCancel = createButton(R.string.commonCancel);
+		btCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
+		
+		if (SystemUtil.isIcsOrNewer()) {
+			panel.addView(btCancel);
 			panel.addView(btSave);
 		}
-		
-		{
-			Button btCancel = new Button(context);
-			btCancel.setText(R.string.commonCancel);
-			btCancel.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					dismiss();
-				}
-			});
-			btCancel.setWidth(scaledButtonWidth);
+		else {
+			panel.addView(btSave);
 			panel.addView(btCancel);
 		}
 		

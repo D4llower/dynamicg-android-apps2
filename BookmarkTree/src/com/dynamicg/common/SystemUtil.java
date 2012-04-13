@@ -36,4 +36,8 @@ public class SystemUtil {
 		return android.os.Build.VERSION.SDK_INT >= 11;
 	}
 	
+	public static boolean isIcsOrNewer() {
+		return android.os.Build.VERSION.SDK_INT >= 14;
+	}
+	
 }
