@@ -29,10 +29,11 @@ public class RefreshTracker {
 	}
 	
 	public static boolean needsInit(Context context) {
-		String lastDataRefresh = getPrefs(context).getString(KEY_LAST_REFRESH, "0");
-		boolean wasRestarted = Long.parseLong(lastDataRefresh) == 0 || getUptime() < Long.parseLong(lastDataRefresh);
+		String lastDataRefreshStr = getPrefs(context).getString(KEY_LAST_REFRESH, "0");
+		long lastDataRefresh = Long.parseLong(lastDataRefreshStr);
+		boolean wasRestarted = lastDataRefresh == 0 || lastDataRefresh>getUptime();
 		if (log) {
-			System.err.println("##### needsInit() "+Long.parseLong(lastDataRefresh)+"/"+getUptime()+"/"+wasRestarted);
+			System.err.println("##### needsInit() "+lastDataRefresh+"/"+getUptime()+"/"+wasRestarted);
 		}
 		return wasRestarted;
 	}
