@@ -7,7 +7,8 @@ import android.os.SystemClock;
 
 public class RefreshTracker {
 
-	private static final String KEY_UPTIME = "uptime";
+	private static final String KEY_LAST_REFRESH = "lastRefresh";
+	private static boolean log = true;
 	
 	private static SharedPreferences getPrefs(Context context) {
 		return context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
@@ -20,15 +21,20 @@ public class RefreshTracker {
 	public static void registerDataLoaded(Context context) {
 		String uptime = Long.toString(getUptime());
 		Editor editor = getPrefs(context).edit();
-		editor.putString(KEY_UPTIME, uptime);
+		editor.putString(KEY_LAST_REFRESH, uptime);
 		editor.commit();
-		//System.err.println("##### registerDataLoaded() => "+uptime);
+		if (log) {
+			System.err.println("##### registerDataLoaded() => "+uptime);
+		}
 	}
 	
 	public static boolean needsInit(Context context) {
-		String last = getPrefs(context).getString(KEY_UPTIME, "0");
-		//System.err.println("##### needsInit() "+Long.parseLong(last)+"/"+getUptime()+"/"+(Long.parseLong(last) < getUptime()));
-		return Long.parseLong(last) < getUptime();
+		String lastDataRefresh = getPrefs(context).getString(KEY_LAST_REFRESH, "0");
+		boolean wasRestarted = Long.parseLong(lastDataRefresh) == 0 || getUptime() < Long.parseLong(lastDataRefresh);
+		if (log) {
+			System.err.println("##### needsInit() "+Long.parseLong(lastDataRefresh)+"/"+getUptime()+"/"+wasRestarted);
+		}
+		return wasRestarted;
 	}
 	
 }
