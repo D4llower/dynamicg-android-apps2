@@ -21,12 +21,12 @@ public class RefreshTracker {
 		Editor ed = getPrefs(context).edit();
 		String uptime = Long.toString(getUptime());
 		ed.putString(KEY_UPTIME, uptime);
-		System.err.println("##### registerDataLoaded() => "+uptime);
+		//System.err.println("##### registerDataLoaded() => "+uptime);
 	}
 	
 	public static boolean needsInit(Context context) {
 		String last = getPrefs(context).getString(KEY_UPTIME, "0");
-		System.err.println("##### needsInit() "+Long.parseLong(last)+"/"+getUptime()+"/"+(Long.parseLong(last) < getUptime()));
+		//System.err.println("##### needsInit() "+Long.parseLong(last)+"/"+getUptime()+"/"+(Long.parseLong(last) < getUptime()));
 		return Long.parseLong(last) < getUptime();
 	}
 	
