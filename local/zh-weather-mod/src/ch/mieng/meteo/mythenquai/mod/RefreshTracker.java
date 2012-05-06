@@ -18,10 +18,10 @@ public class RefreshTracker {
 	}
 	
 	public static void registerDataLoaded(Context context) {
-		Editor ed = getPrefs(context).edit();
 		String uptime = Long.toString(getUptime());
-		ed.putString(KEY_UPTIME, uptime);
-		ed.commit();
+		Editor editor = getPrefs(context).edit();
+		editor.putString(KEY_UPTIME, uptime);
+		editor.commit();
 		//System.err.println("##### registerDataLoaded() => "+uptime);
 	}
 	
