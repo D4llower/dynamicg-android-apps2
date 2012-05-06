@@ -37,11 +37,11 @@ public class TemperatureWidget extends AppWidgetProvider {
     	/*
     	 * set click intent
     	 */
-//    	if (initRequired) {
-//	        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
-//	        setClickIntent(context, updateViews);
-//	        appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
-//    	}
+    	if (RefreshTracker.needsInit(context)) {
+	        RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_temperature_message);
+	        setClickIntent(context, updateViews);
+	        appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
+    	}
         
         /*
          * refresh data
@@ -82,7 +82,7 @@ public class TemperatureWidget extends AppWidgetProvider {
         updateViews.setTextViewText(R.id.ZEIT, time);
         
         setClickIntent(context, updateViews);
-
+        RefreshTracker.registerDataLoaded(context);
         return updateViews;
     }
 
