@@ -8,7 +8,7 @@ import android.os.SystemClock;
 public class RefreshTracker {
 
 	private static final String KEY_LAST_REFRESH = "lastRefresh";
-	private static boolean log = true;
+	private static boolean log = false;
 	
 	private static SharedPreferences getPrefs(Context context) {
 		return context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
