@@ -21,6 +21,7 @@ public class RefreshTracker {
 		Editor ed = getPrefs(context).edit();
 		String uptime = Long.toString(getUptime());
 		ed.putString(KEY_UPTIME, uptime);
+		ed.commit();
 		//System.err.println("##### registerDataLoaded() => "+uptime);
 	}
 	
