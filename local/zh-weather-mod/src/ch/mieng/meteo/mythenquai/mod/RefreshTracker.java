@@ -15,7 +15,7 @@ public class RefreshTracker {
 	}
 	
 	private static int getUptimeSS() {
-		return (int)(SystemClock.uptimeMillis() / 1000l);
+		return (int)(SystemClock.elapsedRealtime() / 1000l);
 	}
 	
 	public static void registerDataLoaded(Context context) {
