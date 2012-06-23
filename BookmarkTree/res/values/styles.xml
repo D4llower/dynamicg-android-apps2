@@ -45,7 +45,11 @@
 	    <item name="android:padding">8dip</item>
 	    <item name="android:focusable">true</item>
 	</style>
-	
+	<style name="EditClickText">
+        <item name="android:textColor">@color/linksltgrey</item>
+	    <item name="android:focusable">true</item>
+	</style>
+		
 	<style name="PrefsLabelSmall">
 		<item name="android:textSize">12sp</item>
         <item name="android:textColor">#fff</item>
