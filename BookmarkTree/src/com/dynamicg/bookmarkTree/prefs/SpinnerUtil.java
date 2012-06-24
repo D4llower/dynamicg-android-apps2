@@ -34,8 +34,7 @@ public class SpinnerUtil {
 		}
 	}
 	
-	public void bind(final int spinnerResId, int currentKey, ArrayList<KeyValue> items, int prompt) {
-		Spinner spinner = (Spinner)dialog.findViewById(spinnerResId);
+	public void bindSpinnerItems(Spinner spinner, int currentKey, ArrayList<KeyValue> items, int prompt) {
 		ArrayAdapter<KeyValue> adapter = new ArrayAdapter<KeyValue> ( spinner.getContext()
 				, android.R.layout.simple_spinner_item, items);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -49,7 +48,11 @@ public class SpinnerUtil {
 				break;
 			}
 		}
-		
+	}
+	
+	public void bind(final int spinnerResId, int currentKey, ArrayList<KeyValue> items, int prompt) {
+		Spinner spinner = (Spinner)dialog.findViewById(spinnerResId);
+		bindSpinnerItems(spinner, currentKey, items, prompt);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
@@ -128,6 +131,15 @@ public class SpinnerUtil {
 		items.add ( PreferencesWrapper.ICON_SCALING_160_80, "160dpi, 80dpi" );
 		items.add ( PreferencesWrapper.ICON_SCALING_240, "240dpi" );
 		items.add ( PreferencesWrapper.ICON_SCALING_240_160, "240dpi, 160dpi" );
+		return items.list;
+	}
+	
+	public static ArrayList<KeyValue> getAutoBackupItems() {
+		SpinnerItems items = new SpinnerItems();
+		items.add ( PreferencesWrapper.BCK_OFF, "None" );
+		items.add ( PreferencesWrapper.BCK_5, "5" );
+		items.add ( PreferencesWrapper.BCK_10, "10" );
+		items.add ( PreferencesWrapper.BCK_20, "20" );
 		return items.list;
 	}
 	
