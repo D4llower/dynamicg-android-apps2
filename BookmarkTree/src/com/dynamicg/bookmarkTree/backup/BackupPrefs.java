@@ -4,48 +4,23 @@ import android.content.SharedPreferences;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
+import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.Logger;
 
 public class BackupPrefs {
 
 	private static final Logger log = new Logger(BackupPrefs.class);
 	
-	public static final int DAYS_BETWEEN = log.debugEnabled ? 5 : 20;
-	
 	private static final String KEY_LAST_BACKUP = "backup.last";
-	private static final String KEY_AUTO_ENABLED = "backup.auto";
+    private static final String KEY_AUTO_BACKUP = "backup.auto";
 	
 	private static final SharedPreferences settings = BookmarkTreeContext.settings;
 	
 	public static void onStartup(BookmarkTreeContext ctx) {
-		//cleanup();
-		int autoEnabled = settings.getInt(KEY_AUTO_ENABLED, -1);
-		if (autoEnabled==1) {
+		if (getAutoPrefValue()>0) {
 			checkPeriodicBackup(ctx);
 		}
-		
-		// initial confirmation for "enable auto backup":
-//		if (autoEnabled==-1) {
-//			// first call - init to 0 and ask for "auto enable"
-//			writePref(KEY_AUTO_ENABLED, 0);
-//			BackupPrefs.initialBackupConfirmation(ctx);
-//		}
-//		else if (autoEnabled==1) {
-//			checkPeriodicBackup(ctx);
-//		}
-		
 	}
-	
-//	@SuppressWarnings("unused")
-//	private static void initialBackupConfirmation(final BookmarkTreeContext ctx) {
-//		new SimpleAlertDialog.OkCancelDialog(ctx.activity, Messages.brEnableAutoBackup) {
-//			@Override
-//			public void onPositiveButton() {
-//				writePref(KEY_AUTO_ENABLED, 1);
-//				startBackup(ctx);
-//			}
-//		};
-//	}
 	
 	private static int getDayNr() {
 		long now = System.currentTimeMillis();
@@ -53,10 +28,21 @@ public class BackupPrefs {
 		return (int) (now/miliPerDay);
 	}
 	
+	private static int getBackupDaysInterval() {
+		final int autoBackupValue = getAutoPrefValue();
+		switch (autoBackupValue) {
+		case PreferencesWrapper.BCK_5: return 5;
+		case PreferencesWrapper.BCK_10: return 10;
+		case PreferencesWrapper.BCK_20: return 20;
+		default: return 0;
+		}
+	}
+	
 	private static void checkPeriodicBackup(BookmarkTreeContext ctx) {
 		int daynr = getDayNr();
 		int lastBackup = settings.getInt(KEY_LAST_BACKUP, 0);
-		boolean required = daynr-lastBackup >= DAYS_BETWEEN;
+		int daysBetween = getBackupDaysInterval();
+		boolean required = daynr-lastBackup >= daysBetween;
 		if (log.debugEnabled) {
 			log.debug("checkPeriodicBackup", daynr, lastBackup, required);
 		}
@@ -77,23 +63,12 @@ public class BackupPrefs {
 		PreferencesUpdater.writeIntPref(key, value);
 	}
 
-	public static boolean isAutoBackupEnabled() {
-		if (log.debugEnabled) {
-			log.debug("isAutoBackupEnabled", settings.getInt(KEY_AUTO_ENABLED, 0) == 1 );
-		}
-		return settings.getInt(KEY_AUTO_ENABLED, 0) == 1;
+	public static int getAutoPrefValue() {
+		return BookmarkTreeContext.settings.getInt(KEY_AUTO_BACKUP, PreferencesWrapper.BCK_20);
 	}
-
-	public static void writeAutoBackupEnabled(boolean isChecked) {
-		writePref(KEY_AUTO_ENABLED, isChecked?1:0);
-	}
-
-//	@SuppressWarnings("unused")
-//	private static void cleanup() {
-//		Editor edit = settings.edit();
-//		edit.remove(KEY_AUTO_ENABLED);
-//		edit.remove(KEY_LAST_BACKUP);
-//		edit.commit();
-//	}
 	
+	public static void writeBackupPref(int newPrefValue) {
+		writePref(KEY_AUTO_BACKUP, newPrefValue);
+	}
+
 }
