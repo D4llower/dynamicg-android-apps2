@@ -4,12 +4,16 @@ import android.content.SharedPreferences;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
-import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.Logger;
 
 public class BackupPrefs {
 
 	private static final Logger log = new Logger(BackupPrefs.class);
+	
+	public static final int BCK_OFF = 0;
+	public static final int BCK_5 = 3;
+	public static final int BCK_10 = 2;
+	public static final int BCK_20 = 1;
 	
 	private static final String KEY_LAST_BACKUP = "backup.last";
     private static final String KEY_AUTO_BACKUP = "backup.auto";
@@ -31,9 +35,9 @@ public class BackupPrefs {
 	private static int getBackupDaysInterval() {
 		final int autoBackupValue = getAutoPrefValue();
 		switch (autoBackupValue) {
-		case PreferencesWrapper.BCK_5: return 5;
-		case PreferencesWrapper.BCK_10: return 10;
-		case PreferencesWrapper.BCK_20: return 20;
+		case BCK_5: return 5;
+		case BCK_10: return 10;
+		case BCK_20: return 20;
 		default: return 0;
 		}
 	}
@@ -64,7 +68,7 @@ public class BackupPrefs {
 	}
 
 	public static int getAutoPrefValue() {
-		return BookmarkTreeContext.settings.getInt(KEY_AUTO_BACKUP, PreferencesWrapper.BCK_20);
+		return BookmarkTreeContext.settings.getInt(KEY_AUTO_BACKUP, BCK_20);
 	}
 	
 	public static void writeBackupPref(int newPrefValue) {

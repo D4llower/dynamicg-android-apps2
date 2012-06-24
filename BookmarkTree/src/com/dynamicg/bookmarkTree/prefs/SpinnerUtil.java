@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.bookmarkTree.backup.BackupPrefs;
 
 public class SpinnerUtil {
 
@@ -136,10 +137,10 @@ public class SpinnerUtil {
 	
 	public static ArrayList<KeyValue> getAutoBackupItems() {
 		SpinnerItems items = new SpinnerItems();
-		items.add ( PreferencesWrapper.BCK_OFF, "None" );
-		items.add ( PreferencesWrapper.BCK_5, "5" );
-		items.add ( PreferencesWrapper.BCK_10, "10" );
-		items.add ( PreferencesWrapper.BCK_20, "20" );
+		items.add ( BackupPrefs.BCK_OFF, "None" );
+		items.add ( BackupPrefs.BCK_5, "5" );
+		items.add ( BackupPrefs.BCK_10, "10" );
+		items.add ( BackupPrefs.BCK_20, "20" );
 		return items.list;
 	}
 	
