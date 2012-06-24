@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.dynamicg.bookmarkTree"
       android:installLocation="auto"
-      android:versionCode="20"
-      android:versionName="1.20"
+      android:versionCode="21"
+      android:versionName="1.21"
       >
       
     <supports-screens 
