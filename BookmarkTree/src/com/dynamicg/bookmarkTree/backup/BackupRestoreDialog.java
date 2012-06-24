@@ -112,7 +112,7 @@ implements BackupEventListener {
 		final SpinnerUtil spinnerUtil = new SpinnerUtil(this);
 		final int autoBackupValue = BackupPrefs.getAutoPrefValue();
 		final Spinner spinner = (Spinner)findViewById(R.id.brAutoBackupSpinner);
-		spinnerUtil.bindSpinnerItems(spinner, autoBackupValue, SpinnerUtil.getAutoBackupItems(), R.string.brAutoBackupLabel);
+		spinnerUtil.bindSpinnerItems(spinner, autoBackupValue, SpinnerUtil.getAutoBackupItems(context), R.string.brAutoBackupLabel);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			boolean isFirst = true;
 			@Override

@@ -97,7 +97,8 @@
 	<string name="brAutoBackupLabel">Auto backup every n days:</string>
 	<string name="brDeleteOldGrp">Admin</string>
 	<string name="brDeleteOldBackups">Delete old backups</string>
-		
+	<string name="commonNone">None</string>
+			
 	<string name="sdcardErrorTitle">SD Card access error</string>
 	<string name="sdcardErrorDirReadOnly">Directory {1} is read only</string>
 	<string name="sdcardErrorDirCreateFailed">Could not create backup directory:\n{1}</string>

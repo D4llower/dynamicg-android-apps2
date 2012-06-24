@@ -123,9 +123,9 @@ public class SpinnerUtil {
 		return items.list;
 	}
 	
-	public static ArrayList<KeyValue> getIconScalingItems() {
+	public static ArrayList<KeyValue> getIconScalingItems(Context context) {
 		SpinnerItems items = new SpinnerItems();
-		items.add ( PreferencesWrapper.ICON_SCALING_NONE, "None" );
+		items.add ( PreferencesWrapper.ICON_SCALING_NONE, context.getString(R.string.commonNone) );
 		items.add ( PreferencesWrapper.ICON_SCALING_160, "160dpi" );
 		items.add ( PreferencesWrapper.ICON_SCALING_160_120, "160dpi, 120dpi" );
 		items.add ( PreferencesWrapper.ICON_SCALING_160_100, "160dpi, 100dpi" );
@@ -135,9 +135,9 @@ public class SpinnerUtil {
 		return items.list;
 	}
 	
-	public static ArrayList<KeyValue> getAutoBackupItems() {
+	public static ArrayList<KeyValue> getAutoBackupItems(Context context) {
 		SpinnerItems items = new SpinnerItems();
-		items.add ( BackupPrefs.BCK_OFF, "None" );
+		items.add ( BackupPrefs.BCK_OFF, context.getString(R.string.commonNone) );
 		items.add ( BackupPrefs.BCK_5, "5" );
 		items.add ( BackupPrefs.BCK_10, "10" );
 		items.add ( BackupPrefs.BCK_20, "20" );
