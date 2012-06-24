@@ -26,6 +26,10 @@ public class ColorPickerDialog extends Dialog {
 	private static final int TEXTSIZE = 22;
 	private static final int BUTTON_WIDTH = 110;
 	
+	// alternatively, use max=255 increment=1
+	private static final int PROGRESS_MAX = 85;
+	private static final int PROGRESS_INCREMENT = 3;
+	
 	private final Context context;
 	private final ColorSelectedListener colorSelectedListener;
 	
@@ -36,13 +40,13 @@ public class ColorPickerDialog extends Dialog {
 	
 	private TextView titleCell;
 	
-	private IntHolder colorPickerRed = new IntHolder();
-	private IntHolder colorPickerGreen = new IntHolder();
-	private IntHolder colorPickerBlue = new IntHolder();
-	private IntHolder colorPickerAlpha = new IntHolder();
+	private ColorHolder colorPickerRed = new ColorHolder();
+	private ColorHolder colorPickerGreen = new ColorHolder();
+	private ColorHolder colorPickerBlue = new ColorHolder();
+	private ColorHolder colorPickerAlpha = new ColorHolder();
 
-	private static class IntHolder {
-		public int value=0;
+	private static class ColorHolder {
+		public int color=0;
 	}
 
 	public static interface ColorSelectedListener {
@@ -72,11 +76,11 @@ public class ColorPickerDialog extends Dialog {
 	}
 	
 	private void initColor(final int color) {
-		colorPickerRed.value = Color.red(color);
-		colorPickerGreen.value = Color.green(color);
-		colorPickerBlue.value = Color.blue(color);
+		colorPickerRed.color = Color.red(color);
+		colorPickerGreen.color = Color.green(color);
+		colorPickerBlue.color = Color.blue(color);
 		if (withAlpha) {
-			colorPickerAlpha.value = Color.alpha(color);
+			colorPickerAlpha.color = Color.alpha(color);
 		}
 	}
 	
@@ -176,10 +180,10 @@ public class ColorPickerDialog extends Dialog {
 	
 	private int getSelectedColor() {
 		if (withAlpha) {
-			return Color.argb(colorPickerAlpha.value, colorPickerRed.value, colorPickerGreen.value, colorPickerBlue.value);
+			return Color.argb(colorPickerAlpha.color, colorPickerRed.color, colorPickerGreen.color, colorPickerBlue.color);
 		}
 		else {
-			return Color.rgb(colorPickerRed.value, colorPickerGreen.value, colorPickerBlue.value);
+			return Color.rgb(colorPickerRed.color, colorPickerGreen.color, colorPickerBlue.color);
 		}
 	}
 	
@@ -191,18 +195,18 @@ public class ColorPickerDialog extends Dialog {
 		return context.getResources().getDrawable(res);
 	}
 	
-	private void addProgressBar(ViewGroup parent, final IntHolder target, int background) {
+	private void addProgressBar(ViewGroup parent, final ColorHolder target, int background) {
 		
 		SeekBar slider = new SeekBar(context);
 		slider.setProgressDrawable(getBackground(background));
 		
-		slider.setMax(255);
-		slider.setProgress(target.value);
+		slider.setMax(PROGRESS_MAX);
+		slider.setProgress(target.color/PROGRESS_INCREMENT);
 		slider.setPadding(paddingSeekbarLR, paddingSeekbarTB, paddingSeekbarLR, paddingSeekbarTB);
 		
 		slider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			private void update(SeekBar seekBar) {
-				target.value = seekBar.getProgress();
+				target.color = seekBar.getProgress()*PROGRESS_INCREMENT;
 				updateTitleColor();
 			}
 			@Override
