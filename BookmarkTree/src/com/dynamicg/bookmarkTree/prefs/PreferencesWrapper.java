@@ -26,6 +26,11 @@ public class PreferencesWrapper {
 	public static final int ICON_SCALING_160_100 = 5;
 	public static final int ICON_SCALING_160_80 = 6;
 	
+	public static final int BCK_OFF = 0;
+	public static final int BCK_5 = 3;
+	public static final int BCK_10 = 2;
+	public static final int BCK_20 = 1;
+	
 	/*
 	 * KEYS
 	 */
