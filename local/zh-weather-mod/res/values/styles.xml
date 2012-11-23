@@ -2,7 +2,7 @@
 <resources>
     
     <style name="WidgetMainStyle">
-         <item name="android:background">@drawable/bg02</item>  
+         <item name="android:background">@drawable/bg01</item>  
          <item name="android:layout_width">72dip</item>  
          <item name="android:layout_height">84dip</item>  
 	</style>
