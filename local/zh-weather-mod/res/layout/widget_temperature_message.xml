@@ -11,6 +11,6 @@
         android:padding="10dip"
         android:gravity="center"
         android:text="@string/widget_loading"
-        style="@style/Text.Loading" />
+        style="@style/Text.Widget.Source" />
 
 </RelativeLayout>

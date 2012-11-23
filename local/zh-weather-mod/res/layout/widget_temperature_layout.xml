@@ -12,16 +12,15 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content" 
          android:layout_gravity="center"
-         style="@style/Text.Widget"
+         style="@style/Text.Widget.Temperature"
          android:paddingBottom="2dip"
          />
     
 	<TextView android:id="@+id/ZEIT"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textSize="10sp"
 		android:layout_gravity="center" 
-		style="@style/Text.Widget"
+		style="@style/Text.Widget.Source"
 		/>
 
 </LinearLayout>
