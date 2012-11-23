@@ -19,7 +19,7 @@
     <style name="Text.Widget">
         <item name="android:gravity">center</item>
         <item name="android:typeface">sans</item>
-        <item name="android:textColor">#eeeeee</item>
+        <item name="android:textColor">#dddddd</item>
     </style>
     <style name="Text.Widget.Temperature">
         <item name="android:textSize">16sp</item>
