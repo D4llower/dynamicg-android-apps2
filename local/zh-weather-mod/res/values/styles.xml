@@ -2,9 +2,9 @@
 <resources>
     
     <style name="WidgetMainStyle">
-         <item name="android:background">@drawable/bg01</item>  
-         <item name="android:layout_height">68dip</item>  
-         <item name="android:layout_width">68dip</item>  
+         <item name="android:background">@drawable/bg02</item>  
+         <item name="android:layout_width">72dip</item>  
+         <item name="android:layout_height">84dip</item>  
 	</style>
    
     <style name="BulletPoint">
@@ -19,7 +19,7 @@
     <style name="Text.Widget">
         <item name="android:gravity">center</item>
         <item name="android:typeface">sans</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">#eeeeee</item>
     </style>
     <style name="Text.Widget.Temperature">
         <item name="android:textSize">16sp</item>
