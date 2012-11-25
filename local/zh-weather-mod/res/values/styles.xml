@@ -25,7 +25,7 @@
         <item name="android:textSize">16sp</item>
     </style>
     <style name="Text.Widget.Source">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">9sp</item>
     </style>
     
     <style name="Text.WordTitle">
