@@ -94,7 +94,7 @@
 	<string name="brStorageHint">\u2192 Backup files are stored here:</string>
 	<string name="brDeleteOld">Delete backups >{1} days</string>
 	<string name="brDeleteAll">Delete all backups</string>
-	<string name="brAutoBackupLabel">Auto backup every n days:</string>
+	<string name="brAutoBackupLabel">Auto backup every x days:</string>
 	<string name="brDeleteOldGrp">Admin</string>
 	<string name="brDeleteOldBackups">Delete old backups</string>
 	<string name="commonNone">None</string>
