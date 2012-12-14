@@ -12,7 +12,7 @@
     <property file="${buildprops}/local.properties" />
     <property file="${buildprops}/build.properties" />
     <property file="project.properties" />
-	<property file="c:/keystore/keystore.properties" />
+	<property file="z:/android-keystore/keystore.properties" />
 
     <path id="android.antlibs">
         <pathelement path="${sdk.dir}/tools/lib/anttasks.jar" />
@@ -23,7 +23,8 @@
     </path>
 
     <import file="${sdk.dir}/tools/ant/build.xml" />
-	
+
+    <!--
     <setup
     	projectTypeOut="project"
     	androidJarFileOut=""
@@ -38,6 +39,7 @@
     	projectLibrariesLibsOut=""
     	targetApiOut="8"
     />
+    -->
 
 	<target name=".build">
 		
