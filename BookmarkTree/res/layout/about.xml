@@ -13,14 +13,6 @@
 	android:paddingRight="10dip"
 >	
 
-<TextView 
-	android:id="@+id/aboutSubTitle"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:textStyle="bold"
-	android:textSize="18dp"
-/>
-
 <TextView
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"

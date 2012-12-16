@@ -16,9 +16,9 @@ import com.dynamicg.common.SystemUtil;
 public abstract class AboutDialog {
 
 	public static final String AUTHOR = "dynamicg.android@gmail.com";
-	
-	private static final int CURRENT_DISCLAIMER_VERSION = 2; 
-	
+
+	private static final int CURRENT_DISCLAIMER_VERSION = 2;
+
 	public static void showOnce(BookmarkTreeContext ctx, boolean force) {
 		int disclaimerLastDisplayed = BookmarkTreeContext.settings.getInt(PreferencesWrapper.KEY_DISCLAIMER, 0);
 		if ( !force && CURRENT_DISCLAIMER_VERSION == disclaimerLastDisplayed) {
@@ -27,54 +27,51 @@ public abstract class AboutDialog {
 		show(ctx);
 		PreferencesUpdater.writeIntPref(PreferencesWrapper.KEY_DISCLAIMER, CURRENT_DISCLAIMER_VERSION);
 	}
-	
+
 	public static void show(final BookmarkTreeContext ctx) {
 
 		final Context context = ctx.activity;
 		final String[] appinfo = ContextUtil.getVersion(context);
+		final String apptitle = context.getString(R.string.app_name)+" "+appinfo[0];
 
-		new SimpleAlertDialog(context, R.string.commonAbout, R.string.bckCreateBackup, R.string.commonClose) {
+		new SimpleAlertDialog(context, apptitle, R.string.bckCreateBackup, R.string.commonClose) {
 			@Override
 			public View getBody() {
 				View body = SystemUtil.getLayoutInflater(context).inflate(R.layout.about, null);
 
-				String title = context.getString(R.string.app_name)+" "+appinfo[0];
-				TextView titleItem = (TextView)body.findViewById(R.id.aboutSubTitle);
-				titleItem.setText(title);
-				
 				String txtOpenSource = "\nThis app is open source:"
-					+ "\nhttps://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree"
-					+ "\n";
+						+ "\nhttps://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree"
+						+ "\n";
 				String txtAuthor = "\nProgrammed by "+AUTHOR
-					+ "\nSVN Revision: " + (appinfo[1])
-					+ "\n"
-					;
-				
+						+ "\nSVN Revision: " + (appinfo[1])
+						+ "\n"
+						;
+
 				String revisionText = txtOpenSource + txtAuthor;
 				TextView revisionItem = (TextView)body.findViewById(R.id.aboutBodyLinks);
 				revisionItem.setText(revisionText);
-				
-//				View backupHint = body.findViewById(R.id.aboutBackupHint);
-//				backupHint.setOnClickListener(new View.OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						new BackupRestoreDialog(ctx);
-//					}
-//				});
-				
+
+				//				View backupHint = body.findViewById(R.id.aboutBackupHint);
+				//				backupHint.setOnClickListener(new View.OnClickListener() {
+				//					@Override
+				//					public void onClick(View v) {
+				//						new BackupRestoreDialog(ctx);
+				//					}
+				//				});
+
 				return body;
 			}
-			
+
 			@Override
 			public void onPositiveButton() {
 				new BackupRestoreDialog(ctx, true);
 			}
-			
+
 			@Override
 			public void onNegativeButton() {
 				// dismiss
 			}
-			
+
 		};
 	}
 
