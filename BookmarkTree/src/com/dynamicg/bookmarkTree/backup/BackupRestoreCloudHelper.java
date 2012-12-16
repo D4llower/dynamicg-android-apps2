@@ -11,15 +11,14 @@ import android.view.View;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.backup.BackupManager.BackupEventListener;
-import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.StringUtil;
 
 public class BackupRestoreCloudHelper {
 
-	private static final Logger log = new Logger(BackupRestoreCloudHelper.class);
+	//private static final Logger log = new Logger(BackupRestoreCloudHelper.class);
 
-	private static final long UPLOAD_ALERT_SIZE = log.debugEnabled ? 1024 : 1024l*1024l; // alert if >1mb
+	private static final long UPLOAD_ALERT_SIZE = 2l*1024l*1024l; // alert if >n MB
 	private static final double ONE_MB = 1024l * 1024l;
 
 	private static WeakReference<BackupRestoreDialog> caller;
@@ -35,11 +34,12 @@ public class BackupRestoreCloudHelper {
 				}
 
 				final long size = backupFile.length();
+
 				if (size>UPLOAD_ALERT_SIZE) {
 					new SimpleAlertDialog(context, R.string.largeFileTitle, R.string.commonOK, R.string.commonCancel) {
 						@Override
 						public View getBody() {
-							DecimalFormat fmt = new DecimalFormat("######.##");
+							DecimalFormat fmt = new DecimalFormat("###,###.##");
 							String sizeMB = fmt.format(size/ONE_MB);
 							String label = StringUtil.textWithParam(context, R.string.largeFileBody, sizeMB);
 							return createTextView(label);
