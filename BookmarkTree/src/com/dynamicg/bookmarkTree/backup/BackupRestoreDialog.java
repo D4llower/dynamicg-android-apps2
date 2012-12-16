@@ -1,12 +1,10 @@
 package com.dynamicg.bookmarkTree.backup;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,8 +38,6 @@ implements BackupEventListener {
 	private final BookmarkTreeContext ctx;
 	private final Activity context;
 	private final boolean autoBackup;
-
-	private static WeakReference<BackupRestoreDialog> caller;
 
 	public BackupRestoreDialog(BookmarkTreeContext ctx, boolean autoBackup) {
 		super(ctx.activity);
@@ -84,7 +80,7 @@ implements BackupEventListener {
 		googleDriveBackup.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				googleDriveBackup();
+				BackupRestoreCloudHelper.googleDriveBackup(ctx);
 			}
 		});
 
@@ -92,7 +88,7 @@ implements BackupEventListener {
 		googleDriveRestore.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				googleDriveRestore();
+				BackupRestoreCloudHelper.googleDriveRestore(BackupRestoreDialog.this, ctx);
 			}
 		});
 		int numFiles = refreshBackupFilesList();
@@ -189,7 +185,7 @@ implements BackupEventListener {
 		return backupFiles.size();
 	}
 
-	private void restore(final RadioGroup group, final File backupFile) {
+	protected void restore(final RadioGroup group, final File backupFile) {
 		new SimpleAlertDialog.OkCancelDialog(context, R.string.brRestoreConfirmation) {
 
 			@Override
@@ -214,49 +210,6 @@ implements BackupEventListener {
 
 	private void createBackup() {
 		BackupManager.createBackup(ctx, this);
-	}
-
-	private void googleDriveBackup() {
-		BackupEventListener listener = new BackupEventListener() {
-			@Override
-			public void backupDone(File backupFile) {
-				if (backupFile!=null) {
-					GoogleDriveUtil.upload(context, backupFile);
-				}
-			}
-			@Override
-			public void restoreDone() {
-			}
-		};
-		if (GoogleDriveUtil.isPluginAvailable(context)) {
-			BackupManager.createBackup(ctx, listener, true);
-		}
-		else {
-			GoogleDriveUtil.alertMissingPlugin(context);
-		}
-	}
-
-	private void googleDriveRestore() {
-		if (GoogleDriveUtil.isPluginAvailable(context)) {
-			caller = new WeakReference<BackupRestoreDialog>(this);
-			GoogleDriveUtil.startDownload(context); // result gets wrapped through onActivityResult
-		}
-		else {
-			GoogleDriveUtil.alertMissingPlugin(context);
-		}
-	}
-
-	public static void confirmGoogleDriveRestore(Intent data) {
-		String path = data!=null ? data.getStringExtra(GoogleDriveGlobals.KEY_FNAME_ABS) : null;
-		if (path==null || path.length()==0) {
-			return;
-		}
-		BackupRestoreDialog dialog = caller!=null ? caller.get() : null;
-		if (caller==null) {
-			return;
-		}
-		File file = new File(path);
-		dialog.restore(null, file);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dynamicg.bookmarkTree.backup.BackupPrefs;
+import com.dynamicg.bookmarkTree.backup.BackupRestoreCloudHelper;
 import com.dynamicg.bookmarkTree.backup.BackupRestoreDialog;
 import com.dynamicg.bookmarkTree.backup.GoogleDriveGlobals;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
@@ -21,44 +22,46 @@ public class Main extends Activity {
 
 	/*
 	 * icons sources:
-	 * http://www.veryicon.com/search/bookmark/ 
+	 * http://www.veryicon.com/search/bookmark/
 	 * http://www.iconeasy.com/
 	 * 
 	 * http://www.softicons.com
 	 * http://www.softicons.com/free-icons/folder-icons/latt-for-os-x-icons-by-rick-patrick
 	 */
-	
-    public static final int ACTION_COLLAPSE_ALL = 1;
-    public static final int ACTION_EXPAND_ALL = 2;
-    public static final int ACTION_RELOAD = 3;
-    public static final int ACTION_SETTINGS = 4;
-    public static final int ACTION_DELETE_BOOKMARK = 5;
-    public static final int ACTION_NEW_BM = 6;
-    public static final int ACTION_BACKUP_RESTORE = 7;
 
-    private BookmarkTreeContext ctx;
-    
-    public Main() {
-    }
-    
-    public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-    	try {
-	        setContentView(R.layout.main);
-	    	this.ctx = new BookmarkTreeContext(this);
-	    	BackupPrefs.onStartup(ctx);
-	    	AboutDialog.showOnce(ctx, false); // for debugging
-    	}
-    	catch (Throwable t) {
-    		ErrorNotification.notifyError(this, "App error", t);
-    	}
-    }
-    
-    
-    private void createMenu(Menu menu, int id, int title, int icon) {
-    	menu.add(0, id, 0, title).setIcon(icon);
-    }
-    
+	public static final int ACTION_COLLAPSE_ALL = 1;
+	public static final int ACTION_EXPAND_ALL = 2;
+	public static final int ACTION_RELOAD = 3;
+	public static final int ACTION_SETTINGS = 4;
+	public static final int ACTION_DELETE_BOOKMARK = 5;
+	public static final int ACTION_NEW_BM = 6;
+	public static final int ACTION_BACKUP_RESTORE = 7;
+
+	private BookmarkTreeContext ctx;
+
+	public Main() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		try {
+			setContentView(R.layout.main);
+			this.ctx = new BookmarkTreeContext(this);
+			BackupPrefs.onStartup(ctx);
+			AboutDialog.showOnce(ctx, false); // for debugging
+		}
+		catch (Throwable t) {
+			ErrorNotification.notifyError(this, "App error", t);
+		}
+	}
+
+
+	private void createMenu(Menu menu, int id, int title, int icon) {
+		menu.add(0, id, 0, title).setIcon(icon);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		createMenu(menu, ACTION_EXPAND_ALL, R.string.menuExpandAll, R.drawable.menu_expand);
 		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll, R.drawable.menu_collapse);
@@ -69,6 +72,7 @@ public class Main extends Activity {
 		return true;
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if ( id==ACTION_COLLAPSE_ALL || id==ACTION_EXPAND_ALL ) {
@@ -92,7 +96,8 @@ public class Main extends Activity {
 		}
 		return true;
 	}
-	
+
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 	}
@@ -100,8 +105,8 @@ public class Main extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode==GoogleDriveGlobals.ACTION_RESTORE) {
-			BackupRestoreDialog.confirmGoogleDriveRestore(data);
+			BackupRestoreCloudHelper.confirmGoogleDriveRestore(data);
 		}
 	}
-	
+
 }
