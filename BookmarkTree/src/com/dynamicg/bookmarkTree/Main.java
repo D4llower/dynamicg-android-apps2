@@ -27,6 +27,9 @@ public class Main extends Activity {
 	 * 
 	 * http://www.softicons.com
 	 * http://www.softicons.com/free-icons/folder-icons/latt-for-os-x-icons-by-rick-patrick
+	 * 
+	 * app icon ICS:
+	 * http://www.iconarchive.com/show/touchdown-3D-icons-by-dario-arnaez/My-world-icon.html
 	 */
 
 	public static final int ACTION_COLLAPSE_ALL = 1;
