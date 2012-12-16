@@ -10,13 +10,15 @@
 	<TextView style="@style/PrefsGroup" android:text="@string/googleDrive" android:layout_marginTop="0dip" /> 
 
 	<Button android:id="@+id/brDriveBackup" style="@style/ButtonBckRestore"
-		android:text="@string/bckCreateBackup"
+		android:text="@string/driveBackup"
 		android:layout_marginTop="6dip"
+		android:layout_width="260dip"
 		/>
     
 	<Button android:id="@+id/brDriveRestore" style="@style/ButtonBckRestore"
-		android:text="@string/bckRestore"
+		android:text="@string/driveRestore"
 		android:layout_marginBottom="6dip"
+		android:layout_width="260dip"
 		/>
 	
 	<TextView style="@style/PrefsGroup" android:text="@string/bckBackup" /> 

@@ -119,8 +119,9 @@
 </string>
 	
 	<string name="googleDrive">Google Drive</string>
-	<string name="bckRestore">Restore</string>
-
+	<string name="driveBackup">Backup to Google Drive</string>
+	<string name="driveRestore">Restore from Google Drive</string>
+	
 	<string name="missingAppTitle">Missing App</string>
 	<string name="missingAppBody">Plugin required. Click here to install.</string>
 		
