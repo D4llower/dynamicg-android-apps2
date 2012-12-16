@@ -1,9 +1,7 @@
 package com.dynamicg.bookmarkTree.backup;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.zip.GZIPOutputStream;
@@ -49,17 +47,33 @@ public class XmlWriter {
 			throws Exception {
 		serializer.startTag(null, tag);
 
-		try {
-			serializer.text(value);
+		if (catchIllegalCharacters) {
+			// see https://mail.google.com/mail/u/0/?shva=1#search/bookmark+tree/13b66d96187f3813
+			//		com.dynamicg.a.n: _____ failed
+			//		at com.dynamicg.bookmarkTree.a.t.a(SourceFile:88)
+			//		at com.dynamicg.bookmarkTree.a.t.<init>(SourceFile:31)
+			//		at com.dynamicg.bookmarkTree.a.c.a(SourceFile:108)
+			//		at com.dynamicg.bookmarkTree.f.i.run(SourceFile:52)
+			//		at java.lang.Thread.run(Thread.java:856)
+			//		Caused by: java.lang.IllegalArgumentException: Illegal character (dbba)
+			//		at org.kxml2.io.KXmlSerializer.reportInvalidCharacter(KXmlSerializer.java:144)
+			//		at org.kxml2.io.KXmlSerializer.writeEscaped(KXmlSerializer.java:130)
+			//		at org.kxml2.io.KXmlSerializer.text(KXmlSerializer.java:536)
+			//		at com.dynamicg.bookmarkTree.a.t.a(SourceFile:39)
+			//		at com.dynamicg.bookmarkTree.a.t.a(SourceFile:81)
+			//		... 4 more
+			char[] buffer = value.toCharArray();
+			for (int i=0;i<buffer.length;i++) {
+				try {
+					serializer.text(buffer, i, 1);
+				}
+				catch (IllegalArgumentException e) {
+					log.debug("=====> SKIP", buffer[i]);
+				}
+			}
 		}
-		catch (IllegalArgumentException e) {
-			if (catchIllegalCharacters) {
-				// serializer has printed some characters but then stumbled over an illegal one. try extracting and appending the remainder:
-				serializer.text(extractRemainder(value));
-			}
-			else {
-				throw e;
-			}
+		else {
+			serializer.text(value);
 		}
 
 		serializer.endTag(null, tag);
@@ -132,61 +146,6 @@ public class XmlWriter {
 		serializer.endDocument();
 		serializer.flush();
 		fileos.close();
-	}
-
-	private static String extractRemainder(String text)
-			throws IOException {
-		// see https://mail.google.com/mail/u/0/?shva=1#search/bookmark+tree/13b66d96187f3813
-		//		com.dynamicg.a.n: _____ failed
-		//		at com.dynamicg.bookmarkTree.a.t.a(SourceFile:88)
-		//		at com.dynamicg.bookmarkTree.a.t.<init>(SourceFile:31)
-		//		at com.dynamicg.bookmarkTree.a.c.a(SourceFile:108)
-		//		at com.dynamicg.bookmarkTree.f.i.run(SourceFile:52)
-		//		at java.lang.Thread.run(Thread.java:856)
-		//		Caused by: java.lang.IllegalArgumentException: Illegal character (dbba)
-		//		at org.kxml2.io.KXmlSerializer.reportInvalidCharacter(KXmlSerializer.java:144)
-		//		at org.kxml2.io.KXmlSerializer.writeEscaped(KXmlSerializer.java:130)
-		//		at org.kxml2.io.KXmlSerializer.text(KXmlSerializer.java:536)
-		//		at com.dynamicg.bookmarkTree.a.t.a(SourceFile:39)
-		//		at com.dynamicg.bookmarkTree.a.t.a(SourceFile:81)
-		//		... 4 more
-
-		if (log.debugEnabled) {
-			log.debug("##START##", text);
-		}
-
-		// clean buffer
-		StringBuffer sb = new StringBuffer();
-
-		// dummy xml stream
-		XmlSerializer serializer = Xml.newSerializer();
-		serializer.setOutput(new ByteArrayOutputStream(), ENCODING);
-		serializer.startDocument(null, Boolean.valueOf(true)); // standalone=true
-		serializer.startTag(null, "temp");
-
-		boolean illegalFound=false;
-
-		for (int i=0;i<text.length();i++) {
-			try {
-				serializer.text(text.substring(i,i+1));
-				if (illegalFound) {
-					// only append the remainder (i.e. skip the leading part of the string which has already been appended)
-					sb.append(text.substring(i,i+1));
-				}
-			}
-			catch (IllegalArgumentException e) {
-				illegalFound = true;
-				if (log.debugEnabled) {
-					log.debug("##CATCH##", i);
-				}
-			}
-		}
-
-		if (log.debugEnabled) {
-			log.debug("##DONE##", sb.toString());
-		}
-
-		return sb.toString();
 	}
 
 }
