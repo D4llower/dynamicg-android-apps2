@@ -21,14 +21,14 @@ import com.dynamicg.common.SystemUtil;
 public class BackupManager {
 
 	private static final Logger log = new Logger(BackupManager.class);
-	
+
 	private static final String FILE_PREFIX = "backup.";
 	private static final String FILE_SUFFIX = ".xml";
 	private static final String FILE_PATTERN = FILE_PREFIX + "{stamp}" + FILE_SUFFIX;
 	private static final String FMT_STAMP = "%Y-%m-%d.%H-%M-%S";
-	
+
 	public static final String GOOGLE_DRIVE_FILE_NAME = "bookmarks.xml.gz";
-	
+
 	private static String getFilename(Time t) {
 		return StringUtil.replaceAll(FILE_PATTERN, "{stamp}", t.format(FMT_STAMP));
 	}
@@ -40,7 +40,7 @@ public class BackupManager {
 		t.setToNow();
 		return getFilename(t);
 	}
-	
+
 	public static ArrayList<File> getBackupFiles() {
 		File dir = SDCardCheck.getBackupDir();
 		File[] files = dir.listFiles(new FilenameFilter() {
@@ -49,51 +49,51 @@ public class BackupManager {
 				return filename.startsWith(FILE_PREFIX) && filename.endsWith(FILE_SUFFIX);
 			}
 		});
-		
+
 		if (log.debugEnabled) {
 			log.debug("backup list", dir, files!=null?files.length:-1);
 		}
-		
+
 		if (files==null) {
 			return new ArrayList<File>();
 		}
-		
+
 		// sort a-z
 		TreeMap<String, File> sortmap = new TreeMap<String, File>();
 		for (File f:files) {
 			sortmap.put(f.getName(), f);
 		}
-		
+
 		// revert
 		ArrayList<File> sortdesc = new ArrayList<File>();
 		for (File f:sortmap.values()) {
 			sortdesc.add(0, f);
 		}
-		
+
 		return sortdesc;
 	}
-	
+
 	public static interface BackupEventListener {
 		public void backupDone(File backupFile);
 		public void restoreDone();
 	}
-	
+
 	private static final HashSet<String> locktable = new HashSet<String>();
-	
+
 	public synchronized static void createBackup(final BookmarkTreeContext ctx, final BackupEventListener backupDoneListener) {
 		createBackup(ctx, backupDoneListener, false);
 	}
-	
+
 	public synchronized static void createBackup(final BookmarkTreeContext ctx, final BackupEventListener backupDoneListener, final boolean forGoogleDrive) {
-		
+
 		final Context context = ctx.activity;
 		final boolean useGZ = forGoogleDrive;
-		
+
 		final File backupdir = new SDCardCheck(context).readyForWrite();
 		if (backupdir==null) {
 			return; // not ready
 		}
-		
+
 		final String filename = getFilename(useGZ);
 		synchronized (locktable) {
 			if (locktable.contains(filename)) {
@@ -101,18 +101,18 @@ public class BackupManager {
 			}
 			locktable.add(filename);
 		}
-		
+
 		new SimpleProgressDialog(context, R.string.brProgressCreateBackup) {
-			
+
 			int numberOfRows;
 			File backupFile;
-			
+
 			@Override
 			public void backgroundWork() {
 				synchronized (locktable) {
 					File xmlfileTemp = new File ( backupdir, filename+".tmp" );
 					File xmlfileFinal = new File ( backupdir, filename );
-					
+
 					ArrayList<RawDataBean> bookmarks = BrowserBookmarkLoader.forBackup(ctx);
 					numberOfRows = bookmarks.size();
 					try {
@@ -120,10 +120,9 @@ public class BackupManager {
 						if (xmlfileFinal.exists()) {
 							xmlfileFinal.delete();
 						}
-						
+
 						xmlfileTemp.renameTo(xmlfileFinal);
 						backupFile = xmlfileFinal;
-						locktable.remove(filename);
 					}
 					catch (RuntimeException e) {
 						throw (RuntimeException)e;
@@ -131,15 +130,18 @@ public class BackupManager {
 					catch (Exception e) {
 						throw new RuntimeException(e);
 					}
+					finally {
+						locktable.remove(filename);
+					}
 				}
 			}
-			
+
 			@Override
 			public void done() {
 				String text = context.getString(R.string.brHintBackupCreated)
-				.replace("{1}", filename)
-				.replace("{2}", Integer.toString(numberOfRows))
-				;
+						.replace("{1}", filename)
+						.replace("{2}", Integer.toString(numberOfRows))
+						;
 				if (!forGoogleDrive) {
 					SystemUtil.toastShort(ctx.activity, text);
 				}
@@ -149,40 +151,40 @@ public class BackupManager {
 					backupDoneListener.backupDone(this.backupFile);
 				}
 			}
-			
+
 			@Override
 			public String getErrorTitle() {
 				return "Cannot create backup";
 			}
-			
+
 		};
-		
+
 	}
-	
+
 	public static String getProgressMessageText(Context context, int step) {
 		return StringUtil.textWithParam(context, R.string.brProgressRestoreBookmarks, step);
 	}
 	public static void updateProgressMessageText(BookmarkTreeContext ctx, SimpleProgressDialog progress, int step) {
 		progress.updateProgressMessage ( BackupManager.getProgressMessageText(ctx.activity,step) );
 	}
-	
+
 	public synchronized static void restore ( final BookmarkTreeContext ctx
 			, final File xmlfile
 			, final BackupEventListener backupDoneListener
-			) 
+			)
 	{
-		
+
 		final Context context = ctx.activity;
-		
+
 		if (!new SDCardCheck(context).readyForRead()) {
 			return;
 		}
-		
-		
+
+
 		new SimpleProgressDialog(context, getProgressMessageText(context,1) ) {
-			
+
 			int numberOfRows;
-			
+
 			@Override
 			public void backgroundWork() {
 				try {
@@ -198,21 +200,21 @@ public class BackupManager {
 					throw new RuntimeException(e);
 				}
 			}
-			
+
 			@Override
 			public void done() {
 				String text = StringUtil.textWithParam(context, R.string.brHintBookmarksRestored, numberOfRows);
 				SystemUtil.toastShort(context, text);
 				backupDoneListener.restoreDone();
 			}
-			
+
 			@Override
 			public String getErrorTitle() {
 				return "Cannot restore";
 			}
-			
+
 		};
-		
+
 	}
 
 	private static void deleteImpl(ArrayList<File> backupFiles) {
@@ -234,12 +236,12 @@ public class BackupManager {
 		else if (what==BackupRestoreDialog.ACTION_DELETE_OLD) {
 			ArrayList<File> backupFiles = getBackupFiles();
 			ArrayList<File> deletions = new ArrayList<File>();
-			
+
 			Time t = new Time();
 			t.setToNow();
 			t.monthDay = t.monthDay - BackupRestoreDialog.DELETION_DAYS_LIMIT;
 			t.normalize(false);
-			
+
 			final String fnameStampLimit = getFilename(t);
 			int comp;
 			for (File f:backupFiles) {
