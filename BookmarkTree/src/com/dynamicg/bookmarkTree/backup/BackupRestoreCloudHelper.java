@@ -18,10 +18,10 @@ public class BackupRestoreCloudHelper {
 
 	//private static final Logger log = new Logger(BackupRestoreCloudHelper.class);
 
-	private static final long UPLOAD_ALERT_SIZE = 2l*1024l*1024l; // alert if >n MB
+	private static final long UPLOAD_ALERT_THRESHOLD = 2l*1024l*1024l; // alert if >n MB
 	private static final double ONE_MB = 1024l * 1024l;
 
-	private static WeakReference<BackupRestoreDialog> caller;
+	private static WeakReference<BackupRestoreDialog> restoreDialog;
 
 	public static void googleDriveBackup(final BookmarkTreeContext ctx) {
 		final Context context = ctx.activity;
@@ -35,7 +35,7 @@ public class BackupRestoreCloudHelper {
 
 				final long size = backupFile.length();
 
-				if (size>UPLOAD_ALERT_SIZE) {
+				if (size>UPLOAD_ALERT_THRESHOLD) {
 					new SimpleAlertDialog(context, R.string.largeFileTitle, R.string.commonOK, R.string.commonCancel) {
 						@Override
 						public View getBody() {
@@ -70,7 +70,7 @@ public class BackupRestoreCloudHelper {
 	public static void googleDriveRestore(final BackupRestoreDialog dialog, final BookmarkTreeContext ctx) {
 		final Context context = ctx.activity;
 		if (GoogleDriveUtil.isPluginAvailable(context)) {
-			caller = new WeakReference<BackupRestoreDialog>(dialog);
+			restoreDialog = new WeakReference<BackupRestoreDialog>(dialog);
 			GoogleDriveUtil.startDownload(ctx.activity); // result gets wrapped through onActivityResult
 		}
 		else {
@@ -83,8 +83,8 @@ public class BackupRestoreCloudHelper {
 		if (path==null || path.length()==0) {
 			return;
 		}
-		BackupRestoreDialog dialog = caller!=null ? caller.get() : null;
-		if (caller==null) {
+		BackupRestoreDialog dialog = restoreDialog!=null ? restoreDialog.get() : null;
+		if (restoreDialog==null) {
 			return;
 		}
 		File file = new File(path);
