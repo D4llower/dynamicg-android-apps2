@@ -17,38 +17,38 @@ import com.dynamicg.common.XmlBackupException;
 public class XmlWriter {
 
 	public static final String ENCODING = "UTF-8";
-	
+
 	private final OutputStream fileos;
 	private final XmlSerializer serializer;
-	
-	public XmlWriter(File xmlfile, ArrayList<RawDataBean> bookmarks, boolean useGZ) 
-	throws Exception {
+
+	public XmlWriter(File xmlfile, ArrayList<RawDataBean> bookmarks, boolean useGZ)
+			throws Exception {
 		if (useGZ) {
 			fileos = new GZIPOutputStream(new FileOutputStream(xmlfile));
 		}
 		else {
-			fileos = new FileOutputStream(xmlfile);        
+			fileos = new FileOutputStream(xmlfile);
 		}
 		serializer = Xml.newSerializer();
-		
+
 		serializer.setOutput(fileos, ENCODING);
 		serializer.startDocument(null, Boolean.valueOf(true)); // standalone=true
 		serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-		
+
 		writeXmlFile(bookmarks);
 		close();
-		
+
 	}
-	
-	private void addTextNode(String tag, String value) 
-	throws Exception {
+
+	private void addTextNode(String tag, String value)
+			throws Exception {
 		serializer.startTag(null, tag);
 		serializer.text(value);
 		serializer.endTag(null, tag);
 	}
-	
-	private void addTextNode(String tag, long value) 
-	throws Exception {
+
+	private void addTextNode(String tag, long value)
+			throws Exception {
 		addTextNode(tag, Long.toString(value));
 	}
 
@@ -59,7 +59,7 @@ public class XmlWriter {
 		}
 		return sb.toString();
 	}
-	
+
 	private String getIconData(RawDataBean b) {
 		String buffer;
 		// buffer = Hex.encodeHex(MockIcon.getIcon(context), false) ;
@@ -72,33 +72,33 @@ public class XmlWriter {
 		}
 	}
 
-	
-	private void writeXmlFile(ArrayList<RawDataBean> bookmarks) 
-	throws Exception {
+
+	private void writeXmlFile(ArrayList<RawDataBean> bookmarks)
+			throws Exception {
 
 		serializer.startTag(null, Tags.BODY);
-		
+
 		for (RawDataBean b:bookmarks) {
-			
+
 			try {
 				serializer.startTag(null, Tags.ROW);
-				
+
 				//addTextNode(Tags.ID, b.id); // ID is not restored so we skip it
 				addTextNode(Tags.CREATED, b.created);
 				addTextNode(Tags.TITLE, b.fullTitle);
 				addTextNode(Tags.URL, b.url);
 				addTextNode(Tags.FAVICON, getIconData(b));
-				
+
 				serializer.endTag(null, Tags.ROW);
 			}
 			catch (Throwable t) {
 				throw new XmlBackupException("["+b.fullTitle+"] failed", t);
 			}
 		}
-		
+
 		serializer.endTag(null, Tags.BODY);
 	}
-	
+
 	private void close() throws Exception {
 
 		Time t = new Time();
@@ -106,10 +106,10 @@ public class XmlWriter {
 		serializer.text("\n");
 		serializer.comment(" export done "+t+" ");
 		serializer.text("\n");
-		
+
 		serializer.endDocument();
 		serializer.flush();
 		fileos.close();
 	}
-	
+
 }
