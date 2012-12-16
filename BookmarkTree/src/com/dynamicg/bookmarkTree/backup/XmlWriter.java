@@ -45,7 +45,7 @@ public class XmlWriter {
 
 	}
 
-	private void addTextNode(String tag, String value, boolean withConversionFallback)
+	private void addTextNode(String tag, String value, boolean catchIllegalCharacters)
 			throws Exception {
 		serializer.startTag(null, tag);
 
@@ -53,8 +53,9 @@ public class XmlWriter {
 			serializer.text(value);
 		}
 		catch (IllegalArgumentException e) {
-			if (withConversionFallback) {
-				serializer.text(failsafeXmlConversion(value));
+			if (catchIllegalCharacters) {
+				// serializer has printed some characters but then stumbled over an illegal one. try extracting and appending the remainder:
+				serializer.text(extractRemainder(value));
 			}
 			else {
 				throw e;
@@ -102,6 +103,10 @@ public class XmlWriter {
 
 				//addTextNode(Tags.ID, b.id); // ID is not restored so we skip it
 				addTextNode(Tags.CREATED, b.created);
+
+				//				if (log.debugEnabled) {
+				//					b.fullTitle = b.fullTitle.toLowerCase() + "\udbba"+" " + b.fullTitle.toUpperCase() + "\udbba";
+				//				}
 				addTextNode(Tags.TITLE, b.fullTitle, true);
 				addTextNode(Tags.URL, b.url, false);
 				addTextNode(Tags.FAVICON, getIconData(b), false);
@@ -129,7 +134,7 @@ public class XmlWriter {
 		fileos.close();
 	}
 
-	private static String failsafeXmlConversion(String text)
+	private static String extractRemainder(String text)
 			throws IOException {
 		// see https://mail.google.com/mail/u/0/?shva=1#search/bookmark+tree/13b66d96187f3813
 		//		com.dynamicg.a.n: _____ failed
@@ -159,12 +164,18 @@ public class XmlWriter {
 		serializer.startDocument(null, Boolean.valueOf(true)); // standalone=true
 		serializer.startTag(null, "temp");
 
+		boolean illegalFound=false;
+
 		for (int i=0;i<text.length();i++) {
 			try {
 				serializer.text(text.substring(i,i+1));
-				sb.append(text.substring(i,i+1));
+				if (illegalFound) {
+					// only append the remainder (i.e. skip the leading part of the string which has already been appended)
+					sb.append(text.substring(i,i+1));
+				}
 			}
 			catch (IllegalArgumentException e) {
+				illegalFound = true;
 				if (log.debugEnabled) {
 					log.debug("##CATCH##", i);
 				}
