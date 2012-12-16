@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <string name="app_name">Bookmark Tree</string>
+    <string name="app_name">Bookmark Folders</string>
     
     <string name="menuExpandAll">Expand all</string>
     <string name="menuCollapseAll">Collapse all</string>
@@ -111,7 +111,7 @@
 \n\u2022 Short-click on folder to expand/collapse.
 \n\u2022 Menu/Preferences for advanced settings
 </string>
-	<string name="aboutDoBackup">\u2022 Backup your bookmarks before first edit! See Menu/Backup.</string>
+	<string name="aboutDoBackup">\u2022 Back up your bookmarks before first edit! See Menu/Backup.</string>
 	
 	<string name="prefsSeparatorHint">\u2192 The \'Folder separator\' splits the browser bookmarks title into folders and links.
 \n\u2192 Sample: With separator \'-\', the original bookmark \'A - B - C\' will become folder \'A\', subfolder \'B\' and link \'C\'.
