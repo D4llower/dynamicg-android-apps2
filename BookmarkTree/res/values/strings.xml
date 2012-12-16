@@ -124,5 +124,8 @@
 	
 	<string name="missingAppTitle">Missing App</string>
 	<string name="missingAppBody">Plugin required. Click here to install.</string>
-		
+
+    <string name="largeFileTitle">Large backup file</string>
+    <string name="largeFileBody">Caution: File size is {1} MB. Continue?</string>
+    
 </resources>

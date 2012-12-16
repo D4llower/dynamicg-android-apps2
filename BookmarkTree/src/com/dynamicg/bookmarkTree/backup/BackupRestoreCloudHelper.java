@@ -2,23 +2,55 @@ package com.dynamicg.bookmarkTree.backup;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.backup.BackupManager.BackupEventListener;
+import com.dynamicg.common.Logger;
+import com.dynamicg.common.SimpleAlertDialog;
+import com.dynamicg.common.StringUtil;
 
 public class BackupRestoreCloudHelper {
+
+	private static final Logger log = new Logger(BackupRestoreCloudHelper.class);
+
+	private static final long UPLOAD_ALERT_SIZE = log.debugEnabled ? 1024 : 1024l*1024l; // alert if >1mb
+	private static final double ONE_MB = 1024l * 1024l;
 
 	private static WeakReference<BackupRestoreDialog> caller;
 
 	public static void googleDriveBackup(final BookmarkTreeContext ctx) {
 		final Context context = ctx.activity;
+
 		BackupEventListener listener = new BackupEventListener() {
 			@Override
-			public void backupDone(File backupFile) {
-				if (backupFile!=null) {
+			public void backupDone(final File backupFile) {
+				if (backupFile==null) {
+					return;
+				}
+
+				final long size = backupFile.length();
+				if (size>UPLOAD_ALERT_SIZE) {
+					new SimpleAlertDialog(context, R.string.largeFileTitle, R.string.commonOK, R.string.commonCancel) {
+						@Override
+						public View getBody() {
+							DecimalFormat fmt = new DecimalFormat("######.##");
+							String sizeMB = fmt.format(size/ONE_MB);
+							String label = StringUtil.textWithParam(context, R.string.largeFileBody, sizeMB);
+							return createTextView(label);
+						}
+						@Override
+						public void onPositiveButton() {
+							GoogleDriveUtil.upload(context, backupFile);
+						}
+					};
+				}
+				else {
 					GoogleDriveUtil.upload(context, backupFile);
 				}
 			}
@@ -26,6 +58,7 @@ public class BackupRestoreCloudHelper {
 			public void restoreDone() {
 			}
 		};
+
 		if (GoogleDriveUtil.isPluginAvailable(context)) {
 			BackupManager.createBackup(ctx, listener, true);
 		}
