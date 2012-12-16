@@ -1,6 +1,7 @@
 package com.dynamicg.bookmarkTree;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 
 import com.dynamicg.bookmarkTree.backup.BackupPrefs;
 import com.dynamicg.bookmarkTree.backup.BackupRestoreDialog;
+import com.dynamicg.bookmarkTree.backup.GoogleDriveGlobals;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog;
 import com.dynamicg.bookmarkTree.prefs.PreferencesDialog;
@@ -93,6 +95,13 @@ public class Main extends Activity {
 	
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode==GoogleDriveGlobals.ACTION_RESTORE) {
+			BackupRestoreDialog.confirmGoogleDriveRestore(data);
+		}
 	}
 	
 }

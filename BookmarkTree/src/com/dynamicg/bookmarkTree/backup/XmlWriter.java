@@ -2,7 +2,9 @@ package com.dynamicg.bookmarkTree.backup;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.zip.GZIPOutputStream;
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -16,12 +18,17 @@ public class XmlWriter {
 
 	public static final String ENCODING = "UTF-8";
 	
-	private final FileOutputStream fileos;
+	private final OutputStream fileos;
 	private final XmlSerializer serializer;
 	
-	public XmlWriter(File xmlfile, ArrayList<RawDataBean> bookmarks) 
+	public XmlWriter(File xmlfile, ArrayList<RawDataBean> bookmarks, boolean useGZ) 
 	throws Exception {
-		fileos = new FileOutputStream(xmlfile);        
+		if (useGZ) {
+			fileos = new GZIPOutputStream(new FileOutputStream(xmlfile));
+		}
+		else {
+			fileos = new FileOutputStream(xmlfile);        
+		}
 		serializer = Xml.newSerializer();
 		
 		serializer.setOutput(fileos, ENCODING);

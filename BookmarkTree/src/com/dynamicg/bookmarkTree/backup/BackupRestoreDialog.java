@@ -1,10 +1,12 @@
 package com.dynamicg.bookmarkTree.backup;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,43 +33,45 @@ public class BackupRestoreDialog extends Dialog
 implements BackupEventListener {
 
 	public static final int DELETION_DAYS_LIMIT = 90;
-	
-    public static final int ACTION_DELETE_OLD = 1;
-    public static final int ACTION_DELETE_ALL = 2;
-    
+
+	public static final int ACTION_DELETE_OLD = 1;
+	public static final int ACTION_DELETE_ALL = 2;
+
 	private final BookmarkTreeContext ctx;
 	private final Activity context;
 	private final boolean autoBackup;
+
+	private static WeakReference<BackupRestoreDialog> caller;
 
 	public BackupRestoreDialog(BookmarkTreeContext ctx, boolean autoBackup) {
 		super(ctx.activity);
 		this.ctx = ctx;
 		this.autoBackup = autoBackup;
 		this.context = ctx.activity;
-		
+
 		DialogHelper.expandContent(this, R.layout.backup_restore_body);
-		
+
 		this.show();
-		
+
 		// check sd card
 		SDCardCheck sdCardCheck = new SDCardCheck(context);
 		sdCardCheck.checkMountedSdCard();
-		
+
 		if (autoBackup && sdCardCheck.readyForWrite()!=null) {
 			createBackup();
 		}
-		
+
 	}
 
 	public BackupRestoreDialog(BookmarkTreeContext ctx) {
 		this(ctx, false);
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		setTitle(R.string.brDialogTitle);
-		
+
 		Button backup = (Button)findViewById(R.id.brBackup);
 		backup.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -75,23 +79,38 @@ implements BackupEventListener {
 				createBackup();
 			}
 		});
-		
+
+		Button googleDriveBackup = (Button)findViewById(R.id.brDriveBackup);
+		googleDriveBackup.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				googleDriveBackup();
+			}
+		});
+
+		Button googleDriveRestore = (Button)findViewById(R.id.brDriveRestore);
+		googleDriveRestore.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				googleDriveRestore();
+			}
+		});
 		int numFiles = refreshBackupFilesList();
-		
+
 		new DialogButtonPanelWrapper(this, DialogButtonPanelWrapper.TYPE_CLOSE) {
 			@Override
 			public void onPositiveButton() {
 				dismiss();
 			}
 		};
-		
+
 		((TextView)findViewById(R.id.brStorageHint1)).setText(R.string.brStorageHint);
-		
+
 		String backupdir = SDCardCheck.getBackupDir().toString();
 		((TextView)findViewById(R.id.brStorageHint2)).setText(backupdir);
-		
+
 		setupAutoBackup();
-		
+
 		if (numFiles==0) {
 			findViewById(R.id.brAdminGroup).setVisibility(View.GONE);
 			findViewById(R.id.brDeleteOldButton).setVisibility(View.GONE);
@@ -107,7 +126,7 @@ implements BackupEventListener {
 		}
 
 	}
-	
+
 	private void setupAutoBackup() {
 		final SpinnerUtil spinnerUtil = new SpinnerUtil(this);
 		final int autoBackupValue = BackupPrefs.getAutoPrefValue();
@@ -129,18 +148,18 @@ implements BackupEventListener {
 			}
 		});
 	}
-	
+
 	private int refreshBackupFilesList() {
-		
+
 		final RadioGroup backupListGroup = (RadioGroup)findViewById(R.id.brRestoreList);
 		backupListGroup.removeAllViews(); // for repeated calls
-		
+
 		final ArrayList<File> backupFiles = BackupManager.getBackupFiles();
 		if (backupFiles.size()==0) {
 			TextView hint = SimpleAlertDialog.createTextView(context, R.string.brNoFilesForRestore);
 			backupListGroup.addView(hint);
 		}
-		
+
 		RadioButton rb;
 		String filename;
 		String strippedFilename;
@@ -152,7 +171,7 @@ implements BackupEventListener {
 			rb.setId(pos);
 			backupListGroup.addView(rb);
 		}
-		
+
 		backupListGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -166,13 +185,13 @@ implements BackupEventListener {
 				}
 			}
 		});
-		
+
 		return backupFiles.size();
 	}
-	
+
 	private void restore(final RadioGroup group, final File backupFile) {
 		new SimpleAlertDialog.OkCancelDialog(context, R.string.brRestoreConfirmation) {
-			
+
 			@Override
 			public void onPositiveButton() {
 				BackupManager.restore(ctx, backupFile, BackupRestoreDialog.this);
@@ -180,7 +199,9 @@ implements BackupEventListener {
 
 			@Override
 			public void onNegativeButton() {
-				group.clearCheck();
+				if (group!=null) {
+					group.clearCheck();
+				}
 			}
 
 			@Override
@@ -194,9 +215,52 @@ implements BackupEventListener {
 	private void createBackup() {
 		BackupManager.createBackup(ctx, this);
 	}
-	
+
+	private void googleDriveBackup() {
+		BackupEventListener listener = new BackupEventListener() {
+			@Override
+			public void backupDone(File backupFile) {
+				if (backupFile!=null) {
+					GoogleDriveUtil.upload(context, backupFile);
+				}
+			}
+			@Override
+			public void restoreDone() {
+			}
+		};
+		if (GoogleDriveUtil.isPluginAvailable(context)) {
+			BackupManager.createBackup(ctx, listener, true);
+		}
+		else {
+			GoogleDriveUtil.alertMissingPlugin(context);
+		}
+	}
+
+	private void googleDriveRestore() {
+		if (GoogleDriveUtil.isPluginAvailable(context)) {
+			caller = new WeakReference<BackupRestoreDialog>(this);
+			GoogleDriveUtil.startDownload(context); // result gets wrapped through onActivityResult
+		}
+		else {
+			GoogleDriveUtil.alertMissingPlugin(context);
+		}
+	}
+
+	public static void confirmGoogleDriveRestore(Intent data) {
+		String path = data!=null ? data.getStringExtra(GoogleDriveGlobals.KEY_FNAME_ABS) : null;
+		if (path==null || path.length()==0) {
+			return;
+		}
+		BackupRestoreDialog dialog = caller!=null ? caller.get() : null;
+		if (caller==null) {
+			return;
+		}
+		File file = new File(path);
+		dialog.restore(null, file);
+	}
+
 	@Override
-	public void backupDone() {
+	public void backupDone(File backupFile) {
 		if (autoBackup) {
 			dismiss(); // auto close
 		}
@@ -211,24 +275,25 @@ implements BackupEventListener {
 		ctx.reloadAndRefresh();
 		dismiss();
 	}
-	
+
 	private String getDeletionOldLabel() {
 		return StringUtil.textWithParam(context, R.string.brDeleteOld, DELETION_DAYS_LIMIT);
 	}
-	
+
 	private void deleteConfirmation(final int what) {
 		String msg = what==ACTION_DELETE_ALL ? context.getString(R.string.brDeleteAll)
 				: what==ACTION_DELETE_OLD ? getDeletionOldLabel()
 						: "<undefined>";
-		new SimpleAlertDialog.OkCancelDialog(context, msg+"?") {
-			@Override
-			public void onPositiveButton() {
-				BackupManager.deleteFiles(what);
-				refreshBackupFilesList();
-			}
-		};
+				new SimpleAlertDialog.OkCancelDialog(context, msg+"?") {
+					@Override
+					public void onPositiveButton() {
+						BackupManager.deleteFiles(what);
+						refreshBackupFilesList();
+					}
+				};
 	}
-	
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, ACTION_DELETE_OLD, 0, getDeletionOldLabel());
 		menu.add(0, ACTION_DELETE_ALL, 0, context.getString(R.string.brDeleteAll) );
@@ -243,7 +308,7 @@ implements BackupEventListener {
 		}
 		return true;
 	}
-	
-	
-	
+
+
+
 }

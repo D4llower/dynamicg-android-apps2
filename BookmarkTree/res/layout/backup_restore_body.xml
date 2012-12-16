@@ -7,15 +7,24 @@
 
 	<!-- ====================== Backup ====================== -->
 
-	<TextView style="@style/PrefsGroup" android:text="@string/bckBackup" android:layout_marginTop="0dip" /> 
+	<TextView style="@style/PrefsGroup" android:text="@string/googleDrive" android:layout_marginTop="0dip" /> 
 
-	<Button android:id="@+id/brBackup"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+	<Button android:id="@+id/brDriveBackup" style="@style/ButtonBckRestore"
 		android:text="@string/bckCreateBackup"
-		android:layout_marginTop="10dip"
+		android:layout_marginTop="6dip"
+		/>
+    
+	<Button android:id="@+id/brDriveRestore" style="@style/ButtonBckRestore"
+		android:text="@string/bckRestore"
+		android:layout_marginBottom="6dip"
+		/>
+	
+	<TextView style="@style/PrefsGroup" android:text="@string/bckBackup" /> 
+
+	<Button android:id="@+id/brBackup" style="@style/ButtonBckRestore"
+		android:text="@string/bckCreateBackup"
+		android:layout_marginTop="6dip"
 		android:layout_marginBottom="10dip"
-		android:width="140dip"
 		/>
     
    	<TextView style="@style/PrefsLabel" 
@@ -52,13 +61,12 @@
 
 	<TextView style="@style/PrefsGroup" android:text="@string/brDeleteOldGrp" android:id="@+id/brAdminGroup" /> 
 
-	<Button android:id="@+id/brDeleteOldButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+	<Button android:id="@+id/brDeleteOldButton" style="@style/ButtonBckRestore"
 		android:text="@string/brDeleteOldBackups"
 		android:layout_marginTop="10dip"
 		android:layout_marginBottom="10dip"
 		android:singleLine="true"
+		android:layout_width="200dip"
 		/>
     
 

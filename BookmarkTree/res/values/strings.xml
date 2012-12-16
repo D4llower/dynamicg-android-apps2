@@ -77,9 +77,9 @@
     <string name="shortcutIconPreviewLabel">Icon preview:</string>
     <string name="shortcutBackgroundColor">Background color</string>
     
-    <string name="bckBackup">Backup</string>
+    <string name="bckBackup">Backup to SD Card</string>
     <string name="bckCreateBackup">Create backup</string>
-    <string name="bckRestoreSelection">Restore - select file:</string>
+    <string name="bckRestoreSelection">Restore from SD Card</string>
 	<string name="hintAutoBackupEnabled">Auto backup enabled</string>
 	<string name="hintAutoBackupDisabled">Auto backup disabled</string>
     
@@ -118,4 +118,10 @@
 \n\u2192 Also see Menu/Internal bookmarks
 </string>
 	
+	<string name="googleDrive">Google Drive</string>
+	<string name="bckRestore">Restore</string>
+
+	<string name="missingAppTitle">Missing App</string>
+	<string name="missingAppBody">Plugin required. Click here to install.</string>
+		
 </resources>

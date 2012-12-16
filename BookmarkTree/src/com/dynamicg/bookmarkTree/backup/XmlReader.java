@@ -2,7 +2,9 @@ package com.dynamicg.bookmarkTree.backup;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -19,7 +21,10 @@ public class XmlReader {
 	
 	public XmlReader(File xmlfile) 
 	throws Exception {
-		FileInputStream fis = new FileInputStream(xmlfile);
+		InputStream fis = new FileInputStream(xmlfile);
+		if (xmlfile.getName().endsWith(".gz")) {
+			fis = new GZIPInputStream(fis);
+		}
 		parser = Xml.newPullParser();
 		parser.setInput(fis, XmlWriter.ENCODING);
 	}
