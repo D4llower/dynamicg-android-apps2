@@ -14,9 +14,9 @@ import com.dynamicg.bookmarkTree.R;
 public abstract class SimpleAlertDialog {
 
 	private static int textviewPaddingScaled;
-	
+
 	private final Context context;
-	
+
 	/**
 	 * 
 	 * @param context
@@ -30,7 +30,7 @@ public abstract class SimpleAlertDialog {
 	{
 		this ( context, context.getString(residAlertTitle), residButtonTitles);
 	}
-	
+
 	public SimpleAlertDialog ( Context context
 			, String alertTitle
 			, int... residButtonTitles
@@ -42,7 +42,7 @@ public abstract class SimpleAlertDialog {
 		String tNeut = stringOrNull(residButtonTitles, 2);
 		show ( alertTitle, tPos, tNeg, tNeut);
 	}
-	
+
 	public SimpleAlertDialog ( Context context
 			, String alertTitle
 			, String... buttonTitles
@@ -51,15 +51,15 @@ public abstract class SimpleAlertDialog {
 		this.context = context;
 		show ( alertTitle, stringOrNull(buttonTitles,0), stringOrNull(buttonTitles,1), stringOrNull(buttonTitles,2) );
 	}
-	
+
 	private static String stringOrNull(String[] values, int pos) {
 		return values.length>pos ? values[pos] : null;
 	}
-	
+
 	private String stringOrNull(int[] resid, int pos) {
 		return resid.length>pos ? context.getString(resid[pos]): null;
 	}
-	
+
 	private void show ( String alertTitle
 			, String positiveButtonTitle
 			, String negativeButtonTitle
@@ -67,21 +67,21 @@ public abstract class SimpleAlertDialog {
 			)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		
+
 		if (this.showAsMessage()) {
 			builder.setMessage(alertTitle);
 		}
 		else {
 			builder.setTitle(alertTitle);
 		}
-		
+
 		builder.setPositiveButton(positiveButtonTitle, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				onPositiveButton();
 			}
 		});
-		
+
 		if (negativeButtonTitle!=null) {
 			builder.setNegativeButton(negativeButtonTitle, new OnClickListener() {
 				@Override
@@ -90,7 +90,7 @@ public abstract class SimpleAlertDialog {
 				}
 			});
 		}
-		
+
 		if (neutralButtonTitle!=null) {
 			builder.setNeutralButton(neutralButtonTitle, new OnClickListener() {
 				@Override
@@ -99,11 +99,11 @@ public abstract class SimpleAlertDialog {
 				}
 			});
 		}
-		
+
 		View body = getBody();
 		String plaintext = getPlainBodyText();
 		String scrolltext = getScrollViewText();
-		
+
 		if (body!=null) {
 			builder.setView(body);
 		}
@@ -113,42 +113,43 @@ public abstract class SimpleAlertDialog {
 		else if (scrolltext!=null && scrolltext.length()>0) {
 			HorizontalScrollView hscroll = new HorizontalScrollView(context);
 			hscroll.addView(createTextView(scrolltext));
-			
+
 			ScrollView scroll = new ScrollView(context);
 			scroll.addView(hscroll);
-			
+
 			builder.setView(scroll);
 		}
-		
-		builder.show();
-		
+
+		AlertDialog dialog = builder.show();
+		dialog.setCanceledOnTouchOutside(false);
+
 	}
 
 	public void onPositiveButton() {
 	}
-	
+
 	public void onNegativeButton() {
 	}
-	
+
 	public void onNeutralButton() {
 	}
-	
+
 	public View getBody() {
 		return null;
 	}
-	
+
 	public String getPlainBodyText() {
 		return null;
 	}
-	
+
 	public String getScrollViewText() {
 		return null;
 	}
-	
+
 	public TextView createTextView(String text) {
 		return createTextView(context, text);
 	}
-	
+
 	public static TextView createTextView(Context context, int text) {
 		return createTextView(context, context.getString(text));
 	}
@@ -162,14 +163,14 @@ public abstract class SimpleAlertDialog {
 		textview.setPadding(paddingScaled,paddingScaled,paddingScaled,paddingScaled);
 		return textview;
 	}
-	
+
 	/*
 	 * if alert title is too long for default popup, return "true" in overwritten subclass
 	 */
 	public boolean showAsMessage() {
 		return false;
 	}
-	
+
 	public static void plainInfo(Context context, int title) {
 		new SimpleAlertDialog(context, title, R.string.commonClose) {
 		};
@@ -178,7 +179,7 @@ public abstract class SimpleAlertDialog {
 		new SimpleAlertDialog(context, title, R.string.commonClose) {
 		};
 	}
-	
+
 	public abstract static class OkCancelDialog extends SimpleAlertDialog {
 		public OkCancelDialog(Context context, String title) {
 			super(context, title, R.string.commonOK, R.string.commonCancel);
@@ -187,5 +188,5 @@ public abstract class SimpleAlertDialog {
 			super(context, title, R.string.commonOK, R.string.commonCancel);
 		}
 	}
-			
+
 }
