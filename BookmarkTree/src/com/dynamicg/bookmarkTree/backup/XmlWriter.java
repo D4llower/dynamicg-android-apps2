@@ -82,11 +82,6 @@ public class XmlWriter {
 		serializer.endTag(null, tag);
 	}
 
-	private void addTextNode(String tag, long value)
-			throws Exception {
-		addTextNode(tag, Long.toString(value), false);
-	}
-
 	private static String split(final StringBuffer sb, final int linesize) {
 		final int chunks = (sb.length()-1) / linesize;
 		for ( int i=chunks;i>0;i-- ) {
@@ -119,7 +114,7 @@ public class XmlWriter {
 				serializer.startTag(null, Tags.ROW);
 
 				//addTextNode(Tags.ID, b.id); // ID is not restored so we skip it
-				addTextNode(Tags.CREATED, b.created);
+				addTextNode(Tags.CREATED, Long.toString(b.created), false);
 
 				//				if (log.debugEnabled) {
 				//					b.fullTitle = b.fullTitle.toLowerCase() + "\udbba"+" " + b.fullTitle.toUpperCase() + "\udbba";
@@ -135,6 +130,14 @@ public class XmlWriter {
 			}
 		}
 
+		/*
+		 * 2.02 append settings
+		 */
+		serializer.startTag(null, Tags.SETTINGS);
+		XmlSettingsHelper.writeSettings(serializer);
+		serializer.endTag(null, Tags.SETTINGS);
+
+		// DONE
 		serializer.endTag(null, Tags.BODY);
 	}
 

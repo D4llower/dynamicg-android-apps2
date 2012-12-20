@@ -127,5 +127,8 @@
 
     <string name="largeFileTitle">Large backup file</string>
     <string name="largeFileBody">Caution: File size is {1} MB. Continue?</string>
+    <string name="confirmImportSettings">Restore settings?</string>
+    <string name="buttonYes">Yes</string>
+    <string name="buttonNo">No</string>
     
 </resources>
