@@ -32,7 +32,7 @@ public abstract class AboutDialog {
 
 		final Context context = ctx.activity;
 		final String[] appinfo = ContextUtil.getVersion(context);
-		final String apptitle = context.getString(R.string.app_name)+" "+appinfo[0];
+		final String apptitle = context.getString(R.string.app_name);
 
 		new SimpleAlertDialog(context, apptitle, R.string.bckCreateBackup, R.string.commonClose) {
 			@Override
@@ -43,6 +43,7 @@ public abstract class AboutDialog {
 						+ "\nhttps://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree"
 						+ "\n";
 				String txtAuthor = "\nProgrammed by "+AUTHOR
+						+ "\nVersion: " + (appinfo[0])
 						+ "\nSVN Revision: " + (appinfo[1])
 						+ "\n"
 						;
