@@ -10,7 +10,6 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.util.Xml;
 
-import com.dynamicg.bookmarkTree.backup.Hex;
 import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper.PreferenceEntry;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.common.Logger;

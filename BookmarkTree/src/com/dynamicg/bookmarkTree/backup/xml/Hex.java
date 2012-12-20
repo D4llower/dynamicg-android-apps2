@@ -1,4 +1,4 @@
-package com.dynamicg.bookmarkTree.backup;
+package com.dynamicg.bookmarkTree.backup.xml;
 
 /*
  * see http://hi-android.info/src/com/android/providers/contacts/Hex.java.html

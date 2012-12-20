@@ -11,7 +11,6 @@ import org.xmlpull.v1.XmlSerializer;
 import android.text.format.Time;
 import android.util.Xml;
 
-import com.dynamicg.bookmarkTree.backup.Hex;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.XmlBackupException;
