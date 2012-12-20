@@ -1,4 +1,4 @@
-package com.dynamicg.bookmarkTree.backup;
+package com.dynamicg.bookmarkTree.backup.xml;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,8 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.util.Xml;
 
-import com.dynamicg.bookmarkTree.backup.XmlSettingsHelper.PreferenceEntry;
+import com.dynamicg.bookmarkTree.backup.Hex;
+import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper.PreferenceEntry;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.common.Logger;
 

@@ -1,4 +1,4 @@
-package com.dynamicg.bookmarkTree.backup;
+package com.dynamicg.bookmarkTree.backup.xml;
 
 public class Tags {
 

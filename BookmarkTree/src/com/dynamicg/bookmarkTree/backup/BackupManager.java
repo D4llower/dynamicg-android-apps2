@@ -11,7 +11,10 @@ import android.text.format.Time;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
-import com.dynamicg.bookmarkTree.backup.XmlSettingsHelper.PreferenceEntry;
+import com.dynamicg.bookmarkTree.backup.xml.XmlReader;
+import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper;
+import com.dynamicg.bookmarkTree.backup.xml.XmlWriter;
+import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper.PreferenceEntry;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
