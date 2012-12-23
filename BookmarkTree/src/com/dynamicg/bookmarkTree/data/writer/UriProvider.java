@@ -12,7 +12,7 @@ public class UriProvider {
 	public static final Uri INSERT;
 	public static final Uri UPDATE;
 	public static final Uri DELETE;
-	
+
 	static {
 		if (SystemUtil.isHoneycombOrNewer()) {
 			// honeycomb + ICS
@@ -30,5 +30,18 @@ public class UriProvider {
 			DELETE = Browser.BOOKMARKS_URI;
 		}
 	}
-	
+
+	//	public static boolean testUrl(BookmarkTreeContext ctx, Uri uri) {
+	//		try {
+	//			ContentResolver contentResolver = ctx.activity.getContentResolver();
+	//			ContentProviderClient acquireContentProviderClient = contentResolver.acquireContentProviderClient(uri);
+	//			acquireContentProviderClient.release();
+	//			return true;
+	//		}
+	//		catch (Throwable t) {
+	//			ErrorNotification.notifyError(ctx.activity, "Browser bookmarks not found ["+uri+"]", t);
+	//			return false;
+	//		}
+	//	}
+
 }
