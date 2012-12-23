@@ -31,11 +31,11 @@ public class EditBookmarkDialog extends Dialog {
 
 	private static final Logger log = new Logger(EditBookmarkDialog.class);
 	public static final BrowserBookmarkBean NEW_BOOKMARK = BrowserBookmarkBean.createNew();
-	
+
 	private final BookmarkTreeContext ctx;
 	private final Bookmark bookmark;
 	private final boolean forCreateBookmark;
-	
+
 	private EditText newNodeTitleItem;
 	private Spinner parentFolderSpinner;
 	private EditText addToNewFolderItem;
@@ -53,10 +53,10 @@ public class EditBookmarkDialog extends Dialog {
 	public EditBookmarkDialog(BookmarkTreeContext ctx) {
 		this(ctx, NEW_BOOKMARK);
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 
 		final int alertTitle = forCreateBookmark ? R.string.commonNewBookmark
@@ -74,7 +74,7 @@ public class EditBookmarkDialog extends Dialog {
 		else {
 			findViewById(R.id.editBookmarkUrlContainer).setVisibility(View.GONE);
 		}
-		
+
 		parentFolderSpinner = (Spinner)findViewById(R.id.editBookmarkParentFolder);
 		prepareParentFolderSpinner(bookmark);
 
@@ -87,7 +87,7 @@ public class EditBookmarkDialog extends Dialog {
 				saveBookmark(bookmark);
 			}
 		};
-		
+
 		/*
 		 * delete
 		 */
@@ -107,12 +107,12 @@ public class EditBookmarkDialog extends Dialog {
 			deleteIcon.setOnClickListener(deleteAction);
 			deleteLabel.setOnClickListener(deleteAction);
 		}
-		
+
 		/*
 		 * create shortcut
 		 */
 		if (forCreateBookmark || bookmark.isFolder()) {
-			removePanel(R.id.editBookmarkCreateShortcutPanel);			
+			removePanel(R.id.editBookmarkCreateShortcutPanel);
 		}
 		else {
 			View.OnClickListener action = new View.OnClickListener() {
@@ -124,7 +124,7 @@ public class EditBookmarkDialog extends Dialog {
 			findViewById(R.id.editCreateShortcutIcon).setOnClickListener(action);
 			findViewById(R.id.editCreateShortcutText).setOnClickListener(action);
 		}
-		
+
 	}
 
 	private void removePanel(int id) {
@@ -132,7 +132,7 @@ public class EditBookmarkDialog extends Dialog {
 		view.setVisibility(View.INVISIBLE);
 		view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,0));
 	}
-	
+
 	private void prepareParentFolderSpinner(final Bookmark bookmark) {
 
 		/*
@@ -168,7 +168,7 @@ public class EditBookmarkDialog extends Dialog {
 	private static String getEditTextValue(EditText item) {
 		return item!=null ? item.getText().toString().trim() : null;
 	}
-	
+
 	private void saveBookmark(Bookmark bookmark) {
 
 		String newNodeTitle = getEditTextValue(newNodeTitleItem) ;
@@ -183,7 +183,7 @@ public class EditBookmarkDialog extends Dialog {
 			SimpleAlertDialog.plainInfo(getContext(), R.string.hintUrlMissing);
 			return;
 		}
-		
+
 		if (addToNewFolderTitle!=null && addToNewFolderTitle.length()>0) {
 			newNodeTitle = addToNewFolderTitle + ctx.getNodeConcatenation() + newNodeTitle;
 		}
@@ -196,7 +196,7 @@ public class EditBookmarkDialog extends Dialog {
 		if (log.debugEnabled) {
 			log.debug("saveBookmark", newNodeTitle, newParentFolder, addToNewFolderTitle );
 		}
-		
+
 		try {
 			if (bookmark==NEW_BOOKMARK) {
 				if (newParentFolder!=null) {
@@ -216,13 +216,13 @@ public class EditBookmarkDialog extends Dialog {
 
 		ctx.reloadAndRefresh();
 		this.dismiss();
-		
+
 	}
 
 	private String getText(int res) {
 		return getContext().getString(res);
 	}
-	
+
 	private void deleteConfirmation() {
 
 		String alertTitle;
@@ -246,7 +246,7 @@ public class EditBookmarkDialog extends Dialog {
 			}
 		};
 	}
-	
+
 	private void deleteBookmark() {
 		try {
 			new BookmarkDeletionHandler(ctx,bookmark);
@@ -257,6 +257,5 @@ public class EditBookmarkDialog extends Dialog {
 		}
 		this.dismiss();
 	}
-	
 
 }
