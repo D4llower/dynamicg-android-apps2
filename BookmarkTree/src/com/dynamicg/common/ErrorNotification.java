@@ -22,7 +22,9 @@ public class ErrorNotification {
 	private static void emailError(Context context, String alertTitle, Throwable exception) {
 		String version = ContextUtil.getVersion(context)[0];
 		String title = context.getString(R.string.app_name)+" "+version+" Error ("+Locale.getDefault().getLanguage()+")";
-		String body = alertTitle+"\n\n"+SystemUtil.getExceptionText(exception);
+		String body = alertTitle+"\n\n"
+				+ DeviceInfo.getDeviceInfo()+"\n\n"
+				+ SystemUtil.getExceptionText(exception);
 		createIntent(context, title, body);
 	}
 
