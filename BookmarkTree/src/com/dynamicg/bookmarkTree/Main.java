@@ -1,9 +1,13 @@
 package com.dynamicg.bookmarkTree;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -64,8 +68,11 @@ public class Main extends Activity {
 		menu.add(0, id, 0, title).setIcon(icon);
 	}
 
+	private Menu menu;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		this.menu = menu;
 		createMenu(menu, ACTION_EXPAND_ALL, R.string.menuExpandAll, R.drawable.menu_expand);
 		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll, R.drawable.menu_collapse);
 		createMenu(menu, ACTION_RELOAD, R.string.menuReload, R.drawable.menu_reload);
@@ -75,8 +82,37 @@ public class Main extends Activity {
 		return true;
 	}
 
+	@SuppressLint("HandlerLeak")
+	private void delayedOpen(final int id) {
+		Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+
+				if (Build.VERSION.SDK_INT==17) {
+					/*
+					 * jelly bean 4.2 issue: when dialog is opened through Menu (e.g. prefs) and the dialog opens an
+					 * activity, the dialog will be sent to the background without ever coming back to front (???).
+					 * as of now only "menu.close()" and some sleep timeout seems to work around that
+					 */
+					SystemUtil.sleep(350);
+				}
+
+				if ( id==ACTION_SETTINGS ) {
+					new PreferencesDialog(ctx);
+				}
+				else if ( id==ACTION_BACKUP_RESTORE ) {
+					new BackupRestoreDialog(ctx);
+				}
+			}
+
+		};
+		handler.sendEmptyMessage(0);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		menu.close();
+
 		int id = item.getItemId();
 		if ( id==ACTION_COLLAPSE_ALL || id==ACTION_EXPAND_ALL ) {
 			ctx.bookmarkManager.toggleFolders(id);
@@ -88,14 +124,11 @@ public class Main extends Activity {
 			SystemUtil.toastShort(ctx.activity,
 					StringUtil.textWithParam(this, R.string.hintReloaded, numberOfBookmarks));
 		}
-		else if ( id==ACTION_SETTINGS ) {
-			new PreferencesDialog(ctx);
-		}
 		else if ( id==ACTION_NEW_BM ) {
 			new EditBookmarkDialog(ctx);
 		}
-		else if ( id==ACTION_BACKUP_RESTORE ) {
-			new BackupRestoreDialog(ctx);
+		else if (id==ACTION_SETTINGS || id==ACTION_BACKUP_RESTORE) {
+			delayedOpen(id);
 		}
 		return true;
 	}
