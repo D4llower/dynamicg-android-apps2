@@ -40,6 +40,9 @@
 		<replace token="log.warn" value="// --logging disabled-- " summary="true">
 			<fileset dir="${buildproject}/src" includes="**/*.java" />
 		</replace>
+		<replace token="Logger.dumpIfDevelopment" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildproject}/src" includes="**/*.java" />
+		</replace>
 	</target>
     
 	<target name=".build">

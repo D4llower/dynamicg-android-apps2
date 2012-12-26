@@ -4,17 +4,7 @@ import android.util.Log;
 
 /*
  * this class replaces the actual Logger for production builds
- * see build script
+ * also see ".stripLogging" ant task. 
  */
 public class Logger {
-
-	public static final boolean isDebugEnabled = false;
-	public static final boolean isTraceEnabled = false;
-	
-	public Logger(Class<?> cls) {}
-	public void warn(String text, Object... args) {}
-	public void debug(String text, Object... args) {}
-
-	public static void dumpIfDevelopment(Throwable e) {}
-	
 }
