@@ -6,7 +6,7 @@
 	<property name="tmpdir" value="d:/ant.tmp" />
 	<property name="apkdirWin" value="d:\ant.tmp\apk" />
 	
-	<property name="buildproject" value="${tmpdir}/Build.${projectname}" />	
+	<property name="buildproject" value="${tmpdir}/build/Build.${projectname}" />	
 	
 	<property name="buildprops" value="${workspace}/res/build" />
     <property file="${buildprops}/local.properties" />
@@ -24,23 +24,24 @@
 
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
-    <!--
-    <setup
-    	projectTypeOut="project"
-    	androidJarFileOut=""
-		androidAidlFileOut=""
-    	renderScriptExeOut="" 
-    	renderScriptIncludeDirOut=""
-    	bootclasspathrefOut=""
-    	projectLibrariesRootOut=""
-    	projectLibrariesJarsOut=""
-    	projectLibrariesResOut=""
-    	projectLibrariesPackageOut=""
-    	projectLibrariesLibsOut=""
-    	targetApiOut="8"
-    />
-    -->
-
+	<target name=".stripLogging">
+		<replace token="log.isDebugEnabled" value="false" summary="true">
+			<fileset dir="${buildproject}/src" includes="**/*.java" />
+		</replace>
+		<replace token="log.isTraceEnabled" value="false" summary="true">
+			<fileset dir="${buildproject}/src" includes="**/*.java" />
+		</replace>
+		<replace token="private static final Logger log" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildproject}/src" includes="**/*.java" />
+		</replace>
+		<replace token="log.debug" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildproject}/src" includes="**/*.java" />
+		</replace>
+		<replace token="log.warn" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildproject}/src" includes="**/*.java" />
+		</replace>
+	</target>
+    
 	<target name=".build">
 		
 		<delete dir="${buildproject}" includeemptydirs="true" />
@@ -51,6 +52,8 @@
 		<copy todir="${buildproject}/src">
 			<fileset dir="${workspace}/${projectname}/src" includes="**/*.java" />
 		</copy>
+		
+		<antcall target=".stripLogging" />
 		
 		<!-- exchange loggers -->
 		<property name="loggerSrc" value="${buildproject}/src/com/dynamicg/common/Logger.java" />
