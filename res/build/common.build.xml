@@ -54,6 +54,7 @@
 		
 		<!-- exchange loggers -->
 		<property name="loggerSrc" value="${buildproject}/src/com/dynamicg/common/Logger.java" />
+		<echo message="swap logger ${loggerSrc}" />
 		<delete file="${loggerSrc}" failonerror="yes" />
 		<copy file="${workspace}/BookmarkTree/src/com/dynamicg/common/LoggerPROD.txt" tofile="${loggerSrc}" failonerror="yes" />
 		
