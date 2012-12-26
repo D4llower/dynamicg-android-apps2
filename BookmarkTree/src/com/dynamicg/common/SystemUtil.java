@@ -46,4 +46,14 @@ public class SystemUtil {
 		}
 		catch (Throwable t) {}
 	}
+
+	public static boolean isInvalidBrowserContentUrl(Throwable exception) {
+		// java.lang.IllegalArgumentException: Unknown URL content://browser/bookmarks
+		// java.lang.IllegalArgumentException: Unknown URL content://com.android.browser/bookmarks
+		return exception instanceof IllegalArgumentException
+				&& exception.toString().indexOf("Unknown URL")>=0
+				&& exception.toString().indexOf("/bookmarks")>=0
+				;
+	}
+
 }

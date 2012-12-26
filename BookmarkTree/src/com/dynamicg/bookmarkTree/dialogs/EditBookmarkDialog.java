@@ -26,6 +26,7 @@ import com.dynamicg.common.ErrorNotification;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.StringUtil;
+import com.dynamicg.common.SystemUtil;
 
 public class EditBookmarkDialog extends Dialog {
 
@@ -211,7 +212,11 @@ public class EditBookmarkDialog extends Dialog {
 			}
 		}
 		catch (final Throwable exception) {
-			ErrorNotification.notifyError(getContext(), "Cannot save bookmark", exception);
+			String errortext = "Cannot save bookmark";
+			if (SystemUtil.isInvalidBrowserContentUrl(exception)) {
+				errortext = "Cannot save. Default Web Browser disabled?";
+			}
+			ErrorNotification.notifyError(getContext(), errortext, exception);
 		}
 
 		ctx.reloadAndRefresh();

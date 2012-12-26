@@ -241,12 +241,8 @@ public class BackupManager {
 
 			@Override
 			public String getErrorTitle(Throwable exception) {
-				if (exception instanceof IllegalArgumentException
-						&& exception.toString().indexOf("Unknown URL")>=0
-						&& exception.toString().indexOf("/bookmarks")>=0
-						)
-				{
-					return "Cannot restore. Default Browser disabled?";
+				if (SystemUtil.isInvalidBrowserContentUrl(exception)) {
+					return "Cannot restore. Default Web Browser disabled?";
 				}
 				return "Cannot restore";
 			}
