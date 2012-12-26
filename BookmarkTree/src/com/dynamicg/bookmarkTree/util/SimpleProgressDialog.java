@@ -12,7 +12,7 @@ public abstract class SimpleProgressDialog {
 	private static final int MSG_DONE = 0;
 	private static final int MSG_ERROR = 1;
 	private static final int MSG_UPDATE_TEXT = 2;
-	
+
 	private final Context context;
 	private final ProgressDialog progressDialog;
 	private final Handler doneHandler;
@@ -20,9 +20,9 @@ public abstract class SimpleProgressDialog {
 	public SimpleProgressDialog(Context context, int title) {
 		this(context, context.getString(title));
 	}
-	
+
 	public SimpleProgressDialog(Context context, String title) {
-		
+
 		this.context = context;
 		progressDialog = new ProgressDialog(context);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -31,6 +31,7 @@ public abstract class SimpleProgressDialog {
 		progressDialog.show();
 
 		doneHandler = new Handler() {
+			@Override
 			public void handleMessage(Message msg) {
 				if (msg.what==MSG_DONE) {
 					done();
@@ -47,6 +48,7 @@ public abstract class SimpleProgressDialog {
 		};
 
 		Thread progressThread = new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					backgroundWork();
@@ -64,23 +66,23 @@ public abstract class SimpleProgressDialog {
 		progressThread.start();
 
 	}
-	
+
 	public abstract void backgroundWork();
 	public abstract void done();
-	public abstract String getErrorTitle();
-	
+	public abstract String getErrorTitle(Throwable exception);
+
 	/*
 	 * override in implementations if required
 	 */
 	public final void handleError(Throwable e) {
-		ErrorNotification.notifyError(context, getErrorTitle(), e);
+		ErrorNotification.notifyError(context, getErrorTitle(e), e);
 	}
-	
+
 	public void updateProgressMessage(String text) {
 		Message msg = new Message();
 		msg.what=MSG_UPDATE_TEXT;
 		msg.obj=text;
 		doneHandler.sendMessage(msg);
 	}
-	
+
 }

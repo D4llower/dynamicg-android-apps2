@@ -200,7 +200,7 @@ public class PreferencesDialog extends Dialog {
 								SystemUtil.toastShort(context, context.getString(R.string.actionSortBookmarksDone));
 							}
 							@Override
-							public String getErrorTitle() {
+							public String getErrorTitle(Throwable exception) {
 								return "Alpha sort failed";
 							}
 							
@@ -304,7 +304,7 @@ public class PreferencesDialog extends Dialog {
 					savePostprocessing();
 				}
 				@Override
-				public String getErrorTitle() {
+				public String getErrorTitle(Throwable exception) {
 					return "Separator update failed";
 				}
 				
