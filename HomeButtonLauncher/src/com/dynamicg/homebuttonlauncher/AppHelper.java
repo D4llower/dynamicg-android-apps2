@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import android.content.ComponentName;
@@ -13,6 +14,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 public class AppHelper {
+
+	private static final String SELF = "com.dynamicg.homebuttonlauncher/com.dynamicg.homebuttonlauncher.MainActivityOpen";
 
 	public static String getComponentName(ResolveInfo resolveInfo) {
 		return resolveInfo.activityInfo.packageName + "/" + resolveInfo.activityInfo.name;
@@ -43,7 +46,9 @@ public class AppHelper {
 		PackageManager packageManager = context.getPackageManager();
 		ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 
-		Collection<String> selectedComponents = settings.getComponents();
+		Collection<String> selectedComponents = new HashSet<String>(settings.getComponents());
+		selectedComponents.add(SELF); // do not show my own app in the list
+
 		final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
 		for (ResolveInfo resolveInfo:apps) {
 			String component = getComponentName(resolveInfo);
