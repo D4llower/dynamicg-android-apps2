@@ -1,0 +1,10 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<dimen name="headerPadding">14dp</dimen>
+	<dimen name="headerTextSize">20sp</dimen>
+	
+	<dimen name="appLabelTextSize">18sp</dimen>
+	<dimen name="appIconPadding">10dp</dimen>
+	<dimen name="appLinePadding">4dp</dimen>	
+
+</resources>

@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="20dp"
+    >
+    
+	<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/aboutProgrammedBy"
+		/>
+	<TextView android:id="@+id/aboutAuthor"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+		/>
+		
+	<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/aboutOpenSource"
+		/>
+
+	<HorizontalScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:scrollbars="none"
+		>
+		<TextView android:id="@+id/aboutSrc"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+			android:autoLink="all"
+			/>
+	</HorizontalScrollView>
+
+	
+	<TextView android:id="@+id/aboutRate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/applink"
+        android:textStyle="bold"
+		/>
+		
+</LinearLayout>

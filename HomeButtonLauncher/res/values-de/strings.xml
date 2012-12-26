@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Home Launcher</string>
+    <string name="menuAddApps">Apps hinzufügen</string>
+    <string name="menuRemoveApps">Apps entfernen</string>
+    <string name="menuAbout">Info</string>
+    <string name="buttonSave">Speichern</string>
+    <string name="buttonCancel">Abbrechen</string>
+    <string name="buttonClose">Schliessen</string>
+    <string name="aboutProgrammedBy">Programmiert von:</string>
+    <string name="aboutOpenSource">Diese App ist Open Source:</string>
+    <string name="aboutPleaseRate">\u21d2 Bitte App bewerten \u21d0</string>
+</resources>

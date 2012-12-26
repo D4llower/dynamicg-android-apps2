@@ -1,0 +1,10 @@
+<resources>
+    <style name="AppTheme" parent="android:Theme.Holo.Dialog" />
+    
+    <style name="ConfigButton" parent="android:Widget.Holo.Button.Borderless">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_weight">0.5</item>
+    </style>
+    
+</resources>
