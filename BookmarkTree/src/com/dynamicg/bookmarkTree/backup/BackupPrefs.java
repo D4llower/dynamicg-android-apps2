@@ -47,7 +47,7 @@ public class BackupPrefs {
 		int lastBackup = settings.getInt(KEY_LAST_BACKUP, 0);
 		int daysBetween = getBackupDaysInterval();
 		boolean required = daynr-lastBackup >= daysBetween;
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("checkPeriodicBackup", daynr, lastBackup, required);
 		}
 		if (required) {

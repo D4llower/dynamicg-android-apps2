@@ -32,7 +32,7 @@ public abstract class RowViewProvider {
 		this.compact = listStyleMedium || listStyleSmall;
 		beforeRedraw();
 		
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("create RowViewProvider", this);
 		}
 	}

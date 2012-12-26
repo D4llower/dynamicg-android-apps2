@@ -14,7 +14,7 @@ public class PreferencesUpdater {
 		SharedPreferences.Editor editor = BookmarkTreeContext.settings.edit();
 
 		// separator handled separately
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("write prefs - folderSeparator", PreferencesWrapper.separatorPreference.folderSeparator);
 		}
 		editor.putString ( PreferencesWrapper.KEY_FOLDER_SEPARATOR, PreferencesWrapper.separatorPreference.folderSeparator);
@@ -23,7 +23,7 @@ public class PreferencesUpdater {
 		PrefEntryInt.pushNewValue();
 		for (PrefEntryInt item:PrefEntryInt.cache) {
 			editor.putInt(item.name, item.value);
-			if (log.debugEnabled) {
+			if (log.isDebugEnabled) {
 				log.debug("PrefEntryInt", item.name, item.value);
 			}
 		}
@@ -41,7 +41,7 @@ public class PreferencesUpdater {
 	}
 
 	public static void writeIntPref(String key, int value) {
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("write int pref", key, value);
 		}
 		Editor edit = BookmarkTreeContext.settings.edit();

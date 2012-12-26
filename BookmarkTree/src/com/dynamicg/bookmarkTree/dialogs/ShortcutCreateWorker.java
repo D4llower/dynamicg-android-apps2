@@ -74,7 +74,7 @@ public class ShortcutCreateWorker {
 		final float xOffset = (float)(shortcutSizeScaled - faviconPatchedW) / 2f;
 		final float yOffset = (float)(shortcutSizeScaled - faviconPatchedH) / 2f;
 		
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("--> dimensions");
 			log.debug("shortcutSizeScaled", shortcutSizeScaled);
 			log.debug("favicon width/height", faviconW, faviconH);

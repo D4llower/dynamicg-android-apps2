@@ -25,7 +25,7 @@ public abstract class PlainBookmarksDump {
 		final long div = 1000l * 1000l;
 		String line;
 		for (RawDataBean row:rows) {
-			if (log.debugEnabled) {
+			if (log.isDebugEnabled) {
 				line =
 					row.fullTitle 
 					+ " ["+ (row.id) +"]" 

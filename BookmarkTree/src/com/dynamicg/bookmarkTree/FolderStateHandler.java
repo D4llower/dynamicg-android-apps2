@@ -20,7 +20,7 @@ public class FolderStateHandler {
 		HashSet<String> expandedFolders = new HashSet<String>();
 		for ( Bookmark bm:bookmarksCache ) {
 			if (bm.isExpanded()) {
-				if (log.traceEnabled) {
+				if (log.isTraceEnabled) {
 					log.debug("save folderState", bm.getFullTitle());
 				}
 				expandedFolders.add(bm.getFullTitle());
@@ -40,7 +40,7 @@ public class FolderStateHandler {
 	public static void restore ( ArrayList<Bookmark> bookmarksCache ) {
 		for ( Bookmark item:bookmarksCache ) {
 			if ( item.isFolder() && expandedFolders.contains(item.getFullTitle()) ) {
-				if (log.traceEnabled) {
+				if (log.isTraceEnabled) {
 					log.debug("restore folderState", item.getFullTitle());
 				}
 				item.setExpanded(true);

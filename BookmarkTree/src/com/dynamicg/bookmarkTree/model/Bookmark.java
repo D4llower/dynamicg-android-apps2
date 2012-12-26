@@ -113,7 +113,7 @@ public abstract class Bookmark {
 	}
 
 	private void shiftWithChildren(int shift) {
-		if (log.traceEnabled) {
+		if (log.isTraceEnabled) {
 			log.debug("shiftWithChildren", this.level, getFullTitle());
 		}
 		this.level = this.level + shift;
@@ -129,7 +129,7 @@ public abstract class Bookmark {
 		this.setNodeTitle(parentFolder.getDisplayTitle() + ctx.getNodeConcatenation() + this.getDisplayTitle() );
 		this.setParentFolder(parentFolder.getParentFolder()); 
 		// patch indention on item including children
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("attachToGrandparent ----------> shift children", this.level, getFullTitle());
 		}
 		shiftWithChildren(-1);
@@ -177,13 +177,13 @@ public abstract class Bookmark {
 		while (item!=null) {
 			insertText = item.getDisplayTitle() + ( buffer.length()>0 ? ctx.getNodeConcatenation() : "" ); 
 			buffer.insert ( 0, insertText );
-			if (log.debugEnabled) {
+			if (log.isDebugEnabled) {
 				log.debug("prependParentTitle iteration", buffer.toString());
 			}
 			item = item.getParentFolder();
 		}
 		
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("getFullTitle", buffer.toString());
 		}
 		return buffer.toString();

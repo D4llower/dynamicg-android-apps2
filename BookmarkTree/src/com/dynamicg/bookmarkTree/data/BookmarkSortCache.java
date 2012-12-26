@@ -63,7 +63,7 @@ public abstract class BookmarkSortCache {
 		private void processFolders(Collection<Bookmark> children) {
 			for (Bookmark child:children) {
 				if (child.isFolder()) {
-					if (log.traceEnabled) {
+					if (log.isTraceEnabled) {
 						log.debug("... do recursion for {"+child+"}");
 					}
 					recursiveAdd((FolderBean)child);
@@ -75,7 +75,7 @@ public abstract class BookmarkSortCache {
 			if (finalList.contains(folder)) {
 				return; // already processed through child recursion
 			}
-			if (log.traceEnabled) {
+			if (log.isTraceEnabled) {
 				log.debug("recursiveAdd - folder="+folder);
 			}
 			finalList.add(folder); // add "self"
@@ -92,7 +92,7 @@ public abstract class BookmarkSortCache {
 		}
 		
 		public ArrayList<Bookmark> getList() {
-			if (log.debugEnabled) {
+			if (log.isDebugEnabled) {
 				log.debug("number of folders", folders.size());
 			}
 			
@@ -100,7 +100,7 @@ public abstract class BookmarkSortCache {
 				addTopLevelItems();
 			}
 			for (FolderBean folder:folders) {
-				if (log.traceEnabled) {
+				if (log.isTraceEnabled) {
 					log.debug("--- loop "+folder+" ["+folder.getChildren().size()+"]");
 				}
 				recursiveAdd(folder);
@@ -109,14 +109,14 @@ public abstract class BookmarkSortCache {
 				addTopLevelItems();
 			}
 			
-			if (log.debugEnabled) {
+			if (log.isDebugEnabled) {
 				log.debug("getList()", finalList.size());
 			}
 			return finalList;
 		}
 		
 		public void addBookmark(BrowserBookmarkBean bookmark) {
-			if (log.traceEnabled) {
+			if (log.isTraceEnabled) {
 				System.err.println("ADD BK "+bookmark+"/"+bookmark.getParentFolder());
 			}
 			if (bookmark.getParentFolder()==null) {
@@ -126,7 +126,7 @@ public abstract class BookmarkSortCache {
 		}
 
 		public void addFolder(FolderBean folder) {
-			if (log.traceEnabled) {
+			if (log.isTraceEnabled) {
 				log.debug("--> add folder", folder);
 			}
 			folders.add(folder);

@@ -22,7 +22,7 @@ public class BookmarkDataProcessor {
 	public BookmarkDataProcessor(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
 		this.bookmarkSortCache = BookmarkSortCache.createInstance();
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("start");
 		}
 		ArrayList<BrowserBookmarkBean> rows = BrowserBookmarkLoader.forListAdapter(ctx);

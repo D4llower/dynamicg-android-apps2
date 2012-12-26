@@ -102,7 +102,7 @@ public class BrowserBookmarkLoader {
 				bean.favicon = crs.getBlob(4);
 				
 				rows.add((E)bean);
-				if (log.traceEnabled) {
+				if (log.isTraceEnabled) {
 					log.debug("loadBrowserBookmarks", bean.fullTitle, bean.url, bean.created);
 				}
 			}
@@ -125,7 +125,7 @@ public class BrowserBookmarkLoader {
 				}
 				
 				rows.add((E)bean);
-				if (log.traceEnabled) {
+				if (log.isTraceEnabled) {
 					log.debug("loadBrowserBookmarks", bean.id, bean.fullTitle, bean.url);
 				}
 			}

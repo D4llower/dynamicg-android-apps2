@@ -38,12 +38,12 @@ public class SeparatorChangedHandler {
 		String newTitle = StringUtil.replaceAll(oldTitle, oldSeparator, newSeparator);
 		if (newTitle==null||newTitle.trim().length()==0||newTitle.equals(oldTitle)) {
 			// skip
-			if (log.debugEnabled) {
+			if (log.isDebugEnabled) {
 				log.debug("update - skip", oldTitle);
 			}
 			return;
 		}
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("update - write", oldTitle, newTitle);
 		}
 		bookmarkUpdater.updateTitle ( bm.id, newTitle );

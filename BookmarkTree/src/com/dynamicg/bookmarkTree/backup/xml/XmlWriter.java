@@ -68,7 +68,7 @@ public class XmlWriter {
 					serializer.text(buffer, i, 1);
 				}
 				catch (IllegalArgumentException e) {
-					if (log.debugEnabled) {
+					if (log.isDebugEnabled) {
 						log.debug("=====> SKIP", buffer[i]);
 					}
 					serializer.text(" ");

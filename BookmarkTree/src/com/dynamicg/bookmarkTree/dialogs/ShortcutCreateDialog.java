@@ -85,7 +85,7 @@ public class ShortcutCreateDialog extends Dialog {
 					@Override
 					public void colorSelected(int selectedColor) {
 						backgroundColor = selectedColor;
-						if (log.debugEnabled) {
+						if (log.isDebugEnabled) {
 							log.debug("ColorPickerDialog.ColorSelectedListener");
 						}
 						drawPreviewIcon();
@@ -111,7 +111,7 @@ public class ShortcutCreateDialog extends Dialog {
 				if (System.currentTimeMillis()<initGracetime) {
 					return;
 				}
-				if (log.debugEnabled) {
+				if (log.isDebugEnabled) {
 					log.debug("densitySpinner.setOnItemSelected");
 				}
 				drawPreviewIcon();
@@ -135,14 +135,14 @@ public class ShortcutCreateDialog extends Dialog {
 	private Bitmap getIcon() {
 		int color = this.backgroundColor;
 		int targetDensity = spinnerUtil.getCurrentValue(R.id.shortcutIconDensity);
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("getIcon() - density/color", targetDensity, color);
 		}
 		return shortcutCreateWorker.getIcon(bookmark.getFavicon(), color, targetDensity);
 	}
 
 	private void drawPreviewIcon() {
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("=== preview()");
 		}
 		previewCell.setImageBitmap(getIcon());

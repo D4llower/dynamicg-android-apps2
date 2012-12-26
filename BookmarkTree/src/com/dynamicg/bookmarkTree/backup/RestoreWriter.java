@@ -29,7 +29,7 @@ public class RestoreWriter {
 			entry.put(Browser.BookmarkColumns.URL, b.url);
 			entry.put(Browser.BookmarkColumns.FAVICON, b.favicon);
 			
-			if (log.debugEnabled) {
+			if (log.isDebugEnabled) {
 				log.debug("put item", b.fullTitle, b.url, b.favicon!=null?b.favicon.length:"-1");
 			}
 			list.add(entry);

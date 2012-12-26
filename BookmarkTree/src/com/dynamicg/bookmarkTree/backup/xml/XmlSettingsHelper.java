@@ -48,7 +48,7 @@ public class XmlSettingsHelper {
 		entry.datatype = parser.getAttributeValue(null, Tags.PREF_TYPE);
 		settings.add(entry);
 
-		if (log.debugEnabled) {
+		if (log.isDebugEnabled) {
 			log.debug("pref entry loaded", entry.name, entry.value, entry.datatype);
 		}
 	}
