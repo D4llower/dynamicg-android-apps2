@@ -22,7 +22,7 @@
         <item name="android:textColor">#dddddd</item>
     </style>
     <style name="Text.Widget.Temperature">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
     <style name="Text.Widget.Source">
         <item name="android:textSize">9sp</item>
