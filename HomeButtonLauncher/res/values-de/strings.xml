@@ -10,4 +10,6 @@
     <string name="aboutProgrammedBy">Programmiert von:</string>
     <string name="aboutOpenSource">Diese App ist Open Source:</string>
     <string name="aboutPleaseRate">\u21d2 Bitte App bewerten \u21d0</string>
+    <string name="openAppDetails">App-Details öffnen</string>
+    <string name="openPlayStore">Im Play Store anzeigen</string>
 </resources>

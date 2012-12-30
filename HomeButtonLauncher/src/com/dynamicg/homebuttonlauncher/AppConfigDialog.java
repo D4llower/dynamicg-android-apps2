@@ -11,9 +11,6 @@ import android.widget.ListView;
 
 public class AppConfigDialog extends Dialog {
 
-	public static final int ACTION_ADD = 1;
-	public static final int ACTION_REMOVE = 2;
-
 	private final MainActivityHome activity;
 	private final Settings settings;
 	private final List<AppEntry> appList;
@@ -34,7 +31,7 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private boolean isRemove() {
-		return action==ACTION_REMOVE;
+		return action==MenuGlobals.APPS_REMOVE;
 	}
 
 	private final void onButtonOk() {
@@ -81,6 +78,8 @@ public class AppConfigDialog extends Dialog {
 				entry.decorateSelection(view);
 			}
 		});
+
+		new AppListContextMenu(getContext()).attach(listview, appList);
 
 	}
 

@@ -43,4 +43,11 @@ public class SystemUtil {
 
 	}
 
+	public static void sleep(long time) {
+		try {
+			Thread.sleep(time);
+		}
+		catch (Throwable t) {}
+	}
+
 }

@@ -34,6 +34,10 @@ public class AppEntry {
 		return component;
 	}
 
+	public String getPackage() {
+		return component.split("/")[0];
+	}
+
 	public boolean isChecked() {
 		return checked;
 	}
