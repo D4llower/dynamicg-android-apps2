@@ -13,7 +13,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.dynamicg.common.Logger;
+
 public class AppHelper {
+
+	private static final Logger log = new Logger(AppHelper.class);
 
 	private static final String SELF = "com.dynamicg.homebuttonlauncher/com.dynamicg.homebuttonlauncher.MainActivityOpen";
 
@@ -86,6 +90,18 @@ public class AppHelper {
 			}
 		});
 		return list;
+	}
+
+	private static final String PLAY_STORE_INSTALLER = "com.android.vending, com.google.android.feedback";
+
+	public static boolean isInstalledFromPlayStore(Context context, AppEntry appEntry) {
+		String installerPackageName = context.getPackageManager().getInstallerPackageName(appEntry.getPackage());
+		log.debug("isInstalledFromPlayStore", appEntry.getPackage(), installerPackageName);
+		boolean fromPlayStore = installerPackageName!=null && PLAY_STORE_INSTALLER.contains(installerPackageName);
+		//		if (!fromPlayStore) {
+		//			Toast.makeText(context, "Installer: "+installerPackageName, Toast.LENGTH_SHORT).show();
+		//		}
+		return fromPlayStore;
 	}
 
 }

@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.dynamicg.common.DialogWithExitPoints;
 import com.dynamicg.homebuttonlauncher.PopupMenuWrapper.PopupMenuItemListener;
 
 // see https://plus.google.com/104570711580136846518/posts/QpqfXXigAWW
@@ -108,6 +109,12 @@ public class MainActivityHome extends Activity {
 		catch (Throwable t) {
 			ErrorHandler.showCrashReport(context, t);
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		DialogWithExitPoints.handleActivityResume(this);
 	}
 
 }

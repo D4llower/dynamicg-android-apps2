@@ -36,26 +36,6 @@ public class PopupMenuWrapper {
 		});
 	}
 
-	// there is this nasty 4.2 bug which, when a sub activity is started, will throw the user back to the main activity on resume,
-	// that is unless we close the menu beforehand and do some plain "wait()"
-	//	private void itemClicked(final PopupMenuItemListener listener, final int id) {
-	//		Handler handler = new Handler() {
-	//			@Override
-	//			public void handleMessage(Message msg) {
-	//
-	//				// there is this nasty 4.2 bug which, when a sub activity is started, will throw the user back to the main activity on resume,
-	//				// that is unless we close the menu beforehand and do some plain "wait()"
-	//				if (android.os.Build.VERSION.SDK_INT==17) {
-	//					SystemUtil.sleep(350);
-	//				}
-	//
-	//				listener.popupMenuItemSelected(id);
-	//			}
-	//		};
-	//
-	//		handler.sendEmptyMessage(0);
-	//	}
-
 	public void attachToAnchorClick() {
 		anchor.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -70,7 +50,14 @@ public class PopupMenuWrapper {
 	}
 
 	public void addItem(int id, int titleResId) {
-		menu.add(0, id, 0, titleResId);
+		menu.add(id, id, 0, titleResId);
+	}
+
+	public void addItem(int id, int titleResId, boolean enabled) {
+		menu.add(id, id, 0, titleResId);
+		if (!enabled) {
+			menu.setGroupEnabled(id, false);
+		}
 	}
 
 }

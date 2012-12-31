@@ -32,7 +32,8 @@ public class AppListContextMenu {
 	}
 
 	private void openContextMenu(final View anchor, final AppEntry appEntry) {
-		PopupMenuItemListener listener = new PopupMenuItemListener() {
+		final boolean installedFromPlayStore = AppHelper.isInstalledFromPlayStore(context, appEntry);
+		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
 				try {
@@ -46,9 +47,10 @@ public class AppListContextMenu {
 				}
 			}
 		};
+
 		PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
 		menuWrapper.addItem(MenuGlobals.SHOW_APP_DETAILS, R.string.openAppDetails);
-		menuWrapper.addItem(MenuGlobals.SHOW_PLAY_STORE, R.string.openPlayStore);
+		menuWrapper.addItem(MenuGlobals.SHOW_PLAY_STORE, R.string.openPlayStore, installedFromPlayStore);
 		menuWrapper.showMenu();
 	}
 

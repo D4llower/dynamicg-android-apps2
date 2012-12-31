@@ -3,13 +3,14 @@ package com.dynamicg.homebuttonlauncher;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class AppConfigDialog extends Dialog {
+import com.dynamicg.common.DialogWithExitPoints;
+
+public class AppConfigDialog extends DialogWithExitPoints {
 
 	private final MainActivityHome activity;
 	private final Settings settings;

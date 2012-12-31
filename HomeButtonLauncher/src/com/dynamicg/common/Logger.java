@@ -10,9 +10,9 @@ public class Logger {
 	private static boolean TRACE_ENABLED = false;
 	private static boolean DEBUG_ENABLED = true;
 
-	public final boolean debugEnabled = DEBUG_ENABLED;
-	public final boolean traceEnabled = TRACE_ENABLED;
-	
+	public final boolean isDebugEnabled = DEBUG_ENABLED;
+	public final boolean isTraceEnabled = TRACE_ENABLED;
+
 	private final String textPrefix;
 
 	public Logger(Class<?> cls) {
@@ -34,7 +34,7 @@ public class Logger {
 		}
 		return sb;
 	}
-	
+
 	public void warn(String text, Object... args) {
 		StringBuffer sb = append(text, args);
 		Log.w(textPrefix, sb.toString());
