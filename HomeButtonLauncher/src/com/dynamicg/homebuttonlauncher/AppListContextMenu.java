@@ -32,7 +32,7 @@ public class AppListContextMenu {
 	}
 
 	private void openContextMenu(final View anchor, final AppEntry appEntry) {
-		final boolean installedFromPlayStore = AppHelper.isInstalledFromPlayStore(context, appEntry);
+		final boolean installedFromPlayStore = AppHelper.showPlayStoreLink(context, appEntry);
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {

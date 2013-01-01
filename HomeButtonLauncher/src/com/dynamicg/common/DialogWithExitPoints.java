@@ -20,8 +20,8 @@ public class DialogWithExitPoints extends Dialog {
 
 	private static final boolean HANDLER_ACTIVE = android.os.Build.VERSION.SDK_INT == 17;
 
-	public static WeakReference<Activity> parent;
-	public static WeakReference<Dialog> mostRecentDialog;
+	private static WeakReference<Activity> parent;
+	private static WeakReference<Dialog> mostRecentDialog;
 
 	public DialogWithExitPoints(Activity activity) {
 		super(activity);

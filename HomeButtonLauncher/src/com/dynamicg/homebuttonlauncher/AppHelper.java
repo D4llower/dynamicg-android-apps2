@@ -17,6 +17,7 @@ import com.dynamicg.common.Logger;
 
 public class AppHelper {
 
+	@SuppressWarnings("unused")
 	private static final Logger log = new Logger(AppHelper.class);
 
 	private static final String SELF = "com.dynamicg.homebuttonlauncher/com.dynamicg.homebuttonlauncher.MainActivityOpen";
@@ -92,16 +93,53 @@ public class AppHelper {
 		return list;
 	}
 
-	private static final String PLAY_STORE_INSTALLER = "com.android.vending, com.google.android.feedback";
-
-	public static boolean isInstalledFromPlayStore(Context context, AppEntry appEntry) {
-		String installerPackageName = context.getPackageManager().getInstallerPackageName(appEntry.getPackage());
-		log.debug("isInstalledFromPlayStore", appEntry.getPackage(), installerPackageName);
-		boolean fromPlayStore = installerPackageName!=null && PLAY_STORE_INSTALLER.contains(installerPackageName);
-		//		if (!fromPlayStore) {
-		//			Toast.makeText(context, "Installer: "+installerPackageName, Toast.LENGTH_SHORT).show();
-		//		}
-		return fromPlayStore;
+	/**
+	 * neither "installerPackageName" nor "FLAG_SYSTEM / FLAG_UPDATED_SYSTEM_APP" gets us reliable info on whether
+	 * an app is actually available in play store or not.
+	 * e.g. "Maps" is system, "Calendar" is system+system_updated, "Browser" & "Settings" is system, but only the first two should have the "play store" link
+	 * 
+	 * also, some apps have installerPackageName==null even though they were installed through play store (??)
+	 * 
+	 * @param context
+	 * @param appEntry
+	 * @return
+	 */
+	public static boolean showPlayStoreLink(Context context, AppEntry appEntry) {
+		return true;
 	}
+
+	//	private static final String PLAY_STORE_INSTALLER = "com.android.vending, com.google.android.feedback";
+	//
+	//	public static boolean isInstalledFromPlayStore(Context context, AppEntry appEntry) {
+	//		String installerPackageName = context.getPackageManager().getInstallerPackageName(appEntry.getPackage());
+	//		log.debug("isInstalledFromPlayStore", appEntry.getPackage(), installerPackageName);
+	//		boolean fromPlayStore = installerPackageName!=null && PLAY_STORE_INSTALLER.contains(installerPackageName);
+	//		//		if (!fromPlayStore) {
+	//		//			Toast.makeText(context, "Installer: "+installerPackageName, Toast.LENGTH_SHORT).show();
+	//		//		}
+	//		return fromPlayStore;
+	//	}
+	//
+	//	public static boolean isInstalledFromPlayStore(Context context, AppEntry appEntry) {
+	//		final PackageManager packageManager = context.getPackageManager();
+	//		final String pkgname = appEntry.getPackage();
+	//
+	//		final String installerPackageName = packageManager.getInstallerPackageName(pkgname);
+	//		if (installerPackageName!=null) {
+	//			// assume this is from play store
+	//			return true;
+	//		}
+	//
+	//		try {
+	//			final PackageInfo packageInfo = packageManager.getPackageInfo(pkgname, 0);
+	//			final boolean isSystem = (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0;
+	//			final boolean isUpdatedSystem = (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0;
+	//			log.debug("SYS", isSystem, isUpdatedSystem, pkgname);
+	//		}
+	//		catch (NameNotFoundException e) {
+	//		}
+	//
+	//		return false;
+	//	}
 
 }
