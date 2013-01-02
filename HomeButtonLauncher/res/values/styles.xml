@@ -1,10 +1,33 @@
 <resources>
     <style name="AppTheme" parent="android:Theme.Holo.Dialog" />
     
-    <style name="ConfigButton" parent="android:Widget.Holo.Button.Borderless">
+    <style name="DialogButton" parent="android:Widget.Holo.Button.Borderless.Small">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_weight">0.5</item>
     </style>
+
+    <style name="PrefLabel">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:layout_marginTop">10dp</item>
+	</style>
     
+    <style name="PrefSeekbar">
+		<item name="android:layout_width">240dp</item>
+		<item name="android:layout_height">wrap_content</item>
+	</style>
+	
+    <style name="PrefLayoutImage">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:paddingLeft">10dp</item>
+		<item name="android:paddingRight">10dp</item>
+	</style>
+    <style name="PrefLayoutToggle">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">4dp</item>
+	</style>
+    	
 </resources>

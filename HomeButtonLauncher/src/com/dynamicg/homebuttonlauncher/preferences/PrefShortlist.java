@@ -1,41 +1,40 @@
-package com.dynamicg.homebuttonlauncher;
+package com.dynamicg.homebuttonlauncher.preferences;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-public class Settings {
+import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
-	private static final String PREFS_APPS = "apps";
-	private static final String DFLT_GOOGLE_SEARCH = "com.google.android.googlequicksearchbox/com.google.android.googlequicksearchbox.SearchActivity";
+public class PrefShortlist {
 
-	private final SharedPreferences appPrefs;
 	private final PackageManager packageManager;
+	public final SharedPreferences sharedPrefs;
 
-	public Settings(Context context) {
-		this.appPrefs = context.getSharedPreferences(PREFS_APPS, Context.MODE_PRIVATE);
-		this.packageManager = context.getPackageManager();
-		checkOnStartup();
-		//invalidate(); // to test invalid apps
+	public PrefShortlist(PackageManager packageManager, SharedPreferences appPrefs) {
+		this.packageManager = packageManager;
+		this.sharedPrefs = appPrefs;
+	}
+
+	public int size() {
+		return sharedPrefs.getAll().size();
 	}
 
 	public Collection<String> getComponents() {
-		Map<String, ?> all = appPrefs.getAll();
+		Map<String, ?> all = sharedPrefs.getAll();
 		Set<String> keySet = all.keySet();
 		return keySet;
 	}
 
 	public void add(List<String> components) {
-		Editor edit = appPrefs.edit();
+		Editor edit = sharedPrefs.edit();
 		for (String comp:components) {
 			edit.putInt(comp, 0);
 		}
@@ -63,26 +62,9 @@ public class Settings {
 	}
 
 	private void removeImpl(List<String> components) {
-		Editor edit = appPrefs.edit();
+		Editor edit = sharedPrefs.edit();
 		for (String comp:components) {
 			edit.remove(comp);
-		}
-		edit.commit();
-	}
-
-	private void checkOnStartup() {
-		if (appPrefs.getAll().size()==0) {
-			add(Arrays.asList(DFLT_GOOGLE_SEARCH));
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private void invalidate() {
-		Collection<String> components = getComponents();
-		Editor edit = appPrefs.edit();
-		edit.clear();
-		for (String s:components) {
-			edit.putInt("ZZZ"+s, 0);
 		}
 		edit.commit();
 	}

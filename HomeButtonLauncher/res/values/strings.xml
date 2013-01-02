@@ -12,4 +12,9 @@
     <string name="aboutPleaseRate">\u21d2 Please rate the app \u21d0</string>
     <string name="openAppDetails">App info</string>
     <string name="openPlayStore">Play Store</string>
+    
+    <string name="preferences">Settings</string>
+    <string name="prefsLayout">Layout</string>
+    <string name="prefsLabelSize">Label size</string>
+    <string name="prefsIconSize">Icon size</string>    
 </resources>

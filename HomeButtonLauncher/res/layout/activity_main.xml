@@ -6,10 +6,9 @@
 
     <include layout="@layout/header"/>
     
-	<ListView
-	    android:id="@+id/applist"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    />
-
+	<ViewStub android:id="@+id/mainListView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		/>
+    
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher;
+package com.dynamicg.homebuttonlauncher.tools;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -16,16 +16,24 @@ public class IconProvider {
 	private static final int ICON_SIZE_DP = 48;
 
 	private static Resources resources;
-	private static int sizePX;
+	private static float density;
 
 	public static void init(Context context) {
 		resources = context.getResources();
-		float density = resources.getDisplayMetrics().density;
-		sizePX = (int)(ICON_SIZE_DP * density);
-		log.debug("IconProvider init", density, sizePX);
+		density = resources.getDisplayMetrics().density;
 	}
 
-	public static Drawable scale(Drawable icon) {
+	public static int getSizePX(int dp) {
+		int px = (int)(dp * density);
+		log.debug("getSizePX", density, dp, px);
+		return px;
+	}
+
+	public static int getDefaultSizePX() {
+		return getSizePX(ICON_SIZE_DP);
+	}
+
+	public static Drawable scale(Drawable icon, int sizePX) {
 
 		if (icon.getIntrinsicHeight()==sizePX && icon.getIntrinsicWidth()==sizePX) {
 			// icon is standard size, no scaling required

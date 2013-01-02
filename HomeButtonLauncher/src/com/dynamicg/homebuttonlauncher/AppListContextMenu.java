@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ListView;
 
 import com.dynamicg.common.MarketLinkHelper;
-import com.dynamicg.homebuttonlauncher.PopupMenuWrapper.PopupMenuItemListener;
+import com.dynamicg.homebuttonlauncher.tools.AppHelper;
+import com.dynamicg.homebuttonlauncher.tools.ErrorHandler;
+import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
+import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
 public class AppListContextMenu {
 
@@ -21,7 +24,7 @@ public class AppListContextMenu {
 		this.context = context;
 	}
 
-	public void attach(final ListView listview, final List<AppEntry> appList) {
+	public void attach(final AbsListView listview, final List<AppEntry> appList) {
 		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

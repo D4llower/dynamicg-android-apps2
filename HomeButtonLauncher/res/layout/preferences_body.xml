@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="6dp"
+    android:paddingBottom="30dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    >
+    
+    <TextView style="@style/PrefLabel"
+	    android:text="@string/prefsLayout"
+	    />
+	<TableLayout android:id="@+id/prefLayoutToggle"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="6dp"
+	    >
+	    <TableRow>
+		    <ImageView style="@style/PrefLayoutImage"
+		        android:src="@drawable/layout_plain_1"
+		        android:tag="0"
+		        />
+		    <ImageView style="@style/PrefLayoutImage"
+		        android:src="@drawable/layout_plain_2"
+		        android:tag="1"
+		        />
+	    </TableRow>
+	    <TableRow>
+		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_0" />
+		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_1" />
+	    </TableRow>
+	</TableLayout>
+    
+    <TextView style="@style/PrefLabel"
+	    android:text="@string/prefsLabelSize"
+	    />
+    <SeekBar style="@style/PrefSeekbar"
+        android:id="@+id/prefsLabelSize"
+	    android:layout_width="240dp"
+	    android:layout_height="wrap_content"
+        />
+    
+    <TextView style="@style/PrefLabel"
+	    android:text="@string/prefsIconSize"
+	    />
+    <SeekBar style="@style/PrefSeekbar"
+        android:id="@+id/prefsIconSize"
+        />
+    
+</LinearLayout>

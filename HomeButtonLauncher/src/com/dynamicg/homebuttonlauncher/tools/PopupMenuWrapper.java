@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher;
+package com.dynamicg.homebuttonlauncher.tools;
 
 import android.content.Context;
 import android.view.Menu;

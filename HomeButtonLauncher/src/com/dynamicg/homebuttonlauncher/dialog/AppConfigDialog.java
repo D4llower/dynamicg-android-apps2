@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher;
+package com.dynamicg.homebuttonlauncher.dialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,25 +9,34 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dynamicg.common.DialogWithExitPoints;
+import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.AppListAdapter;
+import com.dynamicg.homebuttonlauncher.AppListContextMenu;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
+import com.dynamicg.homebuttonlauncher.MenuGlobals;
+import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
+import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
+import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class AppConfigDialog extends DialogWithExitPoints {
 
 	private final MainActivityHome activity;
-	private final Settings settings;
+	private final PrefShortlist prefShortlist;
 	private final List<AppEntry> appList;
 	private final int action;
 
-	public AppConfigDialog(MainActivityHome activity, Settings settings, int action) {
+	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
 		super(activity);
 		this.activity = activity;
-		this.settings = settings;
+		this.prefShortlist = preferences.prefShortlist;
 		this.action = action;
 
 		if (isRemove()) {
-			this.appList = AppHelper.getSelectedAppsList(activity, settings);
+			this.appList = AppHelper.getSelectedAppsList(activity, prefShortlist);
 		}
 		else {
-			this.appList = AppHelper.getAllAppsList(activity, settings);
+			this.appList = AppHelper.getAllAppsList(activity, prefShortlist);
 		}
 	}
 
@@ -37,12 +46,12 @@ public class AppConfigDialog extends DialogWithExitPoints {
 
 	private final void onButtonOk() {
 		if (isRemove()) {
-			settings.remove(getSelectedComponents());
+			prefShortlist.remove(getSelectedComponents());
 		}
 		else {
-			settings.add(getSelectedComponents());
+			prefShortlist.add(getSelectedComponents());
 		}
-		activity.refreshAppList();
+		activity.refreshList();
 		dismiss();
 	}
 
@@ -67,7 +76,7 @@ public class AppConfigDialog extends DialogWithExitPoints {
 			}
 		});
 
-		final AppListAdapter adapter = new AppListAdapter(appList, getLayoutInflater(), true);
+		final AppListAdapter adapter = new AppListAdapter(appList, getLayoutInflater());
 		final ListView listview = (ListView)findViewById(R.id.applist);
 		listview.setAdapter(adapter);
 

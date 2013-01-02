@@ -7,12 +7,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.BaseAdapter;
 
 import com.dynamicg.common.DialogWithExitPoints;
-import com.dynamicg.homebuttonlauncher.PopupMenuWrapper.PopupMenuItemListener;
+import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
+import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
+import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
+import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
+import com.dynamicg.homebuttonlauncher.tools.AppHelper;
+import com.dynamicg.homebuttonlauncher.tools.ErrorHandler;
+import com.dynamicg.homebuttonlauncher.tools.IconProvider;
+import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
+import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
 // see https://plus.google.com/104570711580136846518/posts/QpqfXXigAWW
 
@@ -21,7 +32,7 @@ import com.dynamicg.homebuttonlauncher.PopupMenuWrapper.PopupMenuItemListener;
 public class MainActivityHome extends Activity {
 
 	private Context context;
-	private Settings settings;
+	private PreferencesManager preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +50,54 @@ public class MainActivityHome extends Activity {
 
 	private void main() {
 		setContentView(R.layout.activity_main);
-		settings = new Settings(context);
+		preferences = new PreferencesManager(context);
 		IconProvider.init(context);
 		attachContextMenu();
 		setListAdapter();
+		setMinWidth();
+	}
+
+	public void refreshList() {
+		try {
+			setListAdapter();
+			setMinWidth();
+		}
+		catch (Throwable t) {
+			ErrorHandler.showCrashReport(context, t);
+		}
+	}
+
+	private void setMinWidth() {
+		int widthDim = preferences.prefSettings.getMinWidthDimen();
+		float minWidth = context.getResources().getDimension(widthDim);
+		findViewById(R.id.headerContainer).setMinimumWidth((int)minWidth);
+	}
+
+	private AbsListView getListView() {
+		final int layoutResId = preferences.prefSettings.getListLayoutId();
+		final View listview = findViewById(R.id.mainListView);
+
+		if (listview instanceof ViewStub) {
+			// first call
+			ViewStub stub = (ViewStub)listview;
+			stub.setLayoutResource(layoutResId);
+			return (AbsListView)stub.inflate();
+		}
+
+		// replace existing list on refresh
+		ViewGroup parent = (ViewGroup)listview.getParent();
+		AbsListView replacementListView = (AbsListView)getLayoutInflater().inflate(layoutResId, null);
+		parent.addView(replacementListView, parent.indexOfChild(listview));
+		parent.removeView(listview);
+		return replacementListView;
 	}
 
 	private void setListAdapter() {
-		final List<AppEntry> appList = AppHelper.getSelectedAppsList(context, settings);
-		AppListAdapter adapter = new AppListAdapter(appList, getLayoutInflater(), false);
-		ListView listview = (ListView)findViewById(R.id.applist);
+		final AbsListView listview = getListView();
+		listview.setId(R.id.mainListView);
+
+		final List<AppEntry> appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
+		final BaseAdapter adapter = new AppListAdapter(appList, getLayoutInflater(), preferences.prefSettings);
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -56,7 +105,6 @@ public class MainActivityHome extends Activity {
 				appSelected(appList.get(position));
 			}
 		});
-
 		new AppListContextMenu(context).attach(listview, appList);
 	}
 
@@ -82,13 +130,16 @@ public class MainActivityHome extends Activity {
 			public void popupMenuItemSelected(int id) {
 				switch (id) {
 				case MenuGlobals.APPS_ADD:
-					new AppConfigDialog(MainActivityHome.this, settings, MenuGlobals.APPS_ADD).show();
+					new AppConfigDialog(MainActivityHome.this, preferences, MenuGlobals.APPS_ADD).show();
 					break;
 				case MenuGlobals.APPS_REMOVE:
-					new AppConfigDialog(MainActivityHome.this, settings, MenuGlobals.APPS_REMOVE).show();
+					new AppConfigDialog(MainActivityHome.this, preferences, MenuGlobals.APPS_REMOVE).show();
 					break;
 				case MenuGlobals.ABOUT:
 					new AboutDialog().show(context, getLayoutInflater());
+					break;
+				case MenuGlobals.PREFERENCES:
+					new PreferencesDialog(MainActivityHome.this, preferences).show();
 					break;
 				}
 			}
@@ -99,16 +150,8 @@ public class MainActivityHome extends Activity {
 		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAddApps);
 		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemoveApps);
 		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout);
+		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences);
 
-	}
-
-	public void refreshAppList() {
-		try {
-			setListAdapter();
-		}
-		catch (Throwable t) {
-			ErrorHandler.showCrashReport(context, t);
-		}
 	}
 
 	@Override

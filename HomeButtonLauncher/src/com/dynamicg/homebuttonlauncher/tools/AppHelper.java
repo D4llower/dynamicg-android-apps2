@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher;
+package com.dynamicg.homebuttonlauncher.tools;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +14,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 
 public class AppHelper {
 
@@ -38,13 +40,13 @@ public class AppHelper {
 		Intent intent = getStartIntent(component);
 		final List<ResolveInfo> apps = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		if (apps!=null && apps.size()>0 && getComponentName(apps.get(0)).equals(component)) {
-			// TODO ## is there no "strict match" ??
+			// TODO ## is there no "strict match" ?
 			return apps.get(0);
 		}
 		return null;
 	}
 
-	public static List<AppEntry> getAllAppsList(Context context, Settings settings) {
+	public static List<AppEntry> getAllAppsList(Context context, PrefShortlist settings) {
 		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
@@ -67,7 +69,7 @@ public class AppHelper {
 		return sort(list);
 	}
 
-	public static List<AppEntry> getSelectedAppsList(Context context, Settings settings) {
+	public static List<AppEntry> getSelectedAppsList(Context context, PrefShortlist settings) {
 		final PackageManager packageManager = context.getPackageManager();
 		final Collection<String> components = settings.getComponents();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();

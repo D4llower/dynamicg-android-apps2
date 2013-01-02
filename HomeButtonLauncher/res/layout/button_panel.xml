@@ -18,17 +18,17 @@
 	    android:layout_height="wrap_content"
 	    >
 	
-	    <Button style="@style/ConfigButton"
+	    <Button style="@style/DialogButton"
 	    	android:id="@+id/buttonCancel"
-	    	android:layout_weight="1"
+	    	android:layout_weight="0.5"
 	    	android:text="@string/buttonCancel"
 	        />
 	
 	    <TextView android:layout_width="1px" android:layout_height="26dip" android:background="#555" />
 	    
-	    <Button style="@style/ConfigButton"
+	    <Button style="@style/DialogButton"
 	    	android:id="@+id/buttonOk"
-	    	android:layout_weight="1"
+	    	android:layout_weight="0.5"
 	    	android:text="@string/buttonSave"
 	        />
 	

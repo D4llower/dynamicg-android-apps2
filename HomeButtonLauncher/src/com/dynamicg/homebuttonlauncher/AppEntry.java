@@ -1,9 +1,13 @@
 package com.dynamicg.homebuttonlauncher;
 
+
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+
+import com.dynamicg.homebuttonlauncher.tools.AppHelper;
+import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 
 public class AppEntry {
 
@@ -50,10 +54,11 @@ public class AppEntry {
 		view.setBackgroundResource(checked?R.drawable.app_selector_shape:0);
 	}
 
-	public Drawable getIcon() {
+	//TODO ## async loading of icons (?)
+	public Drawable getIcon(int sizePX) {
 		if (icon==null) {
 			Drawable appicon = resolverInfo.loadIcon(packageManager);
-			icon = IconProvider.scale(appicon);
+			icon = IconProvider.scale(appicon, sizePX);
 		}
 		return icon;
 	}

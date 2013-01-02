@@ -6,10 +6,15 @@
     <string name="menuAbout">Info</string>
     <string name="buttonSave">Speichern</string>
     <string name="buttonCancel">Abbrechen</string>
-    <string name="buttonClose">Schliessen</string>
+    <string name="buttonClose">Schließen</string>
     <string name="aboutProgrammedBy">Programmiert von:</string>
     <string name="aboutOpenSource">Diese App ist Open Source:</string>
     <string name="aboutPleaseRate">\u21d2 Bitte App bewerten \u21d0</string>
     <string name="openAppDetails">App Info</string>
     <string name="openPlayStore">Play Store</string>
+
+    <string name="preferences">Einstellungen</string>
+    <string name="prefsLayout">Ansicht</string>
+    <string name="prefsLabelSize">Anschrift-Größe</string>
+    <string name="prefsIconSize">Icon-Größe</string>    
 </resources>

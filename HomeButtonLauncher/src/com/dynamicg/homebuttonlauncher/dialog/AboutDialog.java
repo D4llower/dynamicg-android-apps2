@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher;
+package com.dynamicg.homebuttonlauncher.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.common.SystemUtil;
+import com.dynamicg.homebuttonlauncher.R;
 
 public class AboutDialog {
 
