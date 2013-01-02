@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.common.SystemUtil;
+import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 
 public class AboutDialog {
@@ -38,9 +39,9 @@ public class AboutDialog {
 		String pleaseRate = context.getString(R.string.aboutPleaseRate);
 		rate.setText(pleaseRate);
 		underline(rate, 2, pleaseRate.length()-2);
-		rate.setOnClickListener(new View.OnClickListener() {
+		rate.setOnClickListener(new OnClickListenerWrapper() {
 			@Override
-			public void onClick(View v) {
+			public void onClickImpl(View v) {
 				MarketLinkHelper.openMarketIntent(context, SystemUtil.PACKAGE);
 			}
 		});

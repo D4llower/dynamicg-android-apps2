@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
+import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
@@ -39,16 +40,16 @@ public class PreferencesDialog extends Dialog {
 
 		setupLayoutToggle();
 
-		findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.buttonCancel).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
-			public void onClick(View v) {
+			public void onClickImpl(View v) {
 				dismiss();
 			}
 		});
 
-		findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
-			public void onClick(View v) {
+			public void onClickImpl(View v) {
 				saveSettings();
 				dismiss();
 			}
@@ -66,9 +67,9 @@ public class PreferencesDialog extends Dialog {
 
 	private void setupLayoutToggle() {
 		final ViewGroup parent = (ViewGroup)findViewById(R.id.prefLayoutToggle);
-		final View.OnClickListener clickListener = new View.OnClickListener() {
+		final View.OnClickListener clickListener = new OnClickListenerWrapper() {
 			@Override
-			public void onClick(View v) {
+			public void onClickImpl(View v) {
 				int which = Integer.parseInt(v.getTag().toString());
 				setLayoutSelection(parent, which);
 			}

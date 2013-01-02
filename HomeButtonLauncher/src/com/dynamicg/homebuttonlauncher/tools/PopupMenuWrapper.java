@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
+import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
+
 public class PopupMenuWrapper {
 
 	public interface PopupMenuItemListener {
@@ -37,9 +39,9 @@ public class PopupMenuWrapper {
 	}
 
 	public void attachToAnchorClick() {
-		anchor.setOnClickListener(new View.OnClickListener() {
+		anchor.setOnClickListener(new OnClickListenerWrapper() {
 			@Override
-			public void onClick(View v) {
+			public void onClickImpl(View v) {
 				popupMenu.show();
 			}
 		});

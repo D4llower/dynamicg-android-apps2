@@ -14,6 +14,7 @@ import com.dynamicg.homebuttonlauncher.AppListAdapter;
 import com.dynamicg.homebuttonlauncher.AppListContextMenu;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
+import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
@@ -62,16 +63,16 @@ public class AppConfigDialog extends DialogWithExitPoints {
 		setTitle(isRemove()?R.string.menuRemoveApps:R.string.menuAddApps);
 		setContentView(R.layout.config_add_remove);
 
-		findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
-			public void onClick(View v) {
+			public void onClickImpl(View v) {
 				onButtonOk();
 			}
 		});
 
-		findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.buttonCancel).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
-			public void onClick(View v) {
+			public void onClickImpl(View v) {
 				dismiss();
 			}
 		});
