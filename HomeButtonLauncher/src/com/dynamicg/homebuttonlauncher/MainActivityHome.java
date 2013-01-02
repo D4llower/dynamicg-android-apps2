@@ -97,7 +97,7 @@ public class MainActivityHome extends Activity {
 		listview.setId(R.id.mainListView);
 
 		final List<AppEntry> appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
-		final BaseAdapter adapter = new AppListAdapter(appList, getLayoutInflater(), preferences.prefSettings);
+		final BaseAdapter adapter = new AppListAdapter(this, appList, preferences.prefSettings);
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override

@@ -76,7 +76,7 @@ public class AppConfigDialog extends DialogWithExitPoints {
 			}
 		});
 
-		final AppListAdapter adapter = new AppListAdapter(appList, getLayoutInflater());
+		final AppListAdapter adapter = new AppListAdapter(activity, appList);
 		final ListView listview = (ListView)findViewById(R.id.applist);
 		listview.setAdapter(adapter);
 
