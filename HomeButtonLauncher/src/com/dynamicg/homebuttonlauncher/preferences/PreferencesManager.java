@@ -3,12 +3,18 @@ package com.dynamicg.homebuttonlauncher.preferences;
 import java.util.Arrays;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+
+import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PreferencesManager {
 
 	private static final String PREF_SHORTLIST = "apps";
 	private static final String PREF_SETTINGS = "settings";
-	private static final String DFLT_GOOGLE_SEARCH = "com.google.android.googlequicksearchbox/com.google.android.googlequicksearchbox.SearchActivity";
+	private static final String[] DFLT_GOOGLE_SEARCH = new String[] {
+		"com.google.android.googlequicksearchbox/com.google.android.googlequicksearchbox.SearchActivity"
+		, "com.android.quicksearchbox/com.android.quicksearchbox.SearchActivity"
+	};
 
 	public final PrefShortlist prefShortlist;
 	public final PrefSettings prefSettings;
@@ -16,13 +22,20 @@ public class PreferencesManager {
 	public PreferencesManager(Context context) {
 		this.prefShortlist = new PrefShortlist(context.getPackageManager(), context.getSharedPreferences(PREF_SHORTLIST, Context.MODE_PRIVATE));
 		this.prefSettings = new PrefSettings(context.getSharedPreferences(PREF_SETTINGS, Context.MODE_PRIVATE));
-		checkOnStartup();
+		checkOnStartup(context);
 		//invalidate(); // to test invalid apps
 	}
 
-	private void checkOnStartup() {
-		if (prefShortlist.size()==0) {
-			prefShortlist.add(Arrays.asList(DFLT_GOOGLE_SEARCH));
+	private void checkOnStartup(Context context) {
+		if (prefShortlist.size()>0) {
+			return;
+		}
+		PackageManager packageManager = context.getPackageManager();
+		for (String defaultApp:DFLT_GOOGLE_SEARCH) {
+			if (AppHelper.getMatchingApp(packageManager, defaultApp)!=null) {
+				prefShortlist.add(Arrays.asList(defaultApp));
+				return;
+			}
 		}
 	}
 
