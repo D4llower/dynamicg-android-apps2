@@ -4,6 +4,7 @@
     android:orientation="vertical"
     >
 
+    <!-- no ActionBar available with dialog style activities -->
     <include layout="@layout/header"/>
     
 	<ViewStub android:id="@+id/mainListView"

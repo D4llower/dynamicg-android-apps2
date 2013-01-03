@@ -31,7 +31,7 @@ public class PopupMenuWrapper {
 					listener.popupMenuItemSelected(item.getItemId());
 				}
 				catch (Throwable t) {
-					ErrorHandler.showCrashReport(context, t);
+					DialogHelper.showCrashReport(context, t);
 				}
 				return true;
 			}

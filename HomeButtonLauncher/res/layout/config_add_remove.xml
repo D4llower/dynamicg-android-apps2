@@ -11,6 +11,6 @@
 	    android:layout_weight="1"
 	    />
 	
-	<include layout="@layout/button_panel"/>
+	<include layout="@layout/button_panel_2"/>
 			
 </LinearLayout>

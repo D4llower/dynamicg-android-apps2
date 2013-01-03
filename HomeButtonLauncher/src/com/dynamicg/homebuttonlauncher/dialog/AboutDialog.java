@@ -1,59 +1,69 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.dynamicg.common.DialogWithExitPoints;
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
-public class AboutDialog {
+public class AboutDialog extends DialogWithExitPoints {
 
 	private final String REPOSITORY = "https://dynamicg-android-apps2.googlecode.com/svn/trunk/HomeButtonLauncher";
 
-	private ViewGroup body;
+	final Context context;
 
-	public void show(final Context context, LayoutInflater inflater ) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	public AboutDialog(Activity activity) {
+		super(activity);
+		this.context = activity;
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 		String title = context.getString(R.string.app_name)+" "+SystemUtil.getVersion(context);
-		builder.setTitle(title);
+		setTitle(title);
 
-		builder.setPositiveButton(R.string.buttonClose, null);
+		DialogHelper.prepareCommonDialog(this, R.layout.about, R.layout.button_panel_1);
 
-		this.body = (ViewGroup)inflater.inflate(R.layout.about, null);
-		builder.setView(body);
-
-		setLine(R.id.aboutAuthor, SystemUtil.AUTHOR);
+		setLine(R.id.aboutAuthor, "\u00A9 "+SystemUtil.AUTHOR);
 		setLine(R.id.aboutSrc, REPOSITORY);
 
-		TextView rate = (TextView)body.findViewById(R.id.aboutRate);
-		String pleaseRate = context.getString(R.string.aboutPleaseRate);
-		rate.setText(pleaseRate);
-		underline(rate, 2, pleaseRate.length()-2);
-		rate.setOnClickListener(new OnClickListenerWrapper() {
+		TextView rateNode = (TextView)findViewById(R.id.aboutRate);
+		String rateLabel = context.getString(R.string.aboutPleaseRate);
+		rateNode.setText(rateLabel);
+		underline(rateNode, 2, rateLabel.length()-2);
+		rateNode.setOnClickListener(new OnClickListenerWrapper() {
 			@Override
 			public void onClickImpl(View v) {
 				MarketLinkHelper.openMarketIntent(context, SystemUtil.PACKAGE);
 			}
 		});
 
-		builder.show();
+		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
+			@Override
+			public void onClickImpl(View view) {
+				dismiss();
+			}
+		});
+
 	}
 
-	void setLine(int id, String text) {
-		((TextView)body.findViewById(id)).setText(text);
+	private void setLine(int id, String text) {
+		((TextView)findViewById(id)).setText(text);
 	}
 
-	void underline(TextView node, int underlineFrom, int underlineTo) {
+	private void underline(TextView node, int underlineFrom, int underlineTo) {
 		node.setFocusable(true);
 		SpannableString str = new SpannableString(node.getText());
 		str.setSpan(new UnderlineSpan(), underlineFrom, underlineTo, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

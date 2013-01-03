@@ -20,7 +20,7 @@ import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
-import com.dynamicg.homebuttonlauncher.tools.ErrorHandler;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
@@ -44,7 +44,7 @@ public class MainActivityHome extends Activity {
 			main();
 		}
 		catch (Throwable t) {
-			ErrorHandler.showCrashReport(context, t);
+			DialogHelper.showCrashReport(context, t);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class MainActivityHome extends Activity {
 			setMinWidth();
 		}
 		catch (Throwable t) {
-			ErrorHandler.showCrashReport(context, t);
+			DialogHelper.showCrashReport(context, t);
 		}
 	}
 
@@ -119,7 +119,7 @@ public class MainActivityHome extends Activity {
 		catch (Throwable t) {
 			String title = "ERROR - cannot open";
 			String details = "Component: "+component+"\nException: "+t.getClass().getSimpleName();
-			ErrorHandler.showError(context, title, details);
+			DialogHelper.showError(context, title, details);
 		}
 	}
 
@@ -128,18 +128,19 @@ public class MainActivityHome extends Activity {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
+				final MainActivityHome activity = MainActivityHome.this;
 				switch (id) {
 				case MenuGlobals.APPS_ADD:
-					new AppConfigDialog(MainActivityHome.this, preferences, MenuGlobals.APPS_ADD).show();
+					new AppConfigDialog(activity, preferences, MenuGlobals.APPS_ADD).show();
 					break;
 				case MenuGlobals.APPS_REMOVE:
-					new AppConfigDialog(MainActivityHome.this, preferences, MenuGlobals.APPS_REMOVE).show();
+					new AppConfigDialog(activity, preferences, MenuGlobals.APPS_REMOVE).show();
 					break;
 				case MenuGlobals.ABOUT:
-					new AboutDialog().show(context, getLayoutInflater());
+					new AboutDialog(activity).show();
 					break;
 				case MenuGlobals.PREFERENCES:
-					new PreferencesDialog(MainActivityHome.this, preferences).show();
+					new PreferencesDialog(activity, preferences).show();
 					break;
 				}
 			}

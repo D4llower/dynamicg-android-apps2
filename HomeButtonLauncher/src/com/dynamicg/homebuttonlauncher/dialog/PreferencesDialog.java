@@ -11,6 +11,7 @@ import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public class PreferencesDialog extends Dialog {
 
@@ -30,7 +31,8 @@ public class PreferencesDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setTitle(R.string.preferences);
-		setContentView(R.layout.preferences);
+
+		DialogHelper.prepareCommonDialog(this, R.layout.preferences_body, R.layout.button_panel_2);
 
 		seekbarLabelSize = (SeekBar)findViewById(R.id.prefsLabelSize);
 		SizePrefsHelper.setLabelSize(seekbarLabelSize, prefSettings.getLabelSize());

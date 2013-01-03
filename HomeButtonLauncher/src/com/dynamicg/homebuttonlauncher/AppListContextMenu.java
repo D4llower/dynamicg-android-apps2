@@ -12,7 +12,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
-import com.dynamicg.homebuttonlauncher.tools.ErrorHandler;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
@@ -46,7 +46,7 @@ public class AppListContextMenu {
 					}
 				}
 				catch (Throwable t) {
-					ErrorHandler.showCrashReport(context, t);
+					DialogHelper.showCrashReport(context, t);
 				}
 			}
 		};

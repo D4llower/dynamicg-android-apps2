@@ -9,10 +9,15 @@
 	    android:orientation="vertical"
 	    >
 	    
-		<include layout="@layout/preferences_body" />
-	    
-	    <include layout="@layout/button_panel"/>
-	    
+	    <ViewStub android:id="@+id/commonDialogBody"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+	        />
+	    <ViewStub android:id="@+id/commonDialogButtonPanel"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+	        />
+	    	    
 	</LinearLayout>
 
 </ScrollView>

@@ -24,16 +24,16 @@ public class AppConfigDialog extends DialogWithExitPoints {
 
 	private final MainActivityHome activity;
 	private final PrefShortlist prefShortlist;
+	private final boolean isActionRemove;
 	private final List<AppEntry> appList;
-	private final int action;
 
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
 		super(activity);
 		this.activity = activity;
 		this.prefShortlist = preferences.prefShortlist;
-		this.action = action;
+		this.isActionRemove = action==MenuGlobals.APPS_REMOVE;
 
-		if (isRemove()) {
+		if (isActionRemove) {
 			this.appList = AppHelper.getSelectedAppsList(activity, prefShortlist);
 		}
 		else {
@@ -41,12 +41,8 @@ public class AppConfigDialog extends DialogWithExitPoints {
 		}
 	}
 
-	private boolean isRemove() {
-		return action==MenuGlobals.APPS_REMOVE;
-	}
-
 	private final void onButtonOk() {
-		if (isRemove()) {
+		if (isActionRemove) {
 			prefShortlist.remove(getSelectedComponents());
 		}
 		else {
@@ -60,7 +56,7 @@ public class AppConfigDialog extends DialogWithExitPoints {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setTitle(isRemove()?R.string.menuRemoveApps:R.string.menuAddApps);
+		setTitle(isActionRemove?R.string.menuRemoveApps:R.string.menuAddApps);
 		setContentView(R.layout.config_add_remove);
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
@@ -90,8 +86,11 @@ public class AppConfigDialog extends DialogWithExitPoints {
 			}
 		});
 
-		new AppListContextMenu(getContext()).attach(listview, appList);
+		if (!isActionRemove) {
+			listview.setFastScrollEnabled(true);
+		}
 
+		new AppListContextMenu(getContext()).attach(listview, appList);
 	}
 
 	private List<String> getSelectedComponents() {

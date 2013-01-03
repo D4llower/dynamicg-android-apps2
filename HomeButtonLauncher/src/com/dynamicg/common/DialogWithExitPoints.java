@@ -18,7 +18,7 @@ public class DialogWithExitPoints extends Dialog {
 
 	private static final Logger log = new Logger(DialogWithExitPoints.class);
 
-	private static final boolean HANDLER_ACTIVE = android.os.Build.VERSION.SDK_INT == 17;
+	private static final boolean HANDLER_ACTIVE = android.os.Build.VERSION.SDK_INT == 17 || log.isDebugEnabled;
 
 	private static WeakReference<Activity> parent;
 	private static WeakReference<Dialog> mostRecentDialog;

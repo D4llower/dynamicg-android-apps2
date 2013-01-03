@@ -3,7 +3,7 @@ package com.dynamicg.homebuttonlauncher;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.dynamicg.homebuttonlauncher.tools.ErrorHandler;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public abstract class OnClickListenerWrapper implements OnClickListener {
 
@@ -13,7 +13,7 @@ public abstract class OnClickListenerWrapper implements OnClickListener {
 			onClickImpl(view);
 		}
 		catch (Throwable t) {
-			ErrorHandler.showCrashReport(view.getContext(), t);
+			DialogHelper.showCrashReport(view.getContext(), t);
 		}
 	}
 
