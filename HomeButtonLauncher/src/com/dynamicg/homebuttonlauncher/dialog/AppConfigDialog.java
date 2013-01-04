@@ -16,6 +16,7 @@ import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
@@ -49,6 +50,7 @@ public class AppConfigDialog extends DialogWithExitPoints {
 			prefShortlist.add(getSelectedComponents());
 		}
 		activity.refreshList();
+		HomeLauncherBackupAgent.requestBackup(getContext());
 		dismiss();
 	}
 

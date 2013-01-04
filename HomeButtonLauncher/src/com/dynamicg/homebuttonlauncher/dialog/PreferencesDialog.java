@@ -9,6 +9,7 @@ import android.widget.SeekBar;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
@@ -88,6 +89,7 @@ public class PreferencesDialog extends Dialog {
 		int iconSize = SizePrefsHelper.getIconSize(seekbarIconSize);
 		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize);
 		activity.refreshList();
+		HomeLauncherBackupAgent.requestBackup(getContext());
 	}
 
 }

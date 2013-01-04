@@ -9,8 +9,9 @@ import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PreferencesManager {
 
-	private static final String PREF_SHORTLIST = "apps";
-	private static final String PREF_SETTINGS = "settings";
+	protected static final String PREF_SHORTLIST = "apps";
+	protected static final String PREF_SETTINGS = "settings";
+
 	private static final String[] DFLT_GOOGLE_SEARCH = new String[] {
 		"com.google.android.googlequicksearchbox/com.google.android.googlequicksearchbox.SearchActivity"
 		, "com.android.quicksearchbox/com.android.quicksearchbox.SearchActivity"
