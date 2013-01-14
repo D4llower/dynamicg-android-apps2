@@ -12,8 +12,10 @@ public class PrefSettings {
 	private static final String KEY_LABEL_SIZE = "labelSize";
 	private static final String KEY_ICON_SIZE = "iconSize";
 
-	public static final int NUM_LAYOUTS = 2;
+	public static final int NUM_LAYOUTS = 4;
 	private static final int LAYOUT_PLAIN_2 = 1;
+	private static final int LAYOUT_COMPACT_2 = 2;
+	private static final int LAYOUT_COMPACT_4 = 3;
 
 	private final SharedPreferences sharedPrefs;
 
@@ -44,21 +46,29 @@ public class PrefSettings {
 	}
 
 	public int getListLayoutId() {
-		switch (getLayoutType()) {
-		case LAYOUT_PLAIN_2: return R.layout.applist_gridview2;
-		default: return R.layout.applist_listview;
+		int layoutType = getLayoutType();
+		if (layoutType==LAYOUT_COMPACT_4) {
+			return R.layout.applist_gridview4;
 		}
+		else if (layoutType==LAYOUT_PLAIN_2 || layoutType==LAYOUT_COMPACT_2) {
+			return R.layout.applist_gridview2;
+		}
+		return R.layout.applist_listview;
 	}
 
 	public int getMinWidthDimen() {
-		int layoutId = getLayoutType();
-		if (layoutId==LAYOUT_PLAIN_2) {
+		int layoutType = getLayoutType();
+		if (layoutType==LAYOUT_PLAIN_2 || layoutType==LAYOUT_COMPACT_4) {
 			return R.dimen.widthWide;
 		}
 		return R.dimen.widthDefault;
 	}
 
 	public int getAppEntryLayoutId() {
+		int layoutType = getLayoutType();
+		if (layoutType==LAYOUT_COMPACT_2 || layoutType==LAYOUT_COMPACT_4) {
+			return R.layout.app_entry_compact;
+		}
 		return R.layout.app_entry_default;
 	}
 

@@ -25,10 +25,20 @@
 		        android:src="@drawable/layout_plain_2"
 		        android:tag="1"
 		        />
+		    <ImageView style="@style/PrefLayoutImage"
+		        android:src="@drawable/layout_compact_2"
+		        android:tag="2"
+		        />
+		    <ImageView style="@style/PrefLayoutImage"
+		        android:src="@drawable/layout_compact_4"
+		        android:tag="3"
+		        />
 	    </TableRow>
 	    <TableRow>
 		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_0" />
 		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_1" />
+		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_2" />
+		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_3" />
 	    </TableRow>
 	</TableLayout>
     

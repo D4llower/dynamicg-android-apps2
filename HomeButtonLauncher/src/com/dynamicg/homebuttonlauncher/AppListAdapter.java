@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,15 @@ public class AppListAdapter extends BaseAdapter {
 		row.setText(appEntry.getLabel());
 		row.setTextSize(this.labelSize);
 
-		row.setCompoundDrawablesWithIntrinsicBounds(appEntry.getIcon(iconSizePx), null, null, null);
+		Drawable icon = appEntry.getIcon(iconSizePx);
+		if (appEntryLayoutId==R.layout.app_entry_compact) {
+			// icon on top
+			row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
+		}
+		else {
+			// icon left
+			row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+		}
 
 		if (forEditor) {
 			appEntry.decorateSelection(row);

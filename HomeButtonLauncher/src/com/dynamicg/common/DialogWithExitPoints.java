@@ -26,22 +26,13 @@ public class DialogWithExitPoints extends Dialog {
 	public DialogWithExitPoints(Activity activity) {
 		super(activity);
 		parent = new WeakReference<Activity>(activity);
-		if (getMostRecentDialog()==null) {
-			// only keep the first if we have stacked dialogs
-			mostRecentDialog = new WeakReference<Dialog>(this);
-		}
-	}
-
-	private static Dialog getMostRecentDialog() {
-		return mostRecentDialog!=null ? mostRecentDialog.get() : null;
+		mostRecentDialog = new WeakReference<Dialog>(this);
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (getMostRecentDialog()==this) {
-			mostRecentDialog = null;
-		}
+		mostRecentDialog = null;
 		Activity activity = parent!=null ? parent.get() : null;
 		if (HANDLER_ACTIVE && activity!=null) {
 			log.debug("dialogStopped() - set parent visible");
@@ -52,9 +43,10 @@ public class DialogWithExitPoints extends Dialog {
 	public static void handleActivityResume(Activity activity) {
 		if (HANDLER_ACTIVE) {
 			boolean mainActivityVisible = true;
-			Dialog d = getMostRecentDialog();
-			if (d!=null && d.isShowing()) {
+			Dialog dialog = mostRecentDialog!=null ? mostRecentDialog.get() : null;
+			if (dialog!=null && dialog.isShowing()) {
 				mainActivityVisible = false;
+				dialog.show();
 			}
 			log.debug("handleActivityResume() - set parent visibility", mainActivityVisible);
 			activity.setVisible(mainActivityVisible);
