@@ -34,7 +34,7 @@ public class AboutDialog extends DialogWithExitPoints {
 		String title = context.getString(R.string.app_name)+" "+SystemUtil.getVersion(context);
 		setTitle(title);
 
-		DialogHelper.prepareCommonDialog(this, R.layout.about, R.layout.button_panel_1);
+		DialogHelper.prepareCommonDialog(this, R.layout.about_body, R.layout.button_panel_1);
 
 		setLine(R.id.aboutAuthor, "\u00A9 "+SystemUtil.AUTHOR);
 		setLine(R.id.aboutSrc, REPOSITORY);

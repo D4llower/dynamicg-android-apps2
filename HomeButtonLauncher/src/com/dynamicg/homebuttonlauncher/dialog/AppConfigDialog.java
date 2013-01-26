@@ -59,7 +59,7 @@ public class AppConfigDialog extends DialogWithExitPoints {
 		super.onCreate(savedInstanceState);
 
 		setTitle(isActionRemove?R.string.menuRemoveApps:R.string.menuAddApps);
-		setContentView(R.layout.config_add_remove);
+		setContentView(R.layout.configure_apps);
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override

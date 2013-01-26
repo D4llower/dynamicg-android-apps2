@@ -4,6 +4,7 @@
     <string name="menuAddApps">Add apps</string>
     <string name="menuRemoveApps">Remove apps</string>
     <string name="menuAbout">About</string>
+    <string name="menuSort">Sort</string>
     <string name="buttonSave">Save</string>
     <string name="buttonCancel">Cancel</string>
     <string name="buttonClose">Close</string>
