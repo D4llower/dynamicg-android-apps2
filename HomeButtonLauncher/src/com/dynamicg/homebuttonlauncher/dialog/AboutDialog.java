@@ -40,9 +40,8 @@ public class AboutDialog extends DialogWithExitPoints {
 		setLine(R.id.aboutSrc, REPOSITORY);
 
 		TextView rateNode = (TextView)findViewById(R.id.aboutRate);
-		String rateLabel = context.getString(R.string.aboutPleaseRate);
-		rateNode.setText(rateLabel);
-		underline(rateNode, 2, rateLabel.length()-2);
+		setRateLabel(rateNode);
+		rateNode.setFocusable(true);
 		rateNode.setOnClickListener(new OnClickListenerWrapper() {
 			@Override
 			public void onClickImpl(View v) {
@@ -63,9 +62,11 @@ public class AboutDialog extends DialogWithExitPoints {
 		((TextView)findViewById(id)).setText(text);
 	}
 
-	private void underline(TextView node, int underlineFrom, int underlineTo) {
-		node.setFocusable(true);
-		SpannableString str = new SpannableString(node.getText());
+	private void setRateLabel(TextView node) {
+		final String label = "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0";
+		final int underlineFrom = 2;
+		final int underlineTo = label.length()-2;
+		SpannableString str = new SpannableString(label);
 		str.setSpan(new UnderlineSpan(), underlineFrom, underlineTo, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		node.setText(str,TextView.BufferType.SPANNABLE);
 	}
