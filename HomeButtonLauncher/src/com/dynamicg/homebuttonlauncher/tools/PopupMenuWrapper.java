@@ -55,11 +55,11 @@ public class PopupMenuWrapper {
 		menu.add(id, id, 0, titleResId);
 	}
 
-	public void addItem(int id, int titleResId, boolean enabled) {
-		menu.add(id, id, 0, titleResId);
-		if (!enabled) {
-			menu.setGroupEnabled(id, false);
-		}
-	}
+	//	public void addItem(int id, int titleResId, boolean enabled) {
+	//		menu.add(id, id, 0, titleResId);
+	//		if (!enabled) {
+	//			menu.setGroupEnabled(id, false);
+	//		}
+	//	}
 
 }

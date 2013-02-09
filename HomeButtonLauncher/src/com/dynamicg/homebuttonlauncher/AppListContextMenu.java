@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.dynamicg.common.MarketLinkHelper;
-import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
@@ -35,7 +34,6 @@ public class AppListContextMenu {
 	}
 
 	private void openContextMenu(final View anchor, final AppEntry appEntry) {
-		final boolean installedFromPlayStore = AppHelper.showPlayStoreLink(context, appEntry);
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
@@ -53,7 +51,7 @@ public class AppListContextMenu {
 
 		PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
 		menuWrapper.addItem(MenuGlobals.SHOW_APP_DETAILS, R.string.openAppDetails);
-		menuWrapper.addItem(MenuGlobals.SHOW_PLAY_STORE, R.string.openPlayStore, installedFromPlayStore);
+		menuWrapper.addItem(MenuGlobals.SHOW_PLAY_STORE, R.string.openPlayStore);
 		menuWrapper.showMenu();
 	}
 

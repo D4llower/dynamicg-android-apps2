@@ -106,42 +106,8 @@ public class AppHelper {
 	 * @param appEntry
 	 * @return
 	 */
-	public static boolean showPlayStoreLink(Context context, AppEntry appEntry) {
-		return true;
-	}
-
-	//	private static final String PLAY_STORE_INSTALLER = "com.android.vending, com.google.android.feedback";
-	//
-	//	public static boolean isInstalledFromPlayStore(Context context, AppEntry appEntry) {
-	//		String installerPackageName = context.getPackageManager().getInstallerPackageName(appEntry.getPackage());
-	//		log.debug("isInstalledFromPlayStore", appEntry.getPackage(), installerPackageName);
-	//		boolean fromPlayStore = installerPackageName!=null && PLAY_STORE_INSTALLER.contains(installerPackageName);
-	//		//		if (!fromPlayStore) {
-	//		//			Toast.makeText(context, "Installer: "+installerPackageName, Toast.LENGTH_SHORT).show();
-	//		//		}
-	//		return fromPlayStore;
-	//	}
-	//
-	//	public static boolean isInstalledFromPlayStore(Context context, AppEntry appEntry) {
-	//		final PackageManager packageManager = context.getPackageManager();
-	//		final String pkgname = appEntry.getPackage();
-	//
-	//		final String installerPackageName = packageManager.getInstallerPackageName(pkgname);
-	//		if (installerPackageName!=null) {
-	//			// assume this is from play store
-	//			return true;
-	//		}
-	//
-	//		try {
-	//			final PackageInfo packageInfo = packageManager.getPackageInfo(pkgname, 0);
-	//			final boolean isSystem = (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0;
-	//			final boolean isUpdatedSystem = (packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0;
-	//			log.debug("SYS", isSystem, isUpdatedSystem, pkgname);
-	//		}
-	//		catch (NameNotFoundException e) {
-	//		}
-	//
-	//		return false;
+	//	public static boolean showPlayStoreLink(Context context, AppEntry appEntry) {
+	//		return true;
 	//	}
 
 }
