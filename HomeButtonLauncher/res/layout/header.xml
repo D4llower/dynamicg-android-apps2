@@ -22,6 +22,14 @@
 	        android:layout_gravity="center_vertical"
 	        />
 	    
+	    <!-- see http://stackoverflow.com/questions/8173394/how-to-ensure-touch-mode-on-startup -->
+	    <View
+	        android:layout_width="0dp"
+	        android:layout_height="0dp"
+	        android:focusable="true"
+	        android:focusableInTouchMode="true"
+	        />
+	    
 	    <!-- we need an anchor so we cannot use "cmpound drawable" -->
 	    <ImageView android:id="@+id/headerIcon"
 	        android:src="@drawable/ic_menu_moreoverflow_normal_holo_dark"
