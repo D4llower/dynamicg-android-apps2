@@ -45,17 +45,25 @@
     <TextView style="@style/PrefLabel"
 	    android:text="@string/prefsLabelSize"
 	    />
-    <SeekBar style="@style/PrefSeekbar"
-        android:id="@+id/prefsLabelSize"
-	    android:layout_width="240dp"
-	    android:layout_height="wrap_content"
-        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+	    <SeekBar style="@style/PrefSeekbar" android:id="@+id/prefsLabelSize" />
+	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsLabelSizeIndicator" />
+    </LinearLayout>
     
     <TextView style="@style/PrefLabel"
 	    android:text="@string/prefsIconSize"
 	    />
-    <SeekBar style="@style/PrefSeekbar"
-        android:id="@+id/prefsIconSize"
-        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+	    <SeekBar style="@style/PrefSeekbar" android:id="@+id/prefsIconSize" />
+	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsIconSizeIndicator" />
+	</LinearLayout>
     
 </LinearLayout>

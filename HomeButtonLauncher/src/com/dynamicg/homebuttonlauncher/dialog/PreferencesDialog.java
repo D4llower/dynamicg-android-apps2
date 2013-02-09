@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
@@ -37,9 +39,11 @@ public class PreferencesDialog extends Dialog {
 
 		seekbarLabelSize = (SeekBar)findViewById(R.id.prefsLabelSize);
 		SizePrefsHelper.setLabelSize(seekbarLabelSize, prefSettings.getLabelSize());
+		attachProgessIndicator(seekbarLabelSize, R.id.prefsLabelSizeIndicator);
 
 		seekbarIconSize = (SeekBar)findViewById(R.id.prefsIconSize);
 		SizePrefsHelper.setIconSize(seekbarIconSize, prefSettings.getIconSize());
+		attachProgessIndicator(seekbarIconSize, R.id.prefsIconSizeIndicator);
 
 		setupLayoutToggle();
 
@@ -58,6 +62,29 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 
+	}
+
+	private void attachProgessIndicator(final SeekBar seekBar, final int textViewLabelId) {
+		final TextView node = (TextView)findViewById(textViewLabelId);
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				if (fromUser) {
+					int size = 0;
+					switch (textViewLabelId) {
+					case R.id.prefsLabelSizeIndicator: size = SizePrefsHelper.getLabelSize(seekbarLabelSize); break;
+					case R.id.prefsIconSizeIndicator: size = SizePrefsHelper.getIconSize(seekbarIconSize); break;
+					}
+					node.setText("["+size+"]");
+				}
+			}
+		});
 	}
 
 	private void setLayoutSelection(View parent, int which) {
