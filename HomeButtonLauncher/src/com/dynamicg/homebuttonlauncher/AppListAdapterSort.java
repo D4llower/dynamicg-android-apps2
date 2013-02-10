@@ -15,33 +15,48 @@ public class AppListAdapterSort extends AppListAdapter {
 
 	private static final Logger log = new Logger(AppListAdapterSort.class);
 
-	private final View.OnClickListener listener;
+	private final View.OnClickListener clickListener;
+	private final View.OnLongClickListener longClickListener;
 
 	public AppListAdapterSort(Activity activity, List<AppEntry> apps) {
 		super(activity, apps, R.layout.app_entry_sort);
-		listener = new View.OnClickListener() {
+
+		clickListener = new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				int id = v.getId();
-				int position = (Integer)v.getTag();
-				applyMove(id, position);
+			public synchronized void onClick(View v) {
+				int oldPosition = (Integer)v.getTag();
+				int newPosition = v.getId()==R.id.sortDown ? oldPosition+1 : oldPosition-1;
+				applyMove(oldPosition, newPosition);
+			}
+		};
+
+		longClickListener = new View.OnLongClickListener() {
+			@Override
+			public synchronized boolean onLongClick(View v) {
+				int oldPosition = (Integer)v.getTag();
+				int newPosition = v.getId()==R.id.sortDown ? applist.size()-1 : 0;
+				applyMove(oldPosition, newPosition);
+				return true;
 			}
 		};
 	}
 
-	private synchronized void applyMove(int id, int position) {
-		AppEntry entry = applist.get(position);
+	private void applyMove(int oldPosition, int newPosition) {
+		AppEntry entry = applist.get(oldPosition);
 		applist.remove(entry);
-		int newPosition = id==R.id.sortDown ? position+1 : position-1;
 		applist.add(newPosition, entry);
-		log.debug("applyMove done", entry, position, newPosition);
+		log.debug("applyMove done", entry, oldPosition, newPosition);
 		notifyDataSetChanged();
 	}
 
 	private void prepareButton(LinearLayout row, int buttonId, int position) {
 		Button button = (Button)row.findViewById(buttonId);
 		button.setTag(position);
-		button.setOnClickListener(listener);
+
+		button.setOnClickListener(clickListener);
+		button.setOnLongClickListener(longClickListener);
+		button.setLongClickable(true);
+
 		boolean active = (buttonId==R.id.sortUp && position>0)
 				|| (buttonId==R.id.sortDown && position<applist.size()-1);
 		if (active) {
