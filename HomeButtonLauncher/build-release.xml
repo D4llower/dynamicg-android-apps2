@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="HomeButtonLauncher" default="main">
+	
+	<!-- 
+=== how to update the build.xml file ===
+cd /d C:\PROGRA~2\Android\android-sdk\tools
+android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree\HomeButtonLauncher
+	--> 
+	
+	<property file="z:/android-keystore/keystore.properties" />
+	<property name="apkdir" value="D:\ant.tmp\apk" />
+	<property name="buildDirRoot" value="D:/ant.tmp/build" />
+	
+	<property name="workspace" value="${basedir}/.." />
+	<property name="projectname" value="HomeButtonLauncher" />
+
+	<target name=".copysrc">
+		<delete dir="${buildDirRoot}/${projectname}" />
+		<copy todir="${buildDirRoot}/${projectname}">
+			<fileset dir="${workspace}/${projectname}" />
+		</copy>
+	</target>
+	
+	<target name=".stripLogging">
+		<replace token="log.isDebugEnabled" value="false" summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
+		<replace token="private static final Logger log" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
+		<replace token="log.debug" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
+		<replace token="log.info" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
+		<replace token="log.warn" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
+	</target>
+	
+	<target name="main">
+		
+		<property name="buildDirProject" value="${buildDirRoot}/${projectname}" />
+		
+		<antcall target=".copysrc" />
+		<antcall target=".stripLogging" />
+		
+		<ant antfile="${buildDirRoot}/${projectname}/build.xml" target="release">
+			<property name="source.absolute.dir" value="${buildDirRoot}/${projectname}/src" />
+			<property name="gen.absolute.dir" value="${buildDirRoot}/${projectname}/gen" />
+			<property name="out.absolute.dir" value="${buildDirRoot}/${projectname}/bin" />
+		</ant>
+		
+		<!-- copy and show in explorer -->
+		<copy file="${buildDirProject}\bin\${projectname}-release.apk" tofile="${apkdir}/${projectname}.apk" overwrite="true" verbose="true" />
+		<exec executable="explorer">
+			<arg value="/select,"/>
+			<arg value="${apkdir}\${projectname}.apk"/>
+		</exec>
+	</target>
+	
+</project>
