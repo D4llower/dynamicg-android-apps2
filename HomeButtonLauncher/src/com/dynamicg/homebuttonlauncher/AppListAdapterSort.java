@@ -5,9 +5,9 @@ import java.util.List;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.dynamicg.common.Logger;
 
@@ -38,14 +38,14 @@ public class AppListAdapterSort extends AppListAdapter {
 		notifyDataSetChanged();
 	}
 
-	private void prepareButton(View view, int position) {
-		TextView button = (TextView)view;
+	private void prepareButton(LinearLayout row, int buttonId, int position) {
+		Button button = (Button)row.findViewById(buttonId);
 		button.setTag(position);
 		button.setOnClickListener(listener);
-		boolean active = (view.getId()==R.id.sortUp && position>0)
-				|| (view.getId()==R.id.sortDown && position<applist.size()-1);
+		boolean active = (buttonId==R.id.sortUp && position>0)
+				|| (buttonId==R.id.sortDown && position<applist.size()-1);
 		if (active) {
-			button.setText(view.getId()==R.id.sortUp ? "\u2191" : "\u2193");
+			button.setText(buttonId==R.id.sortUp ? "\u2191" : "\u2193");
 		}
 		else {
 			button.setText("");
@@ -64,8 +64,8 @@ public class AppListAdapterSort extends AppListAdapter {
 			layout = (LinearLayout)convertView;
 		}
 
-		prepareButton((TextView)layout.findViewById(R.id.sortUp), position);
-		prepareButton((TextView)layout.findViewById(R.id.sortDown), position);
+		prepareButton(layout, R.id.sortUp, position);
+		prepareButton(layout, R.id.sortDown, position);
 
 		ImageView icon = (ImageView)layout.findViewById(R.id.sortIcon);
 		icon.setImageDrawable(appEntry.getIcon(iconSizePx));
