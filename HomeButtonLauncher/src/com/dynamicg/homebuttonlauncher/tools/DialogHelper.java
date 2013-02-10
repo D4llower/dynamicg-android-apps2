@@ -3,7 +3,10 @@ package com.dynamicg.homebuttonlauncher.tools;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
 import android.view.ViewStub;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dynamicg.common.ErrorSender;
 import com.dynamicg.common.Logger;
@@ -37,6 +40,19 @@ public class DialogHelper {
 		ViewStub buttons = (ViewStub)d.findViewById(R.id.commonDialogButtonPanel);
 		buttons.setLayoutResource(buttonsLayoutId);
 		buttons.inflate();
+	}
+
+	/*
+	 * return the popup menu anchor (i.e. dropdown icon)
+	 */
+	public static View prepareCustomHeader(Dialog dialog, int label) {
+		// set container width and title
+		((TextView)dialog.findViewById(R.id.headerTitle)).setText(label);
+		int width = (int)dialog.getContext().getResources().getDimension(R.dimen.widthDefault);
+		View container = dialog.findViewById(R.id.headerContainer);
+		container.setLayoutParams(new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+		return dialog.findViewById(R.id.headerIcon);
 	}
 
 }

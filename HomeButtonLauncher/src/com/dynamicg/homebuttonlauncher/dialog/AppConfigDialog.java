@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.dynamicg.common.DialogWithExitPoints;
 import com.dynamicg.homebuttonlauncher.AppEntry;
@@ -27,12 +25,14 @@ import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
 public class AppConfigDialog extends DialogWithExitPoints {
 
 	private final MainActivityHome activity;
+	private final Context context;
 	private final PrefShortlist prefShortlist;
 	private final List<AppEntry> appList;
 	private final boolean actionAdd;
@@ -44,6 +44,7 @@ public class AppConfigDialog extends DialogWithExitPoints {
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
 		super(activity);
 		this.activity = activity;
+		this.context = activity;
 		this.prefShortlist = preferences.prefShortlist;
 		this.actionAdd = action==MenuGlobals.APPS_ADD;
 		this.actionSort = action==MenuGlobals.APPS_SORT;
@@ -63,7 +64,7 @@ public class AppConfigDialog extends DialogWithExitPoints {
 
 	private void afterSave() {
 		activity.refreshList();
-		HomeLauncherBackupAgent.requestBackup(getContext());
+		HomeLauncherBackupAgent.requestBackup(context);
 		dismiss();
 	}
 
@@ -135,18 +136,11 @@ public class AppConfigDialog extends DialogWithExitPoints {
 			listview.setFastScrollEnabled(true);
 		}
 
-		new AppListContextMenu(getContext()).attach(listview, appList);
+		new AppListContextMenu(context).attach(listview, appList);
 	}
 
 	private void attachHeaderForSort() {
-
-		// set container width and title
-		((TextView)findViewById(R.id.headerTitle)).setText(R.string.menuSort);
-		int width = (int)getContext().getResources().getDimension(R.dimen.widthDefault);
-		View container = findViewById(R.id.headerContainer);
-		container.setLayoutParams(new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-		final View anchor = findViewById(R.id.headerIcon);
+		final View anchor = DialogHelper.prepareCustomHeader(this, R.string.menuSort);
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
@@ -155,13 +149,12 @@ public class AppConfigDialog extends DialogWithExitPoints {
 				}
 			}
 		};
-		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(getContext(), anchor, listener);
+		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
 		menuWrapper.attachToAnchorClick();
 		menuWrapper.addItem(MENU_RESET, R.string.menuReset);
 	}
 
 	private void confirmSortReset() {
-		Context context = getContext();
 		AlertDialog.Builder b = new AlertDialog.Builder(context);
 		String label = context.getString(R.string.menuReset)+"?";
 		b.setTitle(label);

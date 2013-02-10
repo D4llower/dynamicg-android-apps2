@@ -39,7 +39,7 @@ public class PrefShortlist {
 		return keySet;
 	}
 
-	public void add(List<String> components) {
+	public synchronized void add(List<String> components) {
 		Editor edit = sharedPrefs.edit();
 		for (String comp:components) {
 			edit.putInt(comp, 0);
@@ -48,7 +48,7 @@ public class PrefShortlist {
 		validateAll();
 	}
 
-	public void remove(List<String> components) {
+	public synchronized void remove(List<String> components) {
 		removeImpl(components);
 		validateAll();
 	}
@@ -75,7 +75,7 @@ public class PrefShortlist {
 		edit.commit();
 	}
 
-	public void saveSortedList(List<AppEntry> appList) {
+	public synchronized void saveSortedList(List<AppEntry> appList) {
 		Editor edit = sharedPrefs.edit();
 		for (int idx=0;idx<appList.size();idx++) {
 			String component = appList.get(idx).getComponent();
@@ -86,7 +86,7 @@ public class PrefShortlist {
 		edit.commit();
 	}
 
-	public void resetSortList() {
+	public synchronized void resetSortList() {
 		Editor edit = sharedPrefs.edit();
 		for (String s:sharedPrefs.getAll().keySet()) {
 			edit.putInt(s, 0);
