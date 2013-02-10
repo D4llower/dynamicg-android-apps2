@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,6 +24,7 @@ public class AppHelper {
 	private static final Logger log = new Logger(AppHelper.class);
 
 	private static final String SELF = "com.dynamicg.homebuttonlauncher/com.dynamicg.homebuttonlauncher.MainActivityOpen";
+	private static final int MAX_SORTNR = 999;
 
 	public static String getComponentName(ResolveInfo resolveInfo) {
 		return resolveInfo.activityInfo.packageName + "/" + resolveInfo.activityInfo.name;
@@ -53,7 +55,7 @@ public class AppHelper {
 		PackageManager packageManager = context.getPackageManager();
 		ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 
-		Collection<String> selectedComponents = new HashSet<String>(settings.getComponents());
+		Collection<String> selectedComponents = new HashSet<String>(settings.getComponentsSet());
 		selectedComponents.add(SELF); // do not show my own app in the list
 
 		final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
@@ -62,7 +64,7 @@ public class AppHelper {
 			// System.err.println("COMPONENT:["+component+"]");
 			if (!selectedComponents.contains(component)) {
 				// skip apps already on the list
-				list.add(new AppEntry(packageManager, resolveInfo));
+				list.add(new AppEntry(packageManager, resolveInfo, 0));
 			}
 		}
 
@@ -71,25 +73,31 @@ public class AppHelper {
 
 	public static List<AppEntry> getSelectedAppsList(Context context, PrefShortlist settings) {
 		final PackageManager packageManager = context.getPackageManager();
-		final Collection<String> components = settings.getComponents();
+		final Map<String, Integer> components = settings.getComponentsMap();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
-
-		for (String component:components) {
+		for (String component:components.keySet()) {
 			ResolveInfo matchingApp = getMatchingApp(packageManager, component);
 			if (matchingApp!=null) {
-				list.add(new AppEntry(packageManager, matchingApp));
+				int sortnr = components.get(component);
+				if (sortnr==0) {
+					// unsorted new entries get to the bottom
+					sortnr = MAX_SORTNR;
+				}
+				list.add(new AppEntry(packageManager, matchingApp, sortnr));
 			}
 		}
-
 		return sort(list);
-
 	}
 
 	private static List<AppEntry> sort(List<AppEntry> list) {
 		Collections.sort(list, new Comparator<AppEntry>(){
 			@Override
 			public int compare(AppEntry lhs, AppEntry rhs) {
-				return lhs.getLabel().compareToIgnoreCase(rhs.getLabel());
+				// note sortnr is zero when called through "getAllApps"
+				if (lhs.sortnr!=rhs.sortnr) {
+					return lhs.sortnr-rhs.sortnr;
+				}
+				return lhs.label.compareToIgnoreCase(rhs.label);
 			}
 		});
 		return list;

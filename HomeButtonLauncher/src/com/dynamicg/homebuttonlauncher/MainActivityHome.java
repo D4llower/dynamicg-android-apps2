@@ -144,6 +144,9 @@ public class MainActivityHome extends Activity {
 				case MenuGlobals.PREFERENCES:
 					new PreferencesDialog(activity, preferences).show();
 					break;
+				case MenuGlobals.APPS_SORT:
+					new AppConfigDialog(activity, preferences, MenuGlobals.APPS_SORT).show();
+					break;
 				}
 			}
 		};
@@ -152,6 +155,7 @@ public class MainActivityHome extends Activity {
 		menuWrapper.attachToAnchorClick();
 		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAddApps);
 		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemoveApps);
+		menuWrapper.addItem(MenuGlobals.APPS_SORT, R.string.menuSort);
 		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout);
 		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences);
 

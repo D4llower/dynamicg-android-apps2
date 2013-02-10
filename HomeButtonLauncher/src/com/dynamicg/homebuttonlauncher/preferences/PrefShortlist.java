@@ -11,6 +11,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PrefShortlist {
@@ -27,7 +28,12 @@ public class PrefShortlist {
 		return sharedPrefs.getAll().size();
 	}
 
-	public Collection<String> getComponents() {
+	@SuppressWarnings("unchecked")
+	public Map<String, Integer> getComponentsMap() {
+		return (Map<String, Integer>)sharedPrefs.getAll();
+	}
+
+	public Collection<String> getComponentsSet() {
 		Map<String, ?> all = sharedPrefs.getAll();
 		Set<String> keySet = all.keySet();
 		return keySet;
@@ -48,7 +54,7 @@ public class PrefShortlist {
 	}
 
 	private void validateAll() {
-		final Collection<String> components = getComponents();
+		final Collection<String> components = getComponentsSet();
 		final ArrayList<String> zombies = new ArrayList<String>();
 		for (String component:components) {
 			ResolveInfo matchingApp = AppHelper.getMatchingApp(packageManager, component);
@@ -65,6 +71,25 @@ public class PrefShortlist {
 		Editor edit = sharedPrefs.edit();
 		for (String comp:components) {
 			edit.remove(comp);
+		}
+		edit.commit();
+	}
+
+	public void saveSortedList(List<AppEntry> appList) {
+		Editor edit = sharedPrefs.edit();
+		for (int idx=0;idx<appList.size();idx++) {
+			String component = appList.get(idx).getComponent();
+			// sort pos is "index+1", pos "0" will be used for all apps added later
+			// see com.dynamicg.homebuttonlauncher.tools.AppHelper.sort(List<AppEntry>)
+			edit.putInt(component, idx+1);
+		}
+		edit.commit();
+	}
+
+	public void resetSortList() {
+		Editor edit = sharedPrefs.edit();
+		for (String s:sharedPrefs.getAll().keySet()) {
+			edit.putInt(s, 0);
 		}
 		edit.commit();
 	}

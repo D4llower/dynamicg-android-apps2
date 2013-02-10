@@ -1,6 +1,5 @@
 package com.dynamicg.homebuttonlauncher;
 
-
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
@@ -13,17 +12,19 @@ public class AppEntry {
 
 	private final PackageManager packageManager;
 	private final String component;
-	private final String label;
 	private final ResolveInfo resolverInfo;
+	public final String label;
+	public final int sortnr;
 
 	private Drawable icon;
 	private boolean checked;
 
-	public AppEntry(PackageManager packageManager, ResolveInfo resolveInfo) {
+	public AppEntry(PackageManager packageManager, ResolveInfo resolveInfo, int sortnr) {
 		this.packageManager = packageManager;
 		this.resolverInfo = resolveInfo;
 		this.component = AppHelper.getComponentName(resolveInfo);
 		this.label = toString(resolveInfo.loadLabel(packageManager), this.component);
+		this.sortnr = sortnr;
 	}
 
 	private static String toString(CharSequence c, String nullvalue) {

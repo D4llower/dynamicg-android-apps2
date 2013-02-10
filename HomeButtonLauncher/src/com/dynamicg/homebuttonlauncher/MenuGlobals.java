@@ -7,4 +7,5 @@ public class MenuGlobals {
 	public static final int SHOW_APP_DETAILS = 4;
 	public static final int SHOW_PLAY_STORE = 5;
 	public static final int PREFERENCES = 6;
+	public static final int APPS_SORT = 7;
 }

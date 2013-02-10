@@ -4,6 +4,8 @@
     android:orientation="vertical"
     >
 
+    <include layout="@layout/header"/>
+    
 	<ListView
 	    android:id="@+id/applist"
 	    android:layout_width="match_parent"

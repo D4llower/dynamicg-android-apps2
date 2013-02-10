@@ -17,12 +17,12 @@ import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 
 public class AppListAdapter extends BaseAdapter {
 
-	private final List<AppEntry> applist;
-	private final LayoutInflater inflater;
+	protected final List<AppEntry> applist;
+	protected final LayoutInflater inflater;
 	private final int labelSize;
 	private final boolean forEditor;
-	private final int iconSizePx;
-	private final int appEntryLayoutId;
+	protected final int iconSizePx;
+	protected final int appEntryLayoutId;
 
 	/*
 	 * for main screen
@@ -39,13 +39,13 @@ public class AppListAdapter extends BaseAdapter {
 	/*
 	 * for add/remove
 	 */
-	public AppListAdapter(Activity activity, List<AppEntry> apps) {
+	public AppListAdapter(Activity activity, List<AppEntry> apps, int viewId) {
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
 		this.forEditor = true;
 		this.labelSize = SizePrefsHelper.DEFAULT_LABEL_SIZE;
 		this.iconSizePx = IconProvider.getDefaultSizePX();
-		this.appEntryLayoutId = R.layout.app_entry_default;
+		this.appEntryLayoutId = viewId;
 	}
 
 	@Override
