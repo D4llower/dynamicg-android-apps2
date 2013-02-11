@@ -49,7 +49,7 @@ android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree
 		<ant antfile="${buildDirRoot}/${projectname}/build.xml" target="release">
 			<property name="source.absolute.dir" value="${buildDirRoot}/${projectname}/src" />
 			<property name="gen.absolute.dir" value="${buildDirRoot}/${projectname}/gen" />
-			<property name="out.absolute.dir" value="${buildDirRoot}/${projectname}/bin" />
+			<property name="out.dir" value="${buildDirRoot}/${projectname}/bin" />
 		</ant>
 		
 		<!-- copy and show in explorer -->
