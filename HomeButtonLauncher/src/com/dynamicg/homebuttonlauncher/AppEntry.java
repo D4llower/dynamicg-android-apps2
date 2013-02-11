@@ -63,7 +63,7 @@ public class AppEntry {
 			return icon;
 		}
 
-		if (largeIconLoader!=null && icon==null) {
+		if (largeIconLoader!=null) {
 			Drawable appicon = largeIconLoader.getLargeIcon(this);
 			icon = IconProvider.scale(appicon, sizePX);
 		}
