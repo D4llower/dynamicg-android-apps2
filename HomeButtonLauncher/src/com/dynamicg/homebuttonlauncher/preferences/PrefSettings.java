@@ -72,5 +72,8 @@ public class PrefSettings {
 		return R.layout.app_entry_default;
 	}
 
+	public boolean isLoadHighResIcon() {
+		return true; // TODO ## implement
+	}
 
 }

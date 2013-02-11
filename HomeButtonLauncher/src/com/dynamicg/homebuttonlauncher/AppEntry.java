@@ -7,12 +7,13 @@ import android.view.View;
 
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
+import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
 
 public class AppEntry {
 
 	private final PackageManager packageManager;
 	private final String component;
-	private final ResolveInfo resolverInfo;
+	public final ResolveInfo resolveInfo;
 	public final String label;
 	public final int sortnr;
 
@@ -21,7 +22,7 @@ public class AppEntry {
 
 	public AppEntry(PackageManager packageManager, ResolveInfo resolveInfo, int sortnr) {
 		this.packageManager = packageManager;
-		this.resolverInfo = resolveInfo;
+		this.resolveInfo = resolveInfo;
 		this.component = AppHelper.getComponentName(resolveInfo);
 		this.label = toString(resolveInfo.loadLabel(packageManager), this.component);
 		this.sortnr = sortnr;
@@ -55,12 +56,23 @@ public class AppEntry {
 		view.setBackgroundResource(checked?R.drawable.app_selector_shape:0);
 	}
 
-	//TODO ## async loading of icons (?)
-	public Drawable getIcon(int sizePX) {
-		if (icon==null) {
-			Drawable appicon = resolverInfo.loadIcon(packageManager);
+	//TODO async loading of icons (?)
+	public Drawable getIcon(int sizePX, LargeIconLoader largeIconLoader) {
+
+		if (icon!=null) {
+			return icon;
+		}
+
+		if (largeIconLoader!=null && icon==null) {
+			Drawable appicon = largeIconLoader.getLargeIcon(this);
 			icon = IconProvider.scale(appicon, sizePX);
 		}
+
+		if (icon==null) {
+			Drawable appicon = resolveInfo.loadIcon(packageManager);
+			icon = IconProvider.scale(appicon, sizePX);
+		}
+
 		return icon;
 	}
 

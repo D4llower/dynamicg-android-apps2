@@ -42,7 +42,7 @@ public class AppHelper {
 		Intent intent = getStartIntent(component);
 		final List<ResolveInfo> apps = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		if (apps!=null && apps.size()>0 && getComponentName(apps.get(0)).equals(component)) {
-			// TODO ## is there no "strict match" ?
+			// TODO is there no "strict match" ?
 			return apps.get(0);
 		}
 		return null;

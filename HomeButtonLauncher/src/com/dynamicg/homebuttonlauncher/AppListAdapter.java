@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
+import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
 
 public class AppListAdapter extends BaseAdapter {
 
@@ -23,6 +24,7 @@ public class AppListAdapter extends BaseAdapter {
 	private final boolean forEditor;
 	protected final int iconSizePx;
 	protected final int appEntryLayoutId;
+	private final LargeIconLoader iconLoader;
 
 	/*
 	 * for main screen
@@ -34,6 +36,7 @@ public class AppListAdapter extends BaseAdapter {
 		this.labelSize = settings.getLabelSize();
 		this.iconSizePx = IconProvider.getSizePX(settings.getIconSize());
 		this.appEntryLayoutId = settings.getAppEntryLayoutId();
+		this.iconLoader = LargeIconLoader.createInstance(activity, settings);
 	}
 
 	/*
@@ -46,6 +49,7 @@ public class AppListAdapter extends BaseAdapter {
 		this.labelSize = SizePrefsHelper.DEFAULT_LABEL_SIZE;
 		this.iconSizePx = IconProvider.getDefaultSizePX();
 		this.appEntryLayoutId = viewId;
+		this.iconLoader = null;
 	}
 
 	@Override
@@ -78,7 +82,7 @@ public class AppListAdapter extends BaseAdapter {
 		row.setText(appEntry.getLabel());
 		row.setTextSize(this.labelSize);
 
-		Drawable icon = appEntry.getIcon(iconSizePx);
+		Drawable icon = appEntry.getIcon(iconSizePx, iconLoader);
 		if (appEntryLayoutId==R.layout.app_entry_compact) {
 			// icon on top
 			row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);

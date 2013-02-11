@@ -35,6 +35,10 @@ public class IconProvider {
 
 	public static Drawable scale(Drawable icon, int sizePX) {
 
+		if (icon==null) {
+			return null;
+		}
+
 		if (icon.getIntrinsicHeight()==sizePX && icon.getIntrinsicWidth()==sizePX) {
 			// icon is standard size, no scaling required
 			log.debug("scale() - no scaling required");
