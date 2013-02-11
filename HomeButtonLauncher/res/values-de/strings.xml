@@ -18,5 +18,7 @@
     <string name="preferences">Einstellungen</string>
     <string name="prefsLayout">Ansicht</string>
     <string name="prefsLabelSize">Anschrift-Größe</string>
-    <string name="prefsIconSize">Icon-Größe</string>    
+    <string name="prefsIconSize">Icon-Größe</string>
+	<string name="prefsHiResIcon">High-Res Icons laden</string>
+	    
 </resources>

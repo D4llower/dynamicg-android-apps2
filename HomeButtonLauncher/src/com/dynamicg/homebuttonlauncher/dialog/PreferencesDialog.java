@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -21,9 +22,10 @@ public class PreferencesDialog extends Dialog {
 	private final PrefSettings prefSettings;
 	private final MainActivityHome activity;
 
+	private int selectedLayout;
 	private SeekBar seekbarLabelSize;
 	private SeekBar seekbarIconSize;
-	private int selectedLayout;
+	private CheckBox highRes;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -44,6 +46,9 @@ public class PreferencesDialog extends Dialog {
 		seekbarIconSize = (SeekBar)findViewById(R.id.prefsIconSize);
 		SizePrefsHelper.setIconSize(seekbarIconSize, prefSettings.getIconSize());
 		attachProgessIndicator(seekbarIconSize, R.id.prefsIconSizeIndicator);
+
+		highRes = (CheckBox)findViewById(R.id.prefsHiResIcon);
+		highRes.setChecked(prefSettings.isHighResIcons());
 
 		setupLayoutToggle();
 
@@ -114,7 +119,7 @@ public class PreferencesDialog extends Dialog {
 	private void saveSettings() {
 		int labelSize = SizePrefsHelper.getLabelSize(seekbarLabelSize);
 		int iconSize = SizePrefsHelper.getIconSize(seekbarIconSize);
-		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize);
+		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize, highRes.isChecked());
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
 	}

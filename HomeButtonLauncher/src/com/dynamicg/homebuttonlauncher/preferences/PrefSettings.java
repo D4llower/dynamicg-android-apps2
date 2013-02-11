@@ -11,6 +11,7 @@ public class PrefSettings {
 	private static final String KEY_LAYOUT = "layout";
 	private static final String KEY_LABEL_SIZE = "labelSize";
 	private static final String KEY_ICON_SIZE = "iconSize";
+	private static final String KEY_HIGH_RES = "highRes";
 
 	public static final int NUM_LAYOUTS = 4;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -23,11 +24,12 @@ public class PrefSettings {
 		this.sharedPrefs = settingsPrefs;
 	}
 
-	public void writeAppSettings(int layout, int labelSize, int iconSize) {
+	public void writeAppSettings(int layout, int labelSize, int iconSize, boolean highResIcons) {
 		Editor edit = sharedPrefs.edit();
 		edit.putInt(KEY_LAYOUT, layout);
 		edit.putInt(KEY_LABEL_SIZE, labelSize);
 		edit.putInt(KEY_ICON_SIZE, iconSize);
+		edit.putBoolean(KEY_HIGH_RES, highResIcons);
 		edit.commit();
 	}
 
@@ -72,8 +74,8 @@ public class PrefSettings {
 		return R.layout.app_entry_default;
 	}
 
-	public boolean isLoadHighResIcon() {
-		return true; // TODO ## implement
+	public boolean isHighResIcons() {
+		return sharedPrefs.getBoolean(KEY_HIGH_RES, false);
 	}
 
 }

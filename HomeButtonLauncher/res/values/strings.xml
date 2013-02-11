@@ -18,5 +18,7 @@
     <string name="preferences">Settings</string>
     <string name="prefsLayout">Layout</string>
     <string name="prefsLabelSize">Label size</string>
-    <string name="prefsIconSize">Icon size</string>    
+    <string name="prefsIconSize">Icon size</string>
+    <string name="prefsHiResIcon">Load high res icons</string>
+    
 </resources>

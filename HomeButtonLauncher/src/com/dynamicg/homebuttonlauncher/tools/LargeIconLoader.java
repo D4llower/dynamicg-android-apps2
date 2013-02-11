@@ -26,7 +26,7 @@ public class LargeIconLoader {
 	}
 
 	public static LargeIconLoader createInstance(Context context, PrefSettings settings) {
-		if (!settings.isLoadHighResIcon()) {
+		if (!settings.isHighResIcons()) {
 			return null;
 		}
 		return new LargeIconLoader(context);

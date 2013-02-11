@@ -65,5 +65,10 @@
 	    <SeekBar style="@style/PrefSeekbar" android:id="@+id/prefsIconSize" />
 	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsIconSizeIndicator" />
 	</LinearLayout>
+	
+    <CheckBox style="@style/PrefLabel"
+        android:id="@+id/prefsHiResIcon" 
+        android:text="@string/prefsHiResIcon"
+        />
     
 </LinearLayout>
