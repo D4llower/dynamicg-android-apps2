@@ -3,7 +3,6 @@ package com.dynamicg.homebuttonlauncher;
 import java.util.List;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +99,6 @@ public class AppListAdapter extends BaseAdapter {
 
 		if (forEditor) {
 			appEntry.decorateSelection(row);
-			row.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
 		}
 		return row;
 	}
