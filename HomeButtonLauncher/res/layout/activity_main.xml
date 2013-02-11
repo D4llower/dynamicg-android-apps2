@@ -2,6 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/background_holo_dark"
     >
 
     <!-- no ActionBar available with dialog style activities -->
