@@ -7,7 +7,7 @@ public class SizePrefsHelper {
 	public static final int DEFAULT_LABEL_SIZE = 18;
 	public static final int DEFAULT_ICON_SIZE = 48;
 
-	private static final int[] LABEL_SIZES = new int[]{12, 14, 16, 18, 20, 22, 24};
+	private static final int[] LABEL_SIZES = new int[]{0, 12, 14, 16, 18, 20, 22, 24, 26};
 	private static final int[] ICON_SIZES = new int[]{32, 36, 40, 48, 56, 64, 72}; // 48 is default so it should be "in the middle"
 
 	public static int getLabelSize(SeekBar bar) {

@@ -33,12 +33,12 @@ public class PrefSettings {
 		edit.commit();
 	}
 
-	// this is "sp": 12, 14, ..., 24
+	// this is "sp". see com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper.LABEL_SIZES
 	public int getLabelSize() {
 		return sharedPrefs.getInt(KEY_LABEL_SIZE, SizePrefsHelper.DEFAULT_LABEL_SIZE);
 	}
 
-	// this is "dp": 32, 48, 64
+	// this is "dp". see com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper.ICON_SIZES
 	public int getIconSize() {
 		return sharedPrefs.getInt(KEY_ICON_SIZE, SizePrefsHelper.DEFAULT_ICON_SIZE);
 	}

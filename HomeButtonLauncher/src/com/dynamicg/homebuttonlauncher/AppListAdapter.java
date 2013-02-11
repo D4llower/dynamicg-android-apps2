@@ -79,8 +79,14 @@ public class AppListAdapter extends BaseAdapter {
 			row = (TextView)convertView;
 		}
 
-		row.setText(appEntry.getLabel());
-		row.setTextSize(this.labelSize);
+		if (this.labelSize==0) {
+			row.setText("");
+			row.setTextSize(0);
+		}
+		else {
+			row.setText(appEntry.getLabel());
+			row.setTextSize(this.labelSize);
+		}
 
 		Drawable icon = appEntry.getIcon(iconSizePx, iconLoader);
 		if (appEntryLayoutId==R.layout.app_entry_compact) {
