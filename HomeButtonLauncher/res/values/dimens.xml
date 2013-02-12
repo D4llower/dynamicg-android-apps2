@@ -9,6 +9,6 @@
 	<dimen name="widthWide">520dp</dimen>
 	
 	<dimen name="gridViewPaddingTop">4dp</dimen>
-	<dimen name="gridViewPaddingBottom">8dp</dimen>
+	<dimen name="gridViewPaddingBottom">4dp</dimen>
 	
 </resources>
