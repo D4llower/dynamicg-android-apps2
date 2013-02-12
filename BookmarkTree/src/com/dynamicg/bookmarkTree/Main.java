@@ -1,13 +1,9 @@
 package com.dynamicg.bookmarkTree;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -82,33 +78,6 @@ public class Main extends Activity {
 		return true;
 	}
 
-	@SuppressLint("HandlerLeak")
-	private void delayedOpen(final int id) {
-		Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-
-				if (Build.VERSION.SDK_INT==17) {
-					/*
-					 * jelly bean 4.2 issue: when dialog is opened through Menu (e.g. prefs) and the dialog opens an
-					 * activity, the dialog will be sent to the background without ever coming back to front (???).
-					 * as of now only "menu.close()" and some sleep timeout seems to work around that
-					 */
-					SystemUtil.sleep(350);
-				}
-
-				if ( id==ACTION_SETTINGS ) {
-					new PreferencesDialog(ctx);
-				}
-				else if ( id==ACTION_BACKUP_RESTORE ) {
-					new BackupRestoreDialog(ctx);
-				}
-			}
-
-		};
-		handler.sendEmptyMessage(0);
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		menu.close();
@@ -127,8 +96,11 @@ public class Main extends Activity {
 		else if ( id==ACTION_NEW_BM ) {
 			new EditBookmarkDialog(ctx);
 		}
-		else if (id==ACTION_SETTINGS || id==ACTION_BACKUP_RESTORE) {
-			delayedOpen(id);
+		else if ( id==ACTION_SETTINGS ) {
+			new PreferencesDialog(ctx);
+		}
+		else if ( id==ACTION_BACKUP_RESTORE ) {
+			new BackupRestoreDialog(ctx);
 		}
 		return true;
 	}
