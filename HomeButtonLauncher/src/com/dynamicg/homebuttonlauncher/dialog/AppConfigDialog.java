@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.dynamicg.common.DialogWithExitPoints;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListAdapter;
 import com.dynamicg.homebuttonlauncher.AppListAdapterSort;
@@ -29,7 +29,7 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
-public class AppConfigDialog extends DialogWithExitPoints {
+public class AppConfigDialog extends Dialog {
 
 	private final MainActivityHome activity;
 	private final Context context;

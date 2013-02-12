@@ -14,7 +14,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.dynamicg.common.DialogWithExitPoints;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
@@ -159,12 +158,6 @@ public class MainActivityHome extends Activity {
 		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout);
 		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences);
 
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		DialogWithExitPoints.handleActivityResume(this);
 	}
 
 }

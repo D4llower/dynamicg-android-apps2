@@ -1,6 +1,7 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -9,14 +10,13 @@ import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dynamicg.common.DialogWithExitPoints;
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
-public class AboutDialog extends DialogWithExitPoints {
+public class AboutDialog extends Dialog {
 
 	private final String REPOSITORY = "https://dynamicg-android-apps2.googlecode.com/svn/trunk/HomeButtonLauncher";
 
