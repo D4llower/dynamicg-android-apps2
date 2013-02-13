@@ -16,7 +16,7 @@
     	android:id="@+id/buttonOk"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-    	android:text="@string/buttonClose"
+    	android:text="@string/buttonOk"
         />
 
 </LinearLayout>

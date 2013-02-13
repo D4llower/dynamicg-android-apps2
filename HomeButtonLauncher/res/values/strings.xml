@@ -7,9 +7,7 @@
     <string name="menuSort">Sort</string>
     <string name="menuReset">Reset</string>
     <string name="buttonOk">OK</string>
-    <string name="buttonSave">Save</string>
     <string name="buttonCancel">Cancel</string>
-    <string name="buttonClose">Close</string>
     <string name="aboutOpenSource">This app is open source:</string>
     <string name="aboutPleaseRate">Please rate the app</string>
     <string name="openAppDetails">App info</string>
