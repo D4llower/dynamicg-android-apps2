@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
     <string name="app_name">Home Launcher</string>
+    
     <string name="menuAddApps">Add apps</string>
     <string name="menuRemoveApps">Remove apps</string>
     <string name="menuAbout">About</string>
     <string name="menuSort">Sort</string>
     <string name="menuReset">Reset</string>
+    
     <string name="buttonOk">OK</string>
     <string name="buttonCancel">Cancel</string>
+    
     <string name="aboutOpenSource">This app is open source:</string>
     <string name="aboutPleaseRate">Please rate the app</string>
+    
+    <!-- context menu on "long click" -->
     <string name="openAppDetails">App info</string>
     <string name="openPlayStore">Play Store</string>
     
