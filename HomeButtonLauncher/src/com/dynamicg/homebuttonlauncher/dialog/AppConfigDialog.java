@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListAdapter;
 import com.dynamicg.homebuttonlauncher.AppListAdapterSort;
@@ -31,6 +32,10 @@ import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListe
 
 public class AppConfigDialog extends Dialog {
 
+	private static final Logger log = new Logger(AppConfigDialog.class);
+
+	private static final int MENU_RESET = 1;
+
 	private final MainActivityHome activity;
 	private final Context context;
 	private final PrefShortlist prefShortlist;
@@ -39,7 +44,7 @@ public class AppConfigDialog extends Dialog {
 	private final boolean actionRemove;
 	private final boolean actionSort;
 
-	private static final int MENU_RESET = 1;
+	private final boolean sortChanged[] = new boolean[]{false};
 
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
 		super(activity);
@@ -69,14 +74,18 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private final void onButtonOk() {
-		if (actionRemove) {
+		if (actionAdd) {
+			log.debug("actionAdd");
+			prefShortlist.add(getSelectedComponents());
+		}
+		else if (actionRemove) {
+			log.debug("actionRemove");
 			prefShortlist.remove(getSelectedComponents());
 		}
-		else if (actionSort) {
+		else if (actionSort && sortChanged[0]) {
+			// only store the sorted list if we actually had changes
+			log.debug("actionSort");
 			prefShortlist.saveSortedList(appList);
-		}
-		else {
-			prefShortlist.add(getSelectedComponents());
 		}
 		afterSave();
 	}
@@ -114,7 +123,7 @@ public class AppConfigDialog extends Dialog {
 
 		final AppListAdapter adapter;
 		if (actionSort) {
-			adapter = new AppListAdapterSort(activity, appList);
+			adapter = new AppListAdapterSort(activity, appList, sortChanged);
 		}
 		else {
 			adapter = new AppListAdapter(activity, appList, R.layout.app_entry_default);
