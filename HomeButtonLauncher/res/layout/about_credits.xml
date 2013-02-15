@@ -1,0 +1,7 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+style="@style/DefaultText"
+android:layout_marginBottom="18dp"
+android:text="中文 (繁體): Jason Yu
+\nPortuguês (Brasil): Denilson Sá
+"
+/>

@@ -56,6 +56,11 @@ public class AboutDialog extends Dialog {
 			}
 		});
 
+		SpannableString creditsLabel = new SpannableString("Translation credits");
+		creditsLabel.setSpan(new UnderlineSpan(), 0, creditsLabel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		TextView creditsNode = (TextView)findViewById(R.id.aboutCredits);
+		creditsNode.setText(creditsLabel);
+
 	}
 
 	private void setLine(int id, String text) {
