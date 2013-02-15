@@ -1,23 +1,23 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     >
-    
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    >
 	    
+	<ScrollView
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    >
 	    <ViewStub android:id="@+id/commonDialogBody"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 	        />
-	    <ViewStub android:id="@+id/commonDialogButtonPanel"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-	        />
-	    	    
-	</LinearLayout>
-
-</ScrollView>
+	</ScrollView>
+	
+    <ViewStub android:id="@+id/commonDialogButtonPanel"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+        />
+    
+</LinearLayout>
