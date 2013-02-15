@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Home Launcher</string>
+    
+    <string name="menuAddApps">Adicionar aplicativos</string>
+    <string name="menuRemoveApps">Remover aplicativos</string>
+    <string name="menuAbout">Sobre</string>
+    <string name="menuSort">Ordenar</string>
+    <string name="menuReset">Reset</string>
+    
+    <string name="buttonOk">OK</string>
+    <string name="buttonCancel">Cancelar</string>
+    
+    <string name="aboutOpenSource">Este app possui código aberto:</string>
+    <string name="aboutPleaseRate">Por favor avalie este aplicativo</string>
+    
+    <!-- context menu on "long click" -->
+    <string name="openAppDetails">Informações do aplicativo</string>
+    <string name="openPlayStore">Play Store</string>
+    
+    <string name="preferences">Configurações</string>
+    <string name="prefsLayout">Layout</string>
+    <string name="prefsLabelSize">Tamanho do texto</string>
+    <string name="prefsIconSize">Tamanho do ícone</string>
+    <string name="prefsHiResIcon">Carregar ícones de alta definição</string>
+    
+</resources>
