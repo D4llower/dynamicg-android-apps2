@@ -1,0 +1,8 @@
+* 此應用程式為免費無廣告的公開資源 *
+您可以透過首頁鍵上撥手勢來啟動自己喜歡的應用程式
+• 必須注意僅支援虛擬三鍵式的裝置 ，如 Nexus 4 或 Galaxy Nexus (諸如此類使用<返回鍵/首頁鍵/近期使用app>等等三個虛擬鍵的裝置)
+• 在其他非虛擬三鍵的裝置上，此應用程式應該會整合到鎖屏 以及/或是 取代搜尋鍵(如果您的裝置支援搜尋鍵)調用啟動的程式。但請注意!此應用程式也有可能因為裝置品牌型號支援度問題而無法正常操作使用
+• 系統最低要求為 Android 4.1 Jelly Bean
+
+原代碼放於 Google Code:
+https://dynamicg-android-apps2.googlecode.com/svn/trunk/HomeButtonLauncher
