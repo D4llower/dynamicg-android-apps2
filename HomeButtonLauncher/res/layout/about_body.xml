@@ -23,7 +23,6 @@
 		android:autoLink="all"
 		android:textColor="@color/hyperlink"
 		android:scrollHorizontally="true"
-		android:textIsSelectable="true"
 		/>
 
 	<TextView style="@style/DefaultText"

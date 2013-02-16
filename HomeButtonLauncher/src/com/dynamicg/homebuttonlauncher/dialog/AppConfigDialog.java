@@ -44,7 +44,7 @@ public class AppConfigDialog extends Dialog {
 	private final boolean actionRemove;
 	private final boolean actionSort;
 
-	private final boolean sortChanged[] = new boolean[]{false};
+	private final boolean[] sortChanged = new boolean[]{false};
 
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
 		super(activity);
