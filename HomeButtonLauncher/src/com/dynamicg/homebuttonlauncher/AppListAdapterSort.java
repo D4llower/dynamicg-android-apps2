@@ -1,7 +1,5 @@
 package com.dynamicg.homebuttonlauncher;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,7 @@ public class AppListAdapterSort extends AppListAdapter {
 	private final View.OnClickListener clickListener;
 	private final View.OnLongClickListener longClickListener;
 
-	public AppListAdapterSort(Activity activity, List<AppEntry> apps, boolean[] sortChanged) {
+	public AppListAdapterSort(Activity activity, AppListContainer apps, boolean[] sortChanged) {
 		super(activity, apps, R.layout.app_entry_sort);
 		this.sortChanged = sortChanged;
 
@@ -46,8 +44,7 @@ public class AppListAdapterSort extends AppListAdapter {
 	private void applyMove(int oldPosition, int newPosition) {
 		sortChanged[0] = true;
 		AppEntry entry = applist.get(oldPosition);
-		applist.remove(entry);
-		applist.add(newPosition, entry);
+		applist.moveTo(entry, newPosition);
 		log.debug("applyMove done", entry, oldPosition, newPosition);
 		notifyDataSetChanged();
 	}

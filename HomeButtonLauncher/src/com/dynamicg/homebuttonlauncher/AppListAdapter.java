@@ -1,7 +1,5 @@
 package com.dynamicg.homebuttonlauncher;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -17,7 +15,7 @@ import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
 
 public class AppListAdapter extends BaseAdapter {
 
-	protected final List<AppEntry> applist;
+	protected final AppListContainer applist;
 	protected final LayoutInflater inflater;
 	private final int labelSize;
 	private final boolean forEditor;
@@ -28,7 +26,7 @@ public class AppListAdapter extends BaseAdapter {
 	/*
 	 * for main screen
 	 */
-	public AppListAdapter(Activity activity, List<AppEntry> apps, PrefSettings settings) {
+	public AppListAdapter(Activity activity, AppListContainer apps, PrefSettings settings) {
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
 		this.forEditor = false;
@@ -41,7 +39,7 @@ public class AppListAdapter extends BaseAdapter {
 	/*
 	 * for add/remove
 	 */
-	public AppListAdapter(Activity activity, List<AppEntry> apps, int viewId) {
+	public AppListAdapter(Activity activity, AppListContainer apps, int viewId) {
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
 		this.forEditor = true;

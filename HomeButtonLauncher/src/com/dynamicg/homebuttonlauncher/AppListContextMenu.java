@@ -1,7 +1,5 @@
 package com.dynamicg.homebuttonlauncher;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,7 +21,7 @@ public class AppListContextMenu {
 		this.context = context;
 	}
 
-	public void attach(final AbsListView listview, final List<AppEntry> appList) {
+	public void attach(final AbsListView listview, final AppListContainer appList) {
 		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

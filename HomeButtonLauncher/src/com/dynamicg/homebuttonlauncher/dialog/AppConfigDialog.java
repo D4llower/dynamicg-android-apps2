@@ -17,6 +17,7 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListAdapter;
 import com.dynamicg.homebuttonlauncher.AppListAdapterSort;
+import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.AppListContextMenu;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
@@ -34,17 +35,17 @@ public class AppConfigDialog extends Dialog {
 
 	private static final Logger log = new Logger(AppConfigDialog.class);
 
-	private static final int MENU_RESET = 1;
-
 	private final MainActivityHome activity;
 	private final Context context;
 	private final PrefShortlist prefShortlist;
-	private final List<AppEntry> appList;
+	protected final AppListContainer appList;
+	private final boolean[] sortChanged = new boolean[]{false};
+
 	private final boolean actionAdd;
 	private final boolean actionRemove;
 	private final boolean actionSort;
 
-	private final boolean[] sortChanged = new boolean[]{false};
+	protected AppListAdapter adapter;
 
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
 		super(activity);
@@ -85,7 +86,7 @@ public class AppConfigDialog extends Dialog {
 		else if (actionSort && sortChanged[0]) {
 			// only store the sorted list if we actually had changes
 			log.debug("actionSort");
-			prefShortlist.saveSortedList(appList);
+			prefShortlist.saveSortedList(appList.getApps());
 		}
 		afterSave();
 	}
@@ -153,14 +154,14 @@ public class AppConfigDialog extends Dialog {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
-				if (id==MENU_RESET) {
+				if (id==MenuGlobals.RESET) {
 					confirmSortReset();
 				}
 			}
 		};
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
 		menuWrapper.attachToAnchorClick();
-		menuWrapper.addItem(MENU_RESET, R.string.menuReset);
+		menuWrapper.addItem(MenuGlobals.RESET, R.string.menuReset);
 	}
 
 	private void confirmSortReset() {
@@ -180,7 +181,7 @@ public class AppConfigDialog extends Dialog {
 
 	private List<String> getSelectedComponents() {
 		List<String> list = new ArrayList<String>();
-		for (AppEntry entry:appList) {
+		for (AppEntry entry:appList.getApps()) {
 			if (entry.isChecked()) {
 				list.add(entry.getComponent());
 			}

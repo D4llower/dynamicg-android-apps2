@@ -2,8 +2,6 @@ package com.dynamicg.homebuttonlauncher.tools;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +14,7 @@ import android.content.pm.ResolveInfo;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 
 public class AppHelper {
@@ -48,7 +47,7 @@ public class AppHelper {
 		return null;
 	}
 
-	public static List<AppEntry> getAllAppsList(Context context, PrefShortlist settings) {
+	public static AppListContainer getAllAppsList(Context context, PrefShortlist settings) {
 		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
@@ -68,10 +67,10 @@ public class AppHelper {
 			}
 		}
 
-		return sort(list);
+		return new AppListContainer(list);
 	}
 
-	public static List<AppEntry> getSelectedAppsList(Context context, PrefShortlist settings) {
+	public static AppListContainer getSelectedAppsList(Context context, PrefShortlist settings) {
 		final PackageManager packageManager = context.getPackageManager();
 		final Map<String, Integer> components = settings.getComponentsMap();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
@@ -86,21 +85,7 @@ public class AppHelper {
 				list.add(new AppEntry(packageManager, matchingApp, sortnr));
 			}
 		}
-		return sort(list);
-	}
-
-	private static List<AppEntry> sort(List<AppEntry> list) {
-		Collections.sort(list, new Comparator<AppEntry>(){
-			@Override
-			public int compare(AppEntry lhs, AppEntry rhs) {
-				// note sortnr is zero when called through "getAllApps"
-				if (lhs.sortnr!=rhs.sortnr) {
-					return lhs.sortnr-rhs.sortnr;
-				}
-				return lhs.label.compareToIgnoreCase(rhs.label);
-			}
-		});
-		return list;
+		return new AppListContainer(list);
 	}
 
 	/**
