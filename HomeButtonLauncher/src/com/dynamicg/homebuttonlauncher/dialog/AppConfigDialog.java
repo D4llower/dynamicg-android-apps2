@@ -3,10 +3,8 @@ package com.dynamicg.homebuttonlauncher.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -27,9 +25,6 @@ import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
-import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
-import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
-import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
 public class AppConfigDialog extends Dialog {
 
@@ -63,9 +58,7 @@ public class AppConfigDialog extends Dialog {
 			this.appList = AppHelper.getSelectedAppsList(activity, prefShortlist);
 		}
 
-		if (actionSort) {
-			requestWindowFeature(Window.FEATURE_NO_TITLE);
-		}
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
 	private void afterSave() {
@@ -95,18 +88,12 @@ public class AppConfigDialog extends Dialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		int titleResId = actionRemove ? R.string.menuRemoveApps : actionSort ? R.string.menuSort : R.string.menuAddApps;
-		setTitle(titleResId);
-
 		setContentView(R.layout.configure_apps);
 
-		if (actionSort) {
-			attachHeaderForSort();
-		}
-		else {
-			// hide custom header
-			findViewById(R.id.headerContainer).setVisibility(View.GONE);
-		}
+		ConfigHeaderAbstract header = actionSort ? new ConfigHeaderSortReset(this) : new ConfigHeaderSearch(this);
+		header.attach();
+		final int titleResId = actionRemove ? R.string.menuRemoveApps : actionSort ? R.string.menuSort : R.string.menuAddApps;
+		header.setTitleAndWidth(titleResId);
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
@@ -122,12 +109,11 @@ public class AppConfigDialog extends Dialog {
 			}
 		});
 
-		final AppListAdapter adapter;
 		if (actionSort) {
-			adapter = new AppListAdapterSort(activity, appList, sortChanged);
+			this.adapter = new AppListAdapterSort(activity, appList, sortChanged);
 		}
 		else {
-			adapter = new AppListAdapter(activity, appList, R.layout.app_entry_default);
+			this.adapter = new AppListAdapter(activity, appList, R.layout.app_entry_default);
 		}
 
 		final ListView listview = (ListView)findViewById(R.id.applist);
@@ -149,36 +135,6 @@ public class AppConfigDialog extends Dialog {
 		new AppListContextMenu(context).attach(listview, appList);
 	}
 
-	private void attachHeaderForSort() {
-		final View anchor = DialogHelper.prepareCustomHeader(this, R.string.menuSort);
-		final PopupMenuItemListener listener = new PopupMenuItemListener() {
-			@Override
-			public void popupMenuItemSelected(int id) {
-				if (id==MenuGlobals.RESET) {
-					confirmSortReset();
-				}
-			}
-		};
-		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
-		menuWrapper.attachToAnchorClick();
-		menuWrapper.addItem(MenuGlobals.RESET, R.string.menuReset);
-	}
-
-	private void confirmSortReset() {
-		AlertDialog.Builder b = new AlertDialog.Builder(context);
-		String label = context.getString(R.string.menuReset)+"?";
-		b.setTitle(label);
-		b.setPositiveButton(R.string.buttonOk, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				prefShortlist.resetSortList();
-				afterSave();
-			}
-		} );
-		b.setNegativeButton(R.string.buttonCancel, null);
-		b.show();
-	}
-
 	private List<String> getSelectedComponents() {
 		List<String> list = new ArrayList<String>();
 		for (AppEntry entry:appList.getApps()) {
@@ -187,6 +143,17 @@ public class AppConfigDialog extends Dialog {
 			}
 		}
 		return list;
+	}
+
+	public void doSortReset() {
+		prefShortlist.resetSortList();
+		afterSave();
+	}
+
+	// when "search" is applied
+	public void updateAppList(List<AppEntry> newList) {
+		appList.updateList(newList);
+		adapter.notifyDataSetChanged();
 	}
 
 }

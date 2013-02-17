@@ -9,11 +9,13 @@
 		android:padding="@dimen/appLinePadding"
 	    />
 	<Button android:id="@+id/sortDown"
-	    android:layout_width="100dp"
+	    android:layout_width="106dp"
 	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="8dp"
 	    />
 	<Button android:id="@+id/sortUp"
-	    android:layout_width="100dp"
+	    android:layout_width="106dp"
 	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="8dp"
 	    />
 </LinearLayout>
