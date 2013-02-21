@@ -46,8 +46,17 @@ public class IconProvider {
 		}
 
 		log.debug("scale() - change", icon.getIntrinsicHeight(), icon.getIntrinsicWidth(), sizePX);
-		Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
-		return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
+		try {
+			Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+			return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
+		}
+		catch (ClassCastException e) {
+			/*
+			 * error report
+			 * java.lang.ClassCastException: android.graphics.drawable.StateListDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
+			 */
+			return null;
+		}
 	}
 
 }
