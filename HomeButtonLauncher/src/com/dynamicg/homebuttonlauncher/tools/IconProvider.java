@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 
 import com.dynamicg.common.Logger;
 
@@ -50,11 +51,19 @@ public class IconProvider {
 			Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
 			return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
 		}
-		catch (ClassCastException e) {
+		catch (ClassCastException e1) {
 			/*
 			 * error report
 			 * java.lang.ClassCastException: android.graphics.drawable.StateListDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
 			 */
+			if (icon instanceof StateListDrawable) {
+				try {
+					StateListDrawable sd = (StateListDrawable)icon;
+					Bitmap bitmap = ((BitmapDrawable) sd.getCurrent()).getBitmap();
+					return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
+				}
+				catch (ClassCastException e2) {}
+			}
 			return null;
 		}
 	}
