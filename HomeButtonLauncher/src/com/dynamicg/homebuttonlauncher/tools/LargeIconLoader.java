@@ -12,6 +12,10 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 
+/*
+ * see https://github.com/android/platform_frameworks_base/blob/master/core/java/com/android/internal/app/ResolverActivity.java
+ * (mIconDpi)
+ */
 public class LargeIconLoader {
 
 	private static final Logger log = new Logger(LargeIconLoader.class);

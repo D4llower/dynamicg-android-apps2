@@ -62,7 +62,9 @@ public class IconProvider {
 					Bitmap bitmap = ((BitmapDrawable) sd.getCurrent()).getBitmap();
 					return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
 				}
-				catch (ClassCastException e2) {}
+				catch (Throwable e2) {
+					//ignore all
+				}
 			}
 			return null;
 		}
