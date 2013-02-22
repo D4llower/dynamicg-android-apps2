@@ -3,6 +3,7 @@ package com.dynamicg.homebuttonlauncher.tools;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -34,6 +35,10 @@ public class IconProvider {
 		return getSizePX(ICON_SIZE_DP);
 	}
 
+	private static Drawable scaleBitmap(int sizePX, Bitmap bitmap) {
+		return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
+	}
+
 	public static Drawable scale(Drawable icon, int sizePX) {
 
 		if (icon==null) {
@@ -48,8 +53,7 @@ public class IconProvider {
 
 		log.debug("scale() - change", icon.getIntrinsicHeight(), icon.getIntrinsicWidth(), sizePX);
 		try {
-			Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
-			return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
+			return scaleBitmap(sizePX, ((BitmapDrawable)icon).getBitmap());
 		}
 		catch (ClassCastException e1) {
 			/*
@@ -59,14 +63,14 @@ public class IconProvider {
 			if (icon instanceof StateListDrawable) {
 				try {
 					StateListDrawable sd = (StateListDrawable)icon;
-					Bitmap bitmap = ((BitmapDrawable) sd.getCurrent()).getBitmap();
-					return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
+					return scaleBitmap(sizePX, ((BitmapDrawable)sd.getCurrent()).getBitmap());
 				}
 				catch (Throwable e2) {
 					//ignore all
 				}
 			}
-			return null;
+			// return empty icon
+			return scaleBitmap(sizePX, Bitmap.createBitmap(sizePX, sizePX, Config.ARGB_4444));
 		}
 	}
 
