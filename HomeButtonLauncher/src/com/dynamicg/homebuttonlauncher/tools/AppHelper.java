@@ -19,14 +19,17 @@ import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 
 public class AppHelper {
 
-	@SuppressWarnings("unused")
 	private static final Logger log = new Logger(AppHelper.class);
 
 	private static final String SELF = "com.dynamicg.homebuttonlauncher/com.dynamicg.homebuttonlauncher.MainActivityOpen";
 	private static final int MAX_SORTNR = 999;
 
 	public static String getComponentName(ResolveInfo resolveInfo) {
-		return resolveInfo.activityInfo.packageName + "/" + resolveInfo.activityInfo.name;
+		return new StringBuilder()
+		.append(resolveInfo.activityInfo.packageName)
+		.append("/")
+		.append(resolveInfo.activityInfo.name)
+		.toString();
 	}
 
 	// see http://stackoverflow.com/questions/2780102/open-another-application-from-your-own-intent
@@ -40,9 +43,12 @@ public class AppHelper {
 	public static ResolveInfo getMatchingApp(PackageManager packageManager, String component) {
 		Intent intent = getStartIntent(component);
 		final List<ResolveInfo> apps = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-		if (apps!=null && apps.size()>0 && getComponentName(apps.get(0)).equals(component)) {
-			// TODO is there no "strict match" ?
+		if (apps!=null && apps.size()==1) {
+			// note "intent.setComponent" with only the activity name will match multiple entries (e.g. "com.dynamicg.bookmarkTree.Main")
 			return apps.get(0);
+		}
+		else {
+			log.debug("no match", component, (apps!=null?apps.size():-1));
 		}
 		return null;
 	}
