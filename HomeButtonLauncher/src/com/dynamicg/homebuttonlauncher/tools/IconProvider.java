@@ -47,7 +47,7 @@ public class IconProvider {
 
 		if (icon.getIntrinsicHeight()==sizePX && icon.getIntrinsicWidth()==sizePX) {
 			// icon is standard size, no scaling required
-			log.debug("scale() - no scaling required");
+			//log.debug("scale() - no scaling required");
 			return icon;
 		}
 
