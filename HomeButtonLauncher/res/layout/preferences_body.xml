@@ -67,8 +67,13 @@
 	</LinearLayout>
 	
     <CheckBox style="@style/PrefLabel"
-        android:id="@+id/prefsHiResIcon" 
+        android:id="@+id/prefsHighResIcon" 
         android:text="@string/prefsHiResIcon"
+        />
+
+    <CheckBox style="@style/PrefLabel"
+        android:id="@+id/prefsAutoStartSingle" 
+        android:text="@string/prefsAutoStartSingle"
         />
     
 </LinearLayout>

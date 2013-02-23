@@ -12,6 +12,7 @@ public class PrefSettings {
 	private static final String KEY_LABEL_SIZE = "labelSize";
 	private static final String KEY_ICON_SIZE = "iconSize";
 	private static final String KEY_HIGH_RES = "highRes";
+	private static final String KEY_AUTO_START_SINGLE = "autoStart";
 
 	public static final int NUM_LAYOUTS = 4;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -24,12 +25,13 @@ public class PrefSettings {
 		this.sharedPrefs = settingsPrefs;
 	}
 
-	public void writeAppSettings(int layout, int labelSize, int iconSize, boolean highResIcons) {
+	public void writeAppSettings(int layout, int labelSize, int iconSize, boolean highResIcons, boolean autoStartSingle) {
 		Editor edit = sharedPrefs.edit();
 		edit.putInt(KEY_LAYOUT, layout);
 		edit.putInt(KEY_LABEL_SIZE, labelSize);
 		edit.putInt(KEY_ICON_SIZE, iconSize);
 		edit.putBoolean(KEY_HIGH_RES, highResIcons);
+		edit.putBoolean(KEY_AUTO_START_SINGLE, autoStartSingle);
 		edit.commit();
 	}
 
@@ -76,6 +78,10 @@ public class PrefSettings {
 
 	public boolean isHighResIcons() {
 		return sharedPrefs.getBoolean(KEY_HIGH_RES, false);
+	}
+
+	public boolean isAutoStartSingle() {
+		return sharedPrefs.getBoolean(KEY_AUTO_START_SINGLE, false);
 	}
 
 }

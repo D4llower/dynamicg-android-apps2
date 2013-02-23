@@ -26,6 +26,7 @@ public class PreferencesDialog extends Dialog {
 	private SeekBar seekbarLabelSize;
 	private SeekBar seekbarIconSize;
 	private CheckBox highRes;
+	private CheckBox autoStartSingle;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -47,8 +48,11 @@ public class PreferencesDialog extends Dialog {
 		SizePrefsHelper.setIconSize(seekbarIconSize, prefSettings.getIconSize());
 		attachProgessIndicator(seekbarIconSize, R.id.prefsIconSizeIndicator);
 
-		highRes = (CheckBox)findViewById(R.id.prefsHiResIcon);
+		highRes = (CheckBox)findViewById(R.id.prefsHighResIcon);
 		highRes.setChecked(prefSettings.isHighResIcons());
+
+		autoStartSingle = (CheckBox)findViewById(R.id.prefsAutoStartSingle);
+		autoStartSingle.setChecked(prefSettings.isAutoStartSingle());
 
 		setupLayoutToggle();
 
@@ -119,7 +123,7 @@ public class PreferencesDialog extends Dialog {
 	private void saveSettings() {
 		int labelSize = SizePrefsHelper.getLabelSize(seekbarLabelSize);
 		int iconSize = SizePrefsHelper.getIconSize(seekbarIconSize);
-		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize, highRes.isChecked());
+		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize, highRes.isChecked(), autoStartSingle.isChecked());
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
 	}

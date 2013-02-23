@@ -12,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
@@ -27,6 +28,8 @@ import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListe
 //note we cannot filter the app on "needs soft home button" (i.e. a non-physical home button like galaxy nexus)
 //http://developer.android.com/guide/topics/manifest/uses-feature-element.html
 public class MainActivityHome extends Activity {
+
+	private static final Logger log = new Logger(MainActivityHome.class);
 
 	private Context context;
 	private PreferencesManager preferences;
@@ -48,10 +51,38 @@ public class MainActivityHome extends Activity {
 	private void main() {
 		setContentView(R.layout.activity_main);
 		preferences = new PreferencesManager(context);
+		if (isAutoStartSingleSuccessful()) {
+			return;
+		}
 		IconProvider.init(context);
 		attachContextMenu();
 		setListAdapter();
 		setMinWidth();
+	}
+
+	private boolean isAutoStartSingleSuccessful() {
+		if (!preferences.prefSettings.isAutoStartSingle()) {
+			log.debug("autoStart", "disabled");
+			return false;
+		}
+
+		if (getIntent().getBooleanExtra(MainActivityOpen.KEY, false) == true) {
+			// called through "OpenActivity" (i.e. app drawer or homescreen icon), not through swipe
+			// -> skip, otherwise we will lock ourselves out
+			log.debug("autoStart", "from OpenActivity");
+			return false;
+		}
+
+		final AppListContainer appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
+		if (appList.size()!=1) {
+			log.debug("autoStart", "size!=1");
+			return false;
+		}
+
+		AppEntry entry = appList.get(0);
+		log.debug("autoStart", entry.getComponent());
+		boolean started = startAppAndClose(entry);
+		return started;
 	}
 
 	public void refreshList() {
@@ -99,13 +130,13 @@ public class MainActivityHome extends Activity {
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				appSelected(appList.get(position));
+				startAppAndClose(appList.get(position));
 			}
 		});
 		new AppListContextMenu(context).attach(listview, appList);
 	}
 
-	private void appSelected(AppEntry entry) {
+	private boolean startAppAndClose(AppEntry entry) {
 		String component=null;
 		try {
 			component = entry.getComponent();
@@ -114,11 +145,13 @@ public class MainActivityHome extends Activity {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);
 			finish();
+			return true;
 		}
 		catch (Throwable t) {
 			String title = "ERROR - cannot open";
 			String details = "Component: "+component+"\nException: "+t.getClass().getSimpleName();
 			DialogHelper.showError(context, title, details);
+			return false;
 		}
 	}
 
