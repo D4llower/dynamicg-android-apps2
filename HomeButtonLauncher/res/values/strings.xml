@@ -24,6 +24,6 @@
     <string name="prefsLabelSize">Label size</string>
     <string name="prefsIconSize">Icon size</string>
     <string name="prefsHiResIcon">Load high res icons</string>
-    <string name="prefsAutoStartSingle">\u00ABAuto start mode\u00BB if only one single app selected</string>
+    <string name="prefsAutoStartSingle">«Auto start mode» if only one single app selected</string>
     
 </resources>

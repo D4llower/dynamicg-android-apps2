@@ -18,6 +18,6 @@
     <string name="prefsLabelSize">Anschrift-Größe</string>
     <string name="prefsIconSize">Icon-Größe</string>
 	<string name="prefsHiResIcon">High-Res Icons laden</string>
-    <string name="prefsAutoStartSingle">\u00ABAuto Start Modus\u00BB wenn nur eine einzige App gewählt</string>
+    <string name="prefsAutoStartSingle">«Auto Start Modus» wenn nur eine einzige App gewählt</string>
     
 </resources>
