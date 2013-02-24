@@ -26,4 +26,7 @@
     <string name="prefsHiResIcon">Load high res icons</string>
     <string name="prefsAutoStartSingle">«Auto start mode» if only one single app selected</string>
     
+    <!-- upcoming feature (?) -->
+    <string name="prefsNumTabs">Number of tabs</string>
+    
 </resources>
