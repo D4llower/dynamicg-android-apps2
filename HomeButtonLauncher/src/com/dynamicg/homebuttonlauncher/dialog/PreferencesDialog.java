@@ -40,13 +40,8 @@ public class PreferencesDialog extends Dialog {
 
 		DialogHelper.prepareCommonDialog(this, R.layout.preferences_body, R.layout.button_panel_2);
 
-		seekbarLabelSize = (SeekBar)findViewById(R.id.prefsLabelSize);
-		SizePrefsHelper.setLabelSize(seekbarLabelSize, prefSettings.getLabelSize());
-		attachProgessIndicator(seekbarLabelSize, R.id.prefsLabelSizeIndicator);
-
-		seekbarIconSize = (SeekBar)findViewById(R.id.prefsIconSize);
-		SizePrefsHelper.setIconSize(seekbarIconSize, prefSettings.getIconSize());
-		attachProgessIndicator(seekbarIconSize, R.id.prefsIconSizeIndicator);
+		seekbarLabelSize = attachSeekBar(R.id.prefsLabelSize, R.id.prefsLabelSizeIndicator, SizePrefsHelper.LABEL_SIZES, prefSettings.getLabelSize());
+		seekbarIconSize = attachSeekBar(R.id.prefsIconSize, R.id.prefsIconSizeIndicator, SizePrefsHelper.ICON_SIZES, prefSettings.getIconSize());
 
 		highRes = (CheckBox)findViewById(R.id.prefsHighResIcon);
 		highRes.setChecked(prefSettings.isHighResIcons());
@@ -73,9 +68,12 @@ public class PreferencesDialog extends Dialog {
 
 	}
 
-	private void attachProgessIndicator(final SeekBar seekBar, final int textViewLabelId) {
-		final TextView node = (TextView)findViewById(textViewLabelId);
-		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+	private SeekBar attachSeekBar(final int id, final int indicatorId, final int[] values, final int initialValue) {
+		final SeekBar bar = (SeekBar)findViewById(id);
+		SizePrefsHelper.setSeekBar(bar, initialValue, values);
+
+		final TextView indicator = (TextView)findViewById(indicatorId);
+		bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 			}
@@ -85,15 +83,13 @@ public class PreferencesDialog extends Dialog {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				if (fromUser) {
-					int size = 0;
-					switch (textViewLabelId) {
-					case R.id.prefsLabelSizeIndicator: size = SizePrefsHelper.getLabelSize(seekbarLabelSize); break;
-					case R.id.prefsIconSizeIndicator: size = SizePrefsHelper.getIconSize(seekbarIconSize); break;
-					}
-					node.setText("["+size+"]");
+					int displayValue = SizePrefsHelper.getSelectedValue(bar, values);
+					indicator.setText("["+displayValue+"]");
 				}
 			}
 		});
+
+		return bar;
 	}
 
 	private void setLayoutSelection(View parent, int which) {
@@ -121,8 +117,8 @@ public class PreferencesDialog extends Dialog {
 	}
 
 	private void saveSettings() {
-		int labelSize = SizePrefsHelper.getLabelSize(seekbarLabelSize);
-		int iconSize = SizePrefsHelper.getIconSize(seekbarIconSize);
+		int labelSize = SizePrefsHelper.getSelectedValue(seekbarLabelSize, SizePrefsHelper.LABEL_SIZES);
+		int iconSize = SizePrefsHelper.getSelectedValue(seekbarIconSize, SizePrefsHelper.ICON_SIZES);
 		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize, highRes.isChecked(), autoStartSingle.isChecked());
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
