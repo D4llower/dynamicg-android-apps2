@@ -71,6 +71,8 @@ public class PreferencesDialog extends Dialog {
 	private SeekBar attachSeekBar(final int id, final int indicatorId, final int[] values, final int initialValue) {
 		final SeekBar bar = (SeekBar)findViewById(id);
 		SizePrefsHelper.setSeekBar(bar, initialValue, values);
+		bar.setTag(R.id.buttonOk, initialValue);
+		bar.setTag(R.id.buttonCancel, initialValue); // also store original value
 
 		final TextView indicator = (TextView)findViewById(indicatorId);
 		bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -83,8 +85,9 @@ public class PreferencesDialog extends Dialog {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				if (fromUser) {
-					int displayValue = SizePrefsHelper.getSelectedValue(bar, values);
-					indicator.setText("["+displayValue+"]");
+					int selectedValue = SizePrefsHelper.getSelectedValue(bar, values);
+					indicator.setText("["+selectedValue+"]");
+					bar.setTag(R.id.buttonOk, selectedValue);
 				}
 			}
 		});
@@ -117,8 +120,8 @@ public class PreferencesDialog extends Dialog {
 	}
 
 	private void saveSettings() {
-		int labelSize = SizePrefsHelper.getSelectedValue(seekbarLabelSize, SizePrefsHelper.LABEL_SIZES);
-		int iconSize = SizePrefsHelper.getSelectedValue(seekbarIconSize, SizePrefsHelper.ICON_SIZES);
+		int labelSize = (Integer)seekbarLabelSize.getTag(R.id.buttonOk);
+		int iconSize = (Integer)seekbarIconSize.getTag(R.id.buttonOk);
 		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize, highRes.isChecked(), autoStartSingle.isChecked());
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
