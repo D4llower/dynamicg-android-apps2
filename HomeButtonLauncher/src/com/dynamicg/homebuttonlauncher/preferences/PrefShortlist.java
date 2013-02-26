@@ -18,11 +18,15 @@ import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 public class PrefShortlist {
 
 	private final PackageManager packageManager;
-	public final SharedPreferences sharedPrefs;
+	private SharedPreferences sharedPrefs;
 
 	public PrefShortlist(PackageManager packageManager, SharedPreferences appPrefs) {
 		this.packageManager = packageManager;
 		this.sharedPrefs = appPrefs;
+	}
+
+	public void switchSharedPrefs(SharedPreferences newPrefs) {
+		this.sharedPrefs = newPrefs;
 	}
 
 	public int size() {

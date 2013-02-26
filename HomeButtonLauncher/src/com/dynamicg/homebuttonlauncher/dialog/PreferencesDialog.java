@@ -9,6 +9,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
@@ -19,18 +20,26 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public class PreferencesDialog extends Dialog {
 
+	private static final Logger log = new Logger(PreferencesDialog.class);
+
+	private static final int TAG_OLD_VALUE = R.id.buttonCancel;
+	private static final int TAG_NEW_VALUE = R.id.buttonOk;
+
+	private final PreferencesManager preferences;
 	private final PrefSettings prefSettings;
 	private final MainActivityHome activity;
 
 	private int selectedLayout;
 	private SeekBar seekbarLabelSize;
 	private SeekBar seekbarIconSize;
+	private SeekBar seekbarNumTabs;
 	private CheckBox highRes;
 	private CheckBox autoStartSingle;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
 		this.activity = activity;
+		this.preferences = preferences;
 		this.prefSettings = preferences.prefSettings;
 	}
 
@@ -42,6 +51,7 @@ public class PreferencesDialog extends Dialog {
 
 		seekbarLabelSize = attachSeekBar(R.id.prefsLabelSize, R.id.prefsLabelSizeIndicator, SizePrefsHelper.LABEL_SIZES, prefSettings.getLabelSize());
 		seekbarIconSize = attachSeekBar(R.id.prefsIconSize, R.id.prefsIconSizeIndicator, SizePrefsHelper.ICON_SIZES, prefSettings.getIconSize());
+		seekbarNumTabs = attachSeekBar(R.id.prefsNumTabs, R.id.prefsNumTabsIndicator, SizePrefsHelper.NUM_TABS, prefSettings.getNumTabs());
 
 		highRes = (CheckBox)findViewById(R.id.prefsHighResIcon);
 		highRes.setChecked(prefSettings.isHighResIcons());
@@ -71,8 +81,8 @@ public class PreferencesDialog extends Dialog {
 	private SeekBar attachSeekBar(final int id, final int indicatorId, final int[] values, final int initialValue) {
 		final SeekBar bar = (SeekBar)findViewById(id);
 		SizePrefsHelper.setSeekBar(bar, initialValue, values);
-		bar.setTag(R.id.buttonOk, initialValue);
-		bar.setTag(R.id.buttonCancel, initialValue); // also store original value
+		bar.setTag(TAG_NEW_VALUE, initialValue);
+		bar.setTag(TAG_OLD_VALUE, initialValue);
 
 		final TextView indicator = (TextView)findViewById(indicatorId);
 		bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -87,7 +97,7 @@ public class PreferencesDialog extends Dialog {
 				if (fromUser) {
 					int selectedValue = SizePrefsHelper.getSelectedValue(bar, values);
 					indicator.setText("["+selectedValue+"]");
-					bar.setTag(R.id.buttonOk, selectedValue);
+					bar.setTag(TAG_NEW_VALUE, selectedValue);
 				}
 			}
 		});
@@ -119,10 +129,39 @@ public class PreferencesDialog extends Dialog {
 		setLayoutSelection(parent, prefSettings.getLayoutType());
 	}
 
+	private static int getNewValue(SeekBar bar) {
+		return (Integer)bar.getTag(TAG_NEW_VALUE);
+	}
+
+	private static int getOldValue(SeekBar bar) {
+		return (Integer)bar.getTag(TAG_OLD_VALUE);
+	}
+
 	private void saveSettings() {
-		int labelSize = (Integer)seekbarLabelSize.getTag(R.id.buttonOk);
-		int iconSize = (Integer)seekbarIconSize.getTag(R.id.buttonOk);
-		prefSettings.writeAppSettings(selectedLayout, labelSize, iconSize, highRes.isChecked(), autoStartSingle.isChecked());
+
+		int oldNumTabs = getOldValue(seekbarNumTabs);
+		int newNumTabs = getNewValue(seekbarNumTabs);
+		int currentTabIndex = preferences.getTabIndex();
+		log.debug("saveSettings", oldNumTabs, newNumTabs, currentTabIndex);
+
+		prefSettings.writeAppSettings(
+				selectedLayout
+				, getNewValue(seekbarLabelSize)
+				, getNewValue(seekbarIconSize)
+				, highRes.isChecked()
+				, autoStartSingle.isChecked()
+				, getNewValue(seekbarNumTabs)
+				);
+
+		if (currentTabIndex>=newNumTabs) {
+			// reset to first tab if current is above max
+			preferences.switchShortlist(0);
+		}
+		if (oldNumTabs!=newNumTabs) {
+			// redraw tabs when changed
+			activity.redrawTabContainer();
+		}
+
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
 	}

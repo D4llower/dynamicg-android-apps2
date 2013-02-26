@@ -66,6 +66,18 @@
 	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsIconSizeIndicator" />
 	</LinearLayout>
 	
+    <TextView style="@style/PrefLabel"
+	    android:text="@string/prefsNumTabs"
+	    />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+	    <SeekBar style="@style/PrefSeekbar" android:id="@+id/prefsNumTabs" />
+	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsNumTabsIndicator" />
+	</LinearLayout>
+    
     <CheckBox style="@style/PrefLabel"
         android:id="@+id/prefsHighResIcon" 
         android:text="@string/prefsHiResIcon"

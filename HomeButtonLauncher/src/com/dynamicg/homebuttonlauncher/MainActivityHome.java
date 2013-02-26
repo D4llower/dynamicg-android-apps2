@@ -210,4 +210,9 @@ public class MainActivityHome extends Activity {
 		return menuWrapper;
 	}
 
+	public void redrawTabContainer() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

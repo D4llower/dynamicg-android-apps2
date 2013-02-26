@@ -13,6 +13,7 @@ public class PrefSettings {
 	private static final String KEY_ICON_SIZE = "iconSize";
 	private static final String KEY_HIGH_RES = "highRes";
 	private static final String KEY_AUTO_START_SINGLE = "autoStart";
+	private static final String KEY_NUM_TABS = "numTabs";
 
 	public static final int NUM_LAYOUTS = 4;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -25,14 +26,35 @@ public class PrefSettings {
 		this.sharedPrefs = settingsPrefs;
 	}
 
-	public void writeAppSettings(int layout, int labelSize, int iconSize, boolean highResIcons, boolean autoStartSingle) {
+	public void writeAppSettings(int layout, int labelSize, int iconSize, boolean highResIcons, boolean autoStartSingle, int numTabs) {
 		Editor edit = sharedPrefs.edit();
 		edit.putInt(KEY_LAYOUT, layout);
 		edit.putInt(KEY_LABEL_SIZE, labelSize);
 		edit.putInt(KEY_ICON_SIZE, iconSize);
 		edit.putBoolean(KEY_HIGH_RES, highResIcons);
 		edit.putBoolean(KEY_AUTO_START_SINGLE, autoStartSingle);
+		edit.putInt(KEY_NUM_TABS, numTabs);
 		edit.commit();
+	}
+
+	public void write(String key, int value) {
+		Editor edit = sharedPrefs.edit();
+		edit.putInt(key, value);
+		edit.commit();
+	}
+
+	public void write(String key, String value) {
+		Editor edit = sharedPrefs.edit();
+		edit.putString(key, value);
+		edit.commit();
+	}
+
+	public int getIntValue(String key) {
+		return sharedPrefs.getInt(key, 0);
+	}
+
+	public String getStringValue(String key, String dflt) {
+		return sharedPrefs.getString(key, dflt);
 	}
 
 	// this is "sp". see com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper.LABEL_SIZES
@@ -43,6 +65,10 @@ public class PrefSettings {
 	// this is "dp". see com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper.ICON_SIZES
 	public int getIconSize() {
 		return sharedPrefs.getInt(KEY_ICON_SIZE, SizePrefsHelper.DEFAULT_ICON_SIZE);
+	}
+
+	public int getNumTabs() {
+		return sharedPrefs.getInt(KEY_NUM_TABS, 0);
 	}
 
 	public int getLayoutType() {

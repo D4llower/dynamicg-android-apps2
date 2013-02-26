@@ -18,7 +18,5 @@
     <string name="prefsIconSize">圖示大小</string>
     <string name="prefsHiResIcon">套用高解析度圖示</string>
     <string name="prefsAutoStartSingle">«自動啟動模式» 當只有一個app被選取時</string>
-    <!-- upcoming feature (?)
     <string name="prefsNumTabs">分頁數量</string>
-    -->
 </resources>

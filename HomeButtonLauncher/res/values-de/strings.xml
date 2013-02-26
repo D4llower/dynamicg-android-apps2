@@ -19,5 +19,6 @@
     <string name="prefsIconSize">Icon-Größe</string>
 	<string name="prefsHiResIcon">High-Res Icons laden</string>
     <string name="prefsAutoStartSingle">«Auto Start Modus» wenn nur eine einzige App gewählt</string>
+	<string name="prefsNumTabs">Anzahl Tabs</string>
     
 </resources>

@@ -40,4 +40,14 @@ public class PreferencesManager {
 		}
 	}
 
+	public int getTabIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void switchShortlist(int tabIndex) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
