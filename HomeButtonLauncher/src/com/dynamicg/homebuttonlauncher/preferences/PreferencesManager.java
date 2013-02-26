@@ -57,7 +57,7 @@ public class PreferencesManager {
 		}
 	}
 
-	public void switchShortlist(int tabindex) {
+	public void updateCurrentTabIndex(int tabindex) {
 		prefShortlist.switchSharedPrefs(getShortlistPrefs(tabindex));
 		prefSettings.write(KEY_TAB_INDEX, tabindex);
 	}

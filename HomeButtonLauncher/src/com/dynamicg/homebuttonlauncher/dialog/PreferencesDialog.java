@@ -146,7 +146,7 @@ public class PreferencesDialog extends Dialog {
 
 		if (currentTabIndex>=newNumTabs) {
 			// reset to first tab if current is above max
-			preferences.switchShortlist(0);
+			preferences.updateCurrentTabIndex(0);
 		}
 
 		prefSettings.writeAppSettings(

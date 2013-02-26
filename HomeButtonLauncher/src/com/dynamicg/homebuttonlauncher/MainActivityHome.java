@@ -217,7 +217,7 @@ public class MainActivityHome extends Activity {
 	public void updateOnTabSwitch(int tabindex) {
 		if (preferences.getTabIndex()!=tabindex) {
 			log.debug("updateOnTabSwitch", tabindex);
-			preferences.switchShortlist(tabindex);
+			preferences.updateCurrentTabIndex(tabindex);
 			refreshList();
 		}
 	}
