@@ -144,6 +144,11 @@ public class PreferencesDialog extends Dialog {
 		int currentTabIndex = preferences.getTabIndex();
 		log.debug("saveSettings", oldNumTabs, newNumTabs, currentTabIndex);
 
+		if (currentTabIndex>=newNumTabs) {
+			// reset to first tab if current is above max
+			preferences.switchShortlist(0);
+		}
+
 		prefSettings.writeAppSettings(
 				selectedLayout
 				, getNewValue(seekbarLabelSize)
@@ -153,10 +158,6 @@ public class PreferencesDialog extends Dialog {
 				, getNewValue(seekbarNumTabs)
 				);
 
-		if (currentTabIndex>=newNumTabs) {
-			// reset to first tab if current is above max
-			preferences.switchShortlist(0);
-		}
 		if (oldNumTabs!=newNumTabs) {
 			// redraw tabs when changed
 			activity.redrawTabContainer();

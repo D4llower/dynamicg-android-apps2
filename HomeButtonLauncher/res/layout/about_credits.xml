@@ -1,7 +1,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
 style="@style/DefaultText"
 android:layout_marginBottom="6dp"
-android:text="中文 (繁體): Sam Chen
+android:text="‪‪繁體中文: Sam Chen
+\n简体中文‬: Yin Yin
 \nPortuguês: Denilson Sá
 "
 />
