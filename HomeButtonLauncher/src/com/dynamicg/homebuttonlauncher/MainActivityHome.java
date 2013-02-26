@@ -58,6 +58,10 @@ public class MainActivityHome extends Activity {
 		attachContextMenu();
 		setListAdapter();
 		setMinWidth();
+
+		if (preferences.prefSettings.getNumTabs()>0) {
+			new MainTabHelper(this, preferences).bindTabs();
+		}
 	}
 
 	private boolean isAutoStartSingleSuccessful() {
@@ -210,9 +214,16 @@ public class MainActivityHome extends Activity {
 		return menuWrapper;
 	}
 
-	public void redrawTabContainer() {
-		// TODO Auto-generated method stub
+	public void updateOnTabSwitch(int tabindex) {
+		if (preferences.getTabIndex()!=tabindex) {
+			log.debug("updateOnTabSwitch", tabindex);
+			preferences.switchShortlist(tabindex);
+			refreshList();
+		}
+	}
 
+	public void redrawTabContainer() {
+		new MainTabHelper(this, preferences).redraw();
 	}
 
 }

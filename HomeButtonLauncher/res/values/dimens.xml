@@ -12,4 +12,6 @@
 	<dimen name="gridViewPaddingTop">4dp</dimen>
 	<dimen name="gridViewPaddingBottom">4dp</dimen>
 	
+	<dimen name="tabHeight">34dp</dimen>
+
 </resources>
