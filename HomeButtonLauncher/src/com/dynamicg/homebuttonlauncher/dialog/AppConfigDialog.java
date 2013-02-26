@@ -132,7 +132,7 @@ public class AppConfigDialog extends Dialog {
 			listview.setFastScrollEnabled(true);
 		}
 
-		new AppListContextMenu(context).attach(listview, appList);
+		new AppListContextMenu(activity).attach(listview, appList);
 	}
 
 	private List<String> getSelectedComponents() {

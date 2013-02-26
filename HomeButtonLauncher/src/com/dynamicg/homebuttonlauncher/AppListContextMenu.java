@@ -1,6 +1,6 @@
 package com.dynamicg.homebuttonlauncher;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -9,16 +9,24 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.dynamicg.common.MarketLinkHelper;
+import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
 public class AppListContextMenu {
 
-	private final Context context;
+	private final MainActivityHome context;
+	private final PrefShortlist prefShortlist;
 
-	public AppListContextMenu(final Context context) {
-		this.context = context;
+	public AppListContextMenu(MainActivityHome activity, PrefShortlist prefShortlist) {
+		this.context = activity;
+		this.prefShortlist = prefShortlist;
+	}
+
+	public AppListContextMenu(MainActivityHome activity) {
+		this.context = activity;
+		this.prefShortlist = null;
 	}
 
 	public void attach(final AbsListView listview, final AppListContainer appList) {
@@ -39,6 +47,7 @@ public class AppListContextMenu {
 					switch (id) {
 					case MenuGlobals.SHOW_APP_DETAILS: showAppDetails(appEntry); break;
 					case MenuGlobals.SHOW_PLAY_STORE: showInPlayStore(appEntry); break;
+					case MenuGlobals.APPS_REMOVE: remove(appEntry); break;
 					}
 				}
 				catch (Throwable t) {
@@ -50,6 +59,9 @@ public class AppListContextMenu {
 		PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
 		menuWrapper.addItem(MenuGlobals.SHOW_APP_DETAILS, R.string.openAppDetails);
 		menuWrapper.addItem(MenuGlobals.SHOW_PLAY_STORE, R.string.openPlayStore);
+		if (prefShortlist!=null) {
+			menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemove);
+		}
 		menuWrapper.showMenu();
 	}
 
@@ -63,6 +75,17 @@ public class AppListContextMenu {
 
 	private void showInPlayStore(AppEntry appEntry) {
 		MarketLinkHelper.openMarketIntent(context, appEntry.getPackage());
+	}
+
+	private void remove(final AppEntry appEntry) {
+		OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
+			@Override
+			public void onClickImpl(DialogInterface d, int which) {
+				prefShortlist.remove(appEntry);
+				context.refreshList();
+			}
+		};
+		DialogHelper.confirm(context, R.string.menuRemove, okListener);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.dynamicg.homebuttonlauncher.preferences;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,10 @@ public class PrefShortlist {
 	public synchronized void remove(List<String> components) {
 		removeImpl(components);
 		validateAll();
+	}
+
+	public synchronized void remove(AppEntry entry) {
+		removeImpl(Arrays.asList(entry.getComponent()));
 	}
 
 	private void validateAll() {

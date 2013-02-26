@@ -1,11 +1,11 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
@@ -31,17 +31,13 @@ public class ConfigHeaderSortReset extends ConfigHeaderAbstract {
 	}
 
 	private void confirmSortReset() {
-		AlertDialog.Builder b = new AlertDialog.Builder(context);
-		String label = context.getString(R.string.menuReset)+"?";
-		b.setTitle(label);
-		b.setPositiveButton(R.string.buttonOk, new OnClickListenerDialogWrapper(context) {
+		OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
 			@Override
 			public void onClickImpl(DialogInterface d, int which) {
 				dialog.doSortReset();
 			}
-		} );
-		b.setNegativeButton(R.string.buttonCancel, null);
-		b.show();
+		};
+		DialogHelper.confirm(context, R.string.menuReset, okListener);
 	}
 
 }

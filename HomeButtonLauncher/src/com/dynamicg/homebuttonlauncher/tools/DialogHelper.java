@@ -7,6 +7,7 @@ import android.view.ViewStub;
 
 import com.dynamicg.common.ErrorSender;
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 
 public class DialogHelper {
@@ -38,6 +39,15 @@ public class DialogHelper {
 		ViewStub buttons = (ViewStub)d.findViewById(R.id.commonDialogButtonPanel);
 		buttons.setLayoutResource(buttonsLayoutId);
 		buttons.inflate();
+	}
+
+	public static void confirm(Context context, int labelId, OnClickListenerDialogWrapper okListener) {
+		AlertDialog.Builder b = new AlertDialog.Builder(context);
+		String label = context.getString(labelId)+"?";
+		b.setTitle(label);
+		b.setPositiveButton(R.string.buttonOk, okListener);
+		b.setNegativeButton(R.string.buttonCancel, null);
+		b.show();
 	}
 
 }

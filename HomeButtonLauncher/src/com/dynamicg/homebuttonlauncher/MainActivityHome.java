@@ -133,7 +133,7 @@ public class MainActivityHome extends Activity {
 				startAppAndClose(appList.get(position));
 			}
 		});
-		new AppListContextMenu(context).attach(listview, appList);
+		new AppListContextMenu(this, preferences.prefShortlist).attach(listview, appList);
 	}
 
 	private boolean startAppAndClose(AppEntry entry) {
