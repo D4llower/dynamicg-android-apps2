@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources> 
+	<string name="app_name">Home Launcher</string> 
+	<string name="menuAddApps">加入apps</string>
+	<string name="menuRemoveApps">移除apps</string>
+	<string name="menuAbout">关于</string> 
+	<string name="menuSort">排序</string>
+	<string name="menuReset">重设</string>
+	<string name="buttonOk"> 确认</string> 
+	<string name="buttonCancel">取消</string>
+	<string name="aboutOpenSource">此应用程式为公开资源:</string> 
+	<string name="aboutPleaseRate">请帮这个app评价</string>
+	<string name="openAppDetails"> 程式资讯</string>
+	<string name="openPlayStore">Play Store</string> 
+	<string name="preferences">设定</string> 
+	<string name="prefsLayout">排列方式</string>
+	<string name="prefsLabelSize">字型大小</string> 
+	<string name="prefsIconSize">图示大小</string> 
+	<string name="prefsHiResIcon">套用高解析度图示</string> 
+	<string name="prefsAutoStartSingle">«自动启动模式» 当只有一个app被选取时</string> 
+	<!-- upcoming feature (?) 
+	<string name="prefsNumTabs">分页数量</string> 
+	-->
+</resources>
