@@ -206,11 +206,11 @@ public class MainActivityHome extends Activity {
 		};
 
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
-		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAdd);
-		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemove);
-		menuWrapper.addItem(MenuGlobals.APPS_SORT, R.string.menuSort);
-		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout);
-		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences);
+		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAdd, android.R.drawable.ic_menu_add);
+		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemove, android.R.drawable.ic_menu_close_clear_cancel);
+		menuWrapper.addItem(MenuGlobals.APPS_SORT, R.string.menuSort, android.R.drawable.ic_menu_sort_by_size);
+		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout, android.R.drawable.ic_menu_info_details);
+		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences, android.R.drawable.ic_menu_preferences);
 		return menuWrapper;
 	}
 
