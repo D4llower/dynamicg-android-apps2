@@ -73,9 +73,15 @@ public class MainActivityHome extends Activity {
 			return false;
 		}
 
+		if (preferences.prefShortlist.getComponentsMap().size()!=1) {
+			// shortcut - this is faster than "getSelectedAppsList" just below
+			log.debug("autoStart", "getComponentsMap", "size!=1");
+			return false;
+		}
+
 		final AppListContainer appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
 		if (appList.size()!=1) {
-			log.debug("autoStart", "size!=1");
+			log.debug("autoStart", "getSelectedAppsList", "size!=1");
 			return false;
 		}
 
@@ -157,6 +163,20 @@ public class MainActivityHome extends Activity {
 
 	private void attachContextMenu() {
 		final View anchor = findViewById(R.id.headerIcon);
+		anchor.setOnClickListener(new OnClickListenerWrapper() {
+			private PopupMenuWrapper wrapper;
+			@Override
+			public void onClickImpl(View v) {
+				// create the popup only if actually required
+				if (wrapper==null) {
+					wrapper = bindMenu(anchor);
+				}
+				wrapper.showMenu();
+			}
+		});
+	}
+
+	private PopupMenuWrapper bindMenu(final View anchor) {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
@@ -182,13 +202,12 @@ public class MainActivityHome extends Activity {
 		};
 
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
-		menuWrapper.attachToAnchorClick();
 		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAdd);
 		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemove);
 		menuWrapper.addItem(MenuGlobals.APPS_SORT, R.string.menuSort);
 		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout);
 		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences);
-
+		return menuWrapper;
 	}
 
 }
