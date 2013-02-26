@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Home Launcher</string>
-    <string name="menuAddApps">Apps hinzufügen</string>
-    <string name="menuRemoveApps">Apps entfernen</string>
+    <string name="menuAdd">Hinzufügen</string>
+    <string name="menuRemove">Entfernen</string>
     <string name="menuAbout">Info</string>
     <string name="menuSort">Sortieren</string>
     <string name="menuReset">Zurücksetzen</string>

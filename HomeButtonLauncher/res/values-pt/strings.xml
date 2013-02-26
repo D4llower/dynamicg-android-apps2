@@ -3,8 +3,8 @@
     
     <string name="app_name">Home Launcher</string>
     
-    <string name="menuAddApps">Adicionar aplicativos</string>
-    <string name="menuRemoveApps">Remover aplicativos</string>
+    <string name="menuAdd">Adicionar</string>
+    <string name="menuRemove">Remover</string>
     <string name="menuAbout">Sobre</string>
     <string name="menuSort">Ordenar</string>
     <string name="menuReset">Reset</string>

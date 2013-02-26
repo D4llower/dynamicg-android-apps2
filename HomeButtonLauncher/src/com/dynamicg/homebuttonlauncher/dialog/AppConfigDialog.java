@@ -92,7 +92,7 @@ public class AppConfigDialog extends Dialog {
 
 		ConfigHeaderAbstract header = actionSort ? new ConfigHeaderSortReset(this) : new ConfigHeaderSearch(this);
 		header.attach();
-		final int titleResId = actionRemove ? R.string.menuRemoveApps : actionSort ? R.string.menuSort : R.string.menuAddApps;
+		final int titleResId = actionRemove ? R.string.menuRemove : actionSort ? R.string.menuSort : R.string.menuAdd;
 		header.setTitleAndWidth(titleResId);
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {

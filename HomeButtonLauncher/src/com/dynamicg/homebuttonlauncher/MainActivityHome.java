@@ -183,8 +183,8 @@ public class MainActivityHome extends Activity {
 
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
 		menuWrapper.attachToAnchorClick();
-		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAddApps);
-		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemoveApps);
+		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAdd);
+		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemove);
 		menuWrapper.addItem(MenuGlobals.APPS_SORT, R.string.menuSort);
 		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout);
 		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences);
