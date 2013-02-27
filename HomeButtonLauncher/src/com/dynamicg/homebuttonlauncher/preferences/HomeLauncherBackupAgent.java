@@ -7,6 +7,8 @@ import android.app.backup.BackupManager;
 import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.Context;
 
+import com.dynamicg.common.Logger;
+
 /*
  * see
  * http://developer.android.com/training/cloudsync/backupapi.html
@@ -16,42 +18,44 @@ import android.content.Context;
  * http://play.google.com/apps/publish/GetBackupApiKey?p=com.dynamicg.homebuttonlauncher
  * 
  * === testing in emulator ===
+ * 
  * =BACKUP=
- * adb shell bmgr enable true
- * adb shell bmgr backup com.dynamicg.homebuttonlauncher
- * adb shell bmgr run
+
+adb shell bmgr enable true
+adb shell bmgr backup com.dynamicg.homebuttonlauncher
+adb shell bmgr run
+
  * =UNINSTALL/REINSTALL=
  * adb uninstall com.dynamicg.homebuttonlauncher
  * 
  */
 public class HomeLauncherBackupAgent extends BackupAgentHelper {
 
+	private static final Logger log = new Logger(HomeLauncherBackupAgent.class);
 	private static final String BACKUP_KEY = "HomeLauncherPrefs";
 
-	private void attachExtraTabs(ArrayList<String> list) {
+	private int getNumTabs() {
+		int tabcount = 0;
 		try {
 			PrefSettings prefSettings = new PrefSettings(this.getSharedPreferences(PreferencesManager.PREF_SETTINGS, Context.MODE_PRIVATE));
-			int numTabs = prefSettings.getNumTabs();
-			if (numTabs==0) {
-				return;
-			}
-			for (int i=1;i<numTabs;i++) {
-				// add extra tabs (tab0 is already on list)
-				list.add(PreferencesManager.getShortlistName(i));
-			}
+			tabcount = prefSettings.getNumTabs();
 		}
 		catch (Throwable t) {
-			// ignore
-			return;
+			log.debug("ERROR", t);
 		}
+		return tabcount==0 ? 1 : tabcount;
 	}
 
 	@Override
 	public void onCreate() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(PreferencesManager.PREF_SHORTLIST);
 		list.add(PreferencesManager.PREF_SETTINGS);
-		attachExtraTabs(list);
+		int tabcount = getNumTabs();
+		for (int i=0;i<tabcount;i++) {
+			list.add(PreferencesManager.getShortlistName(i));
+		}
+
+		log.debug("#### HomeLauncherBackupAgent ###", list);
 
 		String[] prefs = list.toArray(new String[]{});
 		SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(this, prefs);

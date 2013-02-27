@@ -10,7 +10,7 @@ import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PreferencesManager {
 
-	protected static final String PREF_SHORTLIST = "apps";
+	private static final String PREF_SHORTLIST = "apps";
 	protected static final String PREF_SETTINGS = "settings";
 
 	private static final String KEY_TAB_INDEX = "tabIndex";
