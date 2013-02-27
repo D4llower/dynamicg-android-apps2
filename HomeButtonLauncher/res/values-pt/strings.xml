@@ -24,5 +24,7 @@
     <string name="prefsLabelSize">Tamanho do texto</string>
     <string name="prefsIconSize">Tamanho do ícone</string>
     <string name="prefsHiResIcon">Carregar ícones de alta definição</string>
-    
+	<string name="prefsAutoStartSingle">«modo Auto Início» se existe somente uma app selecionada</string>
+	<string name="prefsNumTabs">Número de abas</string>
+	
 </resources>
