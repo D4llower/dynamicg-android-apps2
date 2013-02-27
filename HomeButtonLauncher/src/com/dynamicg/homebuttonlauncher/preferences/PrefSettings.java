@@ -1,5 +1,6 @@
 package com.dynamicg.homebuttonlauncher.preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
@@ -7,6 +8,8 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 
 public class PrefSettings {
+
+	protected static final String SHARED_PREFS_KEY = "settings";
 
 	private static final String KEY_LAYOUT = "layout";
 	private static final String KEY_LABEL_SIZE = "labelSize";
@@ -22,8 +25,8 @@ public class PrefSettings {
 
 	private final SharedPreferences sharedPrefs;
 
-	public PrefSettings(SharedPreferences settingsPrefs) {
-		this.sharedPrefs = settingsPrefs;
+	public PrefSettings(Context context) {
+		this.sharedPrefs = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 	}
 
 	public void writeAppSettings(int layout, int labelSize, int iconSize, boolean highResIcons, boolean autoStartSingle, int numTabs) {

@@ -11,7 +11,6 @@ import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 public class PreferencesManager {
 
 	private static final String PREF_SHORTLIST = "apps";
-	protected static final String PREF_SETTINGS = "settings";
 
 	private static final String KEY_TAB_INDEX = "tabIndex";
 	private static final String KEY_TAB_LABEL_PREFIX = "tabTitle.";
@@ -35,7 +34,7 @@ public class PreferencesManager {
 
 	public PreferencesManager(Context context) {
 		this.context = context;
-		this.prefSettings = new PrefSettings(context.getSharedPreferences(PREF_SETTINGS, Context.MODE_PRIVATE));
+		this.prefSettings = new PrefSettings(context);
 		int tabindex = getTabIndex();
 		this.prefShortlist = new PrefShortlist(context.getPackageManager(), getShortlistPrefs(tabindex));
 		if (tabindex==0) {

@@ -37,7 +37,7 @@ public class HomeLauncherBackupAgent extends BackupAgentHelper {
 	private int getNumTabs() {
 		int tabcount = 0;
 		try {
-			PrefSettings prefSettings = new PrefSettings(this.getSharedPreferences(PreferencesManager.PREF_SETTINGS, Context.MODE_PRIVATE));
+			PrefSettings prefSettings = new PrefSettings(this);
 			tabcount = prefSettings.getNumTabs();
 		}
 		catch (Throwable t) {
@@ -49,7 +49,7 @@ public class HomeLauncherBackupAgent extends BackupAgentHelper {
 	@Override
 	public void onCreate() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(PreferencesManager.PREF_SETTINGS);
+		list.add(PrefSettings.SHARED_PREFS_KEY);
 		int tabcount = getNumTabs();
 		for (int i=0;i<tabcount;i++) {
 			list.add(PreferencesManager.getShortlistName(i));
