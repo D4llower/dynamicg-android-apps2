@@ -8,3 +8,9 @@ xhdpi: bg 192x192, icon 96x96
 
 ## svg to png converter ##
 http://www.fileformat.info/convert/image/svg2raster.htm
+
+
+## app icon ##
+http://findicons.com/icon/78735/rocket
+http://findicons.com/icon/78735/rocket?width=64
+gradient 3f-57, border 3
