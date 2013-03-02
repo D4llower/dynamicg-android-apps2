@@ -1,6 +1,7 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
 import android.app.Dialog;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,14 +150,7 @@ public class PreferencesDialog extends Dialog {
 			preferences.updateCurrentTabIndex(0);
 		}
 
-		prefSettings.writeAppSettings(
-				selectedLayout
-				, getNewValue(seekbarLabelSize)
-				, getNewValue(seekbarIconSize)
-				, highRes.isChecked()
-				, autoStartSingle.isChecked()
-				, getNewValue(seekbarNumTabs)
-				);
+		saveSharedPrefs();
 
 		if (oldNumTabs!=newNumTabs) {
 			// redraw tabs when changed
@@ -165,6 +159,17 @@ public class PreferencesDialog extends Dialog {
 
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
+	}
+
+	private void saveSharedPrefs() {
+		Editor edit = prefSettings.sharedPrefs.edit();
+		edit.putInt(PrefSettings.KEY_LAYOUT, selectedLayout);
+		edit.putInt(PrefSettings.KEY_LABEL_SIZE, getNewValue(seekbarLabelSize));
+		edit.putInt(PrefSettings.KEY_ICON_SIZE, getNewValue(seekbarIconSize));
+		edit.putInt(PrefSettings.KEY_NUM_TABS, getNewValue(seekbarNumTabs));
+		edit.putBoolean(PrefSettings.KEY_HIGH_RES, highRes.isChecked());
+		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, autoStartSingle.isChecked());
+		edit.commit();
 	}
 
 }

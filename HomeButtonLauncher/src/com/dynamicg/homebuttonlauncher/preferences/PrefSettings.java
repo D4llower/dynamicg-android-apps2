@@ -11,33 +11,22 @@ public class PrefSettings {
 
 	protected static final String SHARED_PREFS_KEY = "settings";
 
-	private static final String KEY_LAYOUT = "layout";
-	private static final String KEY_LABEL_SIZE = "labelSize";
-	private static final String KEY_ICON_SIZE = "iconSize";
-	private static final String KEY_HIGH_RES = "highRes";
-	private static final String KEY_AUTO_START_SINGLE = "autoStart";
-	private static final String KEY_NUM_TABS = "numTabs";
+	public static final String KEY_LAYOUT = "layout";
+	public static final String KEY_LABEL_SIZE = "labelSize";
+	public static final String KEY_ICON_SIZE = "iconSize";
+	public static final String KEY_HIGH_RES = "highRes";
+	public static final String KEY_AUTO_START_SINGLE = "autoStart";
+	public static final String KEY_NUM_TABS = "numTabs";
 
 	public static final int NUM_LAYOUTS = 4;
 	private static final int LAYOUT_PLAIN_2 = 1;
 	private static final int LAYOUT_COMPACT_2 = 2;
 	private static final int LAYOUT_COMPACT_4 = 3;
 
-	private final SharedPreferences sharedPrefs;
+	public final SharedPreferences sharedPrefs;
 
 	public PrefSettings(Context context) {
 		this.sharedPrefs = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-	}
-
-	public void writeAppSettings(int layout, int labelSize, int iconSize, boolean highResIcons, boolean autoStartSingle, int numTabs) {
-		Editor edit = sharedPrefs.edit();
-		edit.putInt(KEY_LAYOUT, layout);
-		edit.putInt(KEY_LABEL_SIZE, labelSize);
-		edit.putInt(KEY_ICON_SIZE, iconSize);
-		edit.putBoolean(KEY_HIGH_RES, highResIcons);
-		edit.putBoolean(KEY_AUTO_START_SINGLE, autoStartSingle);
-		edit.putInt(KEY_NUM_TABS, numTabs);
-		edit.commit();
 	}
 
 	public void write(String key, int value) {
