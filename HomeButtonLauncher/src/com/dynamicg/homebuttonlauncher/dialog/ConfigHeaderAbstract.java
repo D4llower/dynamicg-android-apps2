@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public abstract class ConfigHeaderAbstract {
 
@@ -25,7 +26,7 @@ public abstract class ConfigHeaderAbstract {
 
 	public void setTitleAndWidth(int label) {
 		titleNode.setText(label);
-		int width = (int)dialog.getContext().getResources().getDimension(R.dimen.widthAppConfig);
+		int width = DialogHelper.getDimension(context, R.dimen.widthAppConfig);
 		View container = dialog.findViewById(R.id.headerContainer);
 		container.setLayoutParams(new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
 	}

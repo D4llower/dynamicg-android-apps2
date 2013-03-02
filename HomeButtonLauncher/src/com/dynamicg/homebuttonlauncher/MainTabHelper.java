@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public class MainTabHelper {
 
@@ -61,7 +62,7 @@ public class MainTabHelper {
 			}
 		};
 
-		int tabHeight = (int)context.getResources().getDimension(R.dimen.tabHeight);
+		int tabHeight = DialogHelper.getDimension(context, R.dimen.tabHeight);
 		for (int i=0;i<numTabs;i++) {
 			View tab = tabviews[i];
 			tab.setTag(i);

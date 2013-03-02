@@ -89,7 +89,7 @@ public class PrefSettings {
 		return R.layout.applist_listview;
 	}
 
-	public int getMinWidthDimen() {
+	public int getMinWidthDimension() {
 		int layoutType = getLayoutType();
 		if (layoutType==LAYOUT_PLAIN_2 || layoutType==LAYOUT_COMPACT_4) {
 			return R.dimen.widthWide;

@@ -50,4 +50,8 @@ public class DialogHelper {
 		b.show();
 	}
 
+	public static int getDimension(Context context, int dimensionId) {
+		return (int)context.getResources().getDimension(dimensionId);
+	}
+
 }

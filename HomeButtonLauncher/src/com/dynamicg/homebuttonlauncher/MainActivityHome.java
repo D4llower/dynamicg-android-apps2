@@ -106,9 +106,8 @@ public class MainActivityHome extends Activity {
 	}
 
 	private void setMinWidth() {
-		int widthDim = preferences.prefSettings.getMinWidthDimen();
-		float minWidth = context.getResources().getDimension(widthDim);
-		findViewById(R.id.headerContainer).setMinimumWidth((int)minWidth);
+		int minWidth = DialogHelper.getDimension(context, preferences.prefSettings.getMinWidthDimension());
+		findViewById(R.id.headerContainer).setMinimumWidth(minWidth);
 	}
 
 	private AbsListView getListView() {
