@@ -13,4 +13,4 @@ http://www.fileformat.info/convert/image/svg2raster.htm
 ## app icon ##
 http://findicons.com/icon/78735/rocket
 http://findicons.com/icon/78735/rocket?width=64
-gradient 3f-57, border 3
+gradient 3a-4a, border 3, tolerance 12
