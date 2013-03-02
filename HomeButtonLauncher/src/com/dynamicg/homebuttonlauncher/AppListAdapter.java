@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
 
@@ -22,6 +23,8 @@ public class AppListAdapter extends BaseAdapter {
 	protected final int iconSizePx;
 	protected final int appEntryLayoutId;
 	private final LargeIconLoader iconLoader;
+
+	private Integer noLabelGridPadding;
 
 	/*
 	 * for main screen
@@ -64,6 +67,14 @@ public class AppListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	private void noLabelPadding(TextView row) {
+		// add some padding
+		if (noLabelGridPadding==null) {
+			noLabelGridPadding = DialogHelper.getDimension(inflater.getContext(), R.dimen.gridViewNoLabelIconPadding);
+		}
+		row.setCompoundDrawablePadding(noLabelGridPadding);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -79,6 +90,9 @@ public class AppListAdapter extends BaseAdapter {
 		if (this.labelSize==0) {
 			row.setText("");
 			row.setTextSize(0);
+			if (appEntryLayoutId==R.layout.app_entry_compact) {
+				noLabelPadding(row);
+			}
 		}
 		else {
 			row.setText(appEntry.getLabel());
