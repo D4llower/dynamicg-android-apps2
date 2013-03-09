@@ -16,6 +16,7 @@ import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 
 public class PopupMenuWrapper {
 
+	@SuppressWarnings("unused")
 	private static final Logger log = new Logger(PopupMenuWrapper.class);
 
 	public interface PopupMenuItemListener {
@@ -65,18 +66,13 @@ public class PopupMenuWrapper {
 	}
 
 	public void addItem(int id, int titleResId, int imageId) {
-		if (log.isDebugEnabled) {
-			// THIS WILL PROBABLY NOT WORK ON SOME DEVICES SO WE DON'T ENABLE IT
-			String label = "   "+context.getString(titleResId)+"   ";
-			SpannableString spannable = new SpannableString(label);
-			ImageSpan imagespan = new ImageSpan(context, imageId, ImageSpan.ALIGN_BASELINE);
-			spannable.setSpan(imagespan, 0, 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-			spannable.setSpan(new SuperscriptSpan(), 1, label.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			menu.add(id, id, 0, spannable);
-		}
-		else {
-			menu.add(id, id, 0, titleResId);
-		}
+		//menu.add(id, id, 0, titleResId);
+		final String label = "    "+context.getString(titleResId);
+		SpannableString spannable = new SpannableString(label);
+		ImageSpan imagespan = new ImageSpan(context, imageId, ImageSpan.ALIGN_BASELINE);
+		spannable.setSpan(imagespan, 0, 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+		spannable.setSpan(new SuperscriptSpan(), 1, label.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.add(id, id, 0, spannable);
 	}
 
 }

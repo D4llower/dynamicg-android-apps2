@@ -108,9 +108,10 @@ public class PreferencesDialog extends Dialog {
 
 	private void setLayoutSelection(View parent, int which) {
 		selectedLayout = which;
+		int colorOn = activity.getResources().getColor(android.R.color.holo_blue_light);
 		for (int i=0;i<PrefSettings.NUM_LAYOUTS;i++) {
 			View toggle = parent.findViewWithTag("toggle_"+i);
-			toggle.setBackgroundResource(which==i?R.drawable.tools_selector_shape:0);
+			toggle.setBackgroundColor(which==i?colorOn:0);
 		}
 	}
 
