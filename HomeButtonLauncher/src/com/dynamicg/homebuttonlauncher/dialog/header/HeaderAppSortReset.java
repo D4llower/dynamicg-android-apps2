@@ -1,18 +1,22 @@
-package com.dynamicg.homebuttonlauncher.dialog;
+package com.dynamicg.homebuttonlauncher.dialog.header;
 
 import android.content.DialogInterface;
 
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 
-public class ConfigHeaderSortReset extends ConfigHeaderAbstract {
+public class HeaderAppSortReset extends HeaderAbstract {
 
-	public ConfigHeaderSortReset(AppConfigDialog dialog) {
+	private final AppConfigDialog dialog;
+
+	public HeaderAppSortReset(AppConfigDialog dialog) {
 		super(dialog);
+		this.dialog = dialog;
 	}
 
 	@Override

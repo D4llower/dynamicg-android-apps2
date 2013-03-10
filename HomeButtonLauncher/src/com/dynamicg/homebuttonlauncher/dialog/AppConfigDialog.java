@@ -21,6 +21,9 @@ import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
+import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSearch;
+import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSortReset;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
@@ -33,8 +36,8 @@ public class AppConfigDialog extends Dialog {
 	private final MainActivityHome activity;
 	private final Context context;
 	private final PrefShortlist prefShortlist;
-	protected final AppListContainer appList;
 	private final boolean[] sortChanged = new boolean[]{false};
+	public final AppListContainer appList;
 
 	private final boolean actionAdd;
 	private final boolean actionRemove;
@@ -90,7 +93,7 @@ public class AppConfigDialog extends Dialog {
 
 		setContentView(R.layout.configure_apps);
 
-		ConfigHeaderAbstract header = actionSort ? new ConfigHeaderSortReset(this) : new ConfigHeaderSearch(this);
+		HeaderAbstract header = actionSort ? new HeaderAppSortReset(this) : new HeaderAppSearch(this);
 		header.attach();
 		final int titleResId = actionRemove ? R.string.menuRemove : actionSort ? R.string.menuSort : R.string.menuAdd;
 		header.setTitleAndWidth(titleResId);

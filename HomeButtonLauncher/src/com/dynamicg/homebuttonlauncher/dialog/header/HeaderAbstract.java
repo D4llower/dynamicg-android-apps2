@@ -1,5 +1,6 @@
-package com.dynamicg.homebuttonlauncher.dialog;
+package com.dynamicg.homebuttonlauncher.dialog.header;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -8,14 +9,14 @@ import android.widget.TextView;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
-public abstract class ConfigHeaderAbstract {
+public abstract class HeaderAbstract {
 
-	protected final AppConfigDialog dialog;
+	private final Dialog dialog;
 	protected final Context context;
 	protected final TextView titleNode;
 	protected final View iconNode;
 
-	public ConfigHeaderAbstract(AppConfigDialog dialog) {
+	public HeaderAbstract(Dialog dialog) {
 		this.dialog = dialog;
 		this.context = dialog.getContext();
 		this.titleNode = ((TextView)dialog.findViewById(R.id.headerTitle));

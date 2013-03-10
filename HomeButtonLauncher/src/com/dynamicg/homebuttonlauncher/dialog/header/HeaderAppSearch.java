@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher.dialog;
+package com.dynamicg.homebuttonlauncher.dialog.header;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +12,20 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 
-public class ConfigHeaderSearch extends ConfigHeaderAbstract {
+public class HeaderAppSearch extends HeaderAbstract {
 
-	private static final Logger log = new Logger(ConfigHeaderSearch.class);
+	private static final Logger log = new Logger(HeaderAppSearch.class);
 
+	private final AppConfigDialog dialog;
 	private final List<AppEntry> baseAppList;
 
 	private String[] baseSearchLabels = null; // lazy
 
-	public ConfigHeaderSearch(AppConfigDialog dialog) {
+	public HeaderAppSearch(AppConfigDialog dialog) {
 		super(dialog);
+		this.dialog = dialog;
 		this.baseAppList = dialog.appList.getApps();
 	}
 
