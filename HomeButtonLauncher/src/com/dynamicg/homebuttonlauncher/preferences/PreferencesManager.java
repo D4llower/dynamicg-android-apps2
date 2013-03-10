@@ -58,7 +58,7 @@ public class PreferencesManager {
 
 	public void updateCurrentTabIndex(int tabindex) {
 		prefShortlist.switchSharedPrefs(getShortlistPrefs(tabindex));
-		prefSettings.write(KEY_TAB_INDEX, tabindex);
+		prefSettings.apply(KEY_TAB_INDEX, tabindex);
 	}
 
 	public int getTabIndex() {
@@ -75,7 +75,7 @@ public class PreferencesManager {
 	}
 
 	public void writeTabTitle(int index, String label) {
-		prefSettings.write(KEY_TAB_LABEL_PREFIX+index, label);
+		prefSettings.apply(KEY_TAB_LABEL_PREFIX+index, label);
 	}
 
 }

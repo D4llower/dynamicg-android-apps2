@@ -29,16 +29,16 @@ public class PrefSettings {
 		this.sharedPrefs = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 	}
 
-	public void write(String key, int value) {
+	public void apply(String key, int value) {
 		Editor edit = sharedPrefs.edit();
 		edit.putInt(key, value);
-		edit.commit();
+		edit.apply();
 	}
 
-	public void write(String key, String value) {
+	public void apply(String key, String value) {
 		Editor edit = sharedPrefs.edit();
 		edit.putString(key, value);
-		edit.commit();
+		edit.apply();
 	}
 
 	public int getIntValue(String key) {
