@@ -33,6 +33,13 @@
 		/>
 
 	<TextView style="@style/DefaultText"
+	    android:id="@+id/aboutTranslationRequest"
+        android:layout_marginTop="18dp"
+        android:textColor="@color/applink"
+        android:textStyle="bold"
+		/>
+
+	<TextView style="@style/DefaultText"
 	    android:id="@+id/aboutCredits"
         android:layout_marginTop="24dp"
 		/>	
