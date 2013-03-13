@@ -15,6 +15,7 @@ import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMain;
+import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMainStatic;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
@@ -33,6 +34,8 @@ import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 public class MainActivityHome extends Activity {
 
 	private static final Logger log = new Logger(MainActivityHome.class);
+
+	private static final int MAX_STATIC_THRESHOLD = 64;
 
 	private Context context;
 	private PreferencesManager preferences;
@@ -138,7 +141,17 @@ public class MainActivityHome extends Activity {
 		listview.setId(R.id.mainListView);
 
 		final AppListContainer appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
-		final BaseAdapter adapter = new AppListAdapterMain(this, appList, preferences.prefSettings);
+
+		final BaseAdapter adapter;
+		if (appList.size()<=MAX_STATIC_THRESHOLD) {
+			// use "keep textviews" adapter when less then [max] rows - since we have lightweight views should make startup faster.
+			// also, with a typical setup most selected apps will be visible all times anyway
+			adapter = new AppListAdapterMainStatic(this, appList, preferences.prefSettings);
+		}
+		else {
+			adapter = new AppListAdapterMain(this, appList, preferences.prefSettings);
+		}
+
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
