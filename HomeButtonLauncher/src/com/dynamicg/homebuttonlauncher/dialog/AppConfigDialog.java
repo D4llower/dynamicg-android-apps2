@@ -13,14 +13,14 @@ import android.widget.ListView;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
-import com.dynamicg.homebuttonlauncher.AppListAdapter;
-import com.dynamicg.homebuttonlauncher.AppListAdapterSort;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.AppListContextMenu;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.adapter.AppListAdapter;
+import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterSort;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSearch;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSortReset;

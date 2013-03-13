@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher;
+package com.dynamicg.homebuttonlauncher.adapter;
 
 import android.app.Activity;
 import android.view.View;
@@ -8,6 +8,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.AppListContainer;
+import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
+import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
+import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.R.id;
+import com.dynamicg.homebuttonlauncher.R.layout;
 
 public class AppListAdapterSort extends AppListAdapter {
 

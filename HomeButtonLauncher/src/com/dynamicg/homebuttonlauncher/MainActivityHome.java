@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.adapter.AppListAdapter;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
