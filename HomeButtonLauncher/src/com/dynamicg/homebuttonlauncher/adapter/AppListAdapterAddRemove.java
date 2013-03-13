@@ -1,0 +1,27 @@
+package com.dynamicg.homebuttonlauncher.adapter;
+
+import android.app.Activity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.AppListContainer;
+import com.dynamicg.homebuttonlauncher.R;
+
+public class AppListAdapterAddRemove extends AppListAdapter {
+
+	public AppListAdapterAddRemove(Activity activity, AppListContainer apps) {
+		super(activity, apps, R.layout.app_entry_default);
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		final TextView row = getOrCreateTextView(convertView);
+		final AppEntry appEntry = applist.get(position);
+		bindView(appEntry, row);
+		appEntry.decorateSelection(row);
+		return row;
+	}
+
+}

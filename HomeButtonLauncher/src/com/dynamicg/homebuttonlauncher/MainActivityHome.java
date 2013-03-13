@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
-import com.dynamicg.homebuttonlauncher.adapter.AppListAdapter;
+import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMain;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
@@ -138,7 +138,7 @@ public class MainActivityHome extends Activity {
 		listview.setId(R.id.mainListView);
 
 		final AppListContainer appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
-		final BaseAdapter adapter = new AppListAdapter(this, appList, preferences.prefSettings);
+		final BaseAdapter adapter = new AppListAdapterMain(this, appList, preferences.prefSettings);
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override

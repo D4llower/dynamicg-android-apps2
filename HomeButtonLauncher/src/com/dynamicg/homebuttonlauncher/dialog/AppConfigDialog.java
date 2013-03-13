@@ -20,6 +20,7 @@ import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapter;
+import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterAddRemove;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterSort;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSearch;
@@ -116,7 +117,7 @@ public class AppConfigDialog extends Dialog {
 			this.adapter = new AppListAdapterSort(activity, appList, sortChanged);
 		}
 		else {
-			this.adapter = new AppListAdapter(activity, appList, R.layout.app_entry_default);
+			this.adapter = new AppListAdapterAddRemove(activity, appList);
 		}
 
 		final ListView listview = (ListView)findViewById(R.id.applist);

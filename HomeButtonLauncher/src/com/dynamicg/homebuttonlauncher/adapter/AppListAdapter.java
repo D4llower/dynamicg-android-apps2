@@ -11,20 +11,17 @@ import android.widget.TextView;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.R;
-import com.dynamicg.homebuttonlauncher.R.dimen;
-import com.dynamicg.homebuttonlauncher.R.layout;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
 
-public class AppListAdapter extends BaseAdapter {
+public abstract class AppListAdapter extends BaseAdapter {
 
 	protected final AppListContainer applist;
 	protected final LayoutInflater inflater;
 	private final int labelSize;
-	private final boolean forEditor;
 	protected final int iconSizePx;
 	protected final int appEntryLayoutId;
 	private final LargeIconLoader iconLoader;
@@ -37,7 +34,6 @@ public class AppListAdapter extends BaseAdapter {
 	public AppListAdapter(Activity activity, AppListContainer apps, PrefSettings settings) {
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
-		this.forEditor = false;
 		this.labelSize = settings.getLabelSize();
 		this.iconSizePx = IconProvider.getSizePX(settings.getIconSize());
 		this.appEntryLayoutId = settings.getAppEntryLayoutId();
@@ -50,12 +46,14 @@ public class AppListAdapter extends BaseAdapter {
 	public AppListAdapter(Activity activity, AppListContainer apps, int viewId) {
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
-		this.forEditor = true;
 		this.labelSize = SizePrefsHelper.DEFAULT_LABEL_SIZE;
 		this.iconSizePx = IconProvider.getDefaultSizePX();
 		this.appEntryLayoutId = viewId;
 		this.iconLoader = null;
 	}
+
+	@Override
+	public abstract View getView(int position, View convertView, ViewGroup parent);
 
 	@Override
 	public int getCount() {
@@ -80,28 +78,27 @@ public class AppListAdapter extends BaseAdapter {
 		row.setCompoundDrawablePadding(noLabelGridPadding);
 	}
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-
-		final AppEntry appEntry = applist.get(position);
+	public TextView getOrCreateTextView(View convertView) {
 		final TextView row;
 		if (convertView==null) {
 			row = (TextView)inflater.inflate(appEntryLayoutId, null);
-		}
-		else {
-			row = (TextView)convertView;
-		}
-
-		if (this.labelSize==0) {
-			row.setText("");
-			row.setTextSize(0);
-			if (appEntryLayoutId==R.layout.app_entry_compact) {
+			row.setTextSize(this.labelSize);
+			if (this.labelSize==0 && appEntryLayoutId==R.layout.app_entry_compact) {
 				noLabelPadding(row);
 			}
 		}
 		else {
+			row = (TextView)convertView;
+		}
+		return row;
+	}
+
+	public void bindView(AppEntry appEntry, TextView row) {
+		if (this.labelSize==0) {
+			row.setText("");
+		}
+		else {
 			row.setText(appEntry.getLabel());
-			row.setTextSize(this.labelSize);
 		}
 
 		Drawable icon = appEntry.getIcon(iconSizePx, iconLoader);
@@ -113,11 +110,6 @@ public class AppListAdapter extends BaseAdapter {
 			// icon left
 			row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 		}
-
-		if (forEditor) {
-			appEntry.decorateSelection(row);
-		}
-		return row;
 	}
 
 }

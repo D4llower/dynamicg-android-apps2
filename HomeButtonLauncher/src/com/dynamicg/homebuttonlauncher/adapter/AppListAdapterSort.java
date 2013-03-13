@@ -13,8 +13,6 @@ import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
-import com.dynamicg.homebuttonlauncher.R.id;
-import com.dynamicg.homebuttonlauncher.R.layout;
 
 public class AppListAdapterSort extends AppListAdapter {
 
