@@ -15,5 +15,8 @@
 	<dimen name="gridViewNoLabelIconPadding">4dp</dimen>
 		
 	<dimen name="tabHeight">34dp</dimen>
-
+	
+	<dimen name="swipeMaxOff">100dp</dimen>
+	<dimen name="swipeMinDist">120dp</dimen>
+	
 </resources>

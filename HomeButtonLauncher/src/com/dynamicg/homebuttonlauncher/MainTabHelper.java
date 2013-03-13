@@ -37,7 +37,7 @@ public class MainTabHelper {
 		this.numTabs = preferences.prefSettings.getNumTabs();
 	}
 
-	public void bindTabs() {
+	public TabHost bindTabs() {
 		final int selectedIndex = preferences.getTabIndex();
 		final LayoutInflater inflater = activity.getLayoutInflater();
 		final TabHost tabhost = (TabHost)inflater.inflate(R.layout.tabs_container, null);
@@ -77,6 +77,8 @@ public class MainTabHelper {
 		View header = activity.findViewById(R.id.headerContainer);
 		ViewGroup main = (ViewGroup)header.getParent();
 		main.addView(tabhost, main.indexOfChild(header)+1);
+
+		return tabhost;
 	}
 
 	private void createTabs(TabHost tabhost) {
@@ -144,12 +146,17 @@ public class MainTabHelper {
 		}
 	}
 
-	public void redraw() {
+	public TabHost redraw() {
 		View tabContainer = activity.findViewById(android.R.id.tabhost);
 		if (tabContainer!=null) {
 			((ViewGroup)tabContainer.getParent()).removeView(tabContainer);
 		}
-		bindTabs();
+
+		if (numTabs==0) {
+			return null;
+		}
+
+		return bindTabs();
 	}
 
 }

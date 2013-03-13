@@ -3,6 +3,7 @@ package com.dynamicg.homebuttonlauncher.tools;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.ViewStub;
 
 import com.dynamicg.common.ErrorSender;
@@ -52,6 +53,10 @@ public class DialogHelper {
 
 	public static int getDimension(Context context, int dimensionId) {
 		return (int)context.getResources().getDimension(dimensionId);
+	}
+
+	public static int getDimension(Resources res, int dimensionId) {
+		return (int)res.getDimension(dimensionId);
 	}
 
 }

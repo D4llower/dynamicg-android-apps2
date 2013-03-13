@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
@@ -19,6 +20,7 @@ import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
+import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
@@ -33,6 +35,7 @@ public class MainActivityHome extends Activity {
 
 	private Context context;
 	private PreferencesManager preferences;
+	private TabHost tabhost;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +59,12 @@ public class MainActivityHome extends Activity {
 		}
 		IconProvider.init(context);
 		attachContextMenu();
+		if (preferences.prefSettings.getNumTabs()>0) {
+			tabhost = new MainTabHelper(this, preferences).bindTabs();
+		}
 		setListAdapter();
 		setMinWidth();
 
-		if (preferences.prefSettings.getNumTabs()>0) {
-			new MainTabHelper(this, preferences).bindTabs();
-		}
 	}
 
 	private boolean isAutoStartSingleSuccessful() {
@@ -143,6 +146,10 @@ public class MainActivityHome extends Activity {
 			}
 		});
 		new AppListContextMenu(this, preferences.prefShortlist).attach(listview, appList);
+
+		if (tabhost!=null) {
+			SwipeHelper.attach(this, preferences, tabhost, listview);
+		}
 	}
 
 	private boolean startAppAndClose(AppEntry entry) {
@@ -222,7 +229,8 @@ public class MainActivityHome extends Activity {
 	}
 
 	public void redrawTabContainer() {
-		new MainTabHelper(this, preferences).redraw();
+		// note this can also return <null> if setting is changed from >0 to 0 tabs
+		tabhost = new MainTabHelper(this, preferences).redraw();
 	}
 
 }
