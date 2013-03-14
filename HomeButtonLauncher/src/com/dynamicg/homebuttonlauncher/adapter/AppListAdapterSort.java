@@ -88,7 +88,7 @@ public class AppListAdapterSort extends AppListAdapter {
 		prepareButton(layout, R.id.sortDown, position);
 
 		ImageView icon = (ImageView)layout.findViewById(R.id.sortIcon);
-		icon.setImageDrawable(appEntry.getIcon(iconSizePx, null));
+		icon.setImageDrawable(appEntry.getIcon(iconSizePx, null, false));
 
 		return layout;
 	}

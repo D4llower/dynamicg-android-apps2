@@ -28,6 +28,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 	protected final int iconSizePx;
 	protected final int appEntryLayoutId;
 	private final LargeIconLoader largeIconLoader;
+	private final boolean forMainScreen;
 
 	private Integer noLabelGridPadding;
 	private BackgroundIconLoader backgroundIconLoader;
@@ -45,7 +46,11 @@ public abstract class AppListAdapter extends BaseAdapter {
 		this.iconSizePx = IconProvider.getSizePX(settings.getIconSize());
 		this.appEntryLayoutId = settings.getAppEntryLayoutId();
 		this.largeIconLoader = LargeIconLoader.createInstance(activity, settings);
-		setBackgroundLoader(activity, settings.isBackgroundIconLoader());
+		this.forMainScreen = true;
+
+		if (settings.isBackgroundIconLoader()) {
+			setBackgroundLoader(activity);
+		}
 	}
 
 	/*
@@ -58,20 +63,22 @@ public abstract class AppListAdapter extends BaseAdapter {
 		this.iconSizePx = IconProvider.getDefaultSizePX();
 		this.appEntryLayoutId = viewId;
 		this.largeIconLoader = null;
+		this.forMainScreen = true;
+
 		// TODO ## no background loader on config screens when going live ??
-		setBackgroundLoader(activity, GlobalContext.prefSettings.isBackgroundIconLoader());
+		if (GlobalContext.prefSettings.isBackgroundIconLoader()) {
+			setBackgroundLoader(activity);
+		}
 	}
 
 	@Override
 	public abstract View getView(int position, View convertView, ViewGroup parent);
 
-	private void setBackgroundLoader(Context context, boolean enabled) {
-		if (enabled) {
-			this.backgroundIconLoader =
-					new BackgroundIconLoader(iconSizePx, largeIconLoader, appEntryLayoutId==R.layout.app_entry_default);
-			this.defaultIcon =
-					IconProvider.scale(context.getResources().getDrawable(R.drawable.android), iconSizePx);
-		}
+	private void setBackgroundLoader(Context context) {
+		this.backgroundIconLoader =
+				new BackgroundIconLoader(iconSizePx, largeIconLoader, forMainScreen, appEntryLayoutId==R.layout.app_entry_default);
+		this.defaultIcon =
+				IconProvider.scale(context.getResources().getDrawable(R.drawable.android), iconSizePx);
 	}
 
 	@Override
@@ -113,6 +120,8 @@ public abstract class AppListAdapter extends BaseAdapter {
 	}
 
 	public void bindView(AppEntry appEntry, TextView row) {
+
+		// (1) LABEL
 		if (this.labelSize==0) {
 			row.setText("");
 		}
@@ -120,7 +129,18 @@ public abstract class AppListAdapter extends BaseAdapter {
 			row.setText(appEntry.getLabel());
 		}
 
-		Drawable icon = backgroundIconLoader!=null ? defaultIcon : appEntry.getIcon(iconSizePx, largeIconLoader);
+		// (2) ICON
+		Drawable icon;
+		if (appEntry.isIconLoaded()) {
+			icon = appEntry.getIcon();
+		}
+		else if (backgroundIconLoader!=null) {
+			icon = defaultIcon;
+		}
+		else {
+			icon = appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+		}
+
 		if (appEntryLayoutId==R.layout.app_entry_compact) {
 			// icon on top
 			row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
@@ -130,7 +150,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 			row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 		}
 
-		if (backgroundIconLoader!=null) {
+		if (backgroundIconLoader!=null && !appEntry.isIconLoaded()) {
 			backgroundIconLoader.queue(appEntry, row);
 		}
 	}

@@ -30,6 +30,7 @@ public class AppEntry {
 				GlobalContext.labels.put(component, label);
 			}
 			this.label = label;
+			this.icon = GlobalContext.icons.get(component);
 		}
 		else {
 			this.label = toString(resolveInfo.loadLabel(GlobalContext.packageManager), this.component);
@@ -64,7 +65,7 @@ public class AppEntry {
 		view.setBackgroundResource(checked?R.drawable.app_selector_shape:0);
 	}
 
-	public Drawable getIcon(int sizePX, LargeIconLoader largeIconLoader) {
+	public Drawable getIcon(int sizePX, LargeIconLoader largeIconLoader, boolean forMainScreen) {
 
 		if (icon!=null) {
 			return icon;
@@ -80,11 +81,19 @@ public class AppEntry {
 			icon = IconProvider.scale(appicon, sizePX);
 		}
 
+		if (forMainScreen) {
+			GlobalContext.icons.put(component, icon);
+		}
+
 		return icon;
 	}
 
 	public boolean isIconLoaded() {
 		return icon!=null;
+	}
+
+	public Drawable getIcon() {
+		return icon;
 	}
 
 }

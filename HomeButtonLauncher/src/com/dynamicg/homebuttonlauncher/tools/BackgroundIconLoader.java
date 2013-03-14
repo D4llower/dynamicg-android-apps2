@@ -23,13 +23,16 @@ public class BackgroundIconLoader {
 	private final HashSet<TextView> queue = new HashSet<TextView>();
 	private final Handler handler;
 
+	private final boolean forMainScreen;
+	private final boolean iconsLeft;
+
 	protected Thread thread;
 	protected boolean isRunning;
-	private boolean iconsLeft;
 
-	public BackgroundIconLoader(final int iconSizePx, final LargeIconLoader largeIconLoader, final boolean iconsLeft) {
+	public BackgroundIconLoader(final int iconSizePx, final LargeIconLoader largeIconLoader, final boolean forMainScreen, final boolean iconsLeft) {
 		this.iconSizePx = iconSizePx;
 		this.largeIconLoader = largeIconLoader;
+		this.forMainScreen = forMainScreen;
 		this.iconsLeft = iconsLeft;
 
 		this.handler = new Handler() {
@@ -39,6 +42,7 @@ public class BackgroundIconLoader {
 				TextView row = (TextView)msg.obj;
 				synchronized (row) {
 					// by now the app icon should have been loaded so this is really fast:
+					// TODO use appEntry.getIcon() ?
 					setIcon(row, getIconFromViewTag(row));
 				}
 			}
@@ -47,7 +51,7 @@ public class BackgroundIconLoader {
 
 	protected Drawable getIconFromViewTag(TextView row) {
 		AppEntry appEntry = (AppEntry)row.getTag();
-		return appEntry.getIcon(iconSizePx, largeIconLoader);
+		return appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
 	}
 
 	protected void setIcon(TextView row, Drawable icon) {
@@ -123,7 +127,7 @@ public class BackgroundIconLoader {
 
 		row.setTag(appEntry);
 		if (appEntry.isIconLoaded()) {
-			setIcon(row, appEntry.getIcon(iconSizePx, largeIconLoader));
+			setIcon(row, appEntry.getIcon());
 			return;
 		}
 
