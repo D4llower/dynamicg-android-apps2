@@ -36,7 +36,7 @@ public class PreferencesDialog extends Dialog {
 	private SeekBar seekbarNumTabs;
 	private CheckBox highRes;
 	private CheckBox autoStartSingle;
-	private CheckBox iconsInBackground;
+	private CheckBox backgroundIconLoader;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -57,7 +57,7 @@ public class PreferencesDialog extends Dialog {
 
 		highRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
 		autoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
-		iconsInBackground = attachCheckbox(R.id.prefsIconsInBG, prefSettings.isIconsInBackground());
+		backgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
 
 		setupLayoutToggle();
 
@@ -174,7 +174,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putInt(PrefSettings.KEY_NUM_TABS, getNewValue(seekbarNumTabs));
 		edit.putBoolean(PrefSettings.KEY_HIGH_RES, highRes.isChecked());
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, autoStartSingle.isChecked());
-		edit.putBoolean(PrefSettings.KEY_ICONS_IN_BG, iconsInBackground.isChecked());
+		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, backgroundIconLoader.isChecked());
 		edit.commit();
 	}
 

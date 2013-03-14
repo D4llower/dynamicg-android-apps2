@@ -89,8 +89,8 @@
         />
 
     <CheckBox style="@style/PrefLabel"
-        android:id="@+id/prefsIconsInBG" 
-        android:text="@string/prefsIconsInBG"
+        android:id="@+id/prefsBackgroundIconLoader" 
+        android:text="@string/prefsBackgroundIconLoader"
         />
 
 </LinearLayout>
