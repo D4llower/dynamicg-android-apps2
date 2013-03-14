@@ -56,7 +56,6 @@ public class AppEntry {
 		view.setBackgroundResource(checked?R.drawable.app_selector_shape:0);
 	}
 
-	//TODO async loading of icons (?)
 	public Drawable getIcon(int sizePX, LargeIconLoader largeIconLoader) {
 
 		if (icon!=null) {
@@ -74,6 +73,10 @@ public class AppEntry {
 		}
 
 		return icon;
+	}
+
+	public boolean isIconLoaded() {
+		return icon!=null;
 	}
 
 }

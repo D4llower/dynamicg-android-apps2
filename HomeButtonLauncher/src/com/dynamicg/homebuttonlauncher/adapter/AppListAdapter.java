@@ -1,6 +1,7 @@
 package com.dynamicg.homebuttonlauncher.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
+import com.dynamicg.homebuttonlauncher.tools.BackgroundIconLoader;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
@@ -24,9 +27,11 @@ public abstract class AppListAdapter extends BaseAdapter {
 	private final int labelSize;
 	protected final int iconSizePx;
 	protected final int appEntryLayoutId;
-	private final LargeIconLoader iconLoader;
+	private final LargeIconLoader largeIconLoader;
 
 	private Integer noLabelGridPadding;
+	private BackgroundIconLoader backgroundIconLoader;
+	private Drawable defaultIcon;
 
 	/*
 	 * for main screen
@@ -37,11 +42,12 @@ public abstract class AppListAdapter extends BaseAdapter {
 		this.labelSize = settings.getLabelSize();
 		this.iconSizePx = IconProvider.getSizePX(settings.getIconSize());
 		this.appEntryLayoutId = settings.getAppEntryLayoutId();
-		this.iconLoader = LargeIconLoader.createInstance(activity, settings);
+		this.largeIconLoader = LargeIconLoader.createInstance(activity, settings);
+		setBackgroundLoader(activity, settings.isBackgroundIconLoader());
 	}
 
 	/*
-	 * for add/remove
+	 * for config screens
 	 */
 	public AppListAdapter(Activity activity, AppListContainer apps, int viewId) {
 		this.applist = apps;
@@ -49,11 +55,22 @@ public abstract class AppListAdapter extends BaseAdapter {
 		this.labelSize = SizePrefsHelper.DEFAULT_LABEL_SIZE;
 		this.iconSizePx = IconProvider.getDefaultSizePX();
 		this.appEntryLayoutId = viewId;
-		this.iconLoader = null;
+		this.largeIconLoader = null;
+		// TODO ## no background loader on config screens when going live ??
+		setBackgroundLoader(activity, GlobalContext.prefSettings.isBackgroundIconLoader());
 	}
 
 	@Override
 	public abstract View getView(int position, View convertView, ViewGroup parent);
+
+	private void setBackgroundLoader(Context context, boolean enabled) {
+		if (enabled) {
+			this.backgroundIconLoader =
+					new BackgroundIconLoader(iconSizePx, largeIconLoader, appEntryLayoutId==R.layout.app_entry_default);
+			this.defaultIcon =
+					IconProvider.scale(context.getResources().getDrawable(R.drawable.android), iconSizePx);
+		}
+	}
 
 	@Override
 	public int getCount() {
@@ -101,7 +118,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 			row.setText(appEntry.getLabel());
 		}
 
-		Drawable icon = appEntry.getIcon(iconSizePx, iconLoader);
+		Drawable icon = backgroundIconLoader!=null ? defaultIcon : appEntry.getIcon(iconSizePx, largeIconLoader);
 		if (appEntryLayoutId==R.layout.app_entry_compact) {
 			// icon on top
 			row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
@@ -109,6 +126,10 @@ public abstract class AppListAdapter extends BaseAdapter {
 		else {
 			// icon left
 			row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+		}
+
+		if (backgroundIconLoader!=null) {
+			backgroundIconLoader.queue(appEntry, row);
 		}
 	}
 
