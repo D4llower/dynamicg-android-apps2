@@ -36,7 +36,9 @@ public abstract class AppListAdapter extends BaseAdapter {
 	/*
 	 * for main screen
 	 */
-	public AppListAdapter(Activity activity, AppListContainer apps, PrefSettings settings) {
+	public AppListAdapter(Activity activity, AppListContainer apps) {
+		PrefSettings settings = GlobalContext.prefSettings;
+
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
 		this.labelSize = settings.getLabelSize();

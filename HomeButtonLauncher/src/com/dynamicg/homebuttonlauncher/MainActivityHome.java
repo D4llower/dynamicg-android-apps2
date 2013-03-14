@@ -146,10 +146,10 @@ public class MainActivityHome extends Activity {
 		if (appList.size()<=MAX_STATIC_THRESHOLD) {
 			// use "keep textviews" adapter when less then [max] rows - since we have lightweight views should make startup faster.
 			// also, with a typical setup most selected apps will be visible all times anyway
-			adapter = new AppListAdapterMainStatic(this, appList, preferences.prefSettings);
+			adapter = new AppListAdapterMainStatic(this, appList);
 		}
 		else {
-			adapter = new AppListAdapterMain(this, appList, preferences.prefSettings);
+			adapter = new AppListAdapterMain(this, appList);
 		}
 
 		listview.setAdapter(adapter);

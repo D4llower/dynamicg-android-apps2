@@ -6,12 +6,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.AppListContainer;
-import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 
 public class AppListAdapterMain extends AppListAdapter {
 
-	public AppListAdapterMain(Activity activity, AppListContainer apps, PrefSettings settings) {
-		super(activity, apps, settings);
+	public AppListAdapterMain(Activity activity, AppListContainer apps) {
+		super(activity, apps);
 	}
 
 	@Override

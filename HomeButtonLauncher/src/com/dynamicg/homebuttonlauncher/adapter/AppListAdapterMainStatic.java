@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.AppListContainer;
-import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 
 public class AppListAdapterMainStatic extends AppListAdapter {
 
 	private final List<TextView> list;
 
-	public AppListAdapterMainStatic(Activity activity, AppListContainer apps, PrefSettings settings) {
-		super(activity, apps, settings);
+	public AppListAdapterMainStatic(Activity activity, AppListContainer apps) {
+		super(activity, apps);
 		list = Arrays.asList(new TextView[apps.size()]);
 	}
 
