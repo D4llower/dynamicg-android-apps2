@@ -63,7 +63,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		this.iconSizePx = IconProvider.getDefaultSizePX();
 		this.appEntryLayoutId = viewId;
 		this.largeIconLoader = null;
-		this.forMainScreen = true;
+		this.forMainScreen = false;
 
 		// TODO ## no background loader on config screens when going live ??
 		if (GlobalContext.prefSettings.isBackgroundIconLoader()) {
