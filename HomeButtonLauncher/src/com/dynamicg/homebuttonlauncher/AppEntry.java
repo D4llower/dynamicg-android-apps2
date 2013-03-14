@@ -18,11 +18,22 @@ public class AppEntry {
 	private Drawable icon;
 	private boolean checked;
 
-	public AppEntry(ResolveInfo resolveInfo, int sortnr) {
+	public AppEntry(ResolveInfo resolveInfo, int sortnr, boolean forMainScreen) {
 		this.resolveInfo = resolveInfo;
 		this.component = AppHelper.getComponentName(resolveInfo);
-		this.label = toString(resolveInfo.loadLabel(GlobalContext.packageManager), this.component);
 		this.sortnr = sortnr;
+
+		if (forMainScreen) {
+			String label = GlobalContext.labels.get(component);
+			if (label==null) {
+				label = toString(resolveInfo.loadLabel(GlobalContext.packageManager), this.component);
+				GlobalContext.labels.put(component, label);
+			}
+			this.label = label;
+		}
+		else {
+			this.label = toString(resolveInfo.loadLabel(GlobalContext.packageManager), this.component);
+		}
 	}
 
 	private static String toString(CharSequence c, String nullvalue) {

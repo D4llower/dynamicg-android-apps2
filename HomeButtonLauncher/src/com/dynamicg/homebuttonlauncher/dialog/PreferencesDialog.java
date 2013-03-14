@@ -11,6 +11,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
@@ -164,6 +165,7 @@ public class PreferencesDialog extends Dialog {
 
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
+		GlobalContext.resetCache();
 	}
 
 	private void saveSharedPrefs() {

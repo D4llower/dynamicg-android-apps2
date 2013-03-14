@@ -90,7 +90,7 @@ public class MainActivityHome extends Activity {
 			return false;
 		}
 
-		final AppListContainer appList = AppHelper.getSelectedAppsList(preferences.prefShortlist);
+		final AppListContainer appList = AppHelper.getSelectedAppsList(preferences.prefShortlist, true);
 		if (appList.size()!=1) {
 			log.debug("autoStart", "getSelectedAppsList", "size!=1");
 			return false;
@@ -140,7 +140,7 @@ public class MainActivityHome extends Activity {
 		final AbsListView listview = getListView();
 		listview.setId(R.id.mainListView);
 
-		final AppListContainer appList = AppHelper.getSelectedAppsList(preferences.prefShortlist);
+		final AppListContainer appList = AppHelper.getSelectedAppsList(preferences.prefShortlist, true);
 
 		final BaseAdapter adapter;
 		if (appList.size()<=MAX_STATIC_THRESHOLD) {

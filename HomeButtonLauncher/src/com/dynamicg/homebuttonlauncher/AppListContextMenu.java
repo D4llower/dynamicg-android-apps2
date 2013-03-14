@@ -85,6 +85,7 @@ public class AppListContextMenu {
 				prefShortlist.remove(appEntry);
 				context.refreshList();
 				HomeLauncherBackupAgent.requestBackup(context);
+				GlobalContext.resetCache();
 			}
 		};
 		DialogHelper.confirm(context, R.string.menuRemove, okListener);

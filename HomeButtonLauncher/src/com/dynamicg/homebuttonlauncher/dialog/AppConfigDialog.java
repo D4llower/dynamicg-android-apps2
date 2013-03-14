@@ -15,6 +15,7 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.AppListContextMenu;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
@@ -59,7 +60,7 @@ public class AppConfigDialog extends Dialog {
 			this.appList = AppHelper.getAllAppsList(prefShortlist);
 		}
 		else {
-			this.appList = AppHelper.getSelectedAppsList(prefShortlist);
+			this.appList = AppHelper.getSelectedAppsList(prefShortlist, false);
 		}
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -68,6 +69,7 @@ public class AppConfigDialog extends Dialog {
 	private void afterSave() {
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(context);
+		GlobalContext.resetCache();
 		dismiss();
 	}
 

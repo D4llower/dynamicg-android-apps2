@@ -68,14 +68,14 @@ public class AppHelper {
 			// System.err.println("COMPONENT:["+component+"]");
 			if (!selectedComponents.contains(component)) {
 				// skip apps already on the list
-				list.add(new AppEntry(resolveInfo, 0));
+				list.add(new AppEntry(resolveInfo, 0, false));
 			}
 		}
 
 		return new AppListContainer(list);
 	}
 
-	public static AppListContainer getSelectedAppsList(PrefShortlist settings) {
+	public static AppListContainer getSelectedAppsList(PrefShortlist settings, boolean forMainScreen) {
 		final Map<String, Integer> components = settings.getComponentsMap();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (String component:components.keySet()) {
@@ -86,7 +86,7 @@ public class AppHelper {
 					// unsorted new entries get to the bottom
 					sortnr = MAX_SORTNR;
 				}
-				list.add(new AppEntry(matchingApp, sortnr));
+				list.add(new AppEntry(matchingApp, sortnr, forMainScreen));
 			}
 		}
 		return new AppListContainer(list);
