@@ -82,10 +82,10 @@ public class AppListContextMenu {
 		OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
 			@Override
 			public void onClickImpl(DialogInterface d, int which) {
+				GlobalContext.resetCache();
 				prefShortlist.remove(appEntry);
 				context.refreshList();
 				HomeLauncherBackupAgent.requestBackup(context);
-				GlobalContext.resetCache();
 			}
 		};
 		DialogHelper.confirm(context, R.string.menuRemove, okListener);

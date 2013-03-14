@@ -67,9 +67,9 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private void afterSave() {
+		GlobalContext.resetCache();
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(context);
-		GlobalContext.resetCache();
 		dismiss();
 	}
 

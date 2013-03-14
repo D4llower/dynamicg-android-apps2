@@ -163,9 +163,9 @@ public class PreferencesDialog extends Dialog {
 			activity.redrawTabContainer();
 		}
 
+		GlobalContext.resetCache();
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
-		GlobalContext.resetCache();
 	}
 
 	private void saveSharedPrefs() {
