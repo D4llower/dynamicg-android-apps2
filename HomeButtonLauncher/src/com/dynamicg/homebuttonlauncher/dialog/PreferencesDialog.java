@@ -36,6 +36,7 @@ public class PreferencesDialog extends Dialog {
 	private SeekBar seekbarNumTabs;
 	private CheckBox highRes;
 	private CheckBox autoStartSingle;
+	private CheckBox iconsInBackground;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -54,11 +55,9 @@ public class PreferencesDialog extends Dialog {
 		seekbarIconSize = attachSeekBar(R.id.prefsIconSize, R.id.prefsIconSizeIndicator, SizePrefsHelper.ICON_SIZES, prefSettings.getIconSize());
 		seekbarNumTabs = attachSeekBar(R.id.prefsNumTabs, R.id.prefsNumTabsIndicator, SizePrefsHelper.NUM_TABS, prefSettings.getNumTabs());
 
-		highRes = (CheckBox)findViewById(R.id.prefsHighResIcon);
-		highRes.setChecked(prefSettings.isHighResIcons());
-
-		autoStartSingle = (CheckBox)findViewById(R.id.prefsAutoStartSingle);
-		autoStartSingle.setChecked(prefSettings.isAutoStartSingle());
+		highRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
+		autoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
+		iconsInBackground = attachCheckbox(R.id.prefsIconsInBG, prefSettings.isIconsInBackground());
 
 		setupLayoutToggle();
 
@@ -77,6 +76,12 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 
+	}
+
+	private CheckBox attachCheckbox(int id, boolean checked) {
+		CheckBox box = (CheckBox)findViewById(id);
+		box.setChecked(checked);
+		return box;
 	}
 
 	private SeekBar attachSeekBar(final int id, final int indicatorId, final int[] values, final int initialValue) {
@@ -169,6 +174,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putInt(PrefSettings.KEY_NUM_TABS, getNewValue(seekbarNumTabs));
 		edit.putBoolean(PrefSettings.KEY_HIGH_RES, highRes.isChecked());
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, autoStartSingle.isChecked());
+		edit.putBoolean(PrefSettings.KEY_ICONS_IN_BG, iconsInBackground.isChecked());
 		edit.commit();
 	}
 

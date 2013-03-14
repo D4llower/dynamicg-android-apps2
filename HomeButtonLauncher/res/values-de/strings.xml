@@ -20,5 +20,6 @@
 	<string name="prefsHiResIcon">High-Res Icons laden</string>
     <string name="prefsAutoStartSingle">«Auto Start Modus» wenn nur eine einzige App gewählt</string>
 	<string name="prefsNumTabs">Anzahl Tabs</string>
-    
+    <string name="prefsIconsInBG">Icons im Hintergrund laden</string>
+	
 </resources>

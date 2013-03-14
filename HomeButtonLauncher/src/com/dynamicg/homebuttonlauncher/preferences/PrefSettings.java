@@ -17,6 +17,7 @@ public class PrefSettings {
 	public static final String KEY_HIGH_RES = "highRes";
 	public static final String KEY_AUTO_START_SINGLE = "autoStart";
 	public static final String KEY_NUM_TABS = "numTabs";
+	public static final String KEY_ICONS_IN_BG = "iconsInBG";
 
 	public static final int NUM_LAYOUTS = 4;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -100,6 +101,10 @@ public class PrefSettings {
 
 	public boolean isAutoStartSingle() {
 		return sharedPrefs.getBoolean(KEY_AUTO_START_SINGLE, false);
+	}
+
+	public boolean isIconsInBackground() {
+		return sharedPrefs.getBoolean(KEY_ICONS_IN_BG, false);
 	}
 
 }
