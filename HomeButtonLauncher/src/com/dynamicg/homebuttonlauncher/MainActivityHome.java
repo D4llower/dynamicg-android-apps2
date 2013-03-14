@@ -58,6 +58,7 @@ public class MainActivityHome extends Activity {
 	private void main() {
 		setContentView(R.layout.activity_main);
 		preferences = new PreferencesManager(context);
+		GlobalContext.init(this, preferences.prefSettings);
 		if (isAutoStartSingleSuccessful()) {
 			return;
 		}
