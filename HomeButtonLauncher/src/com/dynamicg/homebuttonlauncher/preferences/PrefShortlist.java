@@ -9,7 +9,6 @@ import java.util.Set;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
@@ -17,11 +16,9 @@ import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PrefShortlist {
 
-	private final PackageManager packageManager;
 	private SharedPreferences sharedPrefs;
 
-	public PrefShortlist(PackageManager packageManager, SharedPreferences appPrefs) {
-		this.packageManager = packageManager;
+	public PrefShortlist(SharedPreferences appPrefs) {
 		this.sharedPrefs = appPrefs;
 	}
 
@@ -66,7 +63,7 @@ public class PrefShortlist {
 		final Collection<String> components = getComponentsSet();
 		final ArrayList<String> zombies = new ArrayList<String>();
 		for (String component:components) {
-			ResolveInfo matchingApp = AppHelper.getMatchingApp(packageManager, component);
+			ResolveInfo matchingApp = AppHelper.getMatchingApp(component);
 			if (matchingApp==null || !AppHelper.getComponentName(matchingApp).equals(component)) {
 				zombies.add(component);
 			}

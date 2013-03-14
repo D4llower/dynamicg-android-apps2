@@ -58,7 +58,6 @@ public class MainActivityHome extends Activity {
 	private void main() {
 		setContentView(R.layout.activity_main);
 		preferences = new PreferencesManager(context);
-		GlobalContext.init(this, preferences.prefSettings);
 		if (isAutoStartSingleSuccessful()) {
 			return;
 		}
@@ -91,7 +90,7 @@ public class MainActivityHome extends Activity {
 			return false;
 		}
 
-		final AppListContainer appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
+		final AppListContainer appList = AppHelper.getSelectedAppsList(preferences.prefShortlist);
 		if (appList.size()!=1) {
 			log.debug("autoStart", "getSelectedAppsList", "size!=1");
 			return false;
@@ -141,7 +140,7 @@ public class MainActivityHome extends Activity {
 		final AbsListView listview = getListView();
 		listview.setId(R.id.mainListView);
 
-		final AppListContainer appList = AppHelper.getSelectedAppsList(context, preferences.prefShortlist);
+		final AppListContainer appList = AppHelper.getSelectedAppsList(preferences.prefShortlist);
 
 		final BaseAdapter adapter;
 		if (appList.size()<=MAX_STATIC_THRESHOLD) {

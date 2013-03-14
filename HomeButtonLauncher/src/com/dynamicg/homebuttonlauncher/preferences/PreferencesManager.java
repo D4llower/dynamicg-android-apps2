@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PreferencesManager {
@@ -35,21 +35,22 @@ public class PreferencesManager {
 	public PreferencesManager(Context context) {
 		this.context = context;
 		this.prefSettings = new PrefSettings(context);
+		GlobalContext.init(context, prefSettings);
+
 		int tabindex = getTabIndex();
-		this.prefShortlist = new PrefShortlist(context.getPackageManager(), getShortlistPrefs(tabindex));
+		this.prefShortlist = new PrefShortlist(getShortlistPrefs(tabindex));
 		if (tabindex==0) {
 			// skip for all extra tabs
-			checkOnStartup(context);
+			checkOnStartup();
 		}
 	}
 
-	private void checkOnStartup(Context context) {
+	private void checkOnStartup() {
 		if (prefShortlist.size()>0) {
 			return;
 		}
-		PackageManager packageManager = context.getPackageManager();
 		for (String defaultApp:DFLT_GOOGLE_SEARCH) {
-			if (AppHelper.getMatchingApp(packageManager, defaultApp)!=null) {
+			if (AppHelper.getMatchingApp(defaultApp)!=null) {
 				prefShortlist.add(Arrays.asList(defaultApp));
 				return;
 			}

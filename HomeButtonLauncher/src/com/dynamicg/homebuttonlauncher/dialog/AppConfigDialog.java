@@ -56,10 +56,10 @@ public class AppConfigDialog extends Dialog {
 		this.actionRemove = action==MenuGlobals.APPS_REMOVE;
 
 		if (actionAdd) {
-			this.appList = AppHelper.getAllAppsList(activity, prefShortlist);
+			this.appList = AppHelper.getAllAppsList(prefShortlist);
 		}
 		else {
-			this.appList = AppHelper.getSelectedAppsList(activity, prefShortlist);
+			this.appList = AppHelper.getSelectedAppsList(prefShortlist);
 		}
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);

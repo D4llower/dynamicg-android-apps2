@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -15,6 +14,7 @@ import android.content.pm.ResolveInfo;
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 
 public class AppHelper {
@@ -40,9 +40,9 @@ public class AppHelper {
 		return intent;
 	}
 
-	public static ResolveInfo getMatchingApp(PackageManager packageManager, String component) {
+	public static ResolveInfo getMatchingApp(String component) {
 		Intent intent = getStartIntent(component);
-		final List<ResolveInfo> apps = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+		final List<ResolveInfo> apps = GlobalContext.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		if (apps!=null && apps.size()==1) {
 			// note "intent.setComponent" with only the activity name will match multiple entries (e.g. "com.dynamicg.bookmarkTree.Main")
 			return apps.get(0);
@@ -53,42 +53,40 @@ public class AppHelper {
 		return null;
 	}
 
-	public static AppListContainer getAllAppsList(Context context, PrefShortlist settings) {
+	public static AppListContainer getAllAppsList(PrefShortlist settings) {
 		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-		PackageManager packageManager = context.getPackageManager();
 		ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 
 		Collection<String> selectedComponents = new HashSet<String>(settings.getComponentsSet());
 		selectedComponents.add(SELF); // do not show my own app in the list
 
-		final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
+		final List<ResolveInfo> apps = GlobalContext.packageManager.queryIntentActivities(mainIntent, 0);
 		for (ResolveInfo resolveInfo:apps) {
 			String component = getComponentName(resolveInfo);
 			// System.err.println("COMPONENT:["+component+"]");
 			if (!selectedComponents.contains(component)) {
 				// skip apps already on the list
-				list.add(new AppEntry(packageManager, resolveInfo, 0));
+				list.add(new AppEntry(resolveInfo, 0));
 			}
 		}
 
 		return new AppListContainer(list);
 	}
 
-	public static AppListContainer getSelectedAppsList(Context context, PrefShortlist settings) {
-		final PackageManager packageManager = context.getPackageManager();
+	public static AppListContainer getSelectedAppsList(PrefShortlist settings) {
 		final Map<String, Integer> components = settings.getComponentsMap();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (String component:components.keySet()) {
-			ResolveInfo matchingApp = getMatchingApp(packageManager, component);
+			ResolveInfo matchingApp = getMatchingApp(component);
 			if (matchingApp!=null) {
 				int sortnr = components.get(component);
 				if (sortnr==0) {
 					// unsorted new entries get to the bottom
 					sortnr = MAX_SORTNR;
 				}
-				list.add(new AppEntry(packageManager, matchingApp, sortnr));
+				list.add(new AppEntry(matchingApp, sortnr));
 			}
 		}
 		return new AppListContainer(list);

@@ -1,6 +1,5 @@
 package com.dynamicg.homebuttonlauncher;
 
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -11,7 +10,6 @@ import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
 
 public class AppEntry {
 
-	private final PackageManager packageManager;
 	private final String component;
 	public final ResolveInfo resolveInfo;
 	public final String label;
@@ -20,11 +18,10 @@ public class AppEntry {
 	private Drawable icon;
 	private boolean checked;
 
-	public AppEntry(PackageManager packageManager, ResolveInfo resolveInfo, int sortnr) {
-		this.packageManager = packageManager;
+	public AppEntry(ResolveInfo resolveInfo, int sortnr) {
 		this.resolveInfo = resolveInfo;
 		this.component = AppHelper.getComponentName(resolveInfo);
-		this.label = toString(resolveInfo.loadLabel(packageManager), this.component);
+		this.label = toString(resolveInfo.loadLabel(GlobalContext.packageManager), this.component);
 		this.sortnr = sortnr;
 	}
 
@@ -68,7 +65,7 @@ public class AppEntry {
 		}
 
 		if (icon==null) {
-			Drawable appicon = resolveInfo.loadIcon(packageManager);
+			Drawable appicon = resolveInfo.loadIcon(GlobalContext.packageManager);
 			icon = IconProvider.scale(appicon, sizePX);
 		}
 
