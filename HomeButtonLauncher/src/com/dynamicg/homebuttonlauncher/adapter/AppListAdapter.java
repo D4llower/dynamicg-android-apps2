@@ -2,11 +2,13 @@ package com.dynamicg.homebuttonlauncher.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
@@ -24,49 +26,61 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 	protected final AppListContainer applist;
 	protected final LayoutInflater inflater;
-	private final int labelSize;
-	protected final int iconSizePx;
-	protected final int appEntryLayoutId;
-	private final LargeIconLoader largeIconLoader;
-	private final boolean forMainScreen;
+	protected final boolean forMainScreen;
+	protected final boolean useBackgroundLoader;
 
-	private Integer noLabelGridPadding;
-	private BackgroundIconLoader backgroundIconLoader;
-	private Drawable defaultIcon;
+	protected int labelSize;
+	protected int iconSizePx;
+	protected LargeIconLoader largeIconLoader;
+	protected int appEntryLayoutId;
+
+	protected int noLabelGridPadding;
+	private LocalViewBinder localViewBinder;
+
+	private AppListAdapter(Activity activity, AppListContainer apps, boolean forMainScreen) {
+		this.applist = apps;
+		this.inflater = activity.getLayoutInflater();
+		this.forMainScreen = forMainScreen;
+		this.useBackgroundLoader = GlobalContext.prefSettings.isBackgroundIconLoader();
+	}
 
 	/*
 	 * for main screen
 	 */
 	public AppListAdapter(Activity activity, AppListContainer apps) {
+		this(activity, apps, true);
 		PrefSettings settings = GlobalContext.prefSettings;
-
-		this.applist = apps;
-		this.inflater = activity.getLayoutInflater();
 		this.labelSize = settings.getLabelSize();
 		this.iconSizePx = IconProvider.getSizePX(settings.getIconSize());
-		this.appEntryLayoutId = settings.getAppEntryLayoutId();
 		this.largeIconLoader = LargeIconLoader.createInstance(activity, settings);
-		this.forMainScreen = true;
-
-		if (settings.isBackgroundIconLoader()) {
-			setBackgroundLoader(activity);
-		}
+		postInit(activity, settings.getAppEntryLayoutId());
 	}
 
 	/*
 	 * for config screens
 	 */
 	public AppListAdapter(Activity activity, AppListContainer apps, int viewId) {
-		this.applist = apps;
-		this.inflater = activity.getLayoutInflater();
+		this(activity, apps, false);
 		this.labelSize = SizePrefsHelper.DEFAULT_LABEL_SIZE;
 		this.iconSizePx = IconProvider.getDefaultSizePX();
-		this.appEntryLayoutId = viewId;
 		this.largeIconLoader = null;
-		this.forMainScreen = false;
+		postInit(activity, viewId);
+	}
 
-		if (GlobalContext.prefSettings.isBackgroundIconLoader()) {
-			setBackgroundLoader(activity);
+	private void postInit(Context context, int layoutId) {
+
+		this.localViewBinder = useBackgroundLoader ? new LocalViewBinderAsync(context.getResources()) : new LocalViewBinderDefault();
+
+		appEntryLayoutId = layoutId;
+		if (useBackgroundLoader) {
+			switch (layoutId) {
+			case R.layout.app_entry_default: appEntryLayoutId=R.layout.app_entry_default_bl; break;
+			case R.layout.app_entry_compact: appEntryLayoutId=R.layout.app_entry_compact_bl; break;
+			}
+		}
+
+		if (labelSize==0 && (appEntryLayoutId==R.layout.app_entry_compact||appEntryLayoutId==R.layout.app_entry_compact_bl)) {
+			noLabelGridPadding = DialogHelper.getDimension(context, R.dimen.gridViewNoLabelIconPadding);
 		}
 	}
 
@@ -88,84 +102,107 @@ public abstract class AppListAdapter extends BaseAdapter {
 		return position;
 	}
 
-	private void setBackgroundLoader(Context context) {
-		this.backgroundIconLoader =
-				new BackgroundIconLoader(applist, iconSizePx, largeIconLoader, forMainScreen);
-		this.defaultIcon =
-				IconProvider.scale(context.getResources().getDrawable(R.drawable.android), iconSizePx);
-	}
-
-	private void noLabelPadding(TextView row) {
-		// add some padding
-		if (noLabelGridPadding==null) {
-			noLabelGridPadding = DialogHelper.getDimension(inflater.getContext(), R.dimen.gridViewNoLabelIconPadding);
-		}
-		row.setCompoundDrawablePadding(noLabelGridPadding);
-	}
-
 	public View getOrCreateView(View convertView) {
-		final TextView row;
-		if (convertView==null) {
-			row = (TextView)inflater.inflate(appEntryLayoutId, null);
-			row.setTextSize(this.labelSize);
-			if (this.labelSize==0 && appEntryLayoutId==R.layout.app_entry_compact) {
-				noLabelPadding(row);
-			}
-		}
-		else {
-			row = (TextView)convertView;
-		}
-		return row;
+		return localViewBinder.provideView(convertView);
 	}
 
-	public void bindView(int position, AppEntry appEntry, View row) {
-
-		TextView label = (TextView)row;
-
-		if (backgroundIconLoader!=null) {
-			// see com.dynamicg.homebuttonlauncher.tools.BackgroundIconLoader.queue(TextView)
-			if (label.getTag()==null) {
-				label.setTag(new int[]{position, -1});
-			}
-			else {
-				int[] positions = (int[])label.getTag();
-				positions[0] = position;
-			}
-		}
-
-		// (1) LABEL
+	protected void setLabel(TextView label, AppEntry appEntry) {
 		if (this.labelSize==0) {
 			label.setText("");
 		}
 		else {
 			label.setText(appEntry.getLabel());
 		}
+	}
 
-		// (2) ICON
-		Drawable icon;
-		if (appEntry.isIconLoaded()) {
-			icon = appEntry.getIcon();
-		}
-		else if (backgroundIconLoader!=null) {
-			icon = defaultIcon;
-		}
-		else {
-			icon = appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+	public void bindView(int position, AppEntry appEntry, View row) {
+		localViewBinder.bindView(position, appEntry, row);
+	}
+
+	public abstract class LocalViewBinder {
+		public abstract View provideView(View convertView);
+		public abstract void bindView(int position, AppEntry appEntry, View row);
+	}
+
+	public class LocalViewBinderDefault extends LocalViewBinder {
+
+		@Override
+		public View provideView(View convertView) {
+			if (convertView==null) {
+				final TextView row = (TextView)inflater.inflate(appEntryLayoutId, null);
+				row.setTextSize(labelSize);
+				if (noLabelGridPadding>0) {
+					row.setCompoundDrawablePadding(noLabelGridPadding);
+				}
+				return row;
+			}
+			return (TextView)convertView;
 		}
 
-		if (appEntryLayoutId==R.layout.app_entry_compact) {
-			// icon on top
-			label.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
-		}
-		else {
-			// icon left
-			label.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+		@Override
+		public void bindView(int position, AppEntry appEntry, View row) {
+			TextView label = (TextView)row;
+			setLabel(label, appEntry);
+			Drawable icon = appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+			if (appEntryLayoutId==R.layout.app_entry_compact) {
+				// icon on top
+				label.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
+			}
+			else {
+				// icon left
+				label.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+			}
 		}
 
-		if (backgroundIconLoader!=null && !appEntry.isIconLoaded()) {
-			// TODO ## refactor
-			//backgroundIconLoader.queue(row);
+	}
+
+	public class LocalViewBinderAsync extends LocalViewBinder {
+
+		private final BackgroundIconLoader backgroundIconLoader;
+		private final Drawable defaultIcon;
+
+		public LocalViewBinderAsync(Resources res) {
+			this.backgroundIconLoader = new BackgroundIconLoader(applist, iconSizePx, largeIconLoader, forMainScreen);
+			this.defaultIcon = IconProvider.scale(res.getDrawable(R.drawable.android), iconSizePx);
 		}
+
+		@Override
+		public View provideView(View convertView) {
+			if (convertView==null) {
+				// create view and holder
+				final LinearLayout row = (LinearLayout)inflater.inflate(appEntryLayoutId, null);
+				ViewHolder holder = new ViewHolder(row);
+				row.setTag(holder);
+				// label size init
+				holder.label.setTextSize(labelSize);
+				if (noLabelGridPadding>0) {
+					holder.image.setPadding(noLabelGridPadding, noLabelGridPadding, noLabelGridPadding, noLabelGridPadding);
+				}
+				return row;
+			}
+			return (LinearLayout)convertView;
+		}
+
+		@Override
+		public void bindView(int position, AppEntry appEntry, View row) {
+			final ViewHolder holder = (ViewHolder)row.getTag();
+			holder.position = position;
+			setLabel(holder.label, appEntry);
+
+			Drawable icon;
+			if (appEntry.isIconLoaded()) {
+				icon = appEntry.getIcon();
+			}
+			else {
+				icon = defaultIcon;
+			}
+			holder.image.setImageDrawable(icon);
+
+			if (!appEntry.isIconLoaded()) {
+				backgroundIconLoader.queue(holder);
+			}
+		}
+
 	}
 
 }
