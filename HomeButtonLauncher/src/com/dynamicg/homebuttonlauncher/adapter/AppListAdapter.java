@@ -176,7 +176,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 				// label size init
 				holder.label.setTextSize(labelSize);
 				if (noLabelGridPadding>0) {
-					holder.image.setPadding(noLabelGridPadding, noLabelGridPadding, noLabelGridPadding, noLabelGridPadding);
+					holder.image.setPadding(0, 0, 0, noLabelGridPadding);
 				}
 				return row;
 			}
