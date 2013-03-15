@@ -191,7 +191,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 			Drawable icon;
 			if (appEntry.isIconLoaded()) {
-				icon = appEntry.getIcon();
+				icon = appEntry.getIconDrawable();
 			}
 			else {
 				icon = defaultIcon;

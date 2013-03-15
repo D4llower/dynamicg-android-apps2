@@ -65,7 +65,7 @@ public class AppEntry {
 		view.setBackgroundResource(checked?R.drawable.app_selector_shape:0);
 	}
 
-	public Drawable getIcon(int sizePX, LargeIconLoader largeIconLoader, boolean forMainScreen) {
+	public Drawable getIcon(int iconSizePx, LargeIconLoader largeIconLoader, boolean forMainScreen) {
 
 		if (icon!=null) {
 			return icon;
@@ -73,12 +73,12 @@ public class AppEntry {
 
 		if (largeIconLoader!=null) {
 			Drawable appicon = largeIconLoader.getLargeIcon(this);
-			icon = IconProvider.scale(appicon, sizePX);
+			icon = IconProvider.scale(appicon, iconSizePx);
 		}
 
 		if (icon==null) {
 			Drawable appicon = resolveInfo.loadIcon(GlobalContext.packageManager);
-			icon = IconProvider.scale(appicon, sizePX);
+			icon = IconProvider.scale(appicon, iconSizePx);
 		}
 
 		if (forMainScreen) {
@@ -92,7 +92,7 @@ public class AppEntry {
 		return icon!=null;
 	}
 
-	public Drawable getIcon() {
+	public Drawable getIconDrawable() {
 		return icon;
 	}
 

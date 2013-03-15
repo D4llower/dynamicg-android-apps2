@@ -70,7 +70,7 @@ public class BackgroundIconLoader {
 		if (row.position!=row.imgPosition && appEntry.isIconLoaded()) {
 			row.imgPosition = row.position;
 			log.trace("-- UPDATE ICON --", row.position, appEntry.label);
-			Drawable icon = appEntry.getIcon();
+			Drawable icon = appEntry.getIconDrawable();
 			row.image.setImageDrawable(icon);
 		}
 		else {
