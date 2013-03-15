@@ -106,6 +106,7 @@ public class BackgroundIconLoader {
 								if (log.isDebugEnabled) {
 									throw new RuntimeException("runLoader - NULL AT ["+highWaterMark+"]["+i+"]");
 								}
+								highWaterMark++; // avoid endless loop (regardless of why we got a null item)
 								continue;
 							}
 
