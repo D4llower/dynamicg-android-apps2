@@ -103,7 +103,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		row.setCompoundDrawablePadding(noLabelGridPadding);
 	}
 
-	public TextView getOrCreateTextView(View convertView) {
+	public View getOrCreateView(View convertView) {
 		final TextView row;
 		if (convertView==null) {
 			row = (TextView)inflater.inflate(appEntryLayoutId, null);
@@ -118,25 +118,27 @@ public abstract class AppListAdapter extends BaseAdapter {
 		return row;
 	}
 
-	public void bindView(int position, AppEntry appEntry, TextView row) {
+	public void bindView(int position, AppEntry appEntry, View row) {
+
+		TextView label = (TextView)row;
 
 		if (backgroundIconLoader!=null) {
 			// see com.dynamicg.homebuttonlauncher.tools.BackgroundIconLoader.queue(TextView)
-			if (row.getTag()==null) {
-				row.setTag(new int[]{position, -1});
+			if (label.getTag()==null) {
+				label.setTag(new int[]{position, -1});
 			}
 			else {
-				int[] positions = (int[])row.getTag();
+				int[] positions = (int[])label.getTag();
 				positions[0] = position;
 			}
 		}
 
 		// (1) LABEL
 		if (this.labelSize==0) {
-			row.setText("");
+			label.setText("");
 		}
 		else {
-			row.setText(appEntry.getLabel());
+			label.setText(appEntry.getLabel());
 		}
 
 		// (2) ICON
@@ -153,11 +155,11 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 		if (appEntryLayoutId==R.layout.app_entry_compact) {
 			// icon on top
-			row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
+			label.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
 		}
 		else {
 			// icon left
-			row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+			label.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 		}
 
 		if (backgroundIconLoader!=null && !appEntry.isIconLoaded()) {
