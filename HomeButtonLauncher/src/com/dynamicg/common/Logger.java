@@ -7,11 +7,11 @@ import android.util.Log;
  */
 public class Logger {
 
-	private static boolean TRACE_ENABLED = false;
+	private static boolean TRACE_ENABLED = true;
 	private static boolean DEBUG_ENABLED = true;
 
-	public final boolean isDebugEnabled = DEBUG_ENABLED;
 	public final boolean isTraceEnabled = TRACE_ENABLED;
+	public final boolean isDebugEnabled = DEBUG_ENABLED;
 
 	private final String textPrefix;
 
@@ -46,6 +46,14 @@ public class Logger {
 		}
 		StringBuffer sb = append(text, args);
 		Log.d(textPrefix, sb.toString());
+	}
+
+	public void trace(String text, Object... args) {
+		if (!TRACE_ENABLED) {
+			return;
+		}
+		StringBuffer sb = append(text, args);
+		Log.v(textPrefix, sb.toString());
 	}
 
 	public static void dumpIfDevelopment(Throwable e) {

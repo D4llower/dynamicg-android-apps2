@@ -19,7 +19,7 @@ public class AppListAdapterAddRemove extends AppListAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final TextView row = getOrCreateTextView(convertView);
 		final AppEntry appEntry = applist.get(position);
-		bindView(appEntry, row);
+		bindView(position, appEntry, row);
 		appEntry.decorateSelection(row);
 		return row;
 	}

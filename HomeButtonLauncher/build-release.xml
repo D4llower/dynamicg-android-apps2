@@ -22,10 +22,16 @@ android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree
 	</target>
 	
 	<target name=".stripLogging">
+		<replace token="private static final Logger log" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
 		<replace token="log.isDebugEnabled" value="false" summary="true">
 			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
 		</replace>
-		<replace token="private static final Logger log" value="// --logging disabled-- " summary="true">
+		<replace token="log.isTraceEnabled" value="false" summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
+		<replace token="log.trace" value="// --logging disabled-- " summary="true">
 			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
 		</replace>
 		<replace token="log.debug" value="// --logging disabled-- " summary="true">

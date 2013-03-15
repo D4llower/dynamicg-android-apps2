@@ -65,7 +65,6 @@ public abstract class AppListAdapter extends BaseAdapter {
 		this.largeIconLoader = null;
 		this.forMainScreen = false;
 
-		// TODO ## no background loader on config screens when going live ??
 		if (GlobalContext.prefSettings.isBackgroundIconLoader()) {
 			setBackgroundLoader(activity);
 		}
@@ -73,13 +72,6 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 	@Override
 	public abstract View getView(int position, View convertView, ViewGroup parent);
-
-	private void setBackgroundLoader(Context context) {
-		this.backgroundIconLoader =
-				new BackgroundIconLoader(iconSizePx, largeIconLoader, forMainScreen, appEntryLayoutId==R.layout.app_entry_default);
-		this.defaultIcon =
-				IconProvider.scale(context.getResources().getDrawable(R.drawable.android), iconSizePx);
-	}
 
 	@Override
 	public int getCount() {
@@ -94,6 +86,13 @@ public abstract class AppListAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	private void setBackgroundLoader(Context context) {
+		this.backgroundIconLoader =
+				new BackgroundIconLoader(applist, iconSizePx, largeIconLoader, forMainScreen, appEntryLayoutId==R.layout.app_entry_default);
+		this.defaultIcon =
+				IconProvider.scale(context.getResources().getDrawable(R.drawable.android), iconSizePx);
 	}
 
 	private void noLabelPadding(TextView row) {
@@ -119,7 +118,18 @@ public abstract class AppListAdapter extends BaseAdapter {
 		return row;
 	}
 
-	public void bindView(AppEntry appEntry, TextView row) {
+	public void bindView(int position, AppEntry appEntry, TextView row) {
+
+		if (backgroundIconLoader!=null) {
+			// see com.dynamicg.homebuttonlauncher.tools.BackgroundIconLoader.queue(TextView)
+			if (row.getTag()==null) {
+				row.setTag(new int[]{position, -1});
+			}
+			else {
+				int[] positions = (int[])row.getTag();
+				positions[0] = position;
+			}
+		}
 
 		// (1) LABEL
 		if (this.labelSize==0) {
@@ -151,7 +161,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		}
 
 		if (backgroundIconLoader!=null && !appEntry.isIconLoaded()) {
-			backgroundIconLoader.queue(appEntry, row);
+			backgroundIconLoader.queue(row);
 		}
 	}
 

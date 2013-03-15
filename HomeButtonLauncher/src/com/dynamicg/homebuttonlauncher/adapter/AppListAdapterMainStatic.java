@@ -23,7 +23,7 @@ public class AppListAdapterMainStatic extends AppListAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (list.get(position)==null) {
 			final TextView row = getOrCreateTextView(null); // make sure we don't recycle views
-			bindView(applist.get(position), row);
+			bindView(position, applist.get(position), row);
 			list.set(position, row);
 		}
 		return list.get(position);

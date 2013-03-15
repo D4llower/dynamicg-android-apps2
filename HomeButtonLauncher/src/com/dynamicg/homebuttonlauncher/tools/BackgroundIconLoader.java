@@ -1,7 +1,6 @@
 package com.dynamicg.homebuttonlauncher.tools;
 
-import java.util.ConcurrentModificationException;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
@@ -12,109 +11,143 @@ import android.widget.TextView;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.AppListContainer;
 
 @SuppressLint("HandlerLeak")
 public class BackgroundIconLoader {
 
+	/*
+	 * see
+	 * http://android-developers.blogspot.ch/2010/07/multithreading-for-performance.html
+	 * http://lucasr.org/2012/04/05/performance-tips-for-androids-listview/
+	 * http://developer.android.com/training/improving-layouts/smooth-scrolling.html
+	 */
+
 	private static final Logger log = new Logger(BackgroundIconLoader.class);
 
+	private final AppListContainer applist;
 	private final int iconSizePx;
 	private final LargeIconLoader largeIconLoader;
-	private final HashSet<TextView> queue = new HashSet<TextView>();
 	private final Handler handler;
-
 	private final boolean forMainScreen;
 	private final boolean iconsLeft;
 
-	protected Thread thread;
-	protected boolean isRunning;
+	private final ArrayList<TextView> views = new ArrayList<TextView>();
 
-	public BackgroundIconLoader(final int iconSizePx, final LargeIconLoader largeIconLoader, final boolean forMainScreen, final boolean iconsLeft) {
+	protected Thread thread;
+	protected boolean running;
+	protected int highWaterMark = 0;
+
+	public BackgroundIconLoader(
+			final AppListContainer applist
+			, final int iconSizePx
+			, final LargeIconLoader largeIconLoader
+			, final boolean forMainScreen
+			, final boolean iconsLeft
+			)
+	{
+		this.applist = applist;
 		this.iconSizePx = iconSizePx;
 		this.largeIconLoader = largeIconLoader;
 		this.forMainScreen = forMainScreen;
 		this.iconsLeft = iconsLeft;
 
 		this.handler = new Handler() {
-
 			@Override
 			public void handleMessage(Message msg) {
-				TextView row = (TextView)msg.obj;
-				synchronized (row) {
-					// by now the app icon should have been loaded so this is really fast:
-					// TODO use appEntry.getIcon() ?
-					setIcon(row, getIconFromViewTag(row));
+				try {
+					updateIcon(msg.what);
+				}
+				catch (Throwable t) {
+					Logger.dumpIfDevelopment(t);
 				}
 			}
 		};
 	}
 
-	protected Drawable getIconFromViewTag(TextView row) {
-		AppEntry appEntry = (AppEntry)row.getTag();
-		return appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
-	}
+	private void updateIcon(int index) {
+		TextView row = views.get(index);
+		views.set(index, null);
 
-	protected void setIcon(TextView row, Drawable icon) {
-		if (iconsLeft) {
-			row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+		int[] positions = (int[])row.getTag();
+		final AppEntry appEntry = applist.get(positions[0]);
+		if (positions[0]!=positions[1] && appEntry.isIconLoaded()) {
+			positions[1] = positions[0];
+			log.trace("-- UPDATE ICON --", positions[0], appEntry.label);
+			Drawable icon = appEntry.getIcon();
+			if (iconsLeft) {
+				row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+			}
+			else {
+				row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
+			}
 		}
 		else {
-			row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
+			log.trace("== SKIP UPDATE ==", positions[0], positions[1], appEntry.isIconLoaded());
 		}
 	}
 
-	void runLoader() {
-		if (isRunning) {
+	protected void runLoader() {
+		if (running) {
 			return;
 		}
 
-		log.debug("##>> START LOADER", queue.size());
+		log.debug("##>> START LOADER", views.size());
 
-		isRunning = true;
+		running = true;
 
 		thread = new Thread(new Runnable() {
-
-			protected TextView getNext() {
-				try {
-					return queue.iterator().next();
-				}
-				catch (ConcurrentModificationException e) {
-					return queue.iterator().next();
-				}
-			}
 
 			@Override
 			public void run() {
 				try {
-					SystemUtil.sleep(50); // initial delay
+
+					// initial delay
+					SystemUtil.sleep(50);
+
 					while (true) {
-						while (queue.size()>0) {
-							TextView row = getNext();
-							queue.remove(row);
-							getIconFromViewTag(row);
-							handler.sendMessage(handler.obtainMessage(0, row));
+						int size1 = views.size();
+						for (int i=highWaterMark;i<size1;i++) {
+
+							// get next entry
+							TextView row = views.get(i);
+							if (row==null) {
+								if (log.isDebugEnabled) {
+									throw new RuntimeException("runLoader - NULL AT ["+highWaterMark+"]["+i+"]");
+								}
+								continue;
+							}
+
+							// process
+							int[] positions = (int[])row.getTag();
+							AppEntry appEntry = applist.get(positions[0]);
+							if (!appEntry.isIconLoaded()) {
+								appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+							}
+
+							if (positions[0]!=positions[1]) {
+								handler.sendEmptyMessage(i);
+							}
+							else {
+								log.trace("## SKIP UPDATE ##", positions[0], positions[1], appEntry.isIconLoaded());
+							}
+
+							// move to next
+							highWaterMark = i+1;
 						}
+
 						SystemUtil.sleep(50);
-						log.debug("WAIT AND CHECK QUEUE", queue.size());
-						if (queue.size()==0) {
-							isRunning = false;
+						log.debug("WAIT AND CHECK QUEUE", highWaterMark, views.size());
+
+						if (highWaterMark>=views.size()) {
+							running = false;
 							break;
 						}
 					}
 				}
 				catch (Throwable t) {
-					// most probably a "concurrent access" error at queue.iterator().next()
-					/*
-					03-14 09:43:02.929: W/System.err(7688): java.util.ConcurrentModificationException
-					03-14 09:43:02.929: W/System.err(7688): 	at java.util.HashMap$HashIterator.nextEntry(HashMap.java:792)
-					03-14 09:43:02.941: W/System.err(7688): 	at java.util.HashMap$KeyIterator.next(HashMap.java:819)
-					03-14 09:43:02.957: W/System.err(7688): 	at com.dynamicg.homebuttonlauncher.tools.BackgroundIconLoader$2.run(BackgroundIconLoader.java:71)
-					03-14 09:43:02.964: W/System.err(7688): 	at java.lang.Thread.run(Thread.java:856)
-					 */
-					isRunning = false;
-					if (log.isDebugEnabled) {
-						t.printStackTrace();
-					}
+					running = false;
+					Logger.dumpIfDevelopment(t);
 				}
 			}
 		});
@@ -123,19 +156,13 @@ public class BackgroundIconLoader {
 		thread.start();
 	}
 
-	public void queue(final AppEntry appEntry, final TextView row) {
-
-		row.setTag(appEntry);
-		if (appEntry.isIconLoaded()) {
-			setIcon(row, appEntry.getIcon());
-			return;
-		}
-
-		synchronized (row) {
-			row.setTag(appEntry);
-		}
-		queue.add(row);
-
+	/*
+	 * note the row tag format:
+	 * int[]{requested position, index position of most recent displayed icon}
+	 * i.e. whenever p1!=p2 then view needs update
+	 */
+	public void queue(TextView row) {
+		views.add(row);
 		runLoader();
 	}
 

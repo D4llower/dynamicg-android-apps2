@@ -16,7 +16,7 @@ public class AppListAdapterMain extends AppListAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final TextView row = getOrCreateTextView(convertView);
-		bindView(applist.get(position), row);
+		bindView(position, applist.get(position), row);
 		return row;
 	}
 
