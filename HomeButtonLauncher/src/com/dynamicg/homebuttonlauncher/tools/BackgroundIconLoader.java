@@ -6,12 +6,12 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.TextView;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
+import com.dynamicg.homebuttonlauncher.adapter.ViewHolder;
 
 @SuppressLint("HandlerLeak")
 public class BackgroundIconLoader {
@@ -30,9 +30,8 @@ public class BackgroundIconLoader {
 	private final LargeIconLoader largeIconLoader;
 	private final Handler handler;
 	private final boolean forMainScreen;
-	private final boolean iconsLeft;
 
-	private final ArrayList<TextView> views = new ArrayList<TextView>();
+	private final ArrayList<ViewHolder> views = new ArrayList<ViewHolder>();
 
 	protected Thread thread;
 	protected boolean running;
@@ -43,14 +42,12 @@ public class BackgroundIconLoader {
 			, final int iconSizePx
 			, final LargeIconLoader largeIconLoader
 			, final boolean forMainScreen
-			, final boolean iconsLeft
 			)
 	{
 		this.applist = applist;
 		this.iconSizePx = iconSizePx;
 		this.largeIconLoader = largeIconLoader;
 		this.forMainScreen = forMainScreen;
-		this.iconsLeft = iconsLeft;
 
 		this.handler = new Handler() {
 			@Override
@@ -66,24 +63,18 @@ public class BackgroundIconLoader {
 	}
 
 	private void updateIcon(int index) {
-		TextView row = views.get(index);
+		ViewHolder row = views.get(index);
 		views.set(index, null);
 
-		int[] positions = (int[])row.getTag();
-		final AppEntry appEntry = applist.get(positions[0]);
-		if (positions[0]!=positions[1] && appEntry.isIconLoaded()) {
-			positions[1] = positions[0];
-			log.trace("-- UPDATE ICON --", positions[0], appEntry.label);
+		final AppEntry appEntry = applist.get(row.position);
+		if (row.position!=row.imgPosition && appEntry.isIconLoaded()) {
+			row.imgPosition = row.position;
+			log.trace("-- UPDATE ICON --", row.position, appEntry.label);
 			Drawable icon = appEntry.getIcon();
-			if (iconsLeft) {
-				row.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-			}
-			else {
-				row.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
-			}
+			row.image.setImageDrawable(icon);
 		}
 		else {
-			log.trace("== SKIP UPDATE ==", positions[0], positions[1], appEntry.isIconLoaded());
+			log.trace("== SKIP UPDATE ==", row.position, row.imgPosition, appEntry.isIconLoaded());
 		}
 	}
 
@@ -110,7 +101,7 @@ public class BackgroundIconLoader {
 						for (int i=highWaterMark;i<size1;i++) {
 
 							// get next entry
-							TextView row = views.get(i);
+							ViewHolder row = views.get(i);
 							if (row==null) {
 								if (log.isDebugEnabled) {
 									throw new RuntimeException("runLoader - NULL AT ["+highWaterMark+"]["+i+"]");
@@ -119,17 +110,16 @@ public class BackgroundIconLoader {
 							}
 
 							// process
-							int[] positions = (int[])row.getTag();
-							AppEntry appEntry = applist.get(positions[0]);
+							AppEntry appEntry = applist.get(row.position);
 							if (!appEntry.isIconLoaded()) {
 								appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
 							}
 
-							if (positions[0]!=positions[1]) {
+							if (row.position!=row.imgPosition) {
 								handler.sendEmptyMessage(i);
 							}
 							else {
-								log.trace("## SKIP UPDATE ##", positions[0], positions[1], appEntry.isIconLoaded());
+								log.trace("## SKIP UPDATE ##", row.position, row.imgPosition, appEntry.isIconLoaded());
 							}
 
 							// move to next
@@ -161,7 +151,7 @@ public class BackgroundIconLoader {
 	 * int[]{requested position, index position of most recent displayed icon}
 	 * i.e. whenever p1!=p2 then view needs update
 	 */
-	public void queue(TextView row) {
+	public void queue(ViewHolder row) {
 		views.add(row);
 		runLoader();
 	}

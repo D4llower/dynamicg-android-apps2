@@ -3,6 +3,6 @@
 	android:layout_height="wrap_content"
 	android:padding="@dimen/appLinePadding"
 	android:gravity="center_vertical"
-	android:drawablePadding="10dp"
+	android:drawablePadding="@dimen/iconOffsetPadding"
 	android:maxLines="2"
     />

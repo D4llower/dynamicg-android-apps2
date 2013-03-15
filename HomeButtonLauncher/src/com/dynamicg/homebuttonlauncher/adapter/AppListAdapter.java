@@ -90,7 +90,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 	private void setBackgroundLoader(Context context) {
 		this.backgroundIconLoader =
-				new BackgroundIconLoader(applist, iconSizePx, largeIconLoader, forMainScreen, appEntryLayoutId==R.layout.app_entry_default);
+				new BackgroundIconLoader(applist, iconSizePx, largeIconLoader, forMainScreen);
 		this.defaultIcon =
 				IconProvider.scale(context.getResources().getDrawable(R.drawable.android), iconSizePx);
 	}
@@ -161,7 +161,8 @@ public abstract class AppListAdapter extends BaseAdapter {
 		}
 
 		if (backgroundIconLoader!=null && !appEntry.isIconLoaded()) {
-			backgroundIconLoader.queue(row);
+			// TODO ## refactor
+			//backgroundIconLoader.queue(row);
 		}
 	}
 

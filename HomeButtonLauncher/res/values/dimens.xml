@@ -5,7 +5,8 @@
 	<dimen name="headerTextSize">20sp</dimen>
 	
 	<dimen name="appLinePadding">4dp</dimen>	
-
+	<dimen name="iconOffsetPadding">10dp</dimen>	
+	
 	<dimen name="widthDefault">280dp</dimen>
 	<dimen name="widthWide">520dp</dimen>
 	<dimen name="widthAppConfig">304dp</dimen>
