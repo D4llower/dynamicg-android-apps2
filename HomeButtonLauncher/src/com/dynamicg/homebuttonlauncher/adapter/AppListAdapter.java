@@ -36,6 +36,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 	protected int noLabelGridPadding;
 	private LocalViewBinder localViewBinder;
+	private boolean dataSetChanged;
 
 	private AppListAdapter(Activity activity, AppListContainer apps, boolean forMainScreen) {
 		this.applist = apps;
@@ -190,7 +191,12 @@ public abstract class AppListAdapter extends BaseAdapter {
 			setLabel(holder.label, appEntry);
 
 			Drawable icon;
-			if (appEntry.isIconLoaded()) {
+			if (dataSetChanged) {
+				// once "search" has been applied do not use bg loader any more
+				// (syncing the potentially running bg loader thread to the new applist is too complicated ...)
+				icon = appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+			}
+			else if (appEntry.isIconLoaded()) {
 				icon = appEntry.getIconDrawable();
 			}
 			else {
@@ -203,6 +209,12 @@ public abstract class AppListAdapter extends BaseAdapter {
 			}
 		}
 
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		dataSetChanged = true;
+		super.notifyDataSetChanged();
 	}
 
 }

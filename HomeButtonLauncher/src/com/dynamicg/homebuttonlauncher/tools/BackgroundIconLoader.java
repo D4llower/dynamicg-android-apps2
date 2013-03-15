@@ -111,19 +111,15 @@ public class BackgroundIconLoader {
 
 							// process
 							AppEntry appEntry = applist.get(row.position);
-							boolean iconPending = !appEntry.isIconLoaded();
-							if (iconPending) {
+							if (!appEntry.isIconLoaded()) {
 								appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
 							}
-							if (iconPending) {
-								// this kicks in when we use "search" (which changes the underlying data set)
-								row.imgPosition=-1;
-							}
+
 							if (row.position!=row.imgPosition) {
 								handler.sendEmptyMessage(i);
 							}
 							else {
-								log.trace("## SKIP UPDATE ##", row.position, row.imgPosition, iconPending, appEntry.label);
+								log.trace("## SKIP UPDATE ##", row.position, row.imgPosition, appEntry.isIconLoaded());
 							}
 
 							// move to next
