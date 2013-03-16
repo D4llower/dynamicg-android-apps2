@@ -56,10 +56,4 @@ public class Logger {
 		Log.v(textPrefix, sb.toString());
 	}
 
-	public static void dumpIfDevelopment(Throwable e) {
-		if (DEBUG_ENABLED) {
-			e.printStackTrace(System.err);
-		}
-	}
-
 }

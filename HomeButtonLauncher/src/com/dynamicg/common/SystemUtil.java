@@ -50,4 +50,9 @@ public class SystemUtil {
 		catch (Throwable t) {}
 	}
 
+	public static void dumpIfDevelopment(Throwable e) {
+		if (log.isDebugEnabled) {
+			e.printStackTrace(System.err);
+		}
+	}
 }
