@@ -56,7 +56,7 @@ public class BackgroundIconLoader {
 					updateIcon(msg.what);
 				}
 				catch (Throwable t) {
-					Logger.dumpIfDevelopment(t);
+					SystemUtil.dumpIfDevelopment(t);
 				}
 			}
 		};
@@ -138,7 +138,7 @@ public class BackgroundIconLoader {
 				}
 				catch (Throwable t) {
 					running = false;
-					Logger.dumpIfDevelopment(t);
+					SystemUtil.dumpIfDevelopment(t);
 				}
 			}
 		});
