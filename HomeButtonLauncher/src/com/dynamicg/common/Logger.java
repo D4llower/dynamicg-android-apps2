@@ -3,7 +3,8 @@ package com.dynamicg.common;
 import android.util.Log;
 
 /*
- * this class will be replaced with LoggerPROD on production builds
+ * ==>> THIS CLASS IS STRIPPED WHEN BUILDING THE APP <<==
+ * see build-release.xml
  */
 public class Logger {
 

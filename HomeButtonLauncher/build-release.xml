@@ -17,11 +17,20 @@ android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree
 	<target name=".copysrc">
 		<delete dir="${buildDirRoot}/${projectname}" />
 		<copy todir="${buildDirRoot}/${projectname}">
-			<fileset dir="${workspace}/${projectname}" />
+			<fileset dir="${workspace}/${projectname}">
+				<exclude name="**/apk/**" />
+				<exclude name="**/bin/**" />
+				<exclude name="**/gen/**" />
+			</fileset>
 		</copy>
 	</target>
 	
 	<target name=".stripLogging">
+		<delete file="${buildDirRoot}/${projectname}/src/com/dynamicg/common/Logger.java" failonerror="true" verbose="true" />
+		
+		<replace token="import com.dynamicg.common.Logger" value="// --logging disabled-- " summary="true">
+			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
+		</replace>
 		<replace token="private static final Logger log" value="// --logging disabled-- " summary="true">
 			<fileset dir="${buildDirRoot}/${projectname}/src" includes="**/*.java" />
 		</replace>
