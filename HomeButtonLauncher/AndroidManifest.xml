@@ -17,7 +17,10 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="17"
         />
-
+    
+	<!-- for "TimeRec Plugin 3 / Google Drive Backup&Restore " -->
+	<uses-permission android:name="com.dynamicg.timerec.plugin3.ACCESS"/>
+    
     <application
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"

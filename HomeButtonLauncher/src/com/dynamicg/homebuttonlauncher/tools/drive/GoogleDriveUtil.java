@@ -22,18 +22,17 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public class GoogleDriveUtil {
 
-	public static final String PLUGIN_APP = "com.dynamicg.timerec.plugin3";
+	private static final String PLUGIN_APP = "com.dynamicg.timerec.plugin3";
 	private static final String PLUGIN_ACTIVITY = "com.dynamicg.timerec.plugin3.gdrive.FileProviderActivity";
 
-	public static final String MSG_MISSING_APP_TITLE = "Google Drive Plugin required";
-	public static final String MSG_MISSING_APP_BODY = "Click here to install";
+	private static final String MSG_MISSING_APP_TITLE = "Google Drive Plugin required";
+	private static final String MSG_MISSING_APP_BODY = "Click here to install";
 	public static final String MSG_TOAST_DONE = "Restore done. Please restart the app";
 
 	private static Intent getBaseIntent(int requestCode) {
 		ComponentName component = new ComponentName(PLUGIN_APP, PLUGIN_ACTIVITY);
 		Intent intent = new Intent();
 		intent.setComponent(component);
-		//intent.putExtra(GoogleDriveGlobals.KEY_APP_INSTANCE, "F"); // F=free see com.dynamicg.timerecording.util.GoogleDriveUtil.setIntentBasics(Intent, int)
 		intent.putExtra(GoogleDriveGlobals.KEY_CUSTOM_MAIN_FOLDER, GoogleDriveBackupRestoreHelper.GOOGLE_DRIVE_FOLDER_NAME);
 		intent.putExtra(GoogleDriveGlobals.KEY_REQUEST_CODE, requestCode);
 		return intent;

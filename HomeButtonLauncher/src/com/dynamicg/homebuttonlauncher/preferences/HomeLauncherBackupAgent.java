@@ -8,7 +8,6 @@ import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.Context;
 
 import com.dynamicg.common.Logger;
-import com.dynamicg.homebuttonlauncher.MainActivityHome;
 
 /*
  * see
@@ -35,34 +34,33 @@ public class HomeLauncherBackupAgent extends BackupAgentHelper {
 	private static final Logger log = new Logger(HomeLauncherBackupAgent.class);
 	private static final String BACKUP_KEY = "HomeLauncherPrefs";
 
-	public static ArrayList<String> getSharedPrefNames(MainActivityHome activity) {
-		// TODO ##implement##
-		return null;
-	}
-
-	private int getNumTabs() {
-		int tabcount = 0;
+	private static int getSettingNumTabs(Context context) {
 		try {
-			PrefSettings prefSettings = new PrefSettings(this);
-			tabcount = prefSettings.getNumTabs();
+			PrefSettings prefSettings = new PrefSettings(context);
+			return prefSettings.getNumTabs();
 		}
 		catch (Throwable t) {
 			log.debug("ERROR", t);
 		}
-		return tabcount==0 ? 1 : tabcount;
+		return 0;
+	}
+
+	public static ArrayList<String> getSharedPrefNames(Context context) {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(PrefSettings.SHARED_PREFS_KEY);
+		final int settingNumTabs = getSettingNumTabs(context);
+		final int pagecount = settingNumTabs==0 ? 1 : settingNumTabs;
+		for (int i=0;i<pagecount;i++) {
+			// note "tab0" or 'none' (if tabs not enabled) is key "apps", all the others are key "app<tabindex>"
+			list.add(PreferencesManager.getShortlistName(i));
+		}
+		log.debug("#### HomeLauncherBackupAgent ###", list);
+		return list;
 	}
 
 	@Override
 	public void onCreate() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(PrefSettings.SHARED_PREFS_KEY);
-		int tabcount = getNumTabs();
-		for (int i=0;i<tabcount;i++) {
-			list.add(PreferencesManager.getShortlistName(i));
-		}
-
-		log.debug("#### HomeLauncherBackupAgent ###", list);
-
+		ArrayList<String> list = getSharedPrefNames(this);
 		String[] prefs = list.toArray(new String[]{});
 		SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(this, prefs);
 		addHelper(BACKUP_KEY, helper);

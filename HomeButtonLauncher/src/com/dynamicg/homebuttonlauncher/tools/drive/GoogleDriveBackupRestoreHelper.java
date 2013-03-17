@@ -24,6 +24,9 @@ import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
+/*
+ * TODO use gz not txt
+ */
 public class GoogleDriveBackupRestoreHelper {
 
 	public static final String GOOGLE_DRIVE_FOLDER_NAME = "HomeButtonLauncher";
@@ -181,7 +184,7 @@ public class GoogleDriveBackupRestoreHelper {
 			else if ("Boolean".equals(entryType)) {
 				edit.putBoolean(entryKey, Boolean.valueOf(entryValue));
 			}
-			else {
+			else if ("String".equals(entryType)) {
 				edit.putString(entryKey, entryValue);
 			}
 		}
