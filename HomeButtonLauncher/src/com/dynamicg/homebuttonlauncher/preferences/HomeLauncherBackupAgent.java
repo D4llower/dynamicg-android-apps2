@@ -8,6 +8,7 @@ import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.Context;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 
 /*
  * see
@@ -33,6 +34,11 @@ public class HomeLauncherBackupAgent extends BackupAgentHelper {
 
 	private static final Logger log = new Logger(HomeLauncherBackupAgent.class);
 	private static final String BACKUP_KEY = "HomeLauncherPrefs";
+
+	public static ArrayList<String> getSharedPrefNames(MainActivityHome activity) {
+		// TODO ##implement##
+		return null;
+	}
 
 	private int getNumTabs() {
 		int tabcount = 0;

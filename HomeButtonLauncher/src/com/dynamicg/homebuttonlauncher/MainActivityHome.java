@@ -26,6 +26,8 @@ import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
+import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
+import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
 
 // see https://plus.google.com/104570711580136846518/posts/QpqfXXigAWW
 
@@ -245,6 +247,13 @@ public class MainActivityHome extends Activity {
 	public void redrawTabContainer() {
 		// note this can also return <null> if setting is changed from >0 to 0 tabs
 		tabhost = new MainTabHelper(this, preferences).redraw();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode==GoogleDriveGlobals.ACTION_CUSTOM_GET) {
+			GoogleDriveBackupRestoreHelper.restoreFromFile(data);
+		}
 	}
 
 }

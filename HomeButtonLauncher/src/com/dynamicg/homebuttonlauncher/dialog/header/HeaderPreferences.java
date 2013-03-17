@@ -6,6 +6,7 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
+import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 
 public class HeaderPreferences extends HeaderAbstract {
 
@@ -23,7 +24,7 @@ public class HeaderPreferences extends HeaderAbstract {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
-				// TODO ##implement## new GoogleDriveBackupRestoreHelper(activity, dialog).dispatch(id);
+				new GoogleDriveBackupRestoreHelper(activity, dialog).dispatch(id);
 			}
 		};
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, iconNode, listener);
