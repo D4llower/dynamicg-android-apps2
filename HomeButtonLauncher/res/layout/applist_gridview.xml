@@ -2,7 +2,6 @@
     android:id="@+id/applist"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:numColumns="2"
     android:paddingTop="@dimen/gridViewPaddingTop"
     android:paddingBottom="@dimen/gridViewPaddingBottom"
     />
