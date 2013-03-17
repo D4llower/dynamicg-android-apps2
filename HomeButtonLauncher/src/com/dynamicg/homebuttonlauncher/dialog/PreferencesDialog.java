@@ -5,6 +5,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -15,6 +16,8 @@ import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
+import com.dynamicg.homebuttonlauncher.dialog.header.HeaderPreferences;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
@@ -44,13 +47,17 @@ public class PreferencesDialog extends Dialog {
 		this.activity = activity;
 		this.preferences = preferences;
 		this.prefSettings = preferences.prefSettings;
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setTitle(R.string.preferences);
 
-		DialogHelper.prepareCommonDialog(this, R.layout.preferences_body, R.layout.button_panel_2);
+		DialogHelper.prepareCommonDialog(this, R.layout.preferences_body, R.layout.button_panel_2, true);
+
+		HeaderAbstract header = new HeaderPreferences(this, activity);
+		header.attach(R.string.preferences);
 
 		seekbarLabelSize = attachSeekBar(R.id.prefsLabelSize, R.id.prefsLabelSizeIndicator, SizePrefsHelper.LABEL_SIZES, prefSettings.getLabelSize());
 		seekbarIconSize = attachSeekBar(R.id.prefsIconSize, R.id.prefsIconSizeIndicator, SizePrefsHelper.ICON_SIZES, prefSettings.getIconSize());

@@ -51,7 +51,7 @@ public class AboutDialog extends Dialog {
 		String title = context.getString(R.string.app_name)+" "+SystemUtil.getVersion(context);
 		setTitle(title);
 
-		DialogHelper.prepareCommonDialog(this, R.layout.about_body, R.layout.button_panel_1);
+		DialogHelper.prepareCommonDialog(this, R.layout.about_body, R.layout.button_panel_1, false);
 
 		setLine(R.id.aboutAuthor, "\u00A9 "+SystemUtil.AUTHOR);
 		setLine(R.id.aboutSrc, REPOSITORY);
@@ -87,7 +87,7 @@ public class AboutDialog extends Dialog {
 			String label1 = "Can you help with "+pendingTranslations.get(languageCd)+" translation? ";
 			String label2 = "Please contact developer";
 			SpannableString str = new SpannableString(label1+label2);
-			underline(str, label1.length(), label1.length()+label2.length());
+			DialogHelper.underline(str, label1.length(), label1.length()+label2.length());
 			node.setText(str);
 			node.setOnClickListener(new OnClickListenerWrapper() {
 				@Override
@@ -108,12 +108,8 @@ public class AboutDialog extends Dialog {
 	private void setRateLabel(TextView node) {
 		final String label = "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0";
 		SpannableString str = new SpannableString(label);
-		underline(str, 2, label.length()-2);
+		DialogHelper.underline(str, 2, label.length()-2);
 		node.setText(str, TextView.BufferType.SPANNABLE);
-	}
-
-	private void underline(SpannableString str, int underlineFrom, int underlineTo) {
-		str.setSpan(new UnderlineSpan(), underlineFrom, underlineTo, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 	private void composeEmail() {

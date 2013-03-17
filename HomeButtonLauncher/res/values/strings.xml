@@ -28,4 +28,7 @@
     <string name="prefsNumTabs">Number of tabs</string>
     <string name="prefsBackgroundIconLoader">Load icons in background</string>
     
+    <string name="prefsDriveBackup">Google Drive Backup</string>
+    <string name="prefsDriveRestore">Google Drive Restore</string>
+    
 </resources>

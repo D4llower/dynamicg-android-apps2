@@ -4,6 +4,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
+import android.view.View;
 import android.view.ViewStub;
 
 import com.dynamicg.common.ErrorSender;
@@ -30,7 +36,7 @@ public class DialogHelper {
 		ErrorSender.notifyError(context, "ERROR", t);
 	}
 
-	public static void prepareCommonDialog(Dialog d, int bodyLayoutId, int buttonsLayoutId) {
+	public static void prepareCommonDialog(Dialog d, int bodyLayoutId, int buttonsLayoutId, boolean customHeader) {
 		d.setContentView(R.layout.common_dialog);
 
 		ViewStub body = (ViewStub)d.findViewById(R.id.commonDialogBody);
@@ -40,6 +46,10 @@ public class DialogHelper {
 		ViewStub buttons = (ViewStub)d.findViewById(R.id.commonDialogButtonPanel);
 		buttons.setLayoutResource(buttonsLayoutId);
 		buttons.inflate();
+
+		if (!customHeader) {
+			d.findViewById(R.id.headerContainer).setVisibility(View.GONE);
+		}
 	}
 
 	public static void confirm(Context context, int labelId, OnClickListenerDialogWrapper okListener) {
@@ -57,6 +67,14 @@ public class DialogHelper {
 
 	public static int getDimension(Resources res, int dimensionId) {
 		return (int)res.getDimension(dimensionId);
+	}
+
+	public static void underline(SpannableString str, int underlineFrom, int underlineTo) {
+		str.setSpan(new UnderlineSpan(), underlineFrom, underlineTo, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	}
+
+	public static void bold(SpannableString str, int underlineFrom, int underlineTo) {
+		str.setSpan(new StyleSpan(Typeface.BOLD), underlineFrom, underlineTo, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 
 }

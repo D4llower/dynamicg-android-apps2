@@ -14,4 +14,7 @@ public class MenuGlobals {
 
 	public static final int RESET = 8;
 
+	public static final int DRIVE_BACKUP = 9;
+	public static final int DRIVE_RESTORE = 10;
+
 }

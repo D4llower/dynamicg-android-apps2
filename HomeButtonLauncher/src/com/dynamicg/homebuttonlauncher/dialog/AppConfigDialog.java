@@ -97,9 +97,8 @@ public class AppConfigDialog extends Dialog {
 		setContentView(R.layout.configure_apps);
 
 		HeaderAbstract header = actionSort ? new HeaderAppSortReset(this) : new HeaderAppSearch(this);
-		header.attach();
 		final int titleResId = actionRemove ? R.string.menuRemove : actionSort ? R.string.menuSort : R.string.menuAdd;
-		header.setTitleAndWidth(titleResId);
+		header.attach(titleResId);
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override

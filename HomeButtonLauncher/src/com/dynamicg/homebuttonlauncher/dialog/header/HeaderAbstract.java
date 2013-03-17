@@ -23,9 +23,14 @@ public abstract class HeaderAbstract {
 		this.iconNode = dialog.findViewById(R.id.headerIcon);
 	}
 
-	public abstract void attach();
+	protected abstract void attach();
 
-	public void setTitleAndWidth(int label) {
+	public void attach(int titleResId) {
+		attach();
+		setTitleAndWidth(titleResId);
+	}
+
+	protected void setTitleAndWidth(int label) {
 		titleNode.setText(label);
 		int width = DialogHelper.getDimension(context, R.dimen.widthAppConfig);
 		View container = dialog.findViewById(R.id.headerContainer);
