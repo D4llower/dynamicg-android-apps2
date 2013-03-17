@@ -18,26 +18,31 @@
 	    >
 	    <TableRow>
 		    <ImageView style="@style/PrefLayoutImage"
-		        android:src="@drawable/layout_plain_1"
+		        android:src="@drawable/layout_list1"
 		        android:tag="0"
 		        />
 		    <ImageView style="@style/PrefLayoutImage"
-		        android:src="@drawable/layout_plain_2"
+		        android:src="@drawable/layout_list2"
 		        android:tag="1"
 		        />
 		    <ImageView style="@style/PrefLayoutImage"
-		        android:src="@drawable/layout_compact_2"
+		        android:src="@drawable/layout_grid2"
 		        android:tag="2"
 		        />
 		    <ImageView style="@style/PrefLayoutImage"
-		        android:src="@drawable/layout_compact_4"
+		        android:src="@drawable/layout_grid3"
+		        android:tag="4"
+		        />
+		    <ImageView style="@style/PrefLayoutImage"
+		        android:src="@drawable/layout_grid4"
 		        android:tag="3"
 		        />
 	    </TableRow>
-	    <TableRow>
+	    <TableRow android:layout_marginTop="4dp">
 		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_0" />
 		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_1" />
 		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_2" />
+		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_4" />
 		    <TextView style="@style/PrefLayoutToggle" android:tag="toggle_3" />
 	    </TableRow>
 	</TableLayout>

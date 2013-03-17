@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
@@ -120,19 +121,28 @@ public class MainActivityHome extends Activity {
 	}
 
 	private AbsListView getListView() {
-		final int layoutResId = preferences.prefSettings.getListLayoutId();
+		final int[] layout = preferences.prefSettings.getMainLayout();
+		int layoutResId = layout[0];
+		int numGridColumns = layout[1];
 		final View listview = findViewById(R.id.mainListView);
 
 		if (listview instanceof ViewStub) {
 			// first call
 			ViewStub stub = (ViewStub)listview;
 			stub.setLayoutResource(layoutResId);
-			return (AbsListView)stub.inflate();
+			AbsListView absListView = (AbsListView)stub.inflate();
+			if (numGridColumns>0) {
+				((GridView)absListView).setNumColumns(numGridColumns);
+			}
+			return absListView;
 		}
 
 		// replace existing list on refresh
 		ViewGroup parent = (ViewGroup)listview.getParent();
 		AbsListView replacementListView = (AbsListView)getLayoutInflater().inflate(layoutResId, null);
+		if (numGridColumns>0) {
+			((GridView)replacementListView).setNumColumns(numGridColumns);
+		}
 		parent.addView(replacementListView, parent.indexOfChild(listview));
 		parent.removeView(listview);
 		return replacementListView;

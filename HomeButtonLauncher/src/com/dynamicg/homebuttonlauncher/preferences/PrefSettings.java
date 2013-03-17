@@ -19,10 +19,11 @@ public class PrefSettings {
 	public static final String KEY_NUM_TABS = "numTabs";
 	public static final String KEY_BACKGROUND_ICON_LOADER = "iconsInBG";
 
-	public static final int NUM_LAYOUTS = 4;
+	public static final int NUM_LAYOUTS = 5;
 	private static final int LAYOUT_PLAIN_2 = 1;
 	private static final int LAYOUT_COMPACT_2 = 2;
 	private static final int LAYOUT_COMPACT_4 = 3;
+	private static final int LAYOUT_COMPACT_3 = 4;
 
 	public final SharedPreferences sharedPrefs;
 
@@ -68,15 +69,18 @@ public class PrefSettings {
 		return sharedPrefs.getInt(KEY_LAYOUT, 0);
 	}
 
-	public int getListLayoutId() {
+	public int[] getMainLayout() {
 		int layoutType = getLayoutType();
 		if (layoutType==LAYOUT_COMPACT_4) {
-			return R.layout.applist_gridview4;
+			return new int[]{R.layout.applist_gridview, 4};
+		}
+		else if (layoutType==LAYOUT_COMPACT_3) {
+			return new int[]{R.layout.applist_gridview, 3};
 		}
 		else if (layoutType==LAYOUT_PLAIN_2 || layoutType==LAYOUT_COMPACT_2) {
-			return R.layout.applist_gridview2;
+			return new int[]{R.layout.applist_gridview, 2};
 		}
-		return R.layout.applist_listview;
+		return new int[]{R.layout.applist_listview, 0};
 	}
 
 	public int getMinWidthDimension() {
@@ -89,7 +93,7 @@ public class PrefSettings {
 
 	public int getAppEntryLayoutId() {
 		int layoutType = getLayoutType();
-		if (layoutType==LAYOUT_COMPACT_2 || layoutType==LAYOUT_COMPACT_4) {
+		if (layoutType==LAYOUT_COMPACT_2 || layoutType==LAYOUT_COMPACT_3 || layoutType==LAYOUT_COMPACT_4) {
 			return R.layout.app_entry_compact;
 		}
 		return R.layout.app_entry_default;
