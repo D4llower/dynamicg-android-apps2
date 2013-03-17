@@ -1,37 +1,35 @@
 package com.dynamicg.common;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class FileUtil {
 
-	public static String getContentAsString(File f)
-			throws Exception {
-		FileReader r = new FileReader(f);
-		StringBuilder sb=new StringBuilder();
-		char[] buffer = new char[2048];
+	private static final int BUFFERSIZE = 4096;
+
+	public static String getZipFileContent(File file) throws Exception {
+		GZIPInputStream zis = new GZIPInputStream(new FileInputStream(file));
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+		byte[] buf = new byte[BUFFERSIZE];
 		int len;
-		while ( (len=r.read(buffer))>0 ) {
-			sb.append(buffer, 0, len);
+		while ((len = zis.read(buf, 0, BUFFERSIZE)) > -1) {
+			os.write(buf, 0, len);
 		}
-
-		try {
-			r.close();
-		}
-		catch (Throwable t) {
-			// ignore
-		}
-
-		return sb.toString();
+		os.close();
+		zis.close();
+		return os.toString();
 	}
 
-	public static void writePlain(File file, String s)
-			throws Exception {
-		FileWriter w = new FileWriter(file);
-		w.append(s);
-		w.flush();
-		w.close();
+	public static void writeZipFile(File file, String s) throws Exception {
+		GZIPOutputStream zstream = new GZIPOutputStream(new FileOutputStream(file), BUFFERSIZE);
+		zstream.write(s.getBytes());
+		zstream.finish();
+		zstream.close();
 	}
 
 }

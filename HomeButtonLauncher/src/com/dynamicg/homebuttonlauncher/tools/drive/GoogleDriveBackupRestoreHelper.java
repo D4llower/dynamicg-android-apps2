@@ -24,13 +24,10 @@ import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
-/*
- * TODO use gz not txt
- */
 public class GoogleDriveBackupRestoreHelper {
 
 	public static final String GOOGLE_DRIVE_FOLDER_NAME = "HomeButtonLauncher";
-	public static final String GOOGLE_DRIVE_FILE_NAME = "settings.txt";
+	public static final String GOOGLE_DRIVE_FILE_NAME = "settings.txt.gz";
 	public static final String SEPARATOR = "|";
 	public static final String NL = "\n";
 	public static final String WINNL = "\r\n";
@@ -112,7 +109,7 @@ public class GoogleDriveBackupRestoreHelper {
 			}
 		}
 
-		FileUtil.writePlain(file, sb.toString());
+		FileUtil.writeZipFile(file, sb.toString());
 	}
 
 	private void startBackup() {
@@ -144,11 +141,13 @@ public class GoogleDriveBackupRestoreHelper {
 
 	private static void restoreSettings(Context context, File file) throws Exception {
 		final HashMap<String, Editor> editors = new HashMap<String, Editor>();
-		String body = FileUtil.getContentAsString(file);
+		String body = FileUtil.getZipFileContent(file);
 		if (body==null||body.length()==0) {
 			return;
 		}
 		body = body.replace(WINNL, NL);
+
+		log.trace("restoreSettings", body);
 
 		final String[] lines = body.split(NL);
 		if (lines==null||lines.length==0) {
