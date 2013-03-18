@@ -17,6 +17,7 @@ import android.content.SharedPreferences.Editor;
 import android.widget.Toast;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
@@ -190,6 +191,7 @@ public class GoogleDriveBackupRestoreHelper {
 			try {
 				restoreSettings(activity, file);
 				Toast.makeText(activity, GoogleDriveUtil.MSG_TOAST_DONE, Toast.LENGTH_SHORT).show();
+				GlobalContext.resetCache(); // make sure we don't retain icons scaled to previous size
 				refDialog.get().dismiss();
 				activity.finish();
 			}
