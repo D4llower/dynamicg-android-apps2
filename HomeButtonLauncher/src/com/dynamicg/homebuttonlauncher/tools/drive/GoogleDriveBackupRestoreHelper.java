@@ -4,7 +4,9 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,7 +16,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.widget.Toast;
 
-import com.dynamicg.common.FileUtil;
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.MenuGlobals;
@@ -27,10 +28,7 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 public class GoogleDriveBackupRestoreHelper {
 
 	public static final String GOOGLE_DRIVE_FOLDER_NAME = "HomeButtonLauncher";
-	public static final String GOOGLE_DRIVE_FILE_NAME = "settings.txt.gz";
-	public static final String SEPARATOR = "|";
-	public static final String NL = "\n";
-	public static final String WINNL = "\r\n";
+	public static final String GOOGLE_DRIVE_FILE_NAME = "settings.xml.gz";
 
 	private static final Logger log = new Logger(GoogleDriveBackupRestoreHelper.class);
 
@@ -82,34 +80,27 @@ public class GoogleDriveBackupRestoreHelper {
 	}
 
 	private void exportToFile(File file) throws Exception {
-		final StringBuilder sb = new StringBuilder();
 		final ArrayList<String> sharedPrefNames = HomeLauncherBackupAgent.getSharedPrefNames(activity);
+		final List<Map<String, String>> content = new ArrayList<Map<String,String>>();
 		for (String entryGroup:sharedPrefNames) {
 			SharedPreferences sharedPreferences = context.getSharedPreferences(entryGroup, Context.MODE_PRIVATE);
 			Map<String, ?> all = sharedPreferences.getAll();
 			for (String entryKey:all.keySet()) {
-
-				String entryType = all.get(entryKey).getClass().getSimpleName();
-
-				String entryValue = all.get(entryKey).toString();
-				if (entryValue.contains(SEPARATOR)) {
-					entryValue = entryValue.replace(SEPARATOR, "_");
-				}
-
+				final String entryType = all.get(entryKey).getClass().getSimpleName();
+				final String entryValue = all.get(entryKey).toString();
 				log.debug("backup value", entryGroup, entryKey, entryType, entryValue);
-
-				sb.append(entryGroup);
-				sb.append(SEPARATOR);
-				sb.append(entryKey);
-				sb.append(SEPARATOR);
-				sb.append(entryType);
-				sb.append(SEPARATOR);
-				sb.append(entryValue);
-				sb.append(NL);
+				Map<String, String> entry = new TreeMap<String, String>();
+				entry.put(XmlGlobals.ENTRY_GROUP, entryGroup);
+				entry.put(XmlGlobals.ENTRY_KEY, entryKey);
+				entry.put(XmlGlobals.ENTRY_TYPE, entryType);
+				entry.put(XmlGlobals.ENTRY_VALUE, entryValue);
+				content.add(entry);
 			}
 		}
 
-		FileUtil.writeZipFile(file, sb.toString());
+		XmlWriter writer = new XmlWriter(file);
+		log.trace("exportToFile", content);
+		writer.write(content);
 	}
 
 	private void startBackup() {
@@ -135,36 +126,27 @@ public class GoogleDriveBackupRestoreHelper {
 		}
 	}
 
-	private static String getToken(String[] tokens, int index) {
-		return tokens!=null && tokens.length>index ? tokens[index] : "";
+	private static boolean isEmpty(String s) {
+		return s==null || s.length()==0;
 	}
 
 	private static void restoreSettings(Context context, File file) throws Exception {
 		final HashMap<String, Editor> editors = new HashMap<String, Editor>();
-		String body = FileUtil.getZipFileContent(file);
-		if (body==null||body.length()==0) {
-			return;
-		}
-		body = body.replace(WINNL, NL);
-
-		log.trace("restoreSettings", body);
-
-		final String[] lines = body.split(NL);
-		if (lines==null||lines.length==0) {
+		XmlReader reader = new XmlReader(file);
+		List<Map<String, String>> content = reader.getContent();
+		if (content==null||content.size()==0) {
 			return;
 		}
 
-		for (String line:lines) {
-			if (line==null || line.length()==0 || line.startsWith("#")) {
-				continue;
-			}
-			String[] tokens = line.split("\\"+SEPARATOR);
-			String entryGroup = getToken(tokens, 0);
-			String entryKey = getToken(tokens, 1);
-			String entryType = getToken(tokens, 2);
-			String entryValue = getToken(tokens, 3);
+		log.trace("restoreSettings", content);
 
-			if (entryGroup.length()==0) {
+		for (Map<String, String> map:content) {
+			String entryGroup = map.get(XmlGlobals.ENTRY_GROUP);
+			String entryKey = map.get(XmlGlobals.ENTRY_KEY);
+			String entryType = map.get(XmlGlobals.ENTRY_TYPE);
+			String entryValue =  map.get(XmlGlobals.ENTRY_VALUE);
+
+			if (isEmpty(entryGroup) || isEmpty(entryKey)) {
 				continue;
 			}
 
