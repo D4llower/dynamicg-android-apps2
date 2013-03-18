@@ -13,7 +13,8 @@ public class ErrorSender {
 
 	private static void createIntent ( Context context, String title, String body) {
 		Intent msg = new Intent(Intent.ACTION_SEND);
-		msg.setType("text/plain");
+		//msg.setType("text/plain");
+		msg.setType("message/rfc822");
 		msg.putExtra(Intent.EXTRA_SUBJECT, title);
 		msg.putExtra(Intent.EXTRA_TEXT, body);
 		msg.putExtra(Intent.EXTRA_EMAIL, new String[]{SystemUtil.AUTHOR} );
