@@ -21,6 +21,7 @@ import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
+import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.IconProvider;
@@ -67,7 +68,7 @@ public class MainActivityHome extends Activity {
 		IconProvider.init(context);
 		attachContextMenu();
 		if (preferences.prefSettings.getNumTabs()>0) {
-			tabhost = new MainTabHelper(this, preferences).bindTabs();
+			tabhost = new TabHelperMain(this, preferences).bindTabs();
 		}
 		setListAdapter();
 		setMinWidth();
@@ -256,7 +257,7 @@ public class MainActivityHome extends Activity {
 
 	public void redrawTabContainer() {
 		// note this can also return <null> if setting is changed from >0 to 0 tabs
-		tabhost = new MainTabHelper(this, preferences).redraw();
+		tabhost = new TabHelperMain(this, preferences).redraw();
 	}
 
 	@Override
