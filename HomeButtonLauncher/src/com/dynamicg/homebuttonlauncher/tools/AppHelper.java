@@ -102,9 +102,20 @@ public class AppHelper {
 	 * @param context
 	 * @param appEntry
 	 * @return
+	 * @return
 	 */
 	//	public static boolean showPlayStoreLink(Context context, AppEntry appEntry) {
 	//		return true;
 	//	}
+
+	public static AppListContainer getShortcutApps() {
+		Intent shortcutsIntent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
+		List<ResolveInfo> shortcutApps = GlobalContext.packageManager.queryIntentActivities(shortcutsIntent, 0);
+		ArrayList<AppEntry> list = new ArrayList<AppEntry>();
+		for (ResolveInfo resolveInfo:shortcutApps) {
+			list.add(new AppEntry(resolveInfo, 0, false));
+		}
+		return new AppListContainer(list);
+	}
 
 }

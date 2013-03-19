@@ -1,8 +1,10 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapter;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterAddRemove;
+import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterShortcuts;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterSort;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSearch;
@@ -29,18 +32,24 @@ import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSortReset;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
+import com.dynamicg.homebuttonlauncher.tab.TabHelperAppAdd;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
+@SuppressLint("UseSparseArrays")
 public class AppConfigDialog extends Dialog {
 
 	private static final Logger log = new Logger(AppConfigDialog.class);
+
+	private static final HashMap<Integer, Integer> recentTab = new HashMap<Integer, Integer>();
 
 	private final MainActivityHome activity;
 	private final Context context;
 	private final PrefShortlist prefShortlist;
 	private final boolean[] sortChanged = new boolean[]{false};
 	public final AppListContainer appList;
+	public final AppListContainer shortcutAppsList;
 
+	private final int action;
 	private final boolean actionAdd;
 	private final boolean actionRemove;
 	private final boolean actionSort;
@@ -52,15 +61,18 @@ public class AppConfigDialog extends Dialog {
 		this.activity = activity;
 		this.context = activity;
 		this.prefShortlist = preferences.prefShortlist;
+		this.action = action;
 		this.actionAdd = action==MenuGlobals.APPS_ADD;
 		this.actionSort = action==MenuGlobals.APPS_SORT;
 		this.actionRemove = action==MenuGlobals.APPS_REMOVE;
 
 		if (actionAdd) {
 			this.appList = AppHelper.getAllAppsList(prefShortlist);
+			this.shortcutAppsList = AppHelper.getShortcutApps();
 		}
 		else {
 			this.appList = AppHelper.getSelectedAppsList(prefShortlist, false);
+			this.shortcutAppsList = null;
 		}
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -114,6 +126,27 @@ public class AppConfigDialog extends Dialog {
 			}
 		});
 
+		if (actionAdd && log.isDebugEnabled) {
+			new TabHelperAppAdd(activity, this, getSelectedTab()).bindTabs();
+		}
+
+		putBody();
+	}
+
+	private int getSelectedTab() {
+		return recentTab.containsKey(action)?recentTab.get(action):0;
+	}
+
+	private void putBody() {
+		if (actionAdd && getSelectedTab()>0) {
+			putBodyShortcutTab();
+		}
+		else {
+			putBodyMainTab();
+		}
+	}
+
+	private void putBodyMainTab() {
 		if (actionSort) {
 			this.adapter = new AppListAdapterSort(activity, appList, sortChanged);
 		}
@@ -140,6 +173,18 @@ public class AppConfigDialog extends Dialog {
 		new AppListContextMenu(activity).attach(listview, appList);
 	}
 
+	private void putBodyShortcutTab() {
+		this.adapter = new AppListAdapterShortcuts(activity, shortcutAppsList);
+		final ListView listview = (ListView)findViewById(R.id.applist);
+		listview.setAdapter(adapter);
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				startShortcutApp((AppEntry)appList.get(position));
+			}
+		});
+	}
+
 	private List<String> getSelectedComponents() {
 		List<String> list = new ArrayList<String>();
 		for (AppEntry entry:appList.getApps()) {
@@ -159,6 +204,17 @@ public class AppConfigDialog extends Dialog {
 	public void updateAppList(List<AppEntry> newList) {
 		appList.updateList(newList);
 		adapter.notifyDataSetChanged();
+	}
+
+	public void tabChanged(int target) {
+		log.debug("tabChanged", target);
+		recentTab.put(action, target);
+		putBody();
+	}
+
+	private void startShortcutApp(AppEntry appEntry) {
+		// TODO ## (1) implement
+		// TODO ## (2) search does not work
 	}
 
 }

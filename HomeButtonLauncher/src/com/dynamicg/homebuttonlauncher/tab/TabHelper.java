@@ -20,14 +20,17 @@ public abstract class TabHelper {
 	protected final Context context;
 	protected final MainActivityHome activity;
 	protected final int numTabs;
+	private final View header;
 
 	protected TabSpec[] tabs;
 	protected View[] tabviews;
 
-	public TabHelper(MainActivityHome activity, int numTabs) {
+
+	public TabHelper(MainActivityHome activity, int numTabs, View header) {
 		this.activity = activity;
 		this.context = activity;
 		this.numTabs = numTabs;
+		this.header = header;
 	}
 
 	public abstract TabHost bindTabs();
@@ -57,7 +60,6 @@ public abstract class TabHelper {
 		}
 
 		// attach after header
-		View header = activity.findViewById(R.id.headerContainer);
 		ViewGroup main = (ViewGroup)header.getParent();
 		main.addView(tabhost, main.indexOfChild(header)+1);
 
