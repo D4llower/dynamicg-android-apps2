@@ -46,14 +46,15 @@ public class AppConfigDialog extends Dialog {
 	private final Context context;
 	private final PrefShortlist prefShortlist;
 	private final boolean[] sortChanged = new boolean[]{false};
-	public final AppListContainer appList;
-	public final AppListContainer shortcutAppsList;
 
 	private final int action;
 	private final boolean actionAdd;
 	private final boolean actionRemove;
 	private final boolean actionSort;
 
+	private AppListContainer appList;
+	private HeaderAbstract header;
+	
 	protected AppListAdapter adapter;
 
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
@@ -65,15 +66,6 @@ public class AppConfigDialog extends Dialog {
 		this.actionAdd = action==MenuGlobals.APPS_ADD;
 		this.actionSort = action==MenuGlobals.APPS_SORT;
 		this.actionRemove = action==MenuGlobals.APPS_REMOVE;
-
-		if (actionAdd) {
-			this.appList = AppHelper.getAllAppsList(prefShortlist);
-			this.shortcutAppsList = AppHelper.getShortcutApps();
-		}
-		else {
-			this.appList = AppHelper.getSelectedAppsList(prefShortlist, false);
-			this.shortcutAppsList = null;
-		}
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
@@ -108,7 +100,7 @@ public class AppConfigDialog extends Dialog {
 
 		setContentView(R.layout.configure_apps);
 
-		HeaderAbstract header = actionSort ? new HeaderAppSortReset(this) : new HeaderAppSearch(this);
+		this.header = actionSort ? new HeaderAppSortReset(this) : new HeaderAppSearch(this);
 		final int titleResId = actionRemove ? R.string.menuRemove : actionSort ? R.string.menuSort : R.string.menuAdd;
 		header.attach(titleResId);
 
@@ -139,11 +131,19 @@ public class AppConfigDialog extends Dialog {
 
 	private void putBody() {
 		if (actionAdd && getSelectedTab()>0) {
+			this.appList = AppHelper.getShortcutApps();
 			putBodyShortcutTab();
 		}
 		else {
+			if (actionAdd) {
+				this.appList = AppHelper.getAllAppsList(prefShortlist);
+			}
+			else {
+				this.appList = AppHelper.getSelectedAppsList(prefShortlist, false);
+			}
 			putBodyMainTab();
 		}
+		header.setBaseAppList(appList);
 	}
 
 	private void putBodyMainTab() {
@@ -174,7 +174,7 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private void putBodyShortcutTab() {
-		this.adapter = new AppListAdapterShortcuts(activity, shortcutAppsList);
+		this.adapter = new AppListAdapterShortcuts(activity, appList);
 		final ListView listview = (ListView)findViewById(R.id.applist);
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

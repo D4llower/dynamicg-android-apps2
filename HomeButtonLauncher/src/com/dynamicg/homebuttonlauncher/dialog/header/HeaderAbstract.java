@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
@@ -24,6 +25,13 @@ public abstract class HeaderAbstract {
 	}
 
 	protected abstract void attach();
+
+	/**
+	 * 
+	 * @param appList
+	 */
+	public void setBaseAppList(AppListContainer appList) {
+	}
 
 	public void attach(int titleResId) {
 		attach();

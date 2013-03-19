@@ -12,6 +12,7 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 
 public class HeaderAppSearch extends HeaderAbstract {
@@ -19,14 +20,13 @@ public class HeaderAppSearch extends HeaderAbstract {
 	private static final Logger log = new Logger(HeaderAppSearch.class);
 
 	private final AppConfigDialog dialog;
-	private final List<AppEntry> baseAppList;
 
+	private List<AppEntry> baseAppList;
 	private String[] baseSearchLabels = null; // lazy
 
 	public HeaderAppSearch(AppConfigDialog dialog) {
 		super(dialog);
 		this.dialog = dialog;
-		this.baseAppList = dialog.appList.getApps();
 	}
 
 	private void initSearchLabels() {
@@ -113,6 +113,13 @@ public class HeaderAppSearch extends HeaderAbstract {
 			}
 		}
 		dialog.updateAppList(matchingApps);
+	}
+
+	@Override
+	public void setBaseAppList(AppListContainer appList) {
+		this.baseAppList = appList.getApps();
+		this.baseSearchLabels = null;
+		// TODO ## reset search expresssion on switch
 	}
 
 }
