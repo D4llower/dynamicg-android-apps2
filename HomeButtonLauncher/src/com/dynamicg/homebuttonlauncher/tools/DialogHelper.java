@@ -3,7 +3,6 @@ package com.dynamicg.homebuttonlauncher.tools;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -14,6 +13,7 @@ import android.view.ViewStub;
 
 import com.dynamicg.common.ErrorSender;
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 
@@ -61,12 +61,8 @@ public class DialogHelper {
 		b.show();
 	}
 
-	public static int getDimension(Context context, int dimensionId) {
-		return (int)context.getResources().getDimension(dimensionId);
-	}
-
-	public static int getDimension(Resources res, int dimensionId) {
-		return (int)res.getDimension(dimensionId);
+	public static int getDimension(int dimensionId) {
+		return (int)GlobalContext.resources.getDimension(dimensionId);
 	}
 
 	public static void underline(SpannableString str, int underlineFrom, int underlineTo) {

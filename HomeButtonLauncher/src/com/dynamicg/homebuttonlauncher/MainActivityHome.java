@@ -115,7 +115,7 @@ public class MainActivityHome extends Activity {
 	}
 
 	private void setMinWidth() {
-		int minWidth = DialogHelper.getDimension(context, preferences.prefSettings.getMinWidthDimension());
+		int minWidth = DialogHelper.getDimension(preferences.prefSettings.getMinWidthDimension());
 		findViewById(R.id.headerContainer).setMinimumWidth(minWidth);
 	}
 

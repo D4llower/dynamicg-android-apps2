@@ -44,7 +44,7 @@ public abstract class TabHelper {
 
 		tabhost.setOnTabChangedListener(onTabChangeListener);
 
-		int tabHeight = DialogHelper.getDimension(context, R.dimen.tabHeight);
+		int tabHeight = DialogHelper.getDimension(R.dimen.tabHeight);
 		for (int i=0;i<numTabs;i++) {
 			View tab = tabviews[i];
 			tab.setTag(i);

@@ -1,7 +1,6 @@
 package com.dynamicg.homebuttonlauncher.tools;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -32,9 +31,8 @@ public class SwipeHelper {
 		final ViewConfiguration vc = ViewConfiguration.get(context);
 		final int swipeThresholdVelocity = vc.getScaledMinimumFlingVelocity();
 
-		final Resources res = context.getResources();
-		final int swipeMaxOffPath = DialogHelper.getDimension(res, R.dimen.swipeMaxOff);
-		final int swipeMinDistance = DialogHelper.getDimension(res, R.dimen.swipeMinDist);
+		final int swipeMaxOffPath = DialogHelper.getDimension(R.dimen.swipeMaxOff);
+		final int swipeMinDistance = DialogHelper.getDimension(R.dimen.swipeMinDist);
 
 		final SimpleOnGestureListener onGestureListener = new SimpleOnGestureListener() {
 

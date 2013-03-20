@@ -1,8 +1,6 @@
 package com.dynamicg.homebuttonlauncher.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
-import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.icons.BackgroundIconLoader;
 import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
@@ -27,62 +24,63 @@ public abstract class AppListAdapter extends BaseAdapter {
 	protected final AppListContainer applist;
 	protected final LayoutInflater inflater;
 	protected final boolean forMainScreen;
-	protected final boolean useBackgroundLoader;
+	protected final int appEntryLayoutId;
+	protected final int labelSize;
+	protected final int iconSizePx;
+	protected final int noLabelGridPadding;
+	protected final LargeIconLoader largeIconLoader;
 
-	protected int labelSize;
-	protected int iconSizePx;
-	protected LargeIconLoader largeIconLoader;
-	protected int appEntryLayoutId;
+	private final LocalViewBinder localViewBinder;
 
-	protected int noLabelGridPadding;
-	private LocalViewBinder localViewBinder;
 	private boolean dataSetChanged;
 
-	private AppListAdapter(Activity activity, AppListContainer apps, boolean forMainScreen) {
+	private AppListAdapter(Activity activity, AppListContainer apps, int viewId, boolean forMainScreen, int iconSizePx, int labelSize) {
+		final boolean useBackgroundLoader = GlobalContext.prefSettings.isBackgroundIconLoader();
+
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
 		this.forMainScreen = forMainScreen;
-		this.useBackgroundLoader = GlobalContext.prefSettings.isBackgroundIconLoader();
+		this.appEntryLayoutId = getLayoutId(viewId, forMainScreen);
+		this.iconSizePx = iconSizePx;
+		this.labelSize = labelSize;
+		if (labelSize==0 && (appEntryLayoutId==R.layout.app_entry_compact||appEntryLayoutId==R.layout.app_entry_compact_bl)) {
+			this.noLabelGridPadding = DialogHelper.getDimension(R.dimen.gridViewNoLabelIconPadding);
+		}
+		else {
+			this.noLabelGridPadding = 0;
+		}
+		this.localViewBinder = useBackgroundLoader ? new LocalViewBinderAsync() : new LocalViewBinderDefault();
+
+		if (forMainScreen) {
+			this.largeIconLoader = LargeIconLoader.createInstance(activity, GlobalContext.prefSettings);
+		}
+		else {
+			this.largeIconLoader = null;
+		}
 	}
 
 	/*
 	 * for main screen
 	 */
 	public AppListAdapter(Activity activity, AppListContainer apps) {
-		this(activity, apps, true);
-		PrefSettings settings = GlobalContext.prefSettings;
-		this.labelSize = settings.getLabelSize();
-		this.iconSizePx = IconProvider.getPreferredSizePX();
-		this.largeIconLoader = LargeIconLoader.createInstance(activity, settings);
-		postInit(activity, settings.getAppEntryLayoutId());
+		this(activity, apps, GlobalContext.prefSettings.getAppEntryLayoutId(), true, IconProvider.getPreferredSizePX(), GlobalContext.prefSettings.getLabelSize());
 	}
 
 	/*
 	 * for config screens
 	 */
 	public AppListAdapter(Activity activity, AppListContainer apps, int viewId) {
-		this(activity, apps, false);
-		this.labelSize = SizePrefsHelper.DEFAULT_LABEL_SIZE;
-		this.iconSizePx = IconProvider.getDefaultSizePX();
-		this.largeIconLoader = null;
-		postInit(activity, viewId);
+		this(activity, apps, viewId, false, IconProvider.getDefaultSizePX(), SizePrefsHelper.DEFAULT_LABEL_SIZE);
 	}
 
-	private void postInit(Context context, int layoutId) {
-
-		this.localViewBinder = useBackgroundLoader ? new LocalViewBinderAsync(context.getResources()) : new LocalViewBinderDefault();
-
-		appEntryLayoutId = layoutId;
+	private static int getLayoutId(int viewId, boolean useBackgroundLoader) {
 		if (useBackgroundLoader) {
-			switch (layoutId) {
-			case R.layout.app_entry_default: appEntryLayoutId=R.layout.app_entry_default_bl; break;
-			case R.layout.app_entry_compact: appEntryLayoutId=R.layout.app_entry_compact_bl; break;
+			switch (viewId) {
+			case R.layout.app_entry_default: return R.layout.app_entry_default_bl;
+			case R.layout.app_entry_compact: return R.layout.app_entry_compact_bl;
 			}
 		}
-
-		if (labelSize==0 && (appEntryLayoutId==R.layout.app_entry_compact||appEntryLayoutId==R.layout.app_entry_compact_bl)) {
-			noLabelGridPadding = DialogHelper.getDimension(context, R.dimen.gridViewNoLabelIconPadding);
-		}
+		return viewId;
 	}
 
 	@Override
@@ -162,9 +160,9 @@ public abstract class AppListAdapter extends BaseAdapter {
 		private final BackgroundIconLoader backgroundIconLoader;
 		private final Drawable defaultIcon;
 
-		public LocalViewBinderAsync(Resources res) {
+		public LocalViewBinderAsync() {
 			this.backgroundIconLoader = new BackgroundIconLoader(applist, iconSizePx, largeIconLoader, forMainScreen);
-			this.defaultIcon = IconProvider.scale(res.getDrawable(R.drawable.android), iconSizePx);
+			this.defaultIcon = IconProvider.scale(GlobalContext.resources.getDrawable(R.drawable.android), iconSizePx);
 		}
 
 		@Override

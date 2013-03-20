@@ -40,7 +40,7 @@ public abstract class HeaderAbstract {
 
 	protected void setTitleAndWidth(int label) {
 		titleNode.setText(label);
-		int width = DialogHelper.getDimension(context, R.dimen.widthAppConfig);
+		int width = DialogHelper.getDimension(R.dimen.widthAppConfig);
 		View container = dialog.findViewById(R.id.headerContainer);
 		container.setLayoutParams(new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT));
 	}

@@ -91,7 +91,7 @@ public class GoogleDriveUtil {
 		DialogHelper.underline(bodyString, 0, bodyLabel.length());
 		DialogHelper.bold(bodyString, 0, bodyLabel.length());
 
-		int padding = DialogHelper.getDimension(context, R.dimen.headerPadding);
+		int padding = DialogHelper.getDimension(R.dimen.headerPadding);
 		TextView body = new TextView(context);
 		body.setText(bodyString);
 		body.setTextColor(context.getResources().getColorStateList(R.color.applink));
