@@ -217,19 +217,19 @@ public class MainActivityHome extends Activity {
 			public void popupMenuItemSelected(int id) {
 				final MainActivityHome activity = MainActivityHome.this;
 				switch (id) {
-				case MenuGlobals.APPS_ADD:
-					new AppConfigDialog(activity, preferences, MenuGlobals.APPS_ADD).show();
+				case HBLConstants.MENU_APPS_ADD:
+					new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_ADD).show();
 					break;
-				case MenuGlobals.APPS_REMOVE:
-					new AppConfigDialog(activity, preferences, MenuGlobals.APPS_REMOVE).show();
+				case HBLConstants.MENU_APPS_REMOVE:
+					new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_REMOVE).show();
 					break;
-				case MenuGlobals.APPS_SORT:
-					new AppConfigDialog(activity, preferences, MenuGlobals.APPS_SORT).show();
+				case HBLConstants.MENU_APPS_SORT:
+					new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_SORT).show();
 					break;
-				case MenuGlobals.ABOUT:
+				case HBLConstants.MENU_ABOUT:
 					new AboutDialog(activity).show();
 					break;
-				case MenuGlobals.PREFERENCES:
+				case HBLConstants.MENU_PREFERENCES:
 					new PreferencesDialog(activity, preferences).show();
 					break;
 				}
@@ -237,11 +237,11 @@ public class MainActivityHome extends Activity {
 		};
 
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
-		menuWrapper.addItem(MenuGlobals.APPS_ADD, R.string.menuAdd, android.R.drawable.ic_menu_add);
-		menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemove, android.R.drawable.ic_menu_close_clear_cancel);
-		menuWrapper.addItem(MenuGlobals.APPS_SORT, R.string.menuSort, android.R.drawable.ic_menu_sort_by_size);
-		menuWrapper.addItem(MenuGlobals.ABOUT, R.string.menuAbout, android.R.drawable.ic_menu_info_details);
-		menuWrapper.addItem(MenuGlobals.PREFERENCES, R.string.preferences, android.R.drawable.ic_menu_preferences);
+		menuWrapper.addItem(HBLConstants.MENU_APPS_ADD, R.string.menuAdd, android.R.drawable.ic_menu_add);
+		menuWrapper.addItem(HBLConstants.MENU_APPS_REMOVE, R.string.menuRemove, android.R.drawable.ic_menu_close_clear_cancel);
+		menuWrapper.addItem(HBLConstants.MENU_APPS_SORT, R.string.menuSort, android.R.drawable.ic_menu_sort_by_size);
+		menuWrapper.addItem(HBLConstants.MENU_ABOUT, R.string.menuAbout, android.R.drawable.ic_menu_info_details);
+		menuWrapper.addItem(HBLConstants.MENU_PREFERENCES, R.string.preferences, android.R.drawable.ic_menu_preferences);
 		return menuWrapper;
 	}
 

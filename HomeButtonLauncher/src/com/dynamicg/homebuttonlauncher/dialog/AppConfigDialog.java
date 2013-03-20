@@ -18,8 +18,8 @@ import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.AppListContextMenu;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
-import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapter;
@@ -54,7 +54,7 @@ public class AppConfigDialog extends Dialog {
 
 	private AppListContainer appList;
 	private HeaderAbstract header;
-	
+
 	protected AppListAdapter adapter;
 
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
@@ -63,9 +63,9 @@ public class AppConfigDialog extends Dialog {
 		this.context = activity;
 		this.prefShortlist = preferences.prefShortlist;
 		this.action = action;
-		this.actionAdd = action==MenuGlobals.APPS_ADD;
-		this.actionSort = action==MenuGlobals.APPS_SORT;
-		this.actionRemove = action==MenuGlobals.APPS_REMOVE;
+		this.actionAdd = action==HBLConstants.MENU_APPS_ADD;
+		this.actionSort = action==HBLConstants.MENU_APPS_SORT;
+		this.actionRemove = action==HBLConstants.MENU_APPS_REMOVE;
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}

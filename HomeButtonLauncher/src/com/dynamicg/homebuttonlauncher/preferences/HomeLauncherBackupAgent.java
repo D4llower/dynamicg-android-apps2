@@ -8,6 +8,7 @@ import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.Context;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 
 /*
  * see
@@ -47,7 +48,7 @@ public class HomeLauncherBackupAgent extends BackupAgentHelper {
 
 	public static ArrayList<String> getSharedPrefNames(Context context) {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(PrefSettings.SHARED_PREFS_KEY);
+		list.add(HBLConstants.PREFS_SETTINGS);
 		final int settingNumTabs = getSettingNumTabs(context);
 		final int pagecount = settingNumTabs==0 ? 1 : settingNumTabs;
 		for (int i=0;i<pagecount;i++) {

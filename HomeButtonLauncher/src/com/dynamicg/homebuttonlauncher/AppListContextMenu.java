@@ -46,9 +46,9 @@ public class AppListContextMenu {
 			public void popupMenuItemSelected(int id) {
 				try {
 					switch (id) {
-					case MenuGlobals.SHOW_APP_DETAILS: showAppDetails(appEntry); break;
-					case MenuGlobals.SHOW_PLAY_STORE: showInPlayStore(appEntry); break;
-					case MenuGlobals.APPS_REMOVE: remove(appEntry); break;
+					case HBLConstants.MENU_SHOW_APP_DETAILS: showAppDetails(appEntry); break;
+					case HBLConstants.SHOW_PLAY_STORE: showInPlayStore(appEntry); break;
+					case HBLConstants.MENU_APPS_REMOVE: remove(appEntry); break;
 					}
 				}
 				catch (Throwable t) {
@@ -58,10 +58,10 @@ public class AppListContextMenu {
 		};
 
 		PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
-		menuWrapper.addItem(MenuGlobals.SHOW_APP_DETAILS, R.string.openAppDetails);
-		menuWrapper.addItem(MenuGlobals.SHOW_PLAY_STORE, R.string.openPlayStore);
+		menuWrapper.addItem(HBLConstants.MENU_SHOW_APP_DETAILS, R.string.openAppDetails);
+		menuWrapper.addItem(HBLConstants.SHOW_PLAY_STORE, R.string.openPlayStore);
 		if (prefShortlist!=null) {
-			menuWrapper.addItem(MenuGlobals.APPS_REMOVE, R.string.menuRemove);
+			menuWrapper.addItem(HBLConstants.MENU_APPS_REMOVE, R.string.menuRemove);
 		}
 		menuWrapper.showMenu();
 	}

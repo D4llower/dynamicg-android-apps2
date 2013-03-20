@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
-import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
@@ -50,7 +50,7 @@ public class GoogleDriveBackupRestoreHelper {
 		if (!GoogleDriveUtil.isPluginAvailable(context)) {
 			GoogleDriveUtil.alertMissingPlugin(context);
 		}
-		else if (what==MenuGlobals.DRIVE_BACKUP) {
+		else if (what==HBLConstants.MENU_DRIVE_BACKUP) {
 			OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
 				@Override
 				public void onClickImpl(DialogInterface d, int which) {
@@ -59,7 +59,7 @@ public class GoogleDriveBackupRestoreHelper {
 			};
 			DialogHelper.confirm(context, R.string.prefsDriveBackup, okListener);
 		}
-		else if (what==MenuGlobals.DRIVE_RESTORE) {
+		else if (what==HBLConstants.MENU_DRIVE_RESTORE) {
 			OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
 				@Override
 				public void onClickImpl(DialogInterface d, int which) {

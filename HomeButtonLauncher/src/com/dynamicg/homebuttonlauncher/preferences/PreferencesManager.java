@@ -6,11 +6,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PreferencesManager {
-
-	private static final String PREF_SHORTLIST = "apps";
 
 	private static final String KEY_TAB_INDEX = "tabIndex";
 	private static final String KEY_TAB_LABEL_PREFIX = "tabTitle.";
@@ -25,7 +24,7 @@ public class PreferencesManager {
 	public final PrefShortlist prefShortlist;
 
 	protected static String getShortlistName(int tabindex) {
-		return tabindex==0 ? PREF_SHORTLIST : PREF_SHORTLIST+tabindex;
+		return tabindex==0 ? HBLConstants.PREFS_APPS: HBLConstants.PREFS_APPS+tabindex;
 	}
 
 	private SharedPreferences getShortlistPrefs(int tabindex) {

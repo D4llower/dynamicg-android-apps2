@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 
 public class PrefSettings {
-
-	protected static final String SHARED_PREFS_KEY = "settings";
 
 	public static final String KEY_LAYOUT = "layout";
 	public static final String KEY_LABEL_SIZE = "labelSize";
@@ -28,7 +27,7 @@ public class PrefSettings {
 	public final SharedPreferences sharedPrefs;
 
 	public PrefSettings(Context context) {
-		this.sharedPrefs = context.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+		this.sharedPrefs = context.getSharedPreferences(HBLConstants.PREFS_SETTINGS, Context.MODE_PRIVATE);
 	}
 
 	public void apply(String key, int value) {

@@ -1,7 +1,7 @@
 package com.dynamicg.homebuttonlauncher.dialog.header;
 
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
-import com.dynamicg.homebuttonlauncher.MenuGlobals;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
@@ -29,8 +29,8 @@ public class HeaderPreferences extends HeaderAbstract {
 		};
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, iconNode, listener);
 		menuWrapper.attachToAnchorClick();
-		menuWrapper.addItem(MenuGlobals.DRIVE_BACKUP, R.string.prefsDriveBackup);
-		menuWrapper.addItem(MenuGlobals.DRIVE_RESTORE, R.string.prefsDriveRestore);
+		menuWrapper.addItem(HBLConstants.MENU_DRIVE_BACKUP, R.string.prefsDriveBackup);
+		menuWrapper.addItem(HBLConstants.MENU_DRIVE_RESTORE, R.string.prefsDriveRestore);
 	}
 
 }

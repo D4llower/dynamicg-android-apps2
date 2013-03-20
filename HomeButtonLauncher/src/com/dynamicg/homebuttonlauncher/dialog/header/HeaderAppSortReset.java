@@ -2,7 +2,7 @@ package com.dynamicg.homebuttonlauncher.dialog.header;
 
 import android.content.DialogInterface;
 
-import com.dynamicg.homebuttonlauncher.MenuGlobals;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
@@ -24,14 +24,14 @@ public class HeaderAppSortReset extends HeaderAbstract {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
-				if (id==MenuGlobals.RESET) {
+				if (id==HBLConstants.MENU_RESET) {
 					confirmSortReset();
 				}
 			}
 		};
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, iconNode, listener);
 		menuWrapper.attachToAnchorClick();
-		menuWrapper.addItem(MenuGlobals.RESET, R.string.menuReset);
+		menuWrapper.addItem(HBLConstants.MENU_RESET, R.string.menuReset);
 	}
 
 	private void confirmSortReset() {
