@@ -26,10 +26,8 @@ public class BackgroundIconLoader {
 	private static final Logger log = new Logger(BackgroundIconLoader.class);
 
 	private final AppListContainer applist;
-	private final int iconSizePx;
-	private final LargeIconLoader largeIconLoader;
+	private final IconLoader iconLoader;
 	private final Handler handler;
-	private final boolean forMainScreen;
 
 	private final ArrayList<ViewHolder> views = new ArrayList<ViewHolder>();
 
@@ -37,17 +35,9 @@ public class BackgroundIconLoader {
 	protected boolean running;
 	protected int highWaterMark = 0;
 
-	public BackgroundIconLoader(
-			final AppListContainer applist
-			, final int iconSizePx
-			, final LargeIconLoader largeIconLoader
-			, final boolean forMainScreen
-			)
-	{
+	public BackgroundIconLoader(final AppListContainer applist, IconLoader iconLoader) {
 		this.applist = applist;
-		this.iconSizePx = iconSizePx;
-		this.largeIconLoader = largeIconLoader;
-		this.forMainScreen = forMainScreen;
+		this.iconLoader = iconLoader;
 
 		this.handler = new Handler() {
 			@Override
@@ -113,7 +103,7 @@ public class BackgroundIconLoader {
 							// process
 							AppEntry appEntry = applist.get(row.position);
 							if (!appEntry.isIconLoaded()) {
-								appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+								appEntry.getIcon(iconLoader);
 							}
 
 							if (row.position!=row.imgPosition) {

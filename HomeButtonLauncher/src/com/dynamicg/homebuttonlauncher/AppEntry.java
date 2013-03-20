@@ -5,8 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
-import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
-import com.dynamicg.homebuttonlauncher.tools.icons.LargeIconLoader;
+import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
 
 public class AppEntry {
 
@@ -65,26 +64,10 @@ public class AppEntry {
 		view.setBackgroundResource(checked?R.drawable.app_selector_shape:0);
 	}
 
-	public Drawable getIcon(int iconSizePx, LargeIconLoader largeIconLoader, boolean forMainScreen) {
-
-		if (icon!=null) {
-			return icon;
-		}
-
-		if (largeIconLoader!=null) {
-			Drawable appicon = largeIconLoader.getLargeIcon(this);
-			icon = IconProvider.scale(appicon, iconSizePx);
-		}
-
+	public Drawable getIcon(IconLoader iconLoader) {
 		if (icon==null) {
-			Drawable appicon = resolveInfo.loadIcon(GlobalContext.packageManager);
-			icon = IconProvider.scale(appicon, iconSizePx);
+			icon = iconLoader.getIcon(this);
 		}
-
-		if (forMainScreen) {
-			GlobalContext.icons.put(component, icon);
-		}
-
 		return icon;
 	}
 

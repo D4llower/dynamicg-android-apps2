@@ -16,8 +16,8 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.icons.BackgroundIconLoader;
+import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
 import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
-import com.dynamicg.homebuttonlauncher.tools.icons.LargeIconLoader;
 
 public abstract class AppListAdapter extends BaseAdapter {
 
@@ -28,7 +28,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 	protected final int labelSize;
 	protected final int iconSizePx;
 	protected final int noLabelGridPadding;
-	protected final LargeIconLoader largeIconLoader;
+	protected final IconLoader iconLoader;
 
 	private final LocalViewBinder localViewBinder;
 
@@ -36,13 +36,14 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 	private AppListAdapter(Activity activity, AppListContainer apps, int viewId, boolean forMainScreen, int iconSizePx, int labelSize) {
 		final boolean useBackgroundLoader = GlobalContext.prefSettings.isBackgroundIconLoader();
-
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
 		this.forMainScreen = forMainScreen;
 		this.appEntryLayoutId = getLayoutId(viewId, forMainScreen);
 		this.iconSizePx = iconSizePx;
 		this.labelSize = labelSize;
+		this.iconLoader = new IconLoader(activity, iconSizePx, forMainScreen);
+
 		if (labelSize==0 && (appEntryLayoutId==R.layout.app_entry_compact||appEntryLayoutId==R.layout.app_entry_compact_bl)) {
 			this.noLabelGridPadding = DialogHelper.getDimension(R.dimen.gridViewNoLabelIconPadding);
 		}
@@ -50,13 +51,6 @@ public abstract class AppListAdapter extends BaseAdapter {
 			this.noLabelGridPadding = 0;
 		}
 		this.localViewBinder = useBackgroundLoader ? new LocalViewBinderAsync() : new LocalViewBinderDefault();
-
-		if (forMainScreen) {
-			this.largeIconLoader = LargeIconLoader.createInstance(activity, GlobalContext.prefSettings);
-		}
-		else {
-			this.largeIconLoader = null;
-		}
 	}
 
 	/*
@@ -142,7 +136,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		public void bindView(int position, AppEntry appEntry, View row) {
 			TextView label = (TextView)row;
 			setLabel(label, appEntry);
-			Drawable icon = appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+			Drawable icon = appEntry.getIcon(iconLoader);
 			if (appEntryLayoutId==R.layout.app_entry_compact) {
 				// icon on top
 				label.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
@@ -161,7 +155,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		private final Drawable defaultIcon;
 
 		public LocalViewBinderAsync() {
-			this.backgroundIconLoader = new BackgroundIconLoader(applist, iconSizePx, largeIconLoader, forMainScreen);
+			this.backgroundIconLoader = new BackgroundIconLoader(applist, iconLoader);
 			this.defaultIcon = IconProvider.scale(GlobalContext.resources.getDrawable(R.drawable.android), iconSizePx);
 		}
 
@@ -192,7 +186,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 			if (dataSetChanged) {
 				// once "search" has been applied do not use bg loader any more
 				// (syncing the potentially running bg loader thread to the new applist is too complicated ...)
-				icon = appEntry.getIcon(iconSizePx, largeIconLoader, forMainScreen);
+				icon = appEntry.getIcon(iconLoader);
 			}
 			else if (appEntry.isIconLoaded()) {
 				icon = appEntry.getIconDrawable();
