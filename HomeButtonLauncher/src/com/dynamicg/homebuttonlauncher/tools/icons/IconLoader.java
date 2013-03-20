@@ -26,14 +26,19 @@ public class IconLoader {
 	public Drawable getIcon(AppEntry appEntry) {
 		Drawable icon = null;
 
-		if (largeIconLoader!=null) {
-			Drawable appicon = largeIconLoader.getLargeIcon(appEntry);
-			icon = IconProvider.scale(appicon, iconSizePx);
+		if (appEntry.shortcut) {
+			// TODO ## load from disk
 		}
+		else {
+			if (largeIconLoader!=null) {
+				Drawable appicon = largeIconLoader.getLargeIcon(appEntry);
+				icon = IconProvider.scale(appicon, iconSizePx);
+			}
 
-		if (icon==null) {
-			Drawable appicon = appEntry.resolveInfo.loadIcon(GlobalContext.packageManager);
-			icon = IconProvider.scale(appicon, iconSizePx);
+			if (icon==null) {
+				Drawable appicon = appEntry.resolveInfo.loadIcon(GlobalContext.packageManager);
+				icon = IconProvider.scale(appicon, iconSizePx);
+			}
 		}
 
 		if (forMainScreen) {

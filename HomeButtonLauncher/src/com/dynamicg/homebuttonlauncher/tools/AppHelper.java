@@ -15,6 +15,7 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 
 public class AppHelper {
@@ -75,19 +76,34 @@ public class AppHelper {
 		return new AppListContainer(list);
 	}
 
+	private static int getSortNr(Map<String, Integer> components, String component) {
+		int sortnr = components.get(component);
+		if (sortnr==0) {
+			// unsorted new entries get to the bottom
+			return MAX_SORTNR;
+		}
+		return sortnr;
+	}
+
 	public static AppListContainer getSelectedAppsList(PrefShortlist settings, boolean forMainScreen) {
 		final Map<String, Integer> components = settings.getComponentsMap();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (String component:components.keySet()) {
+
+			if (component.startsWith(HBLConstants.SHORTCUT_PREFIX)) {
+				if (component.contains(HBLConstants.SHORTCUT_SEPARATOR)) {
+					int sortnr = getSortNr(components, component);
+					list.add(new AppEntry(component, sortnr, forMainScreen));
+				}
+				continue;
+			}
+
 			ResolveInfo matchingApp = getMatchingApp(component);
 			if (matchingApp!=null) {
-				int sortnr = components.get(component);
-				if (sortnr==0) {
-					// unsorted new entries get to the bottom
-					sortnr = MAX_SORTNR;
-				}
+				int sortnr = getSortNr(components, component);
 				list.add(new AppEntry(matchingApp, sortnr, forMainScreen));
 			}
+
 		}
 		return new AppListContainer(list);
 	}

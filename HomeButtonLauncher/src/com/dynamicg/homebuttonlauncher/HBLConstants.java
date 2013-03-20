@@ -16,4 +16,9 @@ public class HBLConstants {
 	public static final int MENU_RESET = 8;
 	public static final int MENU_DRIVE_BACKUP = 9;
 	public static final int MENU_DRIVE_RESTORE = 10;
+
+	public static final int SHORTCUT_RC = 31;
+	public static final String SHORTCUT_PREFIX = "sc-";
+	public static final String SHORTCUT_SEPARATOR = "/";
+
 }

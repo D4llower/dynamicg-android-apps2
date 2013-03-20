@@ -29,6 +29,7 @@ import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListe
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
+import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 // see https://plus.google.com/104570711580136846518/posts/QpqfXXigAWW
 
@@ -181,7 +182,13 @@ public class MainActivityHome extends Activity {
 		String component=null;
 		try {
 			component = entry.getComponent();
-			Intent intent = AppHelper.getStartIntent(component);
+			Intent intent;
+			if (entry.shortcut) {
+				intent = ShortcutHelper.getIntent(entry);
+			}
+			else {
+				intent = AppHelper.getStartIntent(component);
+			}
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);

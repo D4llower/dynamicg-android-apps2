@@ -58,8 +58,10 @@ public class AppListContextMenu {
 		};
 
 		PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
-		menuWrapper.addItem(HBLConstants.MENU_SHOW_APP_DETAILS, R.string.openAppDetails);
-		menuWrapper.addItem(HBLConstants.SHOW_PLAY_STORE, R.string.openPlayStore);
+		if (!appEntry.shortcut) {
+			menuWrapper.addItem(HBLConstants.MENU_SHOW_APP_DETAILS, R.string.openAppDetails);
+			menuWrapper.addItem(HBLConstants.SHOW_PLAY_STORE, R.string.openPlayStore);
+		}
 		if (prefShortlist!=null) {
 			menuWrapper.addItem(HBLConstants.MENU_APPS_REMOVE, R.string.menuRemove);
 		}

@@ -13,6 +13,7 @@ public class AppEntry {
 	public final ResolveInfo resolveInfo;
 	public final String label;
 	public final int sortnr;
+	public final boolean shortcut;
 
 	private Drawable icon;
 	private boolean checked;
@@ -21,6 +22,7 @@ public class AppEntry {
 		this.resolveInfo = resolveInfo;
 		this.component = AppHelper.getComponentName(resolveInfo);
 		this.sortnr = sortnr;
+		this.shortcut = false;
 
 		if (forMainScreen) {
 			String label = GlobalContext.labels.get(component);
@@ -33,6 +35,17 @@ public class AppEntry {
 		}
 		else {
 			this.label = toString(resolveInfo.loadLabel(GlobalContext.packageManager), this.component);
+		}
+	}
+
+	public AppEntry(String component, int sortnr, boolean forMainScreen) {
+		this.resolveInfo = null;
+		this.component = component.substring(0, component.indexOf(HBLConstants.SHORTCUT_SEPARATOR));
+		this.label = component.substring(component.indexOf(HBLConstants.SHORTCUT_SEPARATOR)+1, component.length());
+		this.sortnr = sortnr;
+		this.shortcut = true;
+		if (forMainScreen) {
+			icon = GlobalContext.icons.get(this.component);
 		}
 	}
 
