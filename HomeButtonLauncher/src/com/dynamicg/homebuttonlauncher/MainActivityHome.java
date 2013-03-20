@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMain;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMainStatic;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
@@ -196,6 +197,7 @@ public class MainActivityHome extends Activity {
 			return true;
 		}
 		catch (Throwable t) {
+			SystemUtil.dumpIfDevelopment(t);
 			String title = "ERROR - cannot open";
 			String details = "Component: "+component+"\nException: "+t.getClass().getSimpleName();
 			DialogHelper.showError(context, title, details);

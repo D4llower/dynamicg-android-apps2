@@ -12,6 +12,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PrefShortlist {
@@ -63,6 +64,9 @@ public class PrefShortlist {
 		final Collection<String> components = getComponentsSet();
 		final ArrayList<String> zombies = new ArrayList<String>();
 		for (String component:components) {
+			if (component.startsWith(HBLConstants.SHORTCUT_PREFIX)) {
+				continue;
+			}
 			ResolveInfo matchingApp = AppHelper.getMatchingApp(component);
 			if (matchingApp==null || !AppHelper.getComponentName(matchingApp).equals(component)) {
 				zombies.add(component);
