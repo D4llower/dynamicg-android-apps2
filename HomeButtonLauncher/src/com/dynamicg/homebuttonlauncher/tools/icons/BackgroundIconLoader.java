@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher.tools;
+package com.dynamicg.homebuttonlauncher.tools.icons;
 
 import java.util.ArrayList;
 

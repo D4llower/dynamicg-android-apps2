@@ -24,7 +24,6 @@ import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
-import com.dynamicg.homebuttonlauncher.tools.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
@@ -65,7 +64,6 @@ public class MainActivityHome extends Activity {
 		if (isAutoStartSingleSuccessful()) {
 			return;
 		}
-		IconProvider.init(context);
 		attachContextMenu();
 		if (preferences.prefSettings.getNumTabs()>0) {
 			tabhost = new TabHelperMain(this, preferences).bindTabs();

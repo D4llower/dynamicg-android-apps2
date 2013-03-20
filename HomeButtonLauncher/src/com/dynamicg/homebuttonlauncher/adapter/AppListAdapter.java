@@ -17,10 +17,10 @@ import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
-import com.dynamicg.homebuttonlauncher.tools.BackgroundIconLoader;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
-import com.dynamicg.homebuttonlauncher.tools.IconProvider;
-import com.dynamicg.homebuttonlauncher.tools.LargeIconLoader;
+import com.dynamicg.homebuttonlauncher.tools.icons.BackgroundIconLoader;
+import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
+import com.dynamicg.homebuttonlauncher.tools.icons.LargeIconLoader;
 
 public abstract class AppListAdapter extends BaseAdapter {
 
@@ -52,7 +52,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		this(activity, apps, true);
 		PrefSettings settings = GlobalContext.prefSettings;
 		this.labelSize = settings.getLabelSize();
-		this.iconSizePx = IconProvider.getSizePX(settings.getIconSize());
+		this.iconSizePx = IconProvider.getPreferredSizePX();
 		this.largeIconLoader = LargeIconLoader.createInstance(activity, settings);
 		postInit(activity, settings.getAppEntryLayoutId());
 	}

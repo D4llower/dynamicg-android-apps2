@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher.tools;
+package com.dynamicg.homebuttonlauncher.tools.icons;
 
 import android.app.Activity;
 import android.app.ActivityManager;

@@ -1,7 +1,5 @@
-package com.dynamicg.homebuttonlauncher.tools;
+package com.dynamicg.homebuttonlauncher.tools.icons;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 
 // see http://stackoverflow.com/questions/4609456/android-set-drawable-size-programatically
 public class IconProvider {
@@ -17,17 +16,9 @@ public class IconProvider {
 
 	private static final int ICON_SIZE_DP = 48;
 
-	private static Resources resources;
-	private static float density;
-
-	public static void init(Context context) {
-		resources = context.getResources();
-		density = resources.getDisplayMetrics().density;
-	}
-
-	public static int getSizePX(int dp) {
-		int px = (int)(dp * density);
-		log.debug("getSizePX", density, dp, px);
+	private static int getSizePX(int dp) {
+		int px = (int)(dp * GlobalContext.density);
+		log.debug("getSizePX", GlobalContext.density, dp, px);
 		return px;
 	}
 
@@ -35,8 +26,12 @@ public class IconProvider {
 		return getSizePX(ICON_SIZE_DP);
 	}
 
+	public static int getPreferredSizePX() {
+		return getSizePX(GlobalContext.prefSettings.getIconSize());
+	}
+
 	private static Drawable scaleBitmap(int sizePX, Bitmap bitmap) {
-		return new BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
+		return new BitmapDrawable(GlobalContext.resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
 	}
 
 	public static Drawable scale(Drawable icon, int sizePX) {
