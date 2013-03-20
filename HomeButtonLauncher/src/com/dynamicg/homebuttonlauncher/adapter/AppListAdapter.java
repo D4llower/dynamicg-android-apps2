@@ -23,7 +23,6 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 	protected final AppListContainer applist;
 	protected final LayoutInflater inflater;
-	protected final boolean forMainScreen;
 	protected final int appEntryLayoutId;
 	protected final int labelSize;
 	protected final int iconSizePx;
@@ -38,8 +37,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		final boolean useBackgroundLoader = GlobalContext.prefSettings.isBackgroundIconLoader();
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
-		this.forMainScreen = forMainScreen;
-		this.appEntryLayoutId = getLayoutId(viewId, forMainScreen);
+		this.appEntryLayoutId = getLayoutId(viewId, useBackgroundLoader);
 		this.iconSizePx = iconSizePx;
 		this.labelSize = labelSize;
 		this.iconLoader = new IconLoader(activity, iconSizePx, forMainScreen);
@@ -50,6 +48,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 		else {
 			this.noLabelGridPadding = 0;
 		}
+
 		this.localViewBinder = useBackgroundLoader ? new LocalViewBinderAsync() : new LocalViewBinderDefault();
 	}
 

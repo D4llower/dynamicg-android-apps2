@@ -1,12 +1,15 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -34,6 +37,7 @@ import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperAppAdd;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
+import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 @SuppressLint("UseSparseArrays")
 public class AppConfigDialog extends Dialog {
@@ -213,8 +217,15 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private void startShortcutApp(AppEntry appEntry) {
-		// TODO ## (1) implement
-		// TODO ## (2) search does not work
+		ShortcutHelper.store(activity, this);
+		Intent intent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
+		intent.setComponent(ComponentName.unflattenFromString(appEntry.getComponent()));
+		activity.startActivityForResult(intent, HBLConstants.SHORTCUT_RC);
+	}
+
+	public void saveShortcut(String component) {
+		prefShortlist.add(Arrays.asList(component));
+		afterSave();
 	}
 
 }

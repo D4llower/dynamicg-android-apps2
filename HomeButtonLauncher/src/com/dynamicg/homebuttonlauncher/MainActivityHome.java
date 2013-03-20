@@ -184,7 +184,7 @@ public class MainActivityHome extends Activity {
 			component = entry.getComponent();
 			Intent intent;
 			if (entry.shortcut) {
-				intent = ShortcutHelper.getIntent(entry);
+				intent = ShortcutHelper.getIntent(this, entry);
 			}
 			else {
 				intent = AppHelper.getStartIntent(component);
@@ -269,6 +269,9 @@ public class MainActivityHome extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode==GoogleDriveGlobals.ACTION_CUSTOM_GET) {
 			GoogleDriveBackupRestoreHelper.restoreFromFile(data);
+		}
+		else if (requestCode==HBLConstants.SHORTCUT_RC) {
+			ShortcutHelper.shortcutSelected(data);
 		}
 	}
 
