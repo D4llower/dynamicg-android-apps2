@@ -40,7 +40,7 @@ public class AppEntry {
 
 	public AppEntry(String component, int sortnr, boolean forMainScreen) {
 		this.resolveInfo = null;
-		this.component = component.substring(0, component.indexOf(HBLConstants.SHORTCUT_SEPARATOR));
+		this.component = component;
 		this.label = component.substring(component.indexOf(HBLConstants.SHORTCUT_SEPARATOR)+1, component.length());
 		this.sortnr = sortnr;
 		this.shortcut = true;
@@ -90,6 +90,10 @@ public class AppEntry {
 
 	public Drawable getIconDrawable() {
 		return icon;
+	}
+
+	public String getShortcutId() {
+		return component.substring(0, component.indexOf(HBLConstants.SHORTCUT_SEPARATOR));
 	}
 
 }

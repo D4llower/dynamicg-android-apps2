@@ -8,11 +8,13 @@ import com.dynamicg.homebuttonlauncher.GlobalContext;
 
 public class IconLoader {
 
+	private final Context context;
 	private final int iconSizePx;
 	private final boolean forMainScreen;
 	private final LargeIconLoader largeIconLoader;
 
 	public IconLoader(Context context, int iconSizePx, boolean forMainScreen) {
+		this.context = context;
 		this.iconSizePx = iconSizePx;
 		this.forMainScreen = forMainScreen;
 		if (forMainScreen) {
@@ -27,7 +29,7 @@ public class IconLoader {
 		Drawable icon = null;
 
 		if (appEntry.shortcut) {
-			// TODO ## load from disk
+			icon = ShortcutHelper.loadIcon(context, appEntry);
 		}
 		else {
 			if (largeIconLoader!=null) {

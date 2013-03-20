@@ -180,15 +180,13 @@ public class MainActivityHome extends Activity {
 	}
 
 	private boolean startAppAndClose(AppEntry entry) {
-		String component=null;
 		try {
-			component = entry.getComponent();
 			Intent intent;
 			if (entry.shortcut) {
 				intent = ShortcutHelper.getIntent(this, entry);
 			}
 			else {
-				intent = AppHelper.getStartIntent(component);
+				intent = AppHelper.getStartIntent(entry.getComponent());
 			}
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -199,7 +197,7 @@ public class MainActivityHome extends Activity {
 		catch (Throwable t) {
 			SystemUtil.dumpIfDevelopment(t);
 			String title = "ERROR - cannot open";
-			String details = "Component: "+component+"\nException: "+t.getClass().getSimpleName();
+			String details = "Component: "+entry.getComponent()+"\nException: "+t.getClass().getSimpleName();
 			DialogHelper.showError(context, title, details);
 			return false;
 		}
