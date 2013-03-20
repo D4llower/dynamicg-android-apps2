@@ -34,21 +34,21 @@ public class IconProvider {
 		return new BitmapDrawable(GlobalContext.resources, Bitmap.createScaledBitmap(bitmap, sizePX, sizePX, true));
 	}
 
-	public static Drawable scale(Drawable icon, int sizePX) {
+	public static Drawable scale(Drawable icon, int iconSizePx) {
 
 		if (icon==null) {
 			return null;
 		}
 
-		if (icon.getIntrinsicHeight()==sizePX && icon.getIntrinsicWidth()==sizePX) {
+		if (icon.getIntrinsicHeight()==iconSizePx && icon.getIntrinsicWidth()==iconSizePx) {
 			// icon is standard size, no scaling required
 			//log.debug("scale() - no scaling required");
 			return icon;
 		}
 
-		log.debug("scale() - change", icon.getIntrinsicHeight(), icon.getIntrinsicWidth(), sizePX);
+		log.debug("scale() - change", icon.getIntrinsicHeight(), icon.getIntrinsicWidth(), iconSizePx);
 		try {
-			return scaleBitmap(sizePX, ((BitmapDrawable)icon).getBitmap());
+			return scaleBitmap(iconSizePx, ((BitmapDrawable)icon).getBitmap());
 		}
 		catch (ClassCastException e1) {
 			/*
@@ -58,14 +58,14 @@ public class IconProvider {
 			if (icon instanceof StateListDrawable) {
 				try {
 					StateListDrawable sd = (StateListDrawable)icon;
-					return scaleBitmap(sizePX, ((BitmapDrawable)sd.getCurrent()).getBitmap());
+					return scaleBitmap(iconSizePx, ((BitmapDrawable)sd.getCurrent()).getBitmap());
 				}
 				catch (Throwable e2) {
 					//ignore all
 				}
 			}
 			// return empty icon
-			return scaleBitmap(sizePX, Bitmap.createBitmap(sizePX, sizePX, Config.ARGB_4444));
+			return scaleBitmap(iconSizePx, Bitmap.createBitmap(iconSizePx, iconSizePx, Config.ARGB_4444));
 		}
 	}
 
