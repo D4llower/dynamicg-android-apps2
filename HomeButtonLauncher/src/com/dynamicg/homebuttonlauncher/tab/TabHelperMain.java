@@ -1,21 +1,18 @@
 package com.dynamicg.homebuttonlauncher.tab;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
-import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
 
 public class TabHelperMain extends TabHelper {
 
@@ -60,32 +57,14 @@ public class TabHelperMain extends TabHelper {
 
 	protected void editLabel(final int index) {
 		final String currentLabel = preferences.getTabTitle(index);
-
-		final EditText editor = new EditText(context);
-		editor.setText(currentLabel);
-		editor.setSingleLine();
-		if (currentLabel.length()>0) {
-			editor.setSelection(currentLabel.length());
-		}
-		editor.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		DialogInterface.OnClickListener okListener = new OnClickListenerDialogWrapper(context) {
+		TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
-			public void onClickImpl(DialogInterface dialog, int which) {
-				String newLabel = editor.getText().toString();
-				newLabel = newLabel!=null?newLabel:"";
-				setLabel(index, newLabel);
-				preferences.writeTabTitle(index, newLabel);
+			public void onTextChanged(String text) {
+				setLabel(index, text);
+				preferences.writeTabTitle(index, text);
 			}
 		};
-		builder.setPositiveButton(R.string.buttonOk, okListener );
-		builder.setNegativeButton(R.string.buttonCancel, null);
-		builder.setView(editor);
-		AlertDialog dialog = builder.show();
-
-		// auto open keyboard
-		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback);
 	}
 
 	private void setLabel(int index, String label) {
