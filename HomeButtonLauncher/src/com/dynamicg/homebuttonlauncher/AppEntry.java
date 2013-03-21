@@ -92,8 +92,4 @@ public class AppEntry {
 		return icon;
 	}
 
-	public String getShortcutId() {
-		return component.substring(0, component.indexOf(HBLConstants.SHORTCUT_SEPARATOR));
-	}
-
 }

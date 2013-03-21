@@ -25,7 +25,7 @@ public class ShortcutHelper {
 
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
-	private static final String KEY_ID = "id";
+	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
 
 	private static WeakReference<MainActivityHome> activityRef;
@@ -36,6 +36,14 @@ public class ShortcutHelper {
 	public static void store(MainActivityHome activity, AppConfigDialog appConfigDialog) {
 		activityRef = new WeakReference<MainActivityHome>(activity);
 		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
+	}
+
+	public static boolean isShortcutComponent(String component) {
+		return component.startsWith(HBLConstants.SHORTCUT_PREFIX) && component.contains(HBLConstants.SHORTCUT_SEPARATOR);
+	}
+
+	public static String getShortcutId(String component) {
+		return component.substring(0, component.indexOf(HBLConstants.SHORTCUT_SEPARATOR));
 	}
 
 	public static void shortcutSelected(Intent data) {
@@ -63,16 +71,15 @@ public class ShortcutHelper {
 
 		// TODO ## input and save label
 		// TODO ## icons: handle "load error" (empty icon)
-		// TODO ## implement "remove" (delete prefsShortcut and remove icon file)
 
-		final SharedPreferences prefs = GlobalContext.getShortcutSettings(context);
-		final int nextid = prefs.getInt(KEY_ID, 0) + 1;
+		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
+		final int nextid = prefs.getInt(KEY_SC_MAXID, 0) + 1;
 		final String shortcutId = HBLConstants.SHORTCUT_PREFIX+nextid;
 		final String label = "{"+shortcutId+"}";
 
 		final String intentString = intent.toUri(0);
 		Editor edit = prefs.edit();
-		edit.putInt(KEY_ID, nextid);
+		edit.putInt(KEY_SC_MAXID, nextid);
 		edit.putString(shortcutId, intentString);
 		edit.commit();
 
@@ -83,11 +90,11 @@ public class ShortcutHelper {
 		dialog.saveShortcut(shortcutId+HBLConstants.SHORTCUT_SEPARATOR+label);
 	}
 
-	public static Intent getIntent(Context context, AppEntry entry) throws URISyntaxException {
-		SharedPreferences prefs = GlobalContext.getShortcutSettings(context);
-		String key = entry.getShortcutId();
-		log.debug("shortcut/getIntent", key);
-		String uri = prefs.getString(key, null);
+	public static Intent getIntent(AppEntry entry) throws URISyntaxException {
+		SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
+		String shortcutId = getShortcutId(entry.getComponent());
+		log.debug("shortcut/getIntent", shortcutId);
+		String uri = prefs.getString(shortcutId, null);
 		return Intent.parseUri(uri, 0);
 	}
 
@@ -113,8 +120,20 @@ public class ShortcutHelper {
 
 	public static Drawable loadIcon(Context context, AppEntry appEntry) {
 		initIconDir(context);
-		File file = new File(iconDir, appEntry.getShortcutId()+PNG);
+		String shortcutId = getShortcutId(appEntry.getComponent());
+		File file = new File(iconDir, shortcutId+PNG);
 		return Drawable.createFromPath(file.getAbsolutePath());
+	}
+
+	public static void deleteIcon(String component) {
+		if (iconDir==null) {
+			// if we get here the icondir should already have been initialised
+			// (since initial display of the according item has already occurred)
+			return;
+		}
+		String shortcutId = getShortcutId(component);
+		File file = new File(iconDir, shortcutId+PNG);
+		file.delete();
 	}
 
 }

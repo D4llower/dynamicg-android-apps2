@@ -4,7 +4,6 @@ public class HBLConstants {
 
 	public static final String PREFS_APPS = "apps";
 	public static final String PREFS_SETTINGS = "settings";
-	public static final String PREFS_SHORTCUTS = "shortcuts";
 
 	public static final int MENU_APPS_ADD = 1;
 	public static final int MENU_APPS_REMOVE = 2;

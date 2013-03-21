@@ -183,7 +183,7 @@ public class MainActivityHome extends Activity {
 		try {
 			Intent intent;
 			if (entry.shortcut) {
-				intent = ShortcutHelper.getIntent(this, entry);
+				intent = ShortcutHelper.getIntent(entry);
 			}
 			else {
 				intent = AppHelper.getStartIntent(entry.getComponent());

@@ -15,8 +15,8 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
-import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
+import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 public class AppHelper {
 
@@ -90,11 +90,9 @@ public class AppHelper {
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (String component:components.keySet()) {
 
-			if (component.startsWith(HBLConstants.SHORTCUT_PREFIX)) {
-				if (component.contains(HBLConstants.SHORTCUT_SEPARATOR)) {
-					int sortnr = getSortNr(components, component);
-					list.add(new AppEntry(component, sortnr, forMainScreen));
-				}
+			if (ShortcutHelper.isShortcutComponent(component)) {
+				int sortnr = getSortNr(components, component);
+				list.add(new AppEntry(component, sortnr, forMainScreen));
 				continue;
 			}
 
