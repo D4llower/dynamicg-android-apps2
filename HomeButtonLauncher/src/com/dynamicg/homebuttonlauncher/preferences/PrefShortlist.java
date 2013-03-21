@@ -12,7 +12,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
-import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
@@ -79,24 +78,19 @@ public class PrefShortlist {
 	}
 
 	private void removeImpl(List<String> components) {
-		ArrayList<String> shortcutComponents = new ArrayList<String>();
+		ArrayList<String> shortcutIds = new ArrayList<String>();
 
-		Editor edit1 = sharedPrefs.edit();
+		Editor edit = sharedPrefs.edit();
 		for (String component:components) {
-			edit1.remove(component);
+			edit.remove(component);
 			if (ShortcutHelper.isShortcutComponent(component)) {
-				shortcutComponents.add(component);
+				shortcutIds.add(ShortcutHelper.getShortcutId(component));
 			}
 		}
-		edit1.commit();
+		edit.commit();
 
-		if (shortcutComponents.size()>0) {
-			Editor edit2 = GlobalContext.prefSettings.sharedPrefs.edit();
-			for (String component:shortcutComponents) {
-				edit2.remove(component);
-				ShortcutHelper.deleteIcon(component);
-			}
-			edit2.commit();
+		if (shortcutIds.size()>0) {
+			ShortcutHelper.removeShortcuts(shortcutIds);
 		}
 	}
 

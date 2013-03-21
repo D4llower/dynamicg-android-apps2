@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,12 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
 
 // TODO ## icons: handle "load error" (empty icon)
+
+/*
+ * notation:
+ * "sc-<id>/<label>" is the component, used as key on the 'shortlist' settings
+ * "sc-<id>" is the shortcut id, used as key on 'prefSettings' to save the intent and to write the icon to the disk
+ */
 public class ShortcutHelper {
 
 	private static final Logger log = new Logger(ShortcutHelper.class);
@@ -131,15 +138,23 @@ public class ShortcutHelper {
 		return Drawable.createFromPath(file.getAbsolutePath());
 	}
 
-	public static void deleteIcon(String component) {
+	public static void removeShortcuts(ArrayList<String> shortcutIds) {
+		Editor edit = GlobalContext.prefSettings.sharedPrefs.edit();
+		for (String shortcutId:shortcutIds) {
+			edit.remove(shortcutId);
+		}
+		edit.commit();
+
 		if (iconDir==null) {
 			// if we get here the icondir should already have been initialised
 			// (since initial display of the according item has already occurred)
 			return;
 		}
-		String shortcutId = getShortcutId(component);
-		File file = new File(iconDir, shortcutId+PNG);
-		file.delete();
+		for (String shortcutId:shortcutIds) {
+			File file = new File(iconDir, shortcutId+PNG);
+			boolean deleted = file.delete();
+			log.debug("delete icon file", file, deleted);
+		}
 	}
 
 }
