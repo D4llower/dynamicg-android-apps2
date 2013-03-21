@@ -19,11 +19,11 @@ import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
-import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
 
+// TODO ## icons: handle "load error" (empty icon)
 public class ShortcutHelper {
 
 	private static final Logger log = new Logger(ShortcutHelper.class);
@@ -31,13 +31,11 @@ public class ShortcutHelper {
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
 
-	private static WeakReference<MainActivityHome> activityRef;
 	private static WeakReference<AppConfigDialog> dialogRef;
 
 	private static File iconDir;
 
-	public static void store(MainActivityHome activity, AppConfigDialog appConfigDialog) {
-		activityRef = new WeakReference<MainActivityHome>(activity);
+	public static void storeRef(AppConfigDialog appConfigDialog) {
 		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
 	}
 
@@ -49,12 +47,11 @@ public class ShortcutHelper {
 		return component.substring(0, component.indexOf(HBLConstants.SHORTCUT_SEPARATOR));
 	}
 
-	// TODO ## icons: handle "load error" (empty icon)
 	public static void shortcutSelected(Intent data) {
-		Context context = activityRef!=null ? activityRef.get() : null;
-		AppConfigDialog dialog = dialogRef!=null ? dialogRef.get() : null;
+		final AppConfigDialog dialog = dialogRef!=null ? dialogRef.get() : null;
+		final Context context = dialog!=null ? dialog.getContext() : null;
 
-		if (context==null || dialog==null || data==null) {
+		if (context==null || data==null) {
 			return;
 		}
 
@@ -62,7 +59,6 @@ public class ShortcutHelper {
 		if (bundle==null) {
 			return;
 		}
-
 
 		final Intent intent = (Intent)bundle.getParcelable(Intent.EXTRA_SHORTCUT_INTENT);
 		final Bitmap bitmap = (Bitmap)bundle.getParcelable(Intent.EXTRA_SHORTCUT_ICON);
@@ -76,13 +72,13 @@ public class ShortcutHelper {
 		TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
-				save(intent, bitmap, text);
+				save(dialog, intent, bitmap, text);
 			}
 		};
 		DialogHelper.openLabelEditor(context, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback);
 	}
 
-	private static void save(Intent intent, Bitmap bitmap, String label) {
+	private static void save(AppConfigDialog dialog, Intent intent, Bitmap bitmap, String label) {
 		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
 		final int nextid = prefs.getInt(KEY_SC_MAXID, 0) + 1;
 		final String shortcutId = HBLConstants.SHORTCUT_PREFIX+nextid;
@@ -94,10 +90,10 @@ public class ShortcutHelper {
 		edit.commit();
 
 		if (bitmap!=null) {
-			saveIcon(activityRef.get(), shortcutId, bitmap);
+			saveIcon(dialog.getContext(), shortcutId, bitmap);
 		}
 
-		dialogRef.get().saveShortcut(shortcutId+HBLConstants.SHORTCUT_SEPARATOR+label);
+		dialog.saveShortcut(shortcutId+HBLConstants.SHORTCUT_SEPARATOR+label);
 	}
 
 	public static Intent getIntent(AppEntry entry) throws URISyntaxException {
