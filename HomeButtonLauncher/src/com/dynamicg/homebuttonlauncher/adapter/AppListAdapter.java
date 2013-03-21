@@ -155,7 +155,7 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 		public LocalViewBinderAsync() {
 			this.backgroundIconLoader = new BackgroundIconLoader(applist, iconLoader);
-			this.defaultIcon = IconProvider.scale(GlobalContext.resources.getDrawable(R.drawable.android), iconSizePx);
+			this.defaultIcon = IconProvider.scale(IconProvider.getDefaultIcon(), iconSizePx);
 		}
 
 		@Override

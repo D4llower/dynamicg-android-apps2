@@ -135,7 +135,12 @@ public class ShortcutHelper {
 		initIconDir(context);
 		String shortcutId = getShortcutId(appEntry.getComponent());
 		File file = new File(iconDir, shortcutId+PNG);
-		return Drawable.createFromPath(file.getAbsolutePath());
+		Drawable icon = Drawable.createFromPath(file.getAbsolutePath());
+		if (icon==null) {
+			// default icon
+			return IconProvider.getDefaultIcon();
+		}
+		return icon;
 	}
 
 	public static void removeShortcuts(ArrayList<String> shortcutIds) {

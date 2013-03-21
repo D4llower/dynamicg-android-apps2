@@ -1,13 +1,13 @@
 package com.dynamicg.homebuttonlauncher.tools.icons;
 
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.R;
 
 // see http://stackoverflow.com/questions/4609456/android-set-drawable-size-programatically
 public class IconProvider {
@@ -65,8 +65,12 @@ public class IconProvider {
 				}
 			}
 			// return empty icon
-			return scaleBitmap(iconSizePx, Bitmap.createBitmap(iconSizePx, iconSizePx, Config.ARGB_4444));
+			return scaleBitmap(iconSizePx, ((BitmapDrawable)getDefaultIcon()).getBitmap());
 		}
+	}
+
+	public static Drawable getDefaultIcon() {
+		return GlobalContext.resources.getDrawable(R.drawable.android);
 	}
 
 }
