@@ -17,8 +17,5 @@ public class HBLConstants {
 	public static final int MENU_DRIVE_RESTORE = 10;
 
 	public static final int SHORTCUT_RC = 31;
-	public static final String SHORTCUT_PREFIX = "sc-";
-	public static final String SHORTCUT_SEP_RES = "|";
-	public static final String SHORTCUT_SEP_LABEL = "#";
 
 }

@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
+import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 public class AppEntry {
 
@@ -41,7 +42,7 @@ public class AppEntry {
 	public AppEntry(String component, int sortnr, boolean forMainScreen) {
 		this.resolveInfo = null;
 		this.component = component;
-		this.label = component.substring(component.indexOf(HBLConstants.SHORTCUT_SEP_LABEL)+1, component.length());
+		this.label = ShortcutHelper.getLabel(component);
 		this.sortnr = sortnr;
 		this.shortcut = true;
 		if (forMainScreen) {

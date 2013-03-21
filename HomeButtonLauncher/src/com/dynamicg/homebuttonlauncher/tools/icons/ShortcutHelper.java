@@ -22,21 +22,25 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
-import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
 
 /*
- * notation:
+ * shortcut data:
  * "sc-<id>|<iconres>#<label>" is the component, used as key on the 'shortlist' settings
  * "sc-<id>" is the shortcut id, used as key on 'prefSettings' to save the intent and to write the icon to the disk
+ * "<iconres>" is something like "com.google.android.apps.docs/drawable/ic_type_folder_big" according to shortcut_icon_resource
  */
 public class ShortcutHelper {
 
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
-	private static final String RES_PREFIX = "android.resource://";
+	private static final String SHORTCUT_PREFIX = "sc-";
+	private static final String SEPARATOR_RES = "|";
+	private static final String SEPARATOR_LABEL = "#";
+	private static final String RESOURCE_URI_PREFIX = "android.resource://";
+
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
 
@@ -49,11 +53,20 @@ public class ShortcutHelper {
 	}
 
 	public static boolean isShortcutComponent(String component) {
-		return component.startsWith(HBLConstants.SHORTCUT_PREFIX) && component.contains(HBLConstants.SHORTCUT_SEP_RES);
+		return component.startsWith(SHORTCUT_PREFIX) && component.contains(SEPARATOR_RES);
 	}
 
 	public static String getShortcutId(String component) {
-		return component.substring(0, component.indexOf(HBLConstants.SHORTCUT_SEP_RES));
+		return component.substring(0, component.indexOf(SEPARATOR_RES));
+	}
+
+	public static String getLabel(String component) {
+		try {
+			return component.substring(component.indexOf(SEPARATOR_LABEL)+1, component.length());
+		}
+		catch (IndexOutOfBoundsException e) {
+			return component; // corrupt prefs?
+		}
 	}
 
 	public static void shortcutSelected(Intent data) {
@@ -91,7 +104,7 @@ public class ShortcutHelper {
 	private static void save(AppConfigDialog dialog, Bitmap bitmap, Intent.ShortcutIconResource iconResource, Intent intent, String label) {
 		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
 		final int nextid = prefs.getInt(KEY_SC_MAXID, 0) + 1;
-		final String shortcutId = HBLConstants.SHORTCUT_PREFIX+nextid;
+		final String shortcutId = SHORTCUT_PREFIX+nextid;
 
 		final String intentString = intent.toUri(0);
 		Editor edit = prefs.edit();
@@ -100,7 +113,7 @@ public class ShortcutHelper {
 		edit.apply();
 
 		String iconpath = iconResource!=null ? iconResource.resourceName.replace(":", "/") : "";
-		String componentToSave = shortcutId + HBLConstants.SHORTCUT_SEP_RES + iconpath + HBLConstants.SHORTCUT_SEP_LABEL + label;
+		String componentToSave = shortcutId + SEPARATOR_RES + iconpath + SEPARATOR_LABEL + label;
 		dialog.saveShortcut(componentToSave);
 
 		if (bitmap!=null) {
@@ -139,10 +152,10 @@ public class ShortcutHelper {
 	public static Drawable loadIcon(Context context, AppEntry appEntry, int iconSizePx) {
 		Drawable icon = null;
 		final String component = appEntry.getComponent();
-		final String path = component.substring(component.indexOf(HBLConstants.SHORTCUT_SEP_RES)+1, component.indexOf(HBLConstants.SHORTCUT_SEP_LABEL));
+		final String path = component.substring(component.indexOf(SEPARATOR_RES)+1, component.indexOf(SEPARATOR_LABEL));
 		if (path.length()>0) {
 			// icon resource, format "android.resource://[package]/[res type]/[res name]"
-			Uri uri = Uri.parse(RES_PREFIX+path);
+			Uri uri = Uri.parse(RESOURCE_URI_PREFIX+path);
 			log.trace("shortcut/get remote icon", uri);
 			try {
 				Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
