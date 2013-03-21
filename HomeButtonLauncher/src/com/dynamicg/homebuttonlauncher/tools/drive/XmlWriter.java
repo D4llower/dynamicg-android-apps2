@@ -3,7 +3,6 @@ package com.dynamicg.homebuttonlauncher.tools.drive;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
@@ -22,6 +21,18 @@ public class XmlWriter {
 		serializer.setOutput(fileos, XmlGlobals.ENCODING);
 		serializer.startDocument(null, Boolean.valueOf(true));
 		//serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+
+		// open document:
+		serializer.startTag(null, XmlGlobals.TAG_BODY);
+	}
+
+	public void close() throws Exception {
+		serializer.endTag(null, XmlGlobals.TAG_BODY);
+		// DONE - close
+		serializer.endDocument();
+		serializer.flush();
+		fileos.flush();
+		fileos.close();
 	}
 
 	private void addText(String tag, String value) throws Exception {
@@ -44,22 +55,12 @@ public class XmlWriter {
 		serializer.endTag(null, tag);
 	}
 
-	public void write(List<Map<String, String>> content) throws Exception {
-		serializer.startTag(null, XmlGlobals.TAG_BODY);
-		for (Map<String, String> map:content) {
-			serializer.startTag(null, XmlGlobals.TAG_ENTRY);
-			for (String key:map.keySet()) {
-				addText(key, map.get(key));
-			}
-			serializer.endTag(null, XmlGlobals.TAG_ENTRY);
+	public void add(Map<String, String> map) throws Exception {
+		serializer.startTag(null, XmlGlobals.TAG_ENTRY);
+		for (String key:map.keySet()) {
+			addText(key, map.get(key));
 		}
-		serializer.endTag(null, XmlGlobals.TAG_BODY);
-
-		// DONE - close
-		serializer.endDocument();
-		serializer.flush();
-		fileos.flush();
-		fileos.close();
+		serializer.endTag(null, XmlGlobals.TAG_ENTRY);
 	}
 
 }

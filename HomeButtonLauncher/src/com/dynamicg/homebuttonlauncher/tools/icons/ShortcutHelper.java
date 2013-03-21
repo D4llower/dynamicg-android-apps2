@@ -1,5 +1,6 @@
 package com.dynamicg.homebuttonlauncher.tools.icons;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
@@ -18,13 +19,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
 
+import com.dynamicg.common.FileUtil;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
+import com.dynamicg.homebuttonlauncher.tools.drive.Hex;
 
 /*
  * shortcut data:
@@ -129,7 +133,7 @@ public class ShortcutHelper {
 		return Intent.parseUri(uri, 0);
 	}
 
-	private static void initIconDir(Context context) {
+	public static void initIconDir(Context context) {
 		if (iconDir==null) {
 			iconDir = new File(context.getFilesDir(), "icons");
 			if (!iconDir.exists()) {
@@ -203,6 +207,28 @@ public class ShortcutHelper {
 			boolean deleted = file.delete();
 			log.debug("delete icon file", file, deleted);
 		}
+	}
+
+	public static boolean isShortcutWithLocalIcon(String entryGroup, String entryKey) {
+		return entryGroup.startsWith(HBLConstants.PREFS_APPS)
+				&& entryKey.startsWith(SHORTCUT_PREFIX)
+				&& entryKey.contains(SEPARATOR_RES+SEPARATOR_LABEL)
+				;
+	}
+
+	public static String encodeIcon(String shortcutId) throws Exception {
+		File file = new File(iconDir, shortcutId+PNG);
+		if (!file.exists()) {
+			return "";
+		}
+		ByteArrayOutputStream os=FileUtil.getContent(file);
+		return Hex.encodeHex(os.toByteArray(), false);
+	}
+
+	public static void restoreIcon(String shortcutId, String encodedIconData) throws Exception {
+		File file = new File(iconDir, shortcutId+PNG);
+		FileUtil.writeToFile(file, Hex.decodeHex(encodedIconData));
+		log.debug("icon restore done", file, file.length());
 	}
 
 }

@@ -11,4 +11,5 @@ public class XmlGlobals {
 	public static final String ENTRY_KEY = "key";
 	public static final String ENTRY_TYPE = "type";
 	public static final String ENTRY_VALUE = "value";
+	public static final String ENTRY_ICON_DATA = "icon";
 }

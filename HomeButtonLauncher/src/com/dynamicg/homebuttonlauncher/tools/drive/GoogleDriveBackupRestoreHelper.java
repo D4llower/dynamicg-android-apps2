@@ -25,11 +25,13 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
+import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 public class GoogleDriveBackupRestoreHelper {
 
 	public static final String GOOGLE_DRIVE_FOLDER_NAME = "HomeButtonLauncher";
 	public static final String GOOGLE_DRIVE_FILE_NAME = "settings.xml.gz";
+	public static final String GROUP_ICONS = "icons";
 
 	private static final Logger log = new Logger(GoogleDriveBackupRestoreHelper.class);
 
@@ -81,8 +83,9 @@ public class GoogleDriveBackupRestoreHelper {
 	}
 
 	private void exportToFile(File file) throws Exception {
+		final ArrayList<String> localIcons = new ArrayList<String>();
 		final ArrayList<String> sharedPrefNames = HomeLauncherBackupAgent.getSharedPrefNames(activity);
-		final List<Map<String, String>> content = new ArrayList<Map<String,String>>();
+		final XmlWriter writer = new XmlWriter(file);
 		for (String entryGroup:sharedPrefNames) {
 			SharedPreferences sharedPreferences = context.getSharedPreferences(entryGroup, Context.MODE_PRIVATE);
 			Map<String, ?> all = sharedPreferences.getAll();
@@ -95,13 +98,24 @@ public class GoogleDriveBackupRestoreHelper {
 				entry.put(XmlGlobals.ENTRY_KEY, entryKey);
 				entry.put(XmlGlobals.ENTRY_TYPE, entryType);
 				entry.put(XmlGlobals.ENTRY_VALUE, entryValue);
-				content.add(entry);
+				writer.add(entry);
+				if (ShortcutHelper.isShortcutWithLocalIcon(entryGroup, entryKey)) {
+					localIcons.add(ShortcutHelper.getShortcutId(entryKey));
+				}
+			}
+		}
+		if (localIcons.size()>0) {
+			ShortcutHelper.initIconDir(context);
+			for (String shortcutId:localIcons) {
+				Map<String, String> entry = new TreeMap<String, String>();
+				entry.put(XmlGlobals.ENTRY_GROUP, GROUP_ICONS);
+				entry.put(XmlGlobals.ENTRY_KEY, shortcutId);
+				entry.put(XmlGlobals.ENTRY_ICON_DATA, ShortcutHelper.encodeIcon(shortcutId));
+				writer.add(entry);
 			}
 		}
 
-		XmlWriter writer = new XmlWriter(file);
-		log.trace("exportToFile", content);
-		writer.write(content);
+		writer.close();
 	}
 
 	private void startBackup() {
@@ -141,13 +155,23 @@ public class GoogleDriveBackupRestoreHelper {
 
 		log.trace("restoreSettings", content);
 
+		final ArrayList<Map<String, String>> icons = new ArrayList<Map<String,String>>();
+
 		for (Map<String, String> map:content) {
 			String entryGroup = map.get(XmlGlobals.ENTRY_GROUP);
 			String entryKey = map.get(XmlGlobals.ENTRY_KEY);
 			String entryType = map.get(XmlGlobals.ENTRY_TYPE);
-			String entryValue =  map.get(XmlGlobals.ENTRY_VALUE);
+			String entryValue = map.get(XmlGlobals.ENTRY_VALUE);
+			String entryIconData = map.get(XmlGlobals.ENTRY_ICON_DATA);
 
 			if (isEmpty(entryGroup) || isEmpty(entryKey)) {
+				continue;
+			}
+
+			if (GROUP_ICONS.equals(entryGroup)) {
+				if (entryIconData!=null && entryIconData.length()>0) {
+					icons.add(map);
+				}
 				continue;
 			}
 
@@ -176,7 +200,17 @@ public class GoogleDriveBackupRestoreHelper {
 			edit.commit();
 		}
 
+		if (icons.size()>0) {
+			ShortcutHelper.initIconDir(context);
+			for (Map<String, String> map:icons) {
+				String entryKey = map.get(XmlGlobals.ENTRY_KEY);
+				String entryIconData = map.get(XmlGlobals.ENTRY_ICON_DATA);
+				ShortcutHelper.restoreIcon(entryKey, entryIconData);
+			}
+		}
+
 		file.delete();
+
 	}
 
 	public static void restoreFromFile(Intent data) {
