@@ -55,4 +55,14 @@ public class SystemUtil {
 			e.printStackTrace(System.err);
 		}
 	}
+
+	public static String getFullStackTrace(Throwable exception) {
+		if (exception==null) {
+			return "<no exception>";
+		}
+		StringWriter sw = new StringWriter() ;
+		exception.printStackTrace(new PrintWriter(sw)) ;
+		return sw.getBuffer().toString();
+	}
+
 }
