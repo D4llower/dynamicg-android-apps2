@@ -79,7 +79,7 @@ public class ShortcutHelper {
 				save(intent, bitmap, text);
 			}
 		};
-		DialogHelper.openLabelEditor(context, name, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback);
+		DialogHelper.openLabelEditor(context, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback);
 	}
 
 	private static void save(Intent intent, Bitmap bitmap, String label) {
