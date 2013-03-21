@@ -149,20 +149,25 @@ public class ShortcutHelper {
 		}
 	}
 
-	public static Drawable loadIcon(Context context, AppEntry appEntry, int iconSizePx) {
+	public static Drawable loadIcon(Context context, AppEntry appEntry, LargeIconLoader largeIconLoader, int iconSizePx) {
 		Drawable icon = null;
 		final String component = appEntry.getComponent();
-		final String path = component.substring(component.indexOf(SEPARATOR_RES)+1, component.indexOf(SEPARATOR_LABEL));
-		if (path.length()>0) {
+		final String respath = component.substring(component.indexOf(SEPARATOR_RES)+1, component.indexOf(SEPARATOR_LABEL));
+		if (respath.length()>0) {
 			// icon resource, format "android.resource://[package]/[res type]/[res name]"
-			Uri uri = Uri.parse(RESOURCE_URI_PREFIX+path);
-			log.trace("shortcut/get remote icon", uri);
-			try {
-				Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-				icon = new BitmapDrawable(GlobalContext.resources, bitmap);
+			if (largeIconLoader!=null) {
+				icon = largeIconLoader.getLargeIcon(respath);
 			}
-			catch (Throwable t) {
-				SystemUtil.dumpIfDevelopment(t);
+			else {
+				Uri uri = Uri.parse(RESOURCE_URI_PREFIX+respath);
+				log.trace("shortcut/get remote icon", uri);
+				try {
+					Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+					icon = new BitmapDrawable(GlobalContext.resources, bitmap);
+				}
+				catch (Throwable t) {
+					SystemUtil.dumpIfDevelopment(t);
+				}
 			}
 		}
 		else {

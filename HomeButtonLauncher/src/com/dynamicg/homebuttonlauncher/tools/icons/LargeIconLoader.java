@@ -3,11 +3,11 @@ package com.dynamicg.homebuttonlauncher.tools.icons;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
@@ -35,17 +35,34 @@ public class LargeIconLoader {
 	}
 
 	public Drawable getLargeIcon(AppEntry entry) {
-		int icon = entry.resolveInfo.getIconResource();
-		if (icon==0) {
+		int id = entry.resolveInfo.getIconResource();
+		if (id==0) {
 			return null;
 		}
 		try {
 			Resources appRes = GlobalContext.packageManager.getResourcesForApplication(entry.getPackage());
-			Drawable drawableForDensity = appRes.getDrawableForDensity(icon, largeIconDensity);
+			Drawable drawableForDensity = appRes.getDrawableForDensity(id, largeIconDensity);
 			log.debug("getLargeIcon", drawableForDensity, entry.label);
 			return drawableForDensity;
 		}
-		catch (NameNotFoundException e) {
+		catch (Throwable e) {
+			SystemUtil.dumpIfDevelopment(e);
+			return null; // ignore
+		}
+	}
+
+	public Drawable getLargeIcon(String respath) {
+		try {
+			String pkg = respath.substring(0, respath.indexOf("/"));
+			String resname = respath.substring(respath.lastIndexOf("/")+1);
+			Resources appRes = GlobalContext.packageManager.getResourcesForApplication(pkg);
+			int id = appRes.getIdentifier(resname, "drawable" , pkg);
+			Drawable drawableForDensity = appRes.getDrawableForDensity(id, largeIconDensity);
+			log.debug("getLargeIcon", drawableForDensity, pkg, resname);
+			return drawableForDensity;
+		}
+		catch (Throwable e) {
+			SystemUtil.dumpIfDevelopment(e);
 			return null; // ignore
 		}
 	}

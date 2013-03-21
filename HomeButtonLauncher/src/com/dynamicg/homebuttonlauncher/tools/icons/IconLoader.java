@@ -29,7 +29,7 @@ public class IconLoader {
 		Drawable icon = null;
 
 		if (appEntry.shortcut) {
-			icon = ShortcutHelper.loadIcon(context, appEntry, iconSizePx); // note this returns "scaled"
+			icon = ShortcutHelper.loadIcon(context, appEntry, largeIconLoader, iconSizePx); // note this returns "scaled"
 		}
 		else {
 			if (largeIconLoader!=null) {
