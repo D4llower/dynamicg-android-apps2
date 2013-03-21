@@ -23,6 +23,7 @@ public class HeaderAppSearch extends HeaderAbstract {
 
 	private List<AppEntry> baseAppList;
 	private String[] baseSearchLabels = null; // lazy
+	private SearchView searchview;
 
 	public HeaderAppSearch(AppConfigDialog dialog) {
 		super(dialog);
@@ -71,14 +72,14 @@ public class HeaderAppSearch extends HeaderAbstract {
 			}
 		};
 
-		final SearchView search = new SearchView(context);
-		search.setOnQueryTextListener(onQueryTextListener);
-		search.setOnQueryTextFocusChangeListener(onFocusChangeListener);
-		search.setOnCloseListener(onCloseListener);
+		this.searchview = new SearchView(context);
+		searchview.setOnQueryTextListener(onQueryTextListener);
+		searchview.setOnQueryTextFocusChangeListener(onFocusChangeListener);
+		searchview.setOnCloseListener(onCloseListener);
 
 		iconNode.setVisibility(View.GONE);
 		ViewGroup container = ((ViewGroup)iconNode.getParent());
-		container.addView(search, container.indexOfChild(iconNode));
+		container.addView(searchview, container.indexOfChild(iconNode));
 	}
 
 	private void switchTitle(int what) {
@@ -119,7 +120,10 @@ public class HeaderAppSearch extends HeaderAbstract {
 	public void setBaseAppList(AppListContainer appList) {
 		this.baseAppList = appList.getApps();
 		this.baseSearchLabels = null;
-		// TODO ## reset search expresssion on switch
+		if (searchview.getQuery().length()>0) {
+			searchview.setQuery("", false);
+			searchview.setIconified(true);
+		}
 	}
 
 }
