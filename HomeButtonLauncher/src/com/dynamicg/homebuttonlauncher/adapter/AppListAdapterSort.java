@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
@@ -54,8 +55,7 @@ public class AppListAdapterSort extends AppListAdapter {
 		notifyDataSetChanged();
 	}
 
-	private void prepareButton(LinearLayout row, int buttonId, int position) {
-		Button button = (Button)row.findViewById(buttonId);
+	private void prepareButton(Button button, int buttonId, int position) {
 		button.setTag(position);
 
 		button.setOnClickListener(clickListener);
@@ -73,22 +73,36 @@ public class AppListAdapterSort extends AppListAdapter {
 		button.setEnabled(active);
 	}
 
+	static class ViewHolder {
+		TextView label;
+		ImageView icon;
+		Button up;
+		Button down;
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final AppEntry appEntry = applist.get(position);
 		final LinearLayout layout;
+		ViewHolder holder;
 		if (convertView==null) {
 			layout = (LinearLayout)inflater.inflate(appEntryLayoutId, null);
+			holder = new ViewHolder();
+			holder.icon = (ImageView)layout.findViewById(R.id.sortIcon);
+			holder.label = (TextView)layout.findViewById(R.id.sortLabel);
+			holder.up = (Button)layout.findViewById(R.id.sortUp);
+			holder.down = (Button)layout.findViewById(R.id.sortDown);
+			layout.setTag(holder);
 		}
 		else {
 			layout = (LinearLayout)convertView;
+			holder = (ViewHolder)layout.getTag();
 		}
 
-		prepareButton(layout, R.id.sortUp, position);
-		prepareButton(layout, R.id.sortDown, position);
-
-		ImageView icon = (ImageView)layout.findViewById(R.id.sortIcon);
-		icon.setImageDrawable(appEntry.getIcon(iconLoader));
+		prepareButton(holder.up, R.id.sortUp, position);
+		prepareButton(holder.down, R.id.sortDown, position);
+		holder.icon.setImageDrawable(appEntry.getIcon(iconLoader));
+		holder.label.setText(appEntry.getLabel());
 
 		return layout;
 	}

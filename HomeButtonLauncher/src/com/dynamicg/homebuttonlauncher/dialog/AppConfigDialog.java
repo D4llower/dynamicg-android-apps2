@@ -122,7 +122,7 @@ public class AppConfigDialog extends Dialog {
 			}
 		});
 
-		if (actionAdd && log.isDebugEnabled) {
+		if (actionAdd) {
 			new TabHelperAppAdd(activity, this, getSelectedTab()).bindTabs();
 		}
 
