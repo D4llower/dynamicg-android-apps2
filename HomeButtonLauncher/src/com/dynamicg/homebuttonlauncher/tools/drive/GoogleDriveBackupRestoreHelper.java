@@ -148,30 +148,20 @@ public class GoogleDriveBackupRestoreHelper {
 	private static void restoreSettings(Context context, File file) throws Exception {
 		final HashMap<String, Editor> editors = new HashMap<String, Editor>();
 		XmlReader reader = new XmlReader(file);
-		List<Map<String, String>> content = reader.getContent();
+		List<Map<String, String>> content = reader.getContent(context);
 		if (content==null||content.size()==0) {
 			return;
 		}
 
 		log.trace("restoreSettings", content);
 
-		final ArrayList<Map<String, String>> icons = new ArrayList<Map<String,String>>();
-
 		for (Map<String, String> map:content) {
 			String entryGroup = map.get(XmlGlobals.ENTRY_GROUP);
 			String entryKey = map.get(XmlGlobals.ENTRY_KEY);
 			String entryType = map.get(XmlGlobals.ENTRY_TYPE);
 			String entryValue = map.get(XmlGlobals.ENTRY_VALUE);
-			String entryIconData = map.get(XmlGlobals.ENTRY_ICON_DATA);
 
 			if (isEmpty(entryGroup) || isEmpty(entryKey)) {
-				continue;
-			}
-
-			if (GROUP_ICONS.equals(entryGroup)) {
-				if (entryIconData!=null && entryIconData.length()>0) {
-					icons.add(map);
-				}
 				continue;
 			}
 
@@ -182,7 +172,7 @@ public class GoogleDriveBackupRestoreHelper {
 				editors.put(entryGroup, edit);
 			}
 
-			log.debug("restore value", entryGroup, entryType, entryKey, entryValue);
+			log.trace("restore value", entryGroup, entryType, entryKey, entryValue);
 			Editor edit = editors.get(entryGroup);
 			if ("Integer".equals(entryType)) {
 				edit.putInt(entryKey, Integer.valueOf(entryValue));
@@ -198,15 +188,6 @@ public class GoogleDriveBackupRestoreHelper {
 		// commit all
 		for (Editor edit:editors.values()) {
 			edit.commit();
-		}
-
-		if (icons.size()>0) {
-			ShortcutHelper.initIconDir(context);
-			for (Map<String, String> map:icons) {
-				String entryKey = map.get(XmlGlobals.ENTRY_KEY);
-				String entryIconData = map.get(XmlGlobals.ENTRY_ICON_DATA);
-				ShortcutHelper.restoreIcon(entryKey, entryIconData);
-			}
 		}
 
 		file.delete();
