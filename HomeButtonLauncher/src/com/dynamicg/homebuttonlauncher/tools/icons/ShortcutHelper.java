@@ -226,6 +226,9 @@ public class ShortcutHelper {
 	}
 
 	public static void restoreIcon(String shortcutId, String encodedIconData) throws Exception {
+		if (encodedIconData==null || encodedIconData.length()==0) {
+			return;
+		}
 		File file = new File(iconDir, shortcutId+PNG);
 		FileUtil.writeToFile(file, Hex.decodeHex(encodedIconData));
 		log.debug("icon restore done", file, file.length());
