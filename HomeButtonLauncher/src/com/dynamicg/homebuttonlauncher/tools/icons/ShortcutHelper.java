@@ -158,7 +158,8 @@ public class ShortcutHelper {
 			if (largeIconLoader!=null) {
 				icon = largeIconLoader.getLargeIcon(respath);
 			}
-			else {
+			if (icon==null) {
+				// this is also the fallback if "large icon loader" fails
 				Uri uri = Uri.parse(RESOURCE_URI_PREFIX+respath);
 				log.trace("shortcut/get remote icon", uri);
 				try {
