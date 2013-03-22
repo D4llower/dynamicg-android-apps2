@@ -45,4 +45,12 @@
 		/>	
 	<include layout="@layout/about_credits" />
 	
+	<TextView style="@style/DefaultText"
+	    android:id="@+id/aboutErrorlog"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:text="Error log"
+        android:textColor="@color/hyperlink"
+		/>
+	
 </LinearLayout>

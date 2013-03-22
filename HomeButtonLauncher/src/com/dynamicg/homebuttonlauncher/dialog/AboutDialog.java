@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -18,6 +20,7 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
+import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
@@ -78,6 +81,7 @@ public class AboutDialog extends Dialog {
 		setLine(R.id.aboutCredits, creditsLabel);
 
 		setupTranslationRequest();
+		setupErrorLogViewer();
 	}
 
 	private void setupTranslationRequest() {
@@ -99,6 +103,41 @@ public class AboutDialog extends Dialog {
 		else {
 			node.setVisibility(View.GONE);
 		}
+	}
+
+	private void setupErrorLogViewer() {
+		final TextView node = (TextView)findViewById(R.id.aboutErrorlog);
+		String androidId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+		boolean myDevice = log.isDebugEnabled
+				|| "4c5dabb70b45a67".equals(androidId)
+				;
+
+		if (!myDevice || SystemUtil.recentError==null) {
+			node.setVisibility(View.GONE);
+			return;
+		}
+
+		node.setOnClickListener(new OnClickListenerWrapper() {
+			@Override
+			public void onClickImpl(View view) {
+				String body = SystemUtil.getFullStackTrace(SystemUtil.recentError);
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("Error log");
+				builder.setMessage(body);
+				builder.setPositiveButton("Close", null);
+				builder.show();
+			}
+		});
+
+		node.setOnLongClickListener(new OnLongClickListenerWrapper() {
+			@Override
+			public boolean onLongClickImpl(View v) {
+				SystemUtil.recentError = null;
+				node.setVisibility(View.GONE);
+				return true;
+			}
+		});
+		node.setLongClickable(true);
 	}
 
 	private void setLine(int id, CharSequence str) {
