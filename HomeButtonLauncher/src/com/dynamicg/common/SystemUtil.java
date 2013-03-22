@@ -52,7 +52,7 @@ public class SystemUtil {
 		catch (Throwable t) {}
 	}
 
-	public static void dumpIfDevelopment(Throwable e) {
+	public static void dumpError(Throwable e) {
 		if (log.isDebugEnabled) {
 			e.printStackTrace(System.err);
 		}

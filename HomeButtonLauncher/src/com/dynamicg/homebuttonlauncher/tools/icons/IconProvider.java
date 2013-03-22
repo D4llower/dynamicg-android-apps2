@@ -63,7 +63,7 @@ public class IconProvider {
 				}
 				catch (Throwable e2) {
 					//ignore all
-					SystemUtil.dumpIfDevelopment(e2);
+					SystemUtil.dumpError(e2);
 				}
 			}
 			// return default icon

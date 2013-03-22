@@ -63,7 +63,7 @@ public class SwipeHelper {
 						return flip(-1);
 					}
 				} catch (Exception e) {
-					SystemUtil.dumpIfDevelopment(e);
+					SystemUtil.dumpError(e);
 				}
 				return false;
 			}

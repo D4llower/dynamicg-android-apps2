@@ -195,7 +195,7 @@ public class MainActivityHome extends Activity {
 			return true;
 		}
 		catch (Throwable t) {
-			SystemUtil.dumpIfDevelopment(t);
+			SystemUtil.dumpError(t);
 			String title = "ERROR - cannot open";
 			String details = "Component: "+entry.getComponent()+"\nException: "+t.getClass().getSimpleName();
 			DialogHelper.showError(context, title, details);

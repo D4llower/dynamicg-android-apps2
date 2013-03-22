@@ -50,7 +50,7 @@ public class IconLoader {
 			}
 		}
 		catch (Throwable t) {
-			SystemUtil.dumpIfDevelopment(t);
+			SystemUtil.dumpError(t);
 			return IconProvider.getDefaultIcon(iconSizePx);
 		}
 

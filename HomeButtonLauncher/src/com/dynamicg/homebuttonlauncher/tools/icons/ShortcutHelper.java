@@ -149,7 +149,7 @@ public class ShortcutHelper {
 			FileOutputStream out = new FileOutputStream(file);
 			icon.compress(Bitmap.CompressFormat.PNG, 100, out);
 		} catch (Throwable t) {
-			SystemUtil.dumpIfDevelopment(t);
+			SystemUtil.dumpError(t);
 		}
 	}
 
@@ -171,7 +171,7 @@ public class ShortcutHelper {
 					icon = new BitmapDrawable(GlobalContext.resources, bitmap);
 				}
 				catch (Throwable t) {
-					SystemUtil.dumpIfDevelopment(t);
+					SystemUtil.dumpError(t);
 				}
 			}
 		}

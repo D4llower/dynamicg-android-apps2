@@ -46,7 +46,7 @@ public class LargeIconLoader {
 			return drawableForDensity;
 		}
 		catch (Throwable e) {
-			SystemUtil.dumpIfDevelopment(e);
+			SystemUtil.dumpError(e);
 			return null; // ignore
 		}
 	}
@@ -62,7 +62,7 @@ public class LargeIconLoader {
 			return drawableForDensity;
 		}
 		catch (Throwable e) {
-			SystemUtil.dumpIfDevelopment(e);
+			SystemUtil.dumpError(e);
 			return null; // ignore
 		}
 	}

@@ -75,7 +75,7 @@ public class XmlReader {
 					log.debug("icon recovery done", entryKey, remove);
 				}
 				catch (Throwable t) {
-					SystemUtil.dumpIfDevelopment(t);
+					SystemUtil.dumpError(t);
 				}
 			}
 		}
