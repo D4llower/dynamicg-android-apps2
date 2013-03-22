@@ -57,14 +57,21 @@ public class LargeIconLoader {
 			String resname = respath.substring(respath.lastIndexOf("/")+1);
 			Resources appRes = GlobalContext.packageManager.getResourcesForApplication(pkg);
 			int id = appRes.getIdentifier(resname, "drawable" , pkg);
-			Drawable drawableForDensity = appRes.getDrawableForDensity(id, largeIconDensity);
-			log.debug("getLargeIcon", drawableForDensity, pkg, resname);
-			return drawableForDensity;
+			if (id>0) {
+				Drawable drawableForDensity = appRes.getDrawableForDensity(id, largeIconDensity);
+				log.debug("getLargeIcon", drawableForDensity, respath, pkg, resname);
+				return drawableForDensity;
+			}
+			else {
+				log.debug("resource not found", respath, pkg, resname);
+				//SystemUtil.recentError = new RuntimeException("res not found ["+respath+"]["+pkg+"]["+resname+"]");
+			}
 		}
 		catch (Throwable e) {
 			SystemUtil.dumpError(e);
-			return null; // ignore
 		}
+
+		return null;
 	}
 
 }
