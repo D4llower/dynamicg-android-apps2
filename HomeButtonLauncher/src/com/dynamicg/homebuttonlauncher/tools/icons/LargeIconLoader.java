@@ -51,27 +51,31 @@ public class LargeIconLoader {
 		}
 	}
 
-	public Drawable getLargeIcon(String respath) {
-		try {
-			String pkg = respath.substring(0, respath.indexOf("/"));
-			String resname = respath.substring(respath.lastIndexOf("/")+1);
-			Resources appRes = GlobalContext.packageManager.getResourcesForApplication(pkg);
-			int id = appRes.getIdentifier(resname, "drawable" , pkg);
-			if (id>0) {
-				Drawable drawableForDensity = appRes.getDrawableForDensity(id, largeIconDensity);
-				log.debug("getLargeIcon", drawableForDensity, respath, pkg, resname);
-				return drawableForDensity;
-			}
-			else {
-				log.debug("resource not found", respath, pkg, resname);
-				//SystemUtil.recentError = new RuntimeException("res not found ["+respath+"]["+pkg+"]["+resname+"]");
-			}
-		}
-		catch (Throwable e) {
-			SystemUtil.dumpError(e);
-		}
-
-		return null;
+	public Drawable getLargeIcon(Resources appRes, int id) {
+		return appRes.getDrawableForDensity(id, largeIconDensity);
 	}
+
+	//	public Drawable getLargeIcon(String respath) {
+	//		try {
+	//			String pkg = respath.substring(0, respath.indexOf("/"));
+	//			String resname = respath.substring(respath.lastIndexOf("/")+1);
+	//			Resources appRes = GlobalContext.packageManager.getResourcesForApplication(pkg);
+	//			int id = appRes.getIdentifier(resname, "drawable" , pkg);
+	//			if (id>0) {
+	//				Drawable drawableForDensity = appRes.getDrawableForDensity(id, largeIconDensity);
+	//				log.debug("getLargeIcon", drawableForDensity, respath, pkg, resname);
+	//				return drawableForDensity;
+	//			}
+	//			else {
+	//				log.debug("resource not found", respath, pkg, resname);
+	//				//SystemUtil.recentError = new RuntimeException("res not found ["+respath+"]["+pkg+"]["+resname+"]");
+	//			}
+	//		}
+	//		catch (Throwable e) {
+	//			SystemUtil.dumpError(e);
+	//		}
+	//
+	//		return null;
+	//	}
 
 }

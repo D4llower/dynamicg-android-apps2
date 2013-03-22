@@ -11,12 +11,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.InputType;
 
 import com.dynamicg.common.FileUtil;
@@ -32,9 +30,9 @@ import com.dynamicg.homebuttonlauncher.tools.drive.Hex;
 
 /*
  * shortcut data:
- * "sc-<id>|<iconres>#<label>" is the component, used as key on the 'shortlist' settings
+ * "sc-<id>|<iconres-pkg>,<iconres-path>#<label>" is the component, used as key on the 'shortlist' settings
  * "sc-<id>" is the shortcut id, used as key on 'prefSettings' to save the intent and to write the icon to the disk
- * "<iconres>" is something like "com.google.android.apps.docs/drawable/ic_type_folder_big" according to shortcut_icon_resource
+ * "<iconres>" is something like "com.android.settings:mipmap/ic_launcher_settings" according to shortcut_icon_resource
  */
 public class ShortcutHelper {
 
@@ -42,8 +40,8 @@ public class ShortcutHelper {
 
 	private static final String SHORTCUT_PREFIX = "sc-";
 	private static final String SEPARATOR_RES = "|";
+	private static final String SEPARATOR_PKG = ",";
 	private static final String SEPARATOR_LABEL = "#";
-	private static final String RESOURCE_URI_PREFIX = "android.resource://";
 
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
@@ -116,7 +114,7 @@ public class ShortcutHelper {
 		edit.putString(shortcutId, intentString);
 		edit.apply();
 
-		String iconpath = iconResource!=null ? iconResource.resourceName.replace(":", "/") : "";
+		String iconpath = iconResource!=null ? iconResource.packageName + SEPARATOR_PKG + iconResource.resourceName : "";
 		String componentToSave = shortcutId + SEPARATOR_RES + iconpath + SEPARATOR_LABEL + label;
 		dialog.saveShortcut(componentToSave);
 
@@ -158,22 +156,38 @@ public class ShortcutHelper {
 		final String component = appEntry.getComponent();
 		final String respath = component.substring(component.indexOf(SEPARATOR_RES)+1, component.indexOf(SEPARATOR_LABEL));
 		if (respath.length()>0) {
-			// icon resource, format "android.resource://[package]/[res type]/[res name]"
-			if (largeIconLoader!=null) {
-				icon = largeIconLoader.getLargeIcon(respath);
-			}
-			if (icon==null) {
-				// this is also the fallback if "large icon loader" fails
-				Uri uri = Uri.parse(RESOURCE_URI_PREFIX+respath);
-				log.trace("shortcut/get remote icon", uri);
-				try {
-					Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-					icon = new BitmapDrawable(GlobalContext.resources, bitmap);
+
+			final String pkg = respath.substring(0, respath.indexOf(SEPARATOR_PKG));
+			final String resname = respath.substring(respath.indexOf(SEPARATOR_PKG)+1);
+
+			//			if (largeIconLoader==null) {
+			//				try {
+			//					// try "quick load" using resource URI
+			//					// note with email shortcuts we have a weird format so this might fail
+			//					// (pkg=com.google.android.email, res=com.android.email:mipmap/ic_launcher_email)
+			//					Uri uri = Uri.parse("android.resource://"+resname.replace(":", "/"));
+			//					Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+			//					icon = new BitmapDrawable(GlobalContext.resources, bitmap);
+			//				}
+			//				catch (Throwable t) {
+			//					SystemUtil.dumpError(t);
+			//				}
+			//			}
+
+			try {
+				Resources appRes = GlobalContext.packageManager.getResourcesForApplication(pkg);
+				int id = appRes.getIdentifier(resname, null, null);
+				if (largeIconLoader!=null && id>0) {
+					icon = largeIconLoader.getLargeIcon(appRes, id);
 				}
-				catch (Throwable t) {
-					SystemUtil.dumpError(t);
+				if (icon==null && id>0) {
+					icon = appRes.getDrawable(id);
 				}
 			}
+			catch (Throwable t) {
+				SystemUtil.dumpError(t);
+			}
+
 		}
 		else {
 			// png file on disk
