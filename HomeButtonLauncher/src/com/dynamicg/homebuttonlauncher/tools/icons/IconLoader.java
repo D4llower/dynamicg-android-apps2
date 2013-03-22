@@ -3,6 +3,7 @@ package com.dynamicg.homebuttonlauncher.tools.icons;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 
@@ -28,23 +29,29 @@ public class IconLoader {
 	public Drawable getIcon(AppEntry appEntry) {
 		Drawable icon = null;
 
-		if (appEntry.shortcut) {
-			icon = ShortcutHelper.loadIcon(context, appEntry, largeIconLoader, iconSizePx); // note this returns "scaled"
-		}
-		else {
-			if (largeIconLoader!=null) {
-				Drawable appicon = largeIconLoader.getLargeIcon(appEntry);
-				icon = IconProvider.scale(appicon, iconSizePx);
+		try {
+			if (appEntry.shortcut) {
+				icon = ShortcutHelper.loadIcon(context, appEntry, largeIconLoader, iconSizePx); // note this returns "scaled"
+			}
+			else {
+				if (largeIconLoader!=null) {
+					Drawable appicon = largeIconLoader.getLargeIcon(appEntry);
+					icon = IconProvider.scale(appicon, iconSizePx);
+				}
+
+				if (icon==null) {
+					Drawable appicon = appEntry.resolveInfo.loadIcon(GlobalContext.packageManager);
+					icon = IconProvider.scale(appicon, iconSizePx);
+				}
 			}
 
-			if (icon==null) {
-				Drawable appicon = appEntry.resolveInfo.loadIcon(GlobalContext.packageManager);
-				icon = IconProvider.scale(appicon, iconSizePx);
+			if (forMainScreen) {
+				GlobalContext.icons.put(appEntry.getComponent(), icon);
 			}
 		}
-
-		if (forMainScreen) {
-			GlobalContext.icons.put(appEntry.getComponent(), icon);
+		catch (Throwable t) {
+			SystemUtil.dumpIfDevelopment(t);
+			return IconProvider.getDefaultIcon(iconSizePx);
 		}
 
 		return icon;

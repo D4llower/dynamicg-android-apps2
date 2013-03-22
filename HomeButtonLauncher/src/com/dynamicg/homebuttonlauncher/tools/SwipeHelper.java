@@ -9,6 +9,7 @@ import android.view.ViewConfiguration;
 import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
@@ -62,7 +63,7 @@ public class SwipeHelper {
 						return flip(-1);
 					}
 				} catch (Exception e) {
-					// nothing
+					SystemUtil.dumpIfDevelopment(e);
 				}
 				return false;
 			}

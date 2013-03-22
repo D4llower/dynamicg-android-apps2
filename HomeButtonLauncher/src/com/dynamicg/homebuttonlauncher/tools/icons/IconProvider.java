@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.R;
 
@@ -62,15 +63,20 @@ public class IconProvider {
 				}
 				catch (Throwable e2) {
 					//ignore all
+					SystemUtil.dumpIfDevelopment(e2);
 				}
 			}
-			// return empty icon
-			return scaleBitmap(iconSizePx, ((BitmapDrawable)getDefaultIcon()).getBitmap());
+			// return default icon
+			return getDefaultIcon(iconSizePx);
 		}
 	}
 
 	public static Drawable getDefaultIcon() {
 		return GlobalContext.resources.getDrawable(R.drawable.android);
+	}
+
+	public static Drawable getDefaultIcon(int iconSizePx) {
+		return scaleBitmap(iconSizePx, ((BitmapDrawable)getDefaultIcon()).getBitmap());
 	}
 
 }
