@@ -5,6 +5,7 @@ import android.widget.TabHost;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
+import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public class TabHelperAppAdd extends TabHelper {
 
@@ -22,7 +23,12 @@ public class TabHelperAppAdd extends TabHelper {
 		TabHost.OnTabChangeListener onTabChangeListener = new TabHost.OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
-				appConfigDialog.tabChanged(Integer.parseInt(tabId));
+				try {
+					appConfigDialog.tabChanged(Integer.parseInt(tabId));
+				}
+				catch (Throwable t) {
+					DialogHelper.showCrashReport(context, t);
+				}
 			};
 		};
 		String[] labels = new String[]{"APPS", "SHORTCUTS"};
