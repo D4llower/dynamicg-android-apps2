@@ -32,8 +32,13 @@ import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelpe
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
 import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
-// see https://plus.google.com/104570711580136846518/posts/QpqfXXigAWW
+/*
+ * Copyright 2012,2013 DynamicG (dynamicg.android@gmail.com)
+ * Distributed under the terms of the GNU General Public License
+ * http://www.gnu.org/licenses/gpl-3.0.txt
+ */
 
+// see https://plus.google.com/104570711580136846518/posts/QpqfXXigAWW
 //note we cannot filter the app on "needs soft home button" (i.e. a non-physical home button like galaxy nexus)
 //http://developer.android.com/guide/topics/manifest/uses-feature-element.html
 public class MainActivityHome extends Activity {
