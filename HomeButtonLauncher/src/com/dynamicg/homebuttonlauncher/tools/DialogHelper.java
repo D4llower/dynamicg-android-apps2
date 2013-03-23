@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dynamicg.common.ErrorSender;
 import com.dynamicg.common.Logger;
@@ -27,7 +28,13 @@ public class DialogHelper {
 	public static void showError(Context context, String title, String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(title);
-		builder.setMessage(message);
+
+		TextView body = new TextView(context);
+		body.setText(message);
+		int padding = DialogHelper.getDimension(R.dimen.appLinePadding);
+		body.setPadding(padding, padding, padding, padding);
+		builder.setView(body);
+
 		builder.setPositiveButton(R.string.buttonOk, null);
 		builder.show();
 	}
