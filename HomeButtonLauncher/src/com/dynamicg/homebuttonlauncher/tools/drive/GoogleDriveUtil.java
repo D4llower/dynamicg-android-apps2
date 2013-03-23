@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.dynamicg.common.MarketLinkHelper;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
@@ -35,6 +36,7 @@ public class GoogleDriveUtil {
 		intent.setComponent(component);
 		intent.putExtra(GoogleDriveGlobals.KEY_CUSTOM_MAIN_FOLDER, GoogleDriveBackupRestoreHelper.GOOGLE_DRIVE_FOLDER_NAME);
 		intent.putExtra(GoogleDriveGlobals.KEY_REQUEST_CODE, requestCode);
+		intent.putExtra(GoogleDriveGlobals.KEY_APP_NAME, GlobalContext.resources.getString(R.string.app_name));
 		return intent;
 	}
 
@@ -104,7 +106,7 @@ public class GoogleDriveUtil {
 		});
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setPositiveButton(R.string.buttonCancel, null);
+		builder.setPositiveButton(R.string.buttonOk, null);
 		builder.setTitle(titleLabel);
 		builder.setView(body);
 
