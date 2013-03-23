@@ -161,20 +161,24 @@ public class AppConfigDialog extends Dialog {
 		final ListView listview = (ListView)findViewById(R.id.applist);
 		listview.setAdapter(adapter);
 
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				AppEntry entry = (AppEntry)appList.get(position);
-				entry.flipCheckedState();
-				entry.decorateSelection(view);
-			}
-		});
+		if (!actionSort) {
+
+			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					AppEntry entry = (AppEntry)appList.get(position);
+					entry.flipCheckedState();
+					entry.decorateSelection(view);
+				}
+			});
+
+			new AppListContextMenu(activity).attach(listview, appList);
+		}
 
 		if (actionAdd) {
 			listview.setFastScrollEnabled(true);
 		}
 
-		new AppListContextMenu(activity).attach(listview, appList);
 	}
 
 	private void putBodyShortcutTab() {
@@ -187,6 +191,8 @@ public class AppConfigDialog extends Dialog {
 				startShortcutApp((AppEntry)appList.get(position));
 			}
 		});
+
+		new AppListContextMenu(activity).attach(listview, appList);
 	}
 
 	private List<String> getSelectedComponents() {

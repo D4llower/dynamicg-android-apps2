@@ -116,7 +116,7 @@ public class GoogleDriveUtil {
 	public static boolean isPluginAvailable(Context context) {
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(PLUGIN_APP, PackageManager.GET_ACTIVITIES);
-			return packageInfo!=null;
+			return packageInfo!=null && packageInfo.versionCode>=11; // needs at least 1.11
 		} catch (NameNotFoundException e) {
 			return false;
 		}
