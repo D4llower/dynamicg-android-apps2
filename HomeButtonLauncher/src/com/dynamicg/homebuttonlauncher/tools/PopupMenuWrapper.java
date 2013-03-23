@@ -75,4 +75,8 @@ public class PopupMenuWrapper {
 		menu.add(id, id, 0, spannable);
 	}
 
+	public int size() {
+		return menu.size();
+	}
+
 }

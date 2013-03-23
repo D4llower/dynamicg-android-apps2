@@ -34,13 +34,12 @@ public class AppListContextMenu {
 		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				openContextMenu(view, appList.get(position));
-				return true;
+				return openContextMenu(view, appList.get(position));
 			}
 		});
 	}
 
-	private void openContextMenu(final View anchor, final AppEntry appEntry) {
+	private boolean openContextMenu(final View anchor, final AppEntry appEntry) {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(int id) {
@@ -65,7 +64,13 @@ public class AppListContextMenu {
 		if (prefShortlist!=null) {
 			menuWrapper.addItem(HBLConstants.MENU_APPS_REMOVE, R.string.menuRemove);
 		}
-		menuWrapper.showMenu();
+		if (menuWrapper.size()>0) {
+			menuWrapper.showMenu();
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	private void showAppDetails(AppEntry appEntry) {
