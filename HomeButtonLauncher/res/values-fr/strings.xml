@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <string name="app_name">Home Launcher</string>
+    
+    <string name="menuAdd">Ajouter</string>
+    <string name="menuRemove">Supprimer</string>
+    <string name="menuAbout">A Propos</string>
+    <string name="menuSort">Trier</string>
+    <string name="menuReset">Réinitialiser</string>
+    
+    <string name="buttonOk">OK</string>
+    <string name="buttonCancel">Annuler</string>
+    
+    <string name="aboutOpenSource">Ce programme est open source:</string>
+    <string name="aboutPleaseRate">Merci de noter ce programme</string>
+    
+    <!-- context menu on "long click" -->
+    <string name="openAppDetails">Info application</string>
+    <string name="openPlayStore">Play Store</string>
+    
+    <string name="preferences">Paramètres</string>
+    <string name="prefsLayout">Disposition</string>
+    <string name="prefsLabelSize">Taille libellé</string>
+    <string name="prefsIconSize">Taille icône</string>
+    <string name="prefsHiResIcon">Charger les icônes haute résolution</string>
+    <string name="prefsAutoStartSingle">«mode Démarrage Automatique» si seulement une seule application est sélectionnée</string>
+    <string name="prefsNumTabs">Nombre d\'onglets</string>
+    <string name="prefsBackgroundIconLoader">Charger les icônes en arrière-plan</string>
+    
+    <string name="prefsDriveBackup">Sauvegarde Google Drive</string>
+    <string name="prefsDriveRestore">Restauration Google Drive</string>
+    
+</resources>
