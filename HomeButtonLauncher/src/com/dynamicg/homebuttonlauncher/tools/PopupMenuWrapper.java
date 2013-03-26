@@ -67,7 +67,7 @@ public class PopupMenuWrapper {
 
 	public void addItem(int id, int titleResId, int imageId) {
 		//menu.add(id, id, 0, titleResId);
-		final String label = "    "+context.getString(titleResId)+"      ";
+		final String label = "    "+context.getString(titleResId)+"        ";
 		SpannableString spannable = new SpannableString(label);
 		ImageSpan imagespan = new ImageSpan(context, imageId, ImageSpan.ALIGN_BASELINE);
 		spannable.setSpan(imagespan, 0, 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
