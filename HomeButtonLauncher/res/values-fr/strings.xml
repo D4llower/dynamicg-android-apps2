@@ -31,4 +31,7 @@
     <string name="prefsDriveBackup">Sauvegarde Google Drive</string>
     <string name="prefsDriveRestore">Restauration Google Drive</string>
     
+    <!-- 2.1 -->
+    <string name="prefsSemiTransparent">Fond semi-transparent</string>
+    
 </resources>

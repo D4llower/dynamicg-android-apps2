@@ -27,4 +27,7 @@
 	<string name="prefsAutoStartSingle">«modo Auto Início» se existe somente uma app selecionada</string>
 	<string name="prefsNumTabs">Número de abas</string>
 	
+    <!-- 2.1 -->
+    <string name="prefsSemiTransparent">Segundo plano transparente</string>
+		
 </resources>
