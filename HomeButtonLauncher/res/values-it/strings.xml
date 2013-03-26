@@ -32,6 +32,6 @@
     <string name="prefsDriveRestore">Ripristino da Google Drive</string>
     
     <!-- 2.1 -->
-    <string name="prefsSemiTransparent">Sfondo semitrasparente</string>
+    <string name="prefsSemiTransparent">Sfondo semi-trasparente</string>
     
 </resources>
