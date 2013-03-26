@@ -1,1 +1,1 @@
-https://dynamicg-android-apps2.googlecode.com/svn/trunk/HomeButtonLauncher/_apk
+https://dynamicg-android-apps2.googlecode.com/svn/trunk/HomeButtonLauncher/apk
