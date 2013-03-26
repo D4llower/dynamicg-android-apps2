@@ -142,4 +142,9 @@ public class AppHelper {
 		return new AppListContainer(list);
 	}
 
+	public static void flagAsNewTask(Intent intent) {
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+	}
+
 }

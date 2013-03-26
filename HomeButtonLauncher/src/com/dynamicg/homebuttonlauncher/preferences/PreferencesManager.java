@@ -14,7 +14,7 @@ public class PreferencesManager {
 	private static final String KEY_TAB_INDEX = "tabIndex";
 	private static final String KEY_TAB_LABEL_PREFIX = "tabTitle.";
 
-	private static final String[] DFLT_GOOGLE_SEARCH = new String[] {
+	public static final String[] DFLT_GOOGLE_SEARCH = new String[] {
 		"com.google.android.googlequicksearchbox/com.google.android.googlequicksearchbox.SearchActivity"
 		, "com.android.quicksearchbox/com.android.quicksearchbox.SearchActivity"
 	};

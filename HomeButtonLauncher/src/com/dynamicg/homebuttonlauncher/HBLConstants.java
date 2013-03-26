@@ -18,4 +18,10 @@ public class HBLConstants {
 
 	public static final int SHORTCUT_RC = 31;
 
+	/*
+	 * for whatever reason the "Google Now" widget opens the "assist" app when clicked, passing the following extras.
+	 * if we get those we forward to the Google Now app
+	 */
+	public static final String GOOGLE_NOW_EXTRA1 = "target_entry";
+	public static final String GOOGLE_NOW_EXTRA2 = "assist_intent_source";
 }

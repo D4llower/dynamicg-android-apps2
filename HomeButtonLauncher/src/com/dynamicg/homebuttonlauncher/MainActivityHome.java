@@ -66,6 +66,11 @@ public class MainActivityHome extends Activity {
 	}
 
 	private void main() {
+
+		if (forwardToGoogleNow()) {
+			return;
+		}
+
 		preferences = new PreferencesManager(context);
 
 		if (preferences.prefSettings.isSemiTransparent()) {
@@ -84,6 +89,22 @@ public class MainActivityHome extends Activity {
 		setListAdapter();
 		setMinWidth();
 
+	}
+
+	private boolean forwardToGoogleNow() {
+		Bundle bundle = getIntent().getExtras();
+		if (bundle!=null
+				&& bundle.containsKey(HBLConstants.GOOGLE_NOW_EXTRA1)
+				&& bundle.containsKey(HBLConstants.GOOGLE_NOW_EXTRA2))
+		{
+			Intent googlenow = AppHelper.getStartIntent(PreferencesManager.DFLT_GOOGLE_SEARCH[0]);
+			googlenow.putExtras(bundle); // copy extras passed by the widget
+			AppHelper.flagAsNewTask(googlenow);
+			startActivity(googlenow);
+			finish();
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isAutoStartSingleSuccessful() {
@@ -199,8 +220,7 @@ public class MainActivityHome extends Activity {
 			else {
 				intent = AppHelper.getStartIntent(entry.getComponent());
 			}
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			AppHelper.flagAsNewTask(intent);
 			startActivity(intent);
 			finish();
 			return true;
