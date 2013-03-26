@@ -205,7 +205,7 @@ public class GoogleDriveBackupRestoreHelper {
 		if (file!=null && activity!=null) {
 			try {
 				restoreSettings(activity, file);
-				Toast.makeText(activity, GoogleDriveUtil.MSG_TOAST_DONE, Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();
 				GlobalContext.resetCache(); // make sure we don't retain icons scaled to previous size
 				refDialog.get().dismiss();
 				activity.finish();

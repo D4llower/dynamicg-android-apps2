@@ -66,8 +66,14 @@ public class MainActivityHome extends Activity {
 	}
 
 	private void main() {
-		setContentView(R.layout.activity_main);
 		preferences = new PreferencesManager(context);
+
+		if (preferences.prefSettings.isSemiTransparent()) {
+			setTheme(R.style.ThemeSemiTransparent);
+		}
+
+		setContentView(R.layout.activity_main);
+
 		if (isAutoStartSingleSuccessful()) {
 			return;
 		}

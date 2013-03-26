@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
@@ -41,6 +42,7 @@ public class PreferencesDialog extends Dialog {
 	private CheckBox highRes;
 	private CheckBox autoStartSingle;
 	private CheckBox backgroundIconLoader;
+	private CheckBox semiTransparent;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -66,6 +68,7 @@ public class PreferencesDialog extends Dialog {
 		highRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
 		autoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
 		backgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
+		semiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
 
 		setupLayoutToggle();
 
@@ -80,7 +83,6 @@ public class PreferencesDialog extends Dialog {
 			@Override
 			public void onClickImpl(View v) {
 				saveSettings();
-				dismiss();
 			}
 		});
 
@@ -147,15 +149,12 @@ public class PreferencesDialog extends Dialog {
 		return (Integer)bar.getTag(TAG_NEW_VALUE);
 	}
 
-	private static int getOldValue(SeekBar bar) {
-		return (Integer)bar.getTag(TAG_OLD_VALUE);
-	}
-
 	private void saveSettings() {
 
-		int oldNumTabs = getOldValue(seekbarNumTabs);
-		int newNumTabs = getNewValue(seekbarNumTabs);
-		int currentTabIndex = preferences.getTabIndex();
+		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=semiTransparent.isChecked();
+		final int oldNumTabs = prefSettings.getNumTabs();
+		final int newNumTabs = getNewValue(seekbarNumTabs);
+		final int currentTabIndex = preferences.getTabIndex();
 		log.debug("saveSettings", oldNumTabs, newNumTabs, currentTabIndex);
 
 		if (currentTabIndex>=newNumTabs) {
@@ -173,6 +172,15 @@ public class PreferencesDialog extends Dialog {
 		GlobalContext.resetCache();
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
+
+		if (transparencyChanged) {
+			Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();
+			dismiss();
+			activity.finish();
+		}
+		else {
+			dismiss();
+		}
 	}
 
 	private void saveSharedPrefs() {
@@ -184,6 +192,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putBoolean(PrefSettings.KEY_HIGH_RES, highRes.isChecked());
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, autoStartSingle.isChecked());
 		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, backgroundIconLoader.isChecked());
+		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, semiTransparent.isChecked());
 		edit.commit();
 	}
 

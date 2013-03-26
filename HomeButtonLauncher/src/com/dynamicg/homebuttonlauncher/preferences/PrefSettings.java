@@ -17,6 +17,7 @@ public class PrefSettings {
 	public static final String KEY_AUTO_START_SINGLE = "autoStart";
 	public static final String KEY_NUM_TABS = "numTabs";
 	public static final String KEY_BACKGROUND_ICON_LOADER = "iconsInBG";
+	public static final String KEY_SEMI_TRANSPARENT = "semiTransp";
 
 	public static final int NUM_LAYOUTS = 5;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -108,6 +109,10 @@ public class PrefSettings {
 
 	public boolean isBackgroundIconLoader() {
 		return sharedPrefs.getBoolean(KEY_BACKGROUND_ICON_LOADER, false);
+	}
+
+	public boolean isSemiTransparent() {
+		return sharedPrefs.getBoolean(KEY_SEMI_TRANSPARENT, false);
 	}
 
 }

@@ -82,6 +82,11 @@
 	    <SeekBar style="@style/PrefSeekbar" android:id="@+id/prefsNumTabs" />
 	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsNumTabsIndicator" />
 	</LinearLayout>
+
+    <CheckBox style="@style/PrefLabel"
+        android:id="@+id/prefsSemiTransparent" 
+        android:text="@string/prefsSemiTransparent"
+        />
     
     <CheckBox style="@style/PrefLabel"
         android:id="@+id/prefsAutoStartSingle" 

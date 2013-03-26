@@ -24,7 +24,7 @@
     <application
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Dialog"
+        android:theme="@style/ThemeDefault"
         android:allowBackup="true"
         android:backupAgent="com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent"
         >

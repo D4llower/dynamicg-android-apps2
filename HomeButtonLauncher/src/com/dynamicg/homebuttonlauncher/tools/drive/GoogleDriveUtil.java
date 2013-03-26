@@ -28,7 +28,6 @@ public class GoogleDriveUtil {
 
 	private static final String MSG_MISSING_APP_TITLE = "Google Drive Plugin required";
 	private static final String MSG_MISSING_APP_BODY = "Click here to install";
-	public static final String MSG_TOAST_DONE = "Restore done. Please restart the app";
 
 	private static Intent getBaseIntent(int requestCode) {
 		ComponentName component = new ComponentName(PLUGIN_APP, PLUGIN_ACTIVITY);
