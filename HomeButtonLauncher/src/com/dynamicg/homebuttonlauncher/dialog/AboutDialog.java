@@ -39,7 +39,6 @@ public class AboutDialog extends Dialog {
 		pendingTranslations.put("tr", "Turkish");
 		pendingTranslations.put("ru", "Russian");
 		pendingTranslations.put("ar", "Arabic");
-		pendingTranslations.put("es", "Spanish");
 	}
 
 	public AboutDialog(Activity activity) {

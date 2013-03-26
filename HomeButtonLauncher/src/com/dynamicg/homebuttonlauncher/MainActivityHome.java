@@ -97,12 +97,17 @@ public class MainActivityHome extends Activity {
 				&& bundle.containsKey(HBLConstants.GOOGLE_NOW_EXTRA1)
 				&& bundle.containsKey(HBLConstants.GOOGLE_NOW_EXTRA2))
 		{
-			Intent googlenow = AppHelper.getStartIntent(PreferencesManager.DFLT_GOOGLE_SEARCH[0]);
-			googlenow.putExtras(bundle); // copy extras passed by the widget
-			AppHelper.flagAsNewTask(googlenow);
-			startActivity(googlenow);
-			finish();
-			return true;
+			try {
+				Intent googlenow = AppHelper.getStartIntent(PreferencesManager.DFLT_GOOGLE_SEARCH[0]);
+				googlenow.putExtras(bundle); // copy extras passed by the widget
+				AppHelper.flagAsNewTask(googlenow);
+				startActivity(googlenow);
+				finish();
+				return true;
+			}
+			catch (Throwable t) {
+				DialogHelper.showCrashReport(context, t);
+			}
 		}
 		return false;
 	}
