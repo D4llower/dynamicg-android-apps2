@@ -93,7 +93,11 @@ public class MainActivityHome extends Activity {
 
 	private boolean forwardToGoogleNow() {
 		Bundle bundle = getIntent().getExtras();
-		if (bundle!=null && bundle.getInt(HBLConstants.GOOGLE_NOW_EXTRA,0)==1) {
+		if (bundle!=null
+				&& bundle.containsKey(HBLConstants.GOOGLE_NOW_EXTRA)
+				&& bundle.getInt(HBLConstants.GOOGLE_NOW_EXTRA,0)==1
+				)
+		{
 			try {
 				Intent googlenow = AppHelper.getStartIntent(PreferencesManager.DFLT_GOOGLE_SEARCH[0]);
 				googlenow.putExtras(bundle); // copy extras passed by the widget
