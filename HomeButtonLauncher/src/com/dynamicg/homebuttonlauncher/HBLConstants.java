@@ -22,7 +22,5 @@ public class HBLConstants {
 	 * for whatever reason the "Google Now" widget opens the "assist" app when clicked, passing the following extras.
 	 * if we get those we forward to the Google Now app
 	 */
-	public static final String GOOGLE_NOW_EXTRA1 = "target_entry";
 	public static final String GOOGLE_NOW_EXTRA = "assist_intent_source";
-	//public static final String GOOGLE_NOW_EXTRA = "assist_intent_source";
 }
