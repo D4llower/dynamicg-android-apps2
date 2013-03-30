@@ -1,8 +1,0 @@
-* This app is ad-free and open source * 
-Launch your favorite apps through the «Home Button Swipe Up» gesture.
-• Note this only works properly on devices with three soft keys, like the Nexus 4 or Galaxy Nexus (i.e. devices that have virtual «Back/Home/Recent Apps» buttons).
-• On all other devices the app might integrate into the lock screen and/or replace the standard app behind the «Search» button (in case your phone has one), but please note this may or may not work on your phone depending on device brand and type
-• Minimum requirement is Android 4.1 Jelly Bean.
-
-Source code is hosted on Google Code:
-https://dynamicg-android-apps2.googlecode.com/svn/trunk/HomeButtonLauncher
