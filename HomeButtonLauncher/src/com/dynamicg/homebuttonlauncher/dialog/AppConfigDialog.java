@@ -56,6 +56,7 @@ public class AppConfigDialog extends Dialog {
 	private final boolean actionRemove;
 	private final boolean actionSort;
 
+	private AppListContainer preparedList; // async loaded
 	private AppListContainer appList;
 	private HeaderAbstract header;
 
@@ -134,19 +135,29 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private void putBody() {
-		if (actionAdd && getSelectedTab()>0) {
+		final boolean addShortcut = actionAdd && getSelectedTab()>0;
+
+		if (preparedList!=null) {
+			appList = preparedList;
+			preparedList = null;
+		}
+		else if (addShortcut) {
 			this.appList = AppHelper.getShortcutApps();
+		}
+		else if (actionAdd) {
+			this.appList = AppHelper.getAllAppsList(prefShortlist);
+		}
+		else {
+			this.appList = AppHelper.getSelectedAppsList(prefShortlist, false);
+		}
+
+		if (addShortcut) {
 			putBodyShortcutTab();
 		}
 		else {
-			if (actionAdd) {
-				this.appList = AppHelper.getAllAppsList(prefShortlist);
-			}
-			else {
-				this.appList = AppHelper.getSelectedAppsList(prefShortlist, false);
-			}
 			putBodyMainTab();
 		}
+
 		header.setBaseAppList(appList);
 	}
 
@@ -234,9 +245,19 @@ public class AppConfigDialog extends Dialog {
 		afterSave();
 	}
 
-	public void asyncPrepare() {
-		// TODO ## reuse during init
-		//this.appList = AppHelper.getAllAppsList(prefShortlist);
+	public static void showAddDialog(final MainActivityHome activity, final PreferencesManager preferences) {
+		final AppConfigDialog dialog = new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_ADD);
+		final String progressLabel = activity.getString(R.string.menuAdd)+" \u2026";
+		new SimpleProgressDialog(activity, progressLabel) {
+			@Override
+			public void backgroundWork() {
+				dialog.preparedList = AppHelper.getAllAppsList(preferences.prefShortlist);
+			}
+			@Override
+			public void done() {
+				dialog.show();
+			}
+		};
 	}
 
 }
