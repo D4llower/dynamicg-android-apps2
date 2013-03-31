@@ -21,6 +21,7 @@ import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMainStatic;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
+import com.dynamicg.homebuttonlauncher.dialog.SimpleProgressDialog;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
@@ -266,7 +267,18 @@ public class MainActivityHome extends Activity {
 				final MainActivityHome activity = MainActivityHome.this;
 				switch (id) {
 				case HBLConstants.MENU_APPS_ADD:
-					new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_ADD).show();
+					final AppConfigDialog dialog = new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_ADD);
+					final String progressLabel = context.getString(R.string.menuAdd)+" \u2026";
+					new SimpleProgressDialog(context, progressLabel) {
+						@Override
+						public void backgroundWork() {
+							dialog.asyncPrepare();
+						}
+						@Override
+						public void done() {
+							dialog.show();
+						}
+					};
 					break;
 				case HBLConstants.MENU_APPS_REMOVE:
 					new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_REMOVE).show();

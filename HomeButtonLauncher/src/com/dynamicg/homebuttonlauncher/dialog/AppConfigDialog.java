@@ -234,4 +234,9 @@ public class AppConfigDialog extends Dialog {
 		afterSave();
 	}
 
+	public void asyncPrepare() {
+		// TODO ## reuse during init
+		//this.appList = AppHelper.getAllAppsList(prefShortlist);
+	}
+
 }
