@@ -35,7 +35,6 @@ public class AboutDialog extends Dialog {
 	private final HashMap<String, String> pendingTranslations = new HashMap<String, String>();
 	{
 		pendingTranslations.put("ko", "Korean");
-		pendingTranslations.put("ja", "Japanese");
 		pendingTranslations.put("tr", "Turkish");
 		pendingTranslations.put("ru", "Russian");
 		pendingTranslations.put("ar", "Arabic");
