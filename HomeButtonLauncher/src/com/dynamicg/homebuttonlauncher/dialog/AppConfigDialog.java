@@ -131,6 +131,10 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private int getSelectedTab() {
+		return getSelectedTab(action);
+	}
+
+	private static int getSelectedTab(int action) {
 		return recentTab.containsKey(action)?recentTab.get(action):0;
 	}
 
@@ -246,12 +250,18 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	public static void showAddDialog(final MainActivityHome activity, final PreferencesManager preferences) {
-		final AppConfigDialog dialog = new AppConfigDialog(activity, preferences, HBLConstants.MENU_APPS_ADD);
+		final int action = HBLConstants.MENU_APPS_ADD;
+		final AppConfigDialog dialog = new AppConfigDialog(activity, preferences, action);
 		final String progressLabel = activity.getString(R.string.menuAdd)+" \u2026";
 		new SimpleProgressDialog(activity, progressLabel) {
 			@Override
 			public void backgroundWork() {
-				dialog.preparedList = AppHelper.getAllAppsList(preferences.prefShortlist);
+				if (getSelectedTab(action)>0) {
+					dialog.preparedList = AppHelper.getShortcutApps();
+				}
+				else {
+					dialog.preparedList = AppHelper.getAllAppsList(preferences.prefShortlist);
+				}
 			}
 			@Override
 			public void done() {
