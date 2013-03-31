@@ -74,7 +74,7 @@ public class AboutDialog extends Dialog {
 			}
 		});
 
-		SpannableString creditsLabel = new SpannableString("Credits");
+		SpannableString creditsLabel = new SpannableString("Credits, in chronological order");
 		creditsLabel.setSpan(new UnderlineSpan(), 0, creditsLabel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		setLine(R.id.aboutCredits, creditsLabel);
 
