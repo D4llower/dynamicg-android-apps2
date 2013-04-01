@@ -31,7 +31,12 @@ public abstract class SimpleProgressDialog {
 					DialogHelper.showCrashReport(context, (Throwable)msg.obj);
 				}
 				else {
-					done();
+					try {
+						done();
+					}
+					catch (Throwable t) {
+						DialogHelper.showCrashReport(context, t);
+					}
 				}
 			}
 		};
