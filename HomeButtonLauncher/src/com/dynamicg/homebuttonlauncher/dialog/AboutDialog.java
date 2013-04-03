@@ -9,9 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.TextView;
 
@@ -45,26 +43,35 @@ public class AboutDialog extends Dialog {
 
 		DialogHelper.prepareCommonDialog(this, R.layout.about_body, R.layout.button_panel_1, false);
 
-		TextView author = (TextView)findViewById(R.id.aboutAuthor);
-		author.setText("\u00A9 "+SystemUtil.AUTHOR);
-		author.setOnClickListener(new OnClickListenerWrapper() {
-			@Override
-			public void onClickImpl(View view) {
-				composeEmail();
-			}
-		});
+		{
+			TextView authorNode = (TextView)findViewById(R.id.aboutAuthor);
+			SpannableString authorLabel = new SpannableString("\u00A9 "+SystemUtil.AUTHOR);
+			DialogHelper.underline(authorLabel, 2, authorLabel.length());
+			authorNode.setText(authorLabel);
+			authorNode.setFocusable(true);
+			authorNode.setOnClickListener(new OnClickListenerWrapper() {
+				@Override
+				public void onClickImpl(View view) {
+					composeEmail();
+				}
+			});
+		}
 
 		setLine(R.id.aboutSrc, REPOSITORY);
 
-		TextView rateNode = (TextView)findViewById(R.id.aboutRate);
-		setRateLabel(rateNode);
-		rateNode.setFocusable(true);
-		rateNode.setOnClickListener(new OnClickListenerWrapper() {
-			@Override
-			public void onClickImpl(View v) {
-				MarketLinkHelper.openMarketIntent(context, SystemUtil.PACKAGE);
-			}
-		});
+		{
+			TextView rateNode = (TextView)findViewById(R.id.aboutRate);
+			SpannableString rateLabel = new SpannableString("\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0");
+			DialogHelper.underline(rateLabel, 2, rateLabel.length()-2);
+			rateNode.setText(rateLabel);
+			rateNode.setFocusable(true);
+			rateNode.setOnClickListener(new OnClickListenerWrapper() {
+				@Override
+				public void onClickImpl(View v) {
+					MarketLinkHelper.openMarketIntent(context, SystemUtil.PACKAGE);
+				}
+			});
+		}
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
@@ -74,7 +81,7 @@ public class AboutDialog extends Dialog {
 		});
 
 		SpannableString creditsLabel = new SpannableString("Credits, in chronological order");
-		creditsLabel.setSpan(new UnderlineSpan(), 0, creditsLabel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		DialogHelper.underline(creditsLabel, 0, creditsLabel.length());
 		setLine(R.id.aboutCredits, creditsLabel);
 
 		setupErrorLogViewer();
@@ -117,13 +124,6 @@ public class AboutDialog extends Dialog {
 
 	private void setLine(int id, CharSequence str) {
 		((TextView)findViewById(id)).setText(str);
-	}
-
-	private void setRateLabel(TextView node) {
-		final String label = "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0";
-		SpannableString str = new SpannableString(label);
-		DialogHelper.underline(str, 2, label.length()-2);
-		node.setText(str, TextView.BufferType.SPANNABLE);
 	}
 
 	private void composeEmail() {
