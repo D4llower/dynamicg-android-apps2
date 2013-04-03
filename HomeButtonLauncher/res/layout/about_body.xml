@@ -8,7 +8,6 @@
 	<TextView style="@style/DefaultText"
 	    android:id="@+id/aboutAuthor"
         android:layout_marginTop="6dp"
-        android:autoLink="all"
         android:textColor="@color/hyperlink"
 		/>
 		
@@ -27,13 +26,6 @@
 
 	<TextView style="@style/DefaultText"
 	    android:id="@+id/aboutRate"
-        android:layout_marginTop="18dp"
-        android:textColor="@color/applink"
-        android:textStyle="bold"
-		/>
-
-	<TextView style="@style/DefaultText"
-	    android:id="@+id/aboutTranslationRequest"
         android:layout_marginTop="18dp"
         android:textColor="@color/applink"
         android:textStyle="bold"

@@ -1,6 +1,5 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
-import java.util.HashMap;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -32,14 +31,6 @@ public class AboutDialog extends Dialog {
 
 	private final Context context;
 
-	private final HashMap<String, String> pendingTranslations = new HashMap<String, String>();
-	{
-		pendingTranslations.put("ko", "Korean");
-		pendingTranslations.put("tr", "Turkish");
-		pendingTranslations.put("ru", "Russian");
-		pendingTranslations.put("ar", "Arabic");
-	}
-
 	public AboutDialog(Activity activity) {
 		super(activity);
 		this.context = activity;
@@ -54,7 +45,15 @@ public class AboutDialog extends Dialog {
 
 		DialogHelper.prepareCommonDialog(this, R.layout.about_body, R.layout.button_panel_1, false);
 
-		setLine(R.id.aboutAuthor, "\u00A9 "+SystemUtil.AUTHOR);
+		TextView author = (TextView)findViewById(R.id.aboutAuthor);
+		author.setText("\u00A9 "+SystemUtil.AUTHOR);
+		author.setOnClickListener(new OnClickListenerWrapper() {
+			@Override
+			public void onClickImpl(View view) {
+				composeEmail();
+			}
+		});
+
 		setLine(R.id.aboutSrc, REPOSITORY);
 
 		TextView rateNode = (TextView)findViewById(R.id.aboutRate);
@@ -78,29 +77,7 @@ public class AboutDialog extends Dialog {
 		creditsLabel.setSpan(new UnderlineSpan(), 0, creditsLabel.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		setLine(R.id.aboutCredits, creditsLabel);
 
-		setupTranslationRequest();
 		setupErrorLogViewer();
-	}
-
-	private void setupTranslationRequest() {
-		final TextView node = (TextView)findViewById(R.id.aboutTranslationRequest);
-		final String languageCd = log.isDebugEnabled ? "ko" : Locale.getDefault().getLanguage();
-		if (pendingTranslations.containsKey(languageCd)) {
-			String label1 = "Can you help with "+pendingTranslations.get(languageCd)+" translation? ";
-			String label2 = "Please contact developer";
-			SpannableString str = new SpannableString(label1+label2);
-			DialogHelper.underline(str, label1.length(), label1.length()+label2.length());
-			node.setText(str);
-			node.setOnClickListener(new OnClickListenerWrapper() {
-				@Override
-				public void onClickImpl(View view) {
-					composeEmail();
-				}
-			});
-		}
-		else {
-			node.setVisibility(View.GONE);
-		}
 	}
 
 	private void setupErrorLogViewer() {
