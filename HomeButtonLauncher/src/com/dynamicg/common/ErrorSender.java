@@ -41,7 +41,8 @@ public class ErrorSender {
 			}
 		});
 		builder.setNegativeButton("Close", null);
-		builder.show();
+		AlertDialog dialog = builder.show();
+		dialog.setCanceledOnTouchOutside(false);
 	}
 
 }

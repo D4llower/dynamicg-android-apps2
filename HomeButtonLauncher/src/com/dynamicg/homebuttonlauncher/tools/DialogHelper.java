@@ -36,7 +36,8 @@ public class DialogHelper {
 		builder.setView(body);
 
 		builder.setPositiveButton(R.string.buttonOk, null);
-		builder.show();
+		AlertDialog dialog = builder.show();
+		dialog.setCanceledOnTouchOutside(false);
 	}
 
 	public static void showCrashReport(Context context, Throwable t) {
@@ -68,7 +69,8 @@ public class DialogHelper {
 		b.setTitle(label);
 		b.setPositiveButton(R.string.buttonOk, okListener);
 		b.setNegativeButton(R.string.buttonCancel, null);
-		b.show();
+		AlertDialog dialog = b.show();
+		dialog.setCanceledOnTouchOutside(false);
 	}
 
 	public static int getDimension(int dimensionId) {
@@ -115,6 +117,7 @@ public class DialogHelper {
 		builder.setNegativeButton(R.string.buttonCancel, null);
 		builder.setView(editor);
 		AlertDialog dialog = builder.show();
+		dialog.setCanceledOnTouchOutside(false);
 
 		// auto open keyboard
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);

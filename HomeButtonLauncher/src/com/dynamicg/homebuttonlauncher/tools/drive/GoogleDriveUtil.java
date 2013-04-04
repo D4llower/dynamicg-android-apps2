@@ -109,7 +109,8 @@ public class GoogleDriveUtil {
 		builder.setTitle(titleLabel);
 		builder.setView(body);
 
-		builder.show();
+		AlertDialog dialog = builder.show();
+		dialog.setCanceledOnTouchOutside(false);
 	}
 
 	public static boolean isPluginAvailable(Context context) {
