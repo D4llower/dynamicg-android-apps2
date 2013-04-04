@@ -31,6 +31,7 @@ public class AboutDialog extends Dialog {
 
 	public AboutDialog(Activity activity) {
 		super(activity);
+		setCanceledOnTouchOutside(false);
 		this.context = activity;
 	}
 

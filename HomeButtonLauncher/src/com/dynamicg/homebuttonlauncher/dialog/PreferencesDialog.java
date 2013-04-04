@@ -46,6 +46,7 @@ public class PreferencesDialog extends Dialog {
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
+		setCanceledOnTouchOutside(false);
 		this.activity = activity;
 		this.preferences = preferences;
 		this.prefSettings = preferences.prefSettings;

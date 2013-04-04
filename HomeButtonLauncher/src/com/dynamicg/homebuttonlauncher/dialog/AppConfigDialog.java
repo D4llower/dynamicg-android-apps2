@@ -64,6 +64,7 @@ public class AppConfigDialog extends Dialog {
 
 	public AppConfigDialog(MainActivityHome activity, PreferencesManager preferences, int action) {
 		super(activity);
+		setCanceledOnTouchOutside(false);
 		this.activity = activity;
 		this.context = activity;
 		this.prefShortlist = preferences.prefShortlist;
