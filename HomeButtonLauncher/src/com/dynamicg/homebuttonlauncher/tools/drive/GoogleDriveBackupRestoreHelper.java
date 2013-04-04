@@ -187,7 +187,7 @@ public class GoogleDriveBackupRestoreHelper {
 
 		// commit all
 		for (Editor edit:editors.values()) {
-			edit.commit();
+			edit.apply();
 		}
 
 		file.delete();

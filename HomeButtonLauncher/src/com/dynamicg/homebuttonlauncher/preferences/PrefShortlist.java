@@ -47,7 +47,7 @@ public class PrefShortlist {
 		for (String comp:components) {
 			edit.putInt(comp, 0);
 		}
-		edit.commit();
+		edit.apply();
 		validateAll();
 	}
 
@@ -87,7 +87,7 @@ public class PrefShortlist {
 				shortcutIds.add(ShortcutHelper.getShortcutId(component));
 			}
 		}
-		edit.commit();
+		edit.apply();
 
 		if (shortcutIds.size()>0) {
 			ShortcutHelper.removeShortcuts(shortcutIds);
@@ -102,7 +102,7 @@ public class PrefShortlist {
 			// see com.dynamicg.homebuttonlauncher.tools.AppHelper.sort(List<AppEntry>)
 			edit.putInt(component, idx+1);
 		}
-		edit.commit();
+		edit.apply();
 	}
 
 	public synchronized void resetSortList() {
@@ -110,7 +110,7 @@ public class PrefShortlist {
 		for (String s:sharedPrefs.getAll().keySet()) {
 			edit.putInt(s, 0);
 		}
-		edit.commit();
+		edit.apply();
 	}
 
 }

@@ -209,7 +209,7 @@ public class ShortcutHelper {
 		for (String shortcutId:shortcutIds) {
 			edit.remove(shortcutId);
 		}
-		edit.commit();
+		edit.apply();
 
 		if (iconDir==null) {
 			// if we get here the icondir should already have been initialised

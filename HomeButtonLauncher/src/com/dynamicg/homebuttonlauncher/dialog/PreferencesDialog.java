@@ -193,7 +193,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, autoStartSingle.isChecked());
 		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, backgroundIconLoader.isChecked());
 		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, semiTransparent.isChecked());
-		edit.commit();
+		edit.apply();
 	}
 
 }
