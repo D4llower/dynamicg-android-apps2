@@ -1,5 +1,7 @@
 package com.dynamicg.homebuttonlauncher;
 
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -314,6 +316,10 @@ public class MainActivityHome extends Activity {
 		else if (requestCode==HBLConstants.SHORTCUT_RC) {
 			ShortcutHelper.shortcutSelected(data);
 		}
+	}
+
+	public void saveShortcutComponent(String component) {
+		preferences.prefShortlist.add(Arrays.asList(component));
 	}
 
 }

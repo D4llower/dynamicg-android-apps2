@@ -23,6 +23,7 @@ import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
@@ -46,11 +47,13 @@ public class ShortcutHelper {
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
 
+	private static WeakReference<MainActivityHome> activityRef;
 	private static WeakReference<AppConfigDialog> dialogRef;
 
 	private static File iconDir;
 
-	public static void storeRef(AppConfigDialog appConfigDialog) {
+	public static void storeRef(MainActivityHome activity, AppConfigDialog appConfigDialog) {
+		activityRef = new WeakReference<MainActivityHome>(activity);
 		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
 	}
 
@@ -72,10 +75,10 @@ public class ShortcutHelper {
 	}
 
 	public static void shortcutSelected(Intent data) {
-		final AppConfigDialog dialog = dialogRef!=null ? dialogRef.get() : null;
-		final Context context = dialog!=null ? dialog.getContext() : null;
+		final MainActivityHome activity = activityRef!=null ? activityRef.get() : null;
+		final AppConfigDialog optionalDialog = dialogRef!=null ? dialogRef.get() : null;
 
-		if (context==null || data==null) {
+		if (activity==null || data==null) {
 			return;
 		}
 
@@ -97,13 +100,13 @@ public class ShortcutHelper {
 		TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
-				save(dialog, icon, iconResource, intent, text);
+				save(activity, optionalDialog, icon, iconResource, intent, text);
 			}
 		};
-		DialogHelper.openLabelEditor(context, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback);
+		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback);
 	}
 
-	private static void save(AppConfigDialog dialog, Bitmap bitmap, Intent.ShortcutIconResource iconResource, Intent intent, String label) {
+	private static void save(MainActivityHome activity, AppConfigDialog optionalDialog, Bitmap bitmap, Intent.ShortcutIconResource iconResource, Intent intent, String label) {
 		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
 		final int nextid = prefs.getInt(KEY_SC_MAXID, 0) + 1;
 		final String shortcutId = SHORTCUT_PREFIX+nextid;
@@ -116,10 +119,12 @@ public class ShortcutHelper {
 
 		String iconpath = iconResource!=null ? iconResource.packageName + SEPARATOR_PKG + iconResource.resourceName : "";
 		String componentToSave = shortcutId + SEPARATOR_RES + iconpath + SEPARATOR_LABEL + label;
-		dialog.saveShortcut(componentToSave);
+
+		activity.saveShortcutComponent(componentToSave);
+		AppConfigDialog.afterSave(activity, optionalDialog);
 
 		if (bitmap!=null) {
-			saveIcon(dialog.getContext(), shortcutId, bitmap);
+			saveIcon(activity, shortcutId, bitmap);
 		}
 	}
 

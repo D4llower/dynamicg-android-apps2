@@ -1,14 +1,12 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.AppListContextMenu;
@@ -47,7 +46,6 @@ public class AppConfigDialog extends Dialog {
 	private static final HashMap<Integer, Integer> recentTab = new HashMap<Integer, Integer>();
 
 	private final MainActivityHome activity;
-	private final Context context;
 	private final PrefShortlist prefShortlist;
 	private final boolean[] sortChanged = new boolean[]{false};
 
@@ -66,7 +64,6 @@ public class AppConfigDialog extends Dialog {
 		super(activity);
 		setCanceledOnTouchOutside(false);
 		this.activity = activity;
-		this.context = activity;
 		this.prefShortlist = preferences.prefShortlist;
 		this.action = action;
 		this.actionAdd = action==HBLConstants.MENU_APPS_ADD;
@@ -76,11 +73,20 @@ public class AppConfigDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
-	private void afterSave() {
+	public static void afterSave(MainActivityHome activity, AppConfigDialog dialog) {
 		GlobalContext.resetCache();
 		activity.refreshList();
-		HomeLauncherBackupAgent.requestBackup(context);
-		dismiss();
+		HomeLauncherBackupAgent.requestBackup(activity);
+
+		// close dialog
+		if (dialog!=null && dialog.isShowing()) {
+			try {
+				dialog.dismiss();
+			}
+			catch (IllegalArgumentException e) {
+				SystemUtil.dumpError(e);
+			}
+		}
 	}
 
 	private final void onButtonOk() {
@@ -97,7 +103,7 @@ public class AppConfigDialog extends Dialog {
 			log.debug("actionSort");
 			prefShortlist.saveSortedList(appList.getApps());
 		}
-		afterSave();
+		afterSave(activity, this);
 	}
 
 	@Override
@@ -223,7 +229,7 @@ public class AppConfigDialog extends Dialog {
 
 	public void doSortReset() {
 		prefShortlist.resetSortList();
-		afterSave();
+		afterSave(activity, this);
 	}
 
 	// when "search" is applied
@@ -239,15 +245,10 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private void startShortcutApp(AppEntry appEntry) {
-		ShortcutHelper.storeRef(this);
+		ShortcutHelper.storeRef(activity, this);
 		Intent intent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
 		intent.setComponent(ComponentName.unflattenFromString(appEntry.getComponent()));
 		activity.startActivityForResult(intent, HBLConstants.SHORTCUT_RC);
-	}
-
-	public void saveShortcut(String component) {
-		prefShortlist.add(Arrays.asList(component));
-		afterSave();
 	}
 
 	public static void showAddDialog(final MainActivityHome activity, final PreferencesManager preferences) {
