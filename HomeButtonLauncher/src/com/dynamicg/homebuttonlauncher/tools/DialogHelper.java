@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
@@ -104,8 +105,7 @@ public class DialogHelper {
 		}
 		editor.setInputType(inputType);
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		DialogInterface.OnClickListener okListener = new OnClickListenerDialogWrapper(context) {
+		final DialogInterface.OnClickListener okListener = new OnClickListenerDialogWrapper(context) {
 			@Override
 			public void onClickImpl(DialogInterface dialog, int which) {
 				String newLabel = editor.getText().toString();
@@ -113,11 +113,26 @@ public class DialogHelper {
 				callback.onTextChanged(newLabel);
 			}
 		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setPositiveButton(R.string.buttonOk, okListener );
 		builder.setNegativeButton(R.string.buttonCancel, null);
 		builder.setView(editor);
-		AlertDialog dialog = builder.show();
+
+		final AlertDialog dialog = builder.show();
 		dialog.setCanceledOnTouchOutside(false);
+
+		editor.setOnKeyListener(new EditText.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode==KeyEvent.KEYCODE_ENTER && event.getAction()==KeyEvent.ACTION_DOWN) {
+					okListener.onClick(dialog, Dialog.BUTTON_POSITIVE);
+					dialog.dismiss();
+					return true;
+				}
+				return false;
+			}
+		});
 
 		// auto open keyboard
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
