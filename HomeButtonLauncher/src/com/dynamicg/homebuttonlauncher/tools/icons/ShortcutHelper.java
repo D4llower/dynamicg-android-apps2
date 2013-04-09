@@ -49,12 +49,14 @@ public class ShortcutHelper {
 
 	private static WeakReference<MainActivityHome> activityRef;
 	private static WeakReference<AppConfigDialog> dialogRef;
+	private static WeakReference<Intent> creatorRef;
 
 	private static File iconDir;
 
-	public static void storeRef(MainActivityHome activity, AppConfigDialog appConfigDialog) {
+	public static void storeRef(MainActivityHome activity, AppConfigDialog appConfigDialog, Intent intent) {
 		activityRef = new WeakReference<MainActivityHome>(activity);
 		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
+		creatorRef = new WeakReference<Intent>(intent);
 	}
 
 	public static boolean isShortcutComponent(String component) {
@@ -77,6 +79,7 @@ public class ShortcutHelper {
 	public static void shortcutSelected(Intent data) {
 		final MainActivityHome activity = activityRef!=null ? activityRef.get() : null;
 		final AppConfigDialog optionalDialog = dialogRef!=null ? dialogRef.get() : null;
+		final Intent creator = creatorRef!=null ? creatorRef.get() : null;
 
 		if (activity==null || data==null) {
 			return;
@@ -95,7 +98,15 @@ public class ShortcutHelper {
 			return;
 		}
 
-		log.debug("SHORTCUT", name, icon, iconResource, intent);
+		log.debug("SHORTCUT", name, icon, iconResource, intent, creator);
+
+		if (Intent.ACTION_CALL.equals(intent.getAction())) {
+			String title = "Sorry, direct phone call not supported";
+			String details = creator!=null ?  "Component details:\n"+creator : "";
+			DialogHelper.showError(activity, title, details);
+			//ErrorSender.notifyError(activity, title, new RuntimeException(details));
+			return;
+		}
 
 		TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override

@@ -245,9 +245,9 @@ public class AppConfigDialog extends Dialog {
 	}
 
 	private void startShortcutApp(AppEntry appEntry) {
-		ShortcutHelper.storeRef(activity, this);
 		Intent intent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
 		intent.setComponent(ComponentName.unflattenFromString(appEntry.getComponent()));
+		ShortcutHelper.storeRef(activity, this, intent);
 		activity.startActivityForResult(intent, HBLConstants.SHORTCUT_RC);
 	}
 
