@@ -124,17 +124,17 @@ public class AppHelper {
 	//	}
 
 	public static AppListContainer getShortcutApps() {
-		final String scDialName = "alias.DialShortcut";
-		final String scDialPkg = "com.android.contacts";
-
+		final String scPhoneDialName = "alias.DialShortcut";
 		Intent shortcutsIntent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
 		List<ResolveInfo> shortcutApps = GlobalContext.packageManager.queryIntentActivities(shortcutsIntent, 0);
 		ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (ResolveInfo resolveInfo:shortcutApps) {
 			ActivityInfo ai = resolveInfo.activityInfo;
 			log.trace("shortcut apps", resolveInfo, ai, ai.packageName, ai.name );
-			if (scDialName.equals(ai.name) && scDialPkg.equals(ai.packageName)) {
+			if (scPhoneDialName.equals(ai.name)) {
 				// this would require permission <android.permission.CALL_PHONE>
+				// note <ai.packageName> is device specific, e.g. "com.android.contacts" for standard android or "com.sonyericsson..." for xperia)
+				// so we don't check against that
 				continue;
 			}
 			list.add(new AppEntry(resolveInfo, 0, false));
