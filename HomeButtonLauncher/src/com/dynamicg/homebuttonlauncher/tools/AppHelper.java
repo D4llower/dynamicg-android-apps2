@@ -16,13 +16,13 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 
 public class AppHelper {
 
 	private static final Logger log = new Logger(AppHelper.class);
 
-	private static final String SELF = "com.dynamicg.homebuttonlauncher/com.dynamicg.homebuttonlauncher.MainActivityOpen";
 	private static final int MAX_SORTNR = 999;
 
 	public static String getComponentName(ResolveInfo resolveInfo) {
@@ -61,7 +61,7 @@ public class AppHelper {
 		ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 
 		Collection<String> selectedComponents = new HashSet<String>(settings.getComponentsSet());
-		selectedComponents.add(SELF); // do not show my own app in the list
+		selectedComponents.add(HBLConstants.SELF); // do not show my own app in the list
 
 		final List<ResolveInfo> apps = GlobalContext.packageManager.queryIntentActivities(mainIntent, 0);
 		for (ResolveInfo resolveInfo:apps) {
@@ -138,6 +138,12 @@ public class AppHelper {
 			}
 			list.add(new AppEntry(resolveInfo, 0, false));
 		}
+
+		// for "Exit" shortcut:
+		ResolveInfo self = getMatchingApp(HBLConstants.SELF);
+		AppEntry appEntrySelf = new AppEntry(self, 0, false);
+		list.add(appEntrySelf);
+
 		return new AppListContainer(list);
 	}
 

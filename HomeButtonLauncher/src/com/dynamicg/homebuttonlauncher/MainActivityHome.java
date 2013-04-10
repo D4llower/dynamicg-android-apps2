@@ -228,6 +228,14 @@ public class MainActivityHome extends Activity {
 			else {
 				intent = AppHelper.getStartIntent(entry.getComponent());
 			}
+
+			if (intent.getComponent()!=null && HBLConstants.SELF.equals(intent.getComponent().flattenToString())) {
+				// for those that want to disable the swipe (i.e. set "auto start mode" and only select HBL)
+				log.debug("close self", HBLConstants.SELF);
+				finish();
+				return true;
+			}
+
 			AppHelper.flagAsNewTask(intent);
 			startActivity(intent);
 			finish();

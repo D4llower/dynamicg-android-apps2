@@ -2,6 +2,8 @@ package com.dynamicg.homebuttonlauncher;
 
 public class HBLConstants {
 
+	public static final String SELF = "com.dynamicg.homebuttonlauncher/com.dynamicg.homebuttonlauncher.MainActivityOpen";
+
 	public static final String PREFS_APPS = "apps";
 	public static final String PREFS_SETTINGS = "settings";
 
