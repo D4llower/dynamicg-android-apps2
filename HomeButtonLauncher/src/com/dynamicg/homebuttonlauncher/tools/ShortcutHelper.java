@@ -264,4 +264,21 @@ public class ShortcutHelper {
 		log.debug("icon restore done", file, file.length());
 	}
 
+	public static void startExitSelfShortcut(MainActivityHome activity, AppConfigDialog dialog, AppEntry appEntry) {
+		ShortcutHelper.storeRef(activity, dialog, null);
+		String label = "Exit";
+
+		Bundle extras = new Bundle();
+		extras.putParcelable(Intent.EXTRA_SHORTCUT_INTENT, AppHelper.getStartIntent(appEntry.getComponent()));
+		extras.putString(Intent.EXTRA_SHORTCUT_NAME, label);
+		Intent.ShortcutIconResource iconResource = new Intent.ShortcutIconResource();
+		iconResource.packageName = appEntry.getPackage();
+		iconResource.resourceName = appEntry.getPackage()+":drawable/app_icon";
+		extras.putParcelable(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconResource);
+
+		Intent data = new Intent();
+		data.putExtras(extras);
+		ShortcutHelper.shortcutSelected(data);
+	}
+
 }
