@@ -28,8 +28,8 @@ import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
-import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
+import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
@@ -206,9 +206,9 @@ public class MainActivityHome extends Activity {
 		}
 
 		listview.setAdapter(adapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		listview.setOnItemClickListener(new OnAdapterItemClickListenerWrapper() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClickImpl(AdapterView<?> parent, View view, int position, long id) {
 				startAppAndClose(appList.get(position));
 			}
 		});

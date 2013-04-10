@@ -22,6 +22,7 @@ import com.dynamicg.homebuttonlauncher.AppListContextMenu;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
+import com.dynamicg.homebuttonlauncher.OnAdapterItemClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.adapter.AppListAdapter;
@@ -185,9 +186,9 @@ public class AppConfigDialog extends Dialog {
 
 		if (!actionSort) {
 
-			listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			listview.setOnItemClickListener(new OnAdapterItemClickListenerWrapper() {
 				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				public void onItemClickImpl(AdapterView<?> parent, View view, int position, long id) {
 					AppEntry entry = (AppEntry)appList.get(position);
 					entry.flipCheckedState();
 					entry.decorateSelection(view);
@@ -207,9 +208,9 @@ public class AppConfigDialog extends Dialog {
 		this.adapter = new AppListAdapterShortcuts(activity, appList);
 		final ListView listview = (ListView)findViewById(R.id.applist);
 		listview.setAdapter(adapter);
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		listview.setOnItemClickListener(new OnAdapterItemClickListenerWrapper() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClickImpl(AdapterView<?> parent, View view, int position, long id) {
 				startShortcutApp((AppEntry)appList.get(position));
 			}
 		});
