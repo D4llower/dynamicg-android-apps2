@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class IconLoader {
 

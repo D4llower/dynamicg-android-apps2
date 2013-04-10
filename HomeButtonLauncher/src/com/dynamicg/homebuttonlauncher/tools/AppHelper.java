@@ -17,7 +17,6 @@ import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
-import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 public class AppHelper {
 

@@ -13,7 +13,7 @@ import android.content.pm.ResolveInfo;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
-import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
+import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class PrefShortlist {
 

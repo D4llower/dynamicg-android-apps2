@@ -28,11 +28,11 @@ import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
+import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
-import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 /*
  * Copyright 2012,2013 DynamicG (dynamicg.android@gmail.com)

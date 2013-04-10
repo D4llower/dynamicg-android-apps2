@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher.tools.icons;
+package com.dynamicg.homebuttonlauncher.tools;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,9 +25,9 @@ import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
-import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
-import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
 import com.dynamicg.homebuttonlauncher.tools.drive.Hex;
+import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
+import com.dynamicg.homebuttonlauncher.tools.icons.LargeIconLoader;
 
 /*
  * shortcut data:
@@ -108,7 +108,7 @@ public class ShortcutHelper {
 			return;
 		}
 
-		TextEditorListener callback = new DialogHelper.TextEditorListener() {
+		DialogHelper.TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
 				save(activity, optionalDialog, icon, iconResource, intent, text);

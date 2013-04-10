@@ -5,8 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
+import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
-import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
 
 public class AppEntry {
 

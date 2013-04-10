@@ -25,7 +25,7 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
-import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
+import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class GoogleDriveBackupRestoreHelper {
 

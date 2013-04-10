@@ -16,7 +16,7 @@ import android.util.Xml;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SystemUtil;
-import com.dynamicg.homebuttonlauncher.tools.icons.ShortcutHelper;
+import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class XmlReader {
 
