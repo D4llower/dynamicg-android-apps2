@@ -220,8 +220,8 @@ public class MainActivityHome extends Activity {
 	}
 
 	private boolean startAppAndClose(AppEntry entry) {
+		Intent intent=null;
 		try {
-			Intent intent;
 			if (entry.shortcut) {
 				intent = ShortcutHelper.getIntent(entry);
 			}
@@ -235,9 +235,16 @@ public class MainActivityHome extends Activity {
 		}
 		catch (Throwable t) {
 			SystemUtil.dumpError(t);
+
+			String appinfo = entry.getComponent();
+			if (entry.shortcut && intent!=null && intent.getComponent()!=null) {
+				// "entry.getComponent()" for shortcuts is "sc-<nn>|#<label>" so we show the shortcut intent instead
+				appinfo = intent.getComponent().flattenToString();
+			}
+
 			String title = "Error - cannot open";
 			String details = "\u2022 Exception: "+t.getClass().getSimpleName()
-					+"\n\u2022 Component:\n{"+entry.getComponent()+"}";
+					+"\n\u2022 Component:\n{"+appinfo+"}";
 			if (t instanceof SecurityException) {
 				details += "\n\n\u2022 Details: "+t.getMessage();
 			}
