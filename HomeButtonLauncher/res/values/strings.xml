@@ -29,6 +29,7 @@
     <string name="prefsBackgroundIconLoader">Load icons in background</string>
     <string name="prefsSemiTransparent">Semi-transparent background</string>
     <string name="prefsPleaseRestart">Please restart the app.</string>
+    <string name="prefsAppClearTask">Open apps with «Clear» flag</string>
     
     <string name="prefsDriveBackup">Google Drive Backup</string>
     <string name="prefsDriveRestore">Google Drive Restore</string>

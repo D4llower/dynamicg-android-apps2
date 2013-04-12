@@ -36,13 +36,16 @@ public class PreferencesDialog extends Dialog {
 	private final MainActivityHome activity;
 
 	private int selectedLayout;
+
 	private SeekBar seekbarLabelSize;
 	private SeekBar seekbarIconSize;
 	private SeekBar seekbarNumTabs;
+
 	private CheckBox highRes;
 	private CheckBox autoStartSingle;
 	private CheckBox backgroundIconLoader;
 	private CheckBox semiTransparent;
+	private CheckBox appClearTask;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -70,6 +73,7 @@ public class PreferencesDialog extends Dialog {
 		autoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
 		backgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
 		semiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
+		appClearTask = attachCheckbox(R.id.prefsAppClearTask, prefSettings.isAppClearTask());
 
 		setupLayoutToggle();
 
@@ -194,6 +198,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, autoStartSingle.isChecked());
 		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, backgroundIconLoader.isChecked());
 		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, semiTransparent.isChecked());
+		edit.putBoolean(PrefSettings.KEY_APP_CLEAR_TASK, appClearTask.isChecked());
 		edit.apply();
 	}
 

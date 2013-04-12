@@ -103,4 +103,9 @@
         android:text="@string/prefsBackgroundIconLoader"
         />
 
+    <CheckBox style="@style/PrefLabel"
+        android:id="@+id/prefsAppClearTask" 
+        android:text="@string/prefsAppClearTask"
+        />
+    
 </LinearLayout>
