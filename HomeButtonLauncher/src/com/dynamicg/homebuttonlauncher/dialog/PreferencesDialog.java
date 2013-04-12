@@ -41,11 +41,11 @@ public class PreferencesDialog extends Dialog {
 	private SeekBar seekbarIconSize;
 	private SeekBar seekbarNumTabs;
 
-	private CheckBox highRes;
-	private CheckBox autoStartSingle;
-	private CheckBox backgroundIconLoader;
-	private CheckBox semiTransparent;
-	private CheckBox appClearTask;
+	private CheckBox chkHighRes;
+	private CheckBox chkAutoStartSingle;
+	private CheckBox chkBackgroundIconLoader;
+	private CheckBox chkSemiTransparent;
+	private CheckBox chkAppClearTask;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -69,11 +69,11 @@ public class PreferencesDialog extends Dialog {
 		seekbarIconSize = attachSeekBar(R.id.prefsIconSize, R.id.prefsIconSizeIndicator, SizePrefsHelper.ICON_SIZES, prefSettings.getIconSize());
 		seekbarNumTabs = attachSeekBar(R.id.prefsNumTabs, R.id.prefsNumTabsIndicator, SizePrefsHelper.NUM_TABS, prefSettings.getNumTabs());
 
-		highRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
-		autoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
-		backgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
-		semiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
-		appClearTask = attachCheckbox(R.id.prefsAppClearTask, prefSettings.isAppClearTask());
+		chkHighRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
+		chkAutoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
+		chkBackgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
+		chkSemiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
+		chkAppClearTask = attachCheckbox(R.id.prefsAppClearTask, prefSettings.isAppClearTask());
 
 		setupLayoutToggle();
 
@@ -156,7 +156,7 @@ public class PreferencesDialog extends Dialog {
 
 	private void saveSettings() {
 
-		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=semiTransparent.isChecked();
+		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=chkSemiTransparent.isChecked();
 		final int oldNumTabs = prefSettings.getNumTabs();
 		final int newNumTabs = getNewValue(seekbarNumTabs);
 		final int currentTabIndex = preferences.getTabIndex();
@@ -194,11 +194,11 @@ public class PreferencesDialog extends Dialog {
 		edit.putInt(PrefSettings.KEY_LABEL_SIZE, getNewValue(seekbarLabelSize));
 		edit.putInt(PrefSettings.KEY_ICON_SIZE, getNewValue(seekbarIconSize));
 		edit.putInt(PrefSettings.KEY_NUM_TABS, getNewValue(seekbarNumTabs));
-		edit.putBoolean(PrefSettings.KEY_HIGH_RES, highRes.isChecked());
-		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, autoStartSingle.isChecked());
-		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, backgroundIconLoader.isChecked());
-		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, semiTransparent.isChecked());
-		edit.putBoolean(PrefSettings.KEY_APP_CLEAR_TASK, appClearTask.isChecked());
+		edit.putBoolean(PrefSettings.KEY_HIGH_RES, chkHighRes.isChecked());
+		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, chkAutoStartSingle.isChecked());
+		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, chkBackgroundIconLoader.isChecked());
+		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, chkSemiTransparent.isChecked());
+		edit.putBoolean(PrefSettings.KEY_APP_CLEAR_TASK, chkAppClearTask.isChecked());
 		edit.apply();
 	}
 
