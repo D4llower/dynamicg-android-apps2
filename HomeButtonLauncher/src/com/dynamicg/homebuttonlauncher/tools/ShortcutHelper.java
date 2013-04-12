@@ -37,6 +37,7 @@ import com.dynamicg.homebuttonlauncher.tools.icons.LargeIconLoader;
  */
 public class ShortcutHelper {
 
+	private static final boolean DEBUG_SHORTCUT = false;
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
 	private static final String SHORTCUT_PREFIX = "sc-";
@@ -115,6 +116,10 @@ public class ShortcutHelper {
 			}
 		};
 		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback);
+
+		if (DEBUG_SHORTCUT) {
+			ShortcutDebugger.debug(activity, intent);
+		}
 	}
 
 	private static void save(MainActivityHome activity, AppConfigDialog optionalDialog, Bitmap bitmap, Intent.ShortcutIconResource iconResource, Intent intent, String label) {
