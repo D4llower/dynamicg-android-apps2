@@ -94,13 +94,13 @@
         />
     
     <CheckBox style="@style/PrefLabel"
-        android:id="@+id/prefsHighResIcon" 
-        android:text="@string/prefsHiResIcon"
+        android:id="@+id/prefsBackgroundIconLoader" 
+        android:text="@string/prefsBackgroundIconLoader"
         />
 
     <CheckBox style="@style/PrefLabel"
-        android:id="@+id/prefsBackgroundIconLoader" 
-        android:text="@string/prefsBackgroundIconLoader"
+        android:id="@+id/prefsHighResIcon" 
+        android:text="@string/prefsHiResIcon"
         />
 
     <CheckBox style="@style/PrefLabel"
