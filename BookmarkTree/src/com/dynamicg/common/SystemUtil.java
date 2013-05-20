@@ -32,14 +32,6 @@ public class SystemUtil {
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
 
-	public static boolean isHoneycombOrNewer() {
-		return android.os.Build.VERSION.SDK_INT >= 11;
-	}
-
-	public static boolean isIcsOrNewer() {
-		return android.os.Build.VERSION.SDK_INT >= 14;
-	}
-
 	public static void sleep(long time) {
 		try {
 			Thread.sleep(time);

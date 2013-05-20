@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <style name="MainTheme">
+    <style name="MainTheme" parent="android:Theme.Holo">
     </style>
     
     <style name="GenericText">
@@ -27,7 +27,7 @@
         <item name="android:textSize">14sp</item>
     </style>
     
-    <style name="DialogButton">
+    <style name="DialogButton" parent="android:Widget.Holo.Button.Borderless.Small">
 	    <item name="android:layout_width">120dip</item>
 	    <item name="android:layout_height">wrap_content</item>
 	</style>

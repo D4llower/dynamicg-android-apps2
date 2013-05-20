@@ -3,7 +3,6 @@ package com.dynamicg.common;
 import java.io.File;
 import java.lang.reflect.Field;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
@@ -24,7 +23,6 @@ public class DeviceInfo {
 		return "";
 	}
 
-	@SuppressLint("DefaultLocale") // toUpperCase,toLowerCase
 	private static String getNameAndValue(Class<?> c, String key) {
 		String name = key.substring(0,1).toUpperCase() + key.substring(1).toLowerCase();
 		return name+": "+getValue(c, key);

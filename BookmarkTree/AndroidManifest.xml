@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.dynamicg.bookmarkTree"
       android:installLocation="auto"
-      android:versionCode="26"
-      android:versionName="2.03"
+      android:versionCode="30"
+      android:versionName="2.04"
       >
       
     <supports-screens 
@@ -13,7 +13,7 @@
         android:anyDensity="true"
         />
     
-    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="14" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />

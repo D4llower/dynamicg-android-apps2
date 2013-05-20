@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -32,7 +31,6 @@ import android.widget.TextView;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.data.writehandler.SeparatorChangedHandler;
-import com.dynamicg.bookmarkTree.data.writer.AlphaSortWriter;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog.ColorSelectedListener;
@@ -41,18 +39,17 @@ import com.dynamicg.bookmarkTree.prefs.SpinnerUtil.KeyValue;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
 import com.dynamicg.common.LayoutUtil;
-import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.SystemUtil;
 
 public class PreferencesDialog extends Dialog {
 
 	private static final int ACTION_DUMP_BOOKMARKS = 1;
-    
+
 	private final BookmarkTreeContext ctx;
 	private final Context context;
 	private final String currentSeparator;
 	private final SpinnerUtil spinnerUtil;
-	
+
 	private final float dialogWidth;
 	private final float tabHeight;
 
@@ -61,24 +58,24 @@ public class PreferencesDialog extends Dialog {
 	//private CheckBox scaleIconsCheckbox;
 
 	private boolean dataRefreshRequired;
-	
-	private HashMap<PrefEntryInt, Integer> prefToViewMap = new HashMap<PrefEntryInt, Integer>(); 
+
+	private HashMap<PrefEntryInt, Integer> prefToViewMap = new HashMap<PrefEntryInt, Integer>();
 
 	public PreferencesDialog(BookmarkTreeContext ctx) {
 		super(ctx.activity);
 		this.ctx = ctx;
 		this.context = getContext();
 		this.spinnerUtil = new SpinnerUtil(this);
-		
+
 		PrefEntryInt.resetUpdatedValue();
 		currentSeparator = ctx.getFolderSeparator();
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		Resources resources = context.getResources();
 		this.dialogWidth = resources.getDimension(R.dimen.prefsDialogWidth);
 		this.tabHeight = resources.getDimension(R.dimen.prefsTabHeight);
-		
+
 		this.show();
 	}
 
@@ -89,26 +86,25 @@ public class PreferencesDialog extends Dialog {
 
 		setContentView(R.layout.prefs_tab_control);
 		prepareTabs();
-		
+
 		setupSeparatorItem();
-		setupAlphaSort();
-		
+
 		doFullUpdateCheckbox = (CheckBox)findViewById(R.id.prefsFullUpdateOnChange);
 		checkForChangedSeparator(); // inactivate intially
-		
+
 		// bind checkboxes
 		bindCheckbox(R.id.prefsSortCaseInsensitive, PreferencesWrapper.sortCaseInsensitive);
-		
+
 		// bind spinners
 		bindSpinner ( R.id.prefsListStyle, PreferencesWrapper.listStyle, SpinnerUtil.getListStyleItems(context), R.string.prefsListStyle );
 		bindSpinner ( R.id.prefsSortOption, PreferencesWrapper.sortOption, SpinnerUtil.getSortOptionItems(context), R.string.prefsSortLabel );
 		bindSpinner ( R.id.prefsIconScaling, PreferencesWrapper.iconScaling, SpinnerUtil.getIconScalingItems(context), R.string.prefsIconScaling );
-		
+
 		// color items
 		bindColorPicker(R.id.prefsColorFolder, PreferencesWrapper.colorFolder, R.string.prefsColorFolder);
 		bindColorPicker(R.id.prefsColorBookmarkTitle, PreferencesWrapper.colorBookmarkTitle, R.string.prefsColorBookmarkTitle);
 		bindColorPicker(R.id.prefsColorBookmarkUrl, PreferencesWrapper.colorBookmarkUrl, R.string.prefsColorBookmarkUrl);
-		
+
 		// save/cancel panel
 		new DialogButtonPanelWrapper(this, DialogButtonPanelWrapper.TYPE_SAVE_CANCEL) {
 			@Override
@@ -116,20 +112,15 @@ public class PreferencesDialog extends Dialog {
 				saveClicked();
 			}
 		};
-		
+
 		setLinks();
-		
-		if (SystemUtil.isHoneycombOrNewer()) {
-			// disable "Tools" with Sort
-			findViewById(R.id.prefsToolsContainer).setVisibility(View.GONE);
-		}
-		
+
 		// see http://devstream.stefanklumpp.com/2010/07/android-display-dialogs-in-fullscreen.html
 		getWindow().setLayout( (int)this.dialogWidth, LayoutParams.FILL_PARENT);
 	}
-	
+
 	private void setLinks() {
-		
+
 		/*
 		 * APP LINK
 		 */
@@ -138,7 +129,7 @@ public class PreferencesDialog extends Dialog {
 			linkNode.setOnClickListener(MarketLinkHelper.getMarketAppLink(context));
 			LayoutUtil.indentedFocusable(linkNode, "\u2192 ", context.getString(R.string.prefsLinkToMarket));
 		}
-		
+
 		/*
 		 * DONATION LINK
 		 */
@@ -147,7 +138,7 @@ public class PreferencesDialog extends Dialog {
 			donationNode.setOnClickListener(MarketLinkHelper.getDonationLink(context));
 			LayoutUtil.indentedFocusable(donationNode, "\u2192 ", context.getString(R.string.prefsLinkDonationApp));
 		}
-		
+
 		/*
 		 * ABOUT
 		 */
@@ -161,9 +152,9 @@ public class PreferencesDialog extends Dialog {
 			});
 			LayoutUtil.indentedFocusable(aboutNode, "\u2192 ", context.getString(R.string.commonAbout));
 		}
-		
+
 	}
-	
+
 	private void setupSeparatorItem() {
 		separatorItem = (EditText)findViewById(R.id.prefsSeparator);
 		separatorItem.setText(currentSeparator);
@@ -180,44 +171,14 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 	}
-	
-	private void setupAlphaSort() {
-		Button sortAlpha = (Button)findViewById(R.id.prefsActionSortAlpha);
-		sortAlpha.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new SimpleAlertDialog.OkCancelDialog(ctx.activity, R.string.actionSortBookmarksConfirm) {
-					@Override
-					public void onPositiveButton() {
-						new SimpleProgressDialog(ctx.activity, R.string.commonPleaseWait ) {
-							@Override
-							public void backgroundWork() {
-								new AlphaSortWriter(ctx);
-							}
-							@Override
-							public void done() {
-								ctx.reloadAndRefresh(); // needs to be done by main thread
-								SystemUtil.toastShort(context, context.getString(R.string.actionSortBookmarksDone));
-							}
-							@Override
-							public String getErrorTitle(Throwable exception) {
-								return "Alpha sort failed";
-							}
-							
-						};
-					}
-				};
-			}
-		});
-	}
-	
+
 	private void prepareTabs() {
 		TabHost tabs = (TabHost) this.findViewById(R.id.prefsTabHost);
 		tabs.setup();
-		
-		int[] layouts = {R.id.prefsTabContent1, R.id.prefsTabContent2}; 
+
+		int[] layouts = {R.id.prefsTabContent1, R.id.prefsTabContent2};
 		int[] titles = {R.string.prefsGroupPresentation, R.string.prefsGroupToolsAndSetup};
-		
+
 		TabSpec tspec;
 		View child;
 		for ( int i=0;i<layouts.length;i++) {
@@ -230,34 +191,34 @@ public class PreferencesDialog extends Dialog {
 			child.getLayoutParams().height = (int)this.tabHeight;
 			child.setPadding(0,child.getPaddingTop(),0,child.getPaddingBottom());
 		}
-		
+
 	}
-	
+
 	private static SpannableString bold(String text) {
 		SpannableString str = new SpannableString(text);
 		str.setSpan(new StyleSpan(Typeface.BOLD), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		return str;
 	}
-	
+
 	private void bindSpinner(int spinnerResId, PrefEntryInt prefEntry, ArrayList<KeyValue> items, int prompt) {
 		prefToViewMap.put(prefEntry, spinnerResId);
 		spinnerUtil.bind(spinnerResId, prefEntry, items, prompt);
 	}
-	
+
 	private CheckBox bindCheckbox(int id, PrefEntryInt prefEntry) {
 		prefToViewMap.put(prefEntry, id);
 		CheckBox box = (CheckBox)findViewById(id);
 		box.setChecked(prefEntry.isOn());
 		return box;
 	}
-	
+
 	private void bindColorPicker(int id, final PrefEntryInt prefEntry, int titleRes) {
 		prefToViewMap.put(prefEntry, id);
 
 		TextView link = (TextView)findViewById(id);
 		//LayoutUtil.underline(link);
 		LayoutUtil.indentedFocusable(link, "\u2022 ", context.getString(titleRes) );
-		
+
 		final ColorSelectedListener colorSelectedListener = new ColorSelectedListener() {
 			@Override
 			public void colorSelected(int selectedColor) {
@@ -272,22 +233,23 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 	}
-	
+
 	private void checkForChangedSeparator() {
 		String newValue = separatorItem.getText().toString();
 		boolean hasChanges = newValue!=null && !newValue.equals(currentSeparator);
 		doFullUpdateCheckbox.setEnabled(hasChanges);
 		doFullUpdateCheckbox.setTextColor(hasChanges?Color.WHITE:Color.LTGRAY);
 	}
-	
+
 	private void saveClicked() {
-		
+
 		final Handler pleaseReloadToastHandler = new Handler() {
+			@Override
 			public void handleMessage(Message msg) {
 				SystemUtil.toastShort(context, context.getString(R.string.hintRestartApp));
 			}
 		};
-		
+
 		boolean massUpdateTitles = this.doFullUpdateCheckbox.isChecked();
 		if (!massUpdateTitles) {
 			saveMain(pleaseReloadToastHandler);
@@ -307,35 +269,35 @@ public class PreferencesDialog extends Dialog {
 				public String getErrorTitle(Throwable exception) {
 					return "Separator update failed";
 				}
-				
+
 			};
 		}
-			
+
 	}
-	
+
 	private void saveMain(Handler pleaseReloadToastHandler) {
-		
+
 		boolean toastForReopen =
-			PreferencesWrapper.listStyle.value != spinnerUtil.getCurrentValue(R.id.prefsListStyle)
-			|| PreferencesWrapper.iconScaling.value != spinnerUtil.getCurrentValue(R.id.prefsIconScaling)
-			;
-		
+				PreferencesWrapper.listStyle.value != spinnerUtil.getCurrentValue(R.id.prefsListStyle)
+				|| PreferencesWrapper.iconScaling.value != spinnerUtil.getCurrentValue(R.id.prefsIconScaling)
+				;
+
 		processSeparatorUpdate();
-		
+
 		for (PrefEntryInt entry:prefToViewMap.keySet()) {
 			push(entry, prefToViewMap.get(entry));
 		}
-		
+
 		// see if "refresh" is required
 		if ( spinnerUtil.isChanged(R.id.prefsListStyle)
 				|| spinnerUtil.isChanged(R.id.prefsSortOption)
-				) 
+				)
 		{
 			dataRefreshRequired = true;
 		}
-		
+
 		PreferencesUpdater.writeAll();
-		
+
 		// fix for "java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()"
 		// with "changed separator" this will be called within a thread so we have to route through a message handler
 		if (toastForReopen) {
@@ -352,14 +314,14 @@ public class PreferencesDialog extends Dialog {
 			item.setNewValue ( ((CheckBox)view).isChecked() ? 1 : 0 );
 		}
 	}
-	
+
 	private void savePostprocessing() {
 		if (dataRefreshRequired) {
 			ctx.reloadAndRefresh(); // needs to be done by main thread
 		}
 		dismiss(); // close dialog
 	}
-	
+
 	private void processSeparatorUpdate() {
 
 		String newSeparator = separatorItem.getText().toString();

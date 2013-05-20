@@ -60,8 +60,8 @@ public class Main extends Activity {
 	}
 
 
-	private void createMenu(Menu menu, int id, int title, int icon) {
-		menu.add(0, id, 0, title).setIcon(icon);
+	private void createMenu(Menu menu, int id, int title) {
+		menu.add(0, id, 0, title);
 	}
 
 	private Menu menu;
@@ -69,12 +69,12 @@ public class Main extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		this.menu = menu;
-		createMenu(menu, ACTION_EXPAND_ALL, R.string.menuExpandAll, R.drawable.menu_expand);
-		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll, R.drawable.menu_collapse);
-		createMenu(menu, ACTION_RELOAD, R.string.menuReload, R.drawable.menu_reload);
-		createMenu(menu, ACTION_NEW_BM, R.string.menuCreate, R.drawable.menu_create);
-		createMenu(menu, ACTION_BACKUP_RESTORE, SystemUtil.isHoneycombOrNewer()?R.string.brDialogTitle:R.string.menuBackup, R.drawable.menu_save);
-		createMenu(menu, ACTION_SETTINGS, R.string.menuPrefs, R.drawable.menu_prefs);
+		createMenu(menu, ACTION_EXPAND_ALL, R.string.menuExpandAll);
+		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll);
+		createMenu(menu, ACTION_RELOAD, R.string.menuReload);
+		createMenu(menu, ACTION_NEW_BM, R.string.menuCreate);
+		createMenu(menu, ACTION_BACKUP_RESTORE, R.string.brDialogTitle);
+		createMenu(menu, ACTION_SETTINGS, R.string.menuPrefs);
 		return true;
 	}
 
