@@ -28,6 +28,7 @@ import android.widget.RemoteViews;
 
 public class TemperatureWidget extends AppWidgetProvider {
 
+	private static final long MAX_AGE_MILLI = 3l * 60l * 60l * 1000l;
 	private boolean initRequired = true;
 
 	@Override
@@ -70,14 +71,15 @@ public class TemperatureWidget extends AppWidgetProvider {
 		RemoteViews updateViews = null;
 
 		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_02);
-		updateViews.setTextViewText(R.id.TAIR, weatherData.getWeatherAirTemperature());
-		// updateViews.setTextViewText(R.id.THUM, weatherData.getWeatherAirHumidity());
-		//        updateViews.setTextViewText(R.id.TZH, WeatherView.getStationIndicator(context));
 
-		String time = weatherData.getTime();
-		if (time.length()>5) {
-			time = time.substring(0,5); // remove "Uhr"
+		String air = weatherData.getWeatherAirTemperature();
+		long lastRefresh = weatherData.parseTime();
+		if (lastRefresh<System.currentTimeMillis()-MAX_AGE_MILLI) {
+			air = "--";
 		}
+		updateViews.setTextViewText(R.id.TAIR, air);
+
+		String time = weatherData.getDisplayTime();
 		time = WeatherView.getStationIndicator(context) + " " + time;
 		updateViews.setTextViewText(R.id.ZEIT, time);
 

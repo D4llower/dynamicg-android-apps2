@@ -35,10 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.format.Time;
 import android.util.Log;
 
 public class WeatherData {
-	
+
 	/*
 	 * { "Globalstrahlung": "5 W/m²", "Luftdruck QFE": "967.2 hPa",
 	 * "Luftfeuchte": "73 %", "Lufttemperatur": "14.4 °C", "Niederschlag":
@@ -62,11 +63,11 @@ public class WeatherData {
 	final static String WINDRICHTUNG = "Windrichtung";
 	final static String WINDSTAERKE = "Windstaerke Ø 10 min.";
 	final static String ZEIT = "Zeit";
-	
+
 	final static String sortOrder[] = {LUFTTEMPERATUR, LUFTFEUCHTE, WASSERTEMPERATUR, TAUPUNKT, WINDBOEWEN, WINDGESCHW, WINDSTAERKE, WINDRICHTUNG, NIEDERSCHLAG, LUFTDRUCK, WINDCHILL, PEGEL, ZEIT };
-	
+
 	private JSONObject json;
-	
+
 
 	private String convertStreamToString(InputStream is) {
 		BufferedReader reader = null;
@@ -153,13 +154,13 @@ public class WeatherData {
 		} catch (JSONException e) {
 			Log.e("parseJsonToStringArray", "", e);
 		}
-		
+
 		for (int i = 0; i < names.length(); i++) {
 			try {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put(mapName, names.getString(i));
 				map.put(mapValue, values.getString(i));
-				
+
 				list.add(map);
 			} catch (JSONException e) {
 				Log.e("getJsonAsStringArray", "", e);
@@ -167,7 +168,7 @@ public class WeatherData {
 		}
 		return list;
 	}
-	
+
 	public ArrayList<HashMap<String, String>> getJsonAsArraySortedList(
 			JSONObject json, String mapName, String mapValue, String[] nameSortOrder ) {
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>(nameSortOrder.length);
@@ -196,7 +197,7 @@ public class WeatherData {
 
 		return getJsonAsArraySortedList(json, mapName, mapValue, sortOrder);
 	}
-	
+
 	public WeatherData(boolean isTiefenbrunnen) {
 		if (isTiefenbrunnen) {
 			json = getJson("http://mi-eng.appspot.com/meteo/tiefenbrunnen");
@@ -204,11 +205,11 @@ public class WeatherData {
 			json = getJson("http://mi-eng.appspot.com/meteo/mythenquai");
 		}
 	}
-	
+
 	public boolean hasJson() {
-		return json!=null;	
+		return json!=null;
 	}
-	
+
 	/**
 	 * FIXME should round when shrinking
 	 * 14.4 °C shrinnk to no digit
@@ -220,7 +221,7 @@ public class WeatherData {
 		}
 		return temp.replaceAll("[\\sC]", "");
 	}
-	
+
 	public String getWeatherAirTemperature() {
 		if (json!=null) {
 			try {
@@ -231,7 +232,7 @@ public class WeatherData {
 		}
 		return "";
 	}
-	
+
 	public String getWeatherAirHumidity() {
 		if (json!=null) {
 			try {
@@ -241,10 +242,10 @@ public class WeatherData {
 			}
 		}
 		return "";
-			
+
 	}
 
-	
+
 	public String getWeatherLakeTemperature() {
 		if (json!=null) {
 			try {
@@ -256,12 +257,15 @@ public class WeatherData {
 		return "";
 	}
 
-	public String getTime() {
+	// returns "dd.mm.yyyy hh:mi"
+	public String getFullTimeStr() {
 		if (json!=null) {
 			try {
 				String s = json.getString(ZEIT);
-				if (s.length()>0 && s.indexOf(" ")>0) {
-					return s.split(" ")[1];
+				// format "dd.mm.yyyy hh:mi Uhr"
+				int idx = 16;
+				if (s.length()>idx) {
+					return s.substring(0, idx);
 				}
 				return s;
 			} catch (JSONException e) {
@@ -271,6 +275,39 @@ public class WeatherData {
 		return "";
 	}
 
-	
-	
+	public long parseTime() {
+		String str = getFullTimeStr();
+		Time time = new Time();
+		try {
+			String p = str.substring(6,10)
+					+ str.substring(3,5)
+					+ str.substring(0,2)
+					+ "T"
+					+ str.substring(11,13)
+					+ str.substring(14,16)
+					+ "00" // secs
+					;
+			//System.err.println("###P=["+p+"]");
+			time.parse(p); // 20081013T160000"
+			return time.toMillis(true);
+		}
+		catch (Throwable e) {
+			//System.err.println("###P ERROR "+e);
+			return System.currentTimeMillis();
+		}
+	}
+
+	public String getDisplayTime() {
+		String s = getFullTimeStr();
+		//System.err.println("S=["+s+"]");
+		if (s.length()>15) {
+			int idx = 11;
+			int len = 5;
+			s = s.substring(idx,idx+len); // see format above
+		}
+		return s;
+	}
+
+
+
 }
