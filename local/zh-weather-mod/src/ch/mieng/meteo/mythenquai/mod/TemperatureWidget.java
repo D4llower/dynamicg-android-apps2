@@ -79,8 +79,7 @@ public class TemperatureWidget extends AppWidgetProvider {
 		}
 		updateViews.setTextViewText(R.id.TAIR, air);
 
-		String time = weatherData.getDisplayTime();
-		time = WeatherView.getStationIndicator(context) + " " + time;
+		String time = WeatherView.getStationIndicator(context) + " " + weatherData.getDisplayTime();
 		updateViews.setTextViewText(R.id.ZEIT, time);
 
 		setClickIntent(context, updateViews);
