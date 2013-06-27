@@ -128,6 +128,7 @@ public class PrefSettings {
 		return sharedPrefs.getInt(KEY_TRANS_ALPHA, DFLT_TRANSPARENCY_ALPHA);
 	}
 
+	// "HomeTab" pref is tabindex+1: 0=off, 1=tab1, 2=tab2
 	public int getHomeTabNum() {
 		return sharedPrefs.getInt(KEY_HOME_TAB_NUM, 0);
 	}

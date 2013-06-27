@@ -253,6 +253,10 @@ public class PreferencesDialog extends Dialog {
 				// changed home tab
 				activity.forceNewTab(newHomeTabNum-1);
 			}
+			else if (newHomeTabNum==0 && oldHomeTabNum>0 && newNumTabs>0) {
+				// reset to first tab
+				activity.forceNewTab(0);
+			}
 			dismiss();
 		}
 	}

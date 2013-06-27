@@ -51,7 +51,7 @@ public class PreferencesManager {
 		if (numTabs==0) {
 			return 0;
 		}
-		final int homeTabIndex = prefSettings.getHomeTabNum()-1; // "HomeTab" pref is index+1 i.e. 0=off, 1=tab1, 2=tab2
+		final int homeTabIndex = prefSettings.getHomeTabNum()-1;
 		if (homeTabIndex>=0 && homeTabIndex<numTabs) {
 			return homeTabIndex;
 		}
