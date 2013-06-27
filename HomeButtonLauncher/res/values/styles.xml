@@ -9,7 +9,7 @@
     <style name="PrefLabel">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:layout_marginTop">10dp</item>
+		<item name="android:layout_marginTop">@dimen/labelMargin</item>
 		<item name="android:textStyle">bold</item>
 		<item name="android:textColor">#bbbbbb</item>
 		<item name="android:textSize">14sp</item>
@@ -40,17 +40,21 @@
 		<item name="android:layout_height">wrap_content</item>
 	</style>
 	
-	
-  <style name="ThemeDefault" parent="android:Theme.Holo.Dialog">
-    <item name="android:windowBackground">@drawable/background_holo_dark</item>
-  </style>
-  <style name="ThemeSemiTransparent" parent="android:Theme.Holo.Dialog">
-    <item name="android:windowIsTranslucent">true</item>
-    <item name="android:windowBackground">@color/BackgroundSemiTransparent</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowIsFloating">true</item>
-    <item name="android:backgroundDimEnabled">false</item>
-  </style>
+	<style name="ThemeDefault" parent="android:Theme.Holo.Dialog">
+		<item name="android:windowBackground">@drawable/background_holo_dark</item>
+	</style>
+	<style name="ThemeSemiTransparent" parent="android:Theme.Holo.Dialog">
+		<item name="android:windowIsTranslucent">true</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowIsFloating">true</item>
+		<item name="android:backgroundDimEnabled">false</item>
+	</style>
+  
+    <style name="Divider">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">1px</item>
+	    <item name="android:background">#373737</item>
+    </style>
   
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-	<string name="app_name">Home Launcher</string>
 	<string name="menuAdd">加入</string>
 	<string name="menuRemove">移除</string>
 	<string name="menuAbout">关于</string>

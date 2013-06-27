@@ -21,4 +21,6 @@
 	<dimen name="swipeMaxOff">100dp</dimen>
 	<dimen name="swipeMinDist">120dp</dimen>
 	
+	<dimen name="labelMargin">12dp</dimen>	
+	
 </resources>

@@ -23,6 +23,8 @@ public class PreferencesManager {
 	public final PrefSettings prefSettings;
 	public final PrefShortlist prefShortlist;
 
+	private int currentTabIndex;
+
 	protected static String getShortlistName(int tabindex) {
 		return tabindex==0 ? HBLConstants.PREFS_APPS: HBLConstants.PREFS_APPS+tabindex;
 	}
@@ -36,12 +38,28 @@ public class PreferencesManager {
 		this.prefSettings = new PrefSettings(context);
 		GlobalContext.init(context, prefSettings);
 
-		int tabindex = getTabIndex();
-		this.prefShortlist = new PrefShortlist(getShortlistPrefs(tabindex));
-		if (tabindex==0) {
+		currentTabIndex = getCurrentTabIndex(prefSettings);
+		this.prefShortlist = new PrefShortlist(getShortlistPrefs(currentTabIndex));
+		if (currentTabIndex==0) {
 			// skip for all extra tabs
 			checkOnStartup();
 		}
+	}
+
+	private static int getCurrentTabIndex(PrefSettings prefSettings) {
+		final int numTabs = prefSettings.getNumTabs();
+		if (numTabs==0) {
+			return 0;
+		}
+		final int homeTabIndex = prefSettings.getHomeTabNum()-1; // "HomeTab" pref is index+1 i.e. 0=off, 1=tab1, 2=tab2
+		if (homeTabIndex>=0 && homeTabIndex<numTabs) {
+			return homeTabIndex;
+		}
+		final int recentTabIndex = prefSettings.getIntValue(KEY_TAB_INDEX);
+		if (recentTabIndex>=0 && recentTabIndex<numTabs) {
+			return recentTabIndex;
+		}
+		return 0;
 	}
 
 	private void checkOnStartup() {
@@ -57,17 +75,13 @@ public class PreferencesManager {
 	}
 
 	public void updateCurrentTabIndex(int tabindex) {
+		currentTabIndex = tabindex;
 		prefShortlist.switchSharedPrefs(getShortlistPrefs(tabindex));
 		prefSettings.apply(KEY_TAB_INDEX, tabindex);
 	}
 
 	public int getTabIndex() {
-		int tabindex = prefSettings.getIntValue(KEY_TAB_INDEX);
-		if (tabindex==0) {
-			return 0;
-		}
-		int numTabs = prefSettings.getNumTabs();
-		return tabindex>=numTabs?0:tabindex;
+		return currentTabIndex;
 	}
 
 	public String getTabTitle(int index) {

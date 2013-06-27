@@ -71,6 +71,8 @@
 	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsIconSizeIndicator" />
 	</LinearLayout>
 	
+    <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
+    
     <TextView style="@style/PrefLabel"
 	    android:text="@string/prefsNumTabs"
 	    />
@@ -83,10 +85,33 @@
 	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsNumTabsIndicator" />
 	</LinearLayout>
 
+    <LinearLayout android:id="@+id/prefsHomeTabContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+	    <TextView style="@style/PrefLabel"
+		    android:text="@string/prefsHomeTab"
+		    android:layout_marginTop="0dp"
+		    />
+	    <Spinner android:id="@+id/prefsHomeTab"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="6dp"
+	        />
+	</LinearLayout>
+    
+    <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
+    
     <CheckBox style="@style/PrefLabel"
         android:id="@+id/prefsSemiTransparent" 
         android:text="@string/prefsSemiTransparent"
         />
+    <SeekBar style="@style/PrefSeekbar"
+        android:id="@+id/prefsTransparencyAlpha"
+		/>
+    
+    <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
     
     <CheckBox style="@style/PrefLabel"
         android:id="@+id/prefsAutoStartSingle" 

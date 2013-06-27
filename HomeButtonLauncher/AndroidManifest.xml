@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dynamicg.homebuttonlauncher"
-    android:versionCode="23"
-    android:versionName="2.3"
+    android:versionCode="24"
+    android:versionName="2.4"
     android:installLocation="internalOnly"
     >
 
@@ -18,7 +18,7 @@
         android:targetSdkVersion="17"
         />
     
-	<!-- for "TimeRec Plugin 3 / Google Drive Backup&Restore " -->
+	<!-- for "TimeRec Plugin 3 / Google Drive Backup&Restore" -->
 	<uses-permission android:name="com.dynamicg.timerec.plugin3.ACCESS"/>
     
     <application

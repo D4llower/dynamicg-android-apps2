@@ -19,12 +19,16 @@ public class PrefSettings {
 	public static final String KEY_BACKGROUND_ICON_LOADER = "iconsInBG";
 	public static final String KEY_SEMI_TRANSPARENT = "semiTransp";
 	public static final String KEY_APP_CLEAR_TASK = "clearTask";
+	public static final String KEY_TRANS_ALPHA = "transAlpha";
+	public static final String KEY_HOME_TAB_NUM = "homeTab";
 
 	public static final int NUM_LAYOUTS = 5;
 	private static final int LAYOUT_PLAIN_2 = 1;
 	private static final int LAYOUT_COMPACT_2 = 2;
 	private static final int LAYOUT_COMPACT_4 = 3;
 	private static final int LAYOUT_COMPACT_3 = 4;
+
+	private static final int DFLT_TRANSPARENCY_ALPHA = 0xcd;
 
 	public final SharedPreferences sharedPrefs;
 
@@ -118,6 +122,14 @@ public class PrefSettings {
 
 	public boolean isAppClearTask() {
 		return sharedPrefs.getBoolean(KEY_APP_CLEAR_TASK, false);
+	}
+
+	public int getTransparencyAlpha() {
+		return sharedPrefs.getInt(KEY_TRANS_ALPHA, DFLT_TRANSPARENCY_ALPHA);
+	}
+
+	public int getHomeTabNum() {
+		return sharedPrefs.getInt(KEY_HOME_TAB_NUM, 0);
 	}
 
 }

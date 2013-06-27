@@ -5,6 +5,9 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +70,15 @@ public class MainActivityHome extends Activity {
 		}
 	}
 
+	public void setBackgroundTransparency(boolean setTheme) {
+		if (setTheme) {
+			setTheme(R.style.ThemeSemiTransparent);
+		}
+		int alpha = preferences.prefSettings.getTransparencyAlpha();
+		Drawable drawable = new ColorDrawable(Color.argb(alpha, 0x00, 0x00, 0x00));
+		getWindow().setBackgroundDrawable(drawable);
+	}
+
 	private void main() {
 
 		if (forwardToGoogleNow()) {
@@ -76,7 +88,7 @@ public class MainActivityHome extends Activity {
 		preferences = new PreferencesManager(context);
 
 		if (preferences.prefSettings.isSemiTransparent()) {
-			setTheme(R.style.ThemeSemiTransparent);
+			setBackgroundTransparency(true);
 		}
 
 		setContentView(R.layout.activity_main);
@@ -316,6 +328,11 @@ public class MainActivityHome extends Activity {
 			preferences.updateCurrentTabIndex(tabindex);
 			refreshList();
 		}
+	}
+
+	public void forceNewTab(int tabindex) {
+		// this will call back to updateOnTabSwitch()
+		tabhost.setCurrentTab(tabindex);
 	}
 
 	public void redrawTabContainer() {

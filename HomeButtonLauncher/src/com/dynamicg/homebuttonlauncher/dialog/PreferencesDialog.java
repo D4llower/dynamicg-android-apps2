@@ -1,5 +1,8 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
+import java.util.ArrayList;
+
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -7,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dynamicg.common.Logger;
@@ -24,12 +27,10 @@ import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
+@SuppressLint("HandlerLeak")
 public class PreferencesDialog extends Dialog {
 
 	private static final Logger log = new Logger(PreferencesDialog.class);
-
-	private static final int TAG_OLD_VALUE = R.id.buttonCancel;
-	private static final int TAG_NEW_VALUE = R.id.buttonOk;
 
 	private final PreferencesManager preferences;
 	private final PrefSettings prefSettings;
@@ -37,15 +38,18 @@ public class PreferencesDialog extends Dialog {
 
 	private int selectedLayout;
 
-	private SeekBar seekbarLabelSize;
-	private SeekBar seekbarIconSize;
-	private SeekBar seekbarNumTabs;
+	private SeekBarHelper seekbarLabelSize;
+	private SeekBarHelper seekbarIconSize;
+	private SeekBarHelper seekbarNumTabs;
+	private TransparencyAlphaHelper transparencyAlphaHelper;
 
 	private CheckBox chkHighRes;
 	private CheckBox chkAutoStartSingle;
 	private CheckBox chkBackgroundIconLoader;
 	private CheckBox chkSemiTransparent;
 	private CheckBox chkAppClearTask;
+
+	private SpinnerHelper homeTabHelper;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -65,15 +69,23 @@ public class PreferencesDialog extends Dialog {
 		HeaderAbstract header = new HeaderPreferences(this, activity);
 		header.attach(R.string.preferences);
 
-		seekbarLabelSize = attachSeekBar(R.id.prefsLabelSize, R.id.prefsLabelSizeIndicator, SizePrefsHelper.LABEL_SIZES, prefSettings.getLabelSize());
-		seekbarIconSize = attachSeekBar(R.id.prefsIconSize, R.id.prefsIconSizeIndicator, SizePrefsHelper.ICON_SIZES, prefSettings.getIconSize());
-		seekbarNumTabs = attachSeekBar(R.id.prefsNumTabs, R.id.prefsNumTabsIndicator, SizePrefsHelper.NUM_TABS, prefSettings.getNumTabs());
+		seekbarLabelSize = new SeekBarHelper(this, R.id.prefsLabelSize, SizePrefsHelper.LABEL_SIZES, prefSettings.getLabelSize());
+		seekbarLabelSize.attachDefaultIndicator(R.id.prefsLabelSizeIndicator);
+
+		seekbarIconSize = new SeekBarHelper(this, R.id.prefsIconSize, SizePrefsHelper.ICON_SIZES, prefSettings.getIconSize());
+		seekbarIconSize.attachDefaultIndicator(R.id.prefsIconSizeIndicator);
+
+		seekbarNumTabs = new SeekBarHelper(this, R.id.prefsNumTabs, SizePrefsHelper.NUM_TABS, prefSettings.getNumTabs());
+		seekbarNumTabs.attachDefaultIndicator(R.id.prefsNumTabsIndicator);
 
 		chkHighRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
 		chkAutoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
 		chkBackgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
 		chkSemiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
 		chkAppClearTask = attachCheckbox(R.id.prefsAppClearTask, prefSettings.isAppClearTask());
+
+		transparencyAlphaHelper = new TransparencyAlphaHelper();
+		transparencyAlphaHelper.setVisibility(chkSemiTransparent.isChecked()); // initial setting
 
 		setupLayoutToggle();
 
@@ -91,6 +103,63 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 
+		chkSemiTransparent.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				transparencyAlphaHelper.setVisibility(isChecked);
+			}
+		});
+
+		legacyClearTask();
+		attachHomeTab();
+	}
+
+	private void attachHomeTab() {
+		homeTabHelper = new SpinnerHelper(this, R.id.prefsHomeTab);
+		final View container = findViewById(R.id.prefsHomeTabContainer);
+
+		final ValueChangeListener spinnerUpdateHandler = new ValueChangeListener() {
+			@Override
+			public void valueChanged(final int previousHomeTab) {
+				final int maxTabs = seekbarNumTabs.getNewValue(); // this is 0,2,3,...
+				final int newHomeTab = maxTabs>=previousHomeTab?previousHomeTab:0; // previousHomeTab is tabnum not tabindex.
+
+				log.debug("tabs max/currentHome", maxTabs, newHomeTab);
+				ArrayList<String> items = new ArrayList<String>();
+				items.add(""); // pos 0 = none
+				String padding = "   ";
+				for (int idx=0;idx<maxTabs;idx++) {
+					// pos 1 to n is "tabindex+1"
+					items.add(padding+(idx+1)+padding);
+				}
+
+				homeTabHelper.bind(items, newHomeTab);
+
+				// apply visibility
+				container.setVisibility(maxTabs>0?View.VISIBLE:View.GONE);
+			}
+		};
+
+		seekbarNumTabs.setOnValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChanged(int newValue) {
+				// reuse current selection if applicable
+				spinnerUpdateHandler.valueChanged(homeTabHelper.getSelectedPosition());
+			}
+		});
+
+		// initial setup
+		spinnerUpdateHandler.valueChanged(prefSettings.getHomeTabNum());
+	}
+
+	private void legacyClearTask() {
+		// only show "clear task" checkbox if enabled in previous app versions
+		final String keepClearTask = "keepClearTask";
+		if (prefSettings.isAppClearTask() && !prefSettings.sharedPrefs.contains(keepClearTask)) {
+			prefSettings.apply(keepClearTask, 1);
+		}
+		boolean showClearTask = prefSettings.sharedPrefs.contains(keepClearTask);
+		chkAppClearTask.setVisibility(showClearTask?View.VISIBLE:View.GONE);
 	}
 
 	private CheckBox attachCheckbox(int id, boolean checked) {
@@ -99,31 +168,26 @@ public class PreferencesDialog extends Dialog {
 		return box;
 	}
 
-	private SeekBar attachSeekBar(final int id, final int indicatorId, final int[] values, final int initialValue) {
-		final SeekBar bar = (SeekBar)findViewById(id);
-		SizePrefsHelper.setSeekBar(bar, initialValue, values);
-		bar.setTag(TAG_NEW_VALUE, initialValue);
-		bar.setTag(TAG_OLD_VALUE, initialValue);
+	public class TransparencyAlphaHelper {
+		final int offset = 155;
+		final int max = 50;
+		final int mod = 2;
+		final int original = prefSettings.getTransparencyAlpha();
+		final SeekBar bar = (SeekBar)findViewById(R.id.prefsTransparencyAlpha);
 
-		final TextView indicator = (TextView)findViewById(indicatorId);
-		bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-			}
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-			}
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				if (fromUser) {
-					int selectedValue = SizePrefsHelper.getSelectedValue(bar, values);
-					indicator.setText("["+selectedValue+"]");
-					bar.setTag(TAG_NEW_VALUE, selectedValue);
-				}
-			}
-		});
-
-		return bar;
+		TransparencyAlphaHelper() {
+			bar.setProgress((original-offset)/mod);
+			bar.setMax(max);
+		}
+		int getNewValue() {
+			return bar.getProgress()*mod+offset;
+		}
+		void setVisibility(boolean visible) {
+			bar.setVisibility(visible?View.VISIBLE:View.GONE);
+		}
+		boolean isChanged() {
+			return original!=getNewValue();
+		}
 	}
 
 	private void setLayoutSelection(View parent, int which) {
@@ -150,16 +214,13 @@ public class PreferencesDialog extends Dialog {
 		setLayoutSelection(parent, prefSettings.getLayoutType());
 	}
 
-	private static int getNewValue(SeekBar bar) {
-		return (Integer)bar.getTag(TAG_NEW_VALUE);
-	}
-
 	private void saveSettings() {
 
 		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=chkSemiTransparent.isChecked();
 		final int oldNumTabs = prefSettings.getNumTabs();
-		final int newNumTabs = getNewValue(seekbarNumTabs);
+		final int newNumTabs = seekbarNumTabs.getNewValue();
 		final int currentTabIndex = preferences.getTabIndex();
+		final int oldHomeTabNum = prefSettings.getHomeTabNum();
 		log.debug("saveSettings", oldNumTabs, newNumTabs, currentTabIndex);
 
 		if (currentTabIndex>=newNumTabs) {
@@ -184,21 +245,34 @@ public class PreferencesDialog extends Dialog {
 			activity.finish();
 		}
 		else {
+			if (chkSemiTransparent.isChecked() && transparencyAlphaHelper.isChanged()) {
+				activity.setBackgroundTransparency(false);
+			}
+			final int newHomeTabNum = prefSettings.getHomeTabNum();
+			if (newHomeTabNum>0 && newHomeTabNum!=oldHomeTabNum) {
+				// changed home tab
+				activity.forceNewTab(newHomeTabNum-1);
+			}
 			dismiss();
 		}
 	}
 
 	private void saveSharedPrefs() {
 		Editor edit = prefSettings.sharedPrefs.edit();
+
 		edit.putInt(PrefSettings.KEY_LAYOUT, selectedLayout);
-		edit.putInt(PrefSettings.KEY_LABEL_SIZE, getNewValue(seekbarLabelSize));
-		edit.putInt(PrefSettings.KEY_ICON_SIZE, getNewValue(seekbarIconSize));
-		edit.putInt(PrefSettings.KEY_NUM_TABS, getNewValue(seekbarNumTabs));
+		edit.putInt(PrefSettings.KEY_LABEL_SIZE, seekbarLabelSize.getNewValue());
+		edit.putInt(PrefSettings.KEY_ICON_SIZE, seekbarIconSize.getNewValue());
+		edit.putInt(PrefSettings.KEY_NUM_TABS, seekbarNumTabs.getNewValue());
+		edit.putInt(PrefSettings.KEY_TRANS_ALPHA, transparencyAlphaHelper.getNewValue());
+		edit.putInt(PrefSettings.KEY_HOME_TAB_NUM, seekbarNumTabs.getNewValue()>0 ? homeTabHelper.getSelectedPosition() : 0);
+
 		edit.putBoolean(PrefSettings.KEY_HIGH_RES, chkHighRes.isChecked());
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, chkAutoStartSingle.isChecked());
 		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, chkBackgroundIconLoader.isChecked());
 		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, chkSemiTransparent.isChecked());
 		edit.putBoolean(PrefSettings.KEY_APP_CLEAR_TASK, chkAppClearTask.isChecked());
+
 		edit.apply();
 	}
 
