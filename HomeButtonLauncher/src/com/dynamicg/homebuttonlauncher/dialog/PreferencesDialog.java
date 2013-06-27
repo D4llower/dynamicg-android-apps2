@@ -214,24 +214,38 @@ public class PreferencesDialog extends Dialog {
 		setLayoutSelection(parent, prefSettings.getLayoutType());
 	}
 
-	private void saveSettings() {
+	private int getNewHomeTabNum() {
+		return seekbarNumTabs.getNewValue()>0 ? homeTabHelper.getSelectedPosition() : 0;
+	}
 
-		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=chkSemiTransparent.isChecked();
-		final int oldNumTabs = prefSettings.getNumTabs();
-		final int newNumTabs = seekbarNumTabs.getNewValue();
+	private boolean updateCurrentTab() {
 		final int currentTabIndex = preferences.getTabIndex();
+		final int oldNumTabs = seekbarNumTabs.initialValue;
+		final int newNumTabs = seekbarNumTabs.getNewValue();
 		final int oldHomeTabNum = prefSettings.getHomeTabNum();
-		log.debug("saveSettings", oldNumTabs, newNumTabs, currentTabIndex);
+		final int newHomeTabNum = getNewHomeTabNum();
 
-		if (currentTabIndex>=newNumTabs) {
-			// reset to first tab if current is above max
+		if (currentTabIndex>=newNumTabs || (oldHomeTabNum>0 && newHomeTabNum==0)) {
+			// reset to first tab
 			preferences.updateCurrentTabIndex(0);
+			return true;
 		}
+		else if (newHomeTabNum>0 && newHomeTabNum!=oldHomeTabNum) {
+			// changed home tab
+			preferences.updateCurrentTabIndex(newHomeTabNum-1);
+			return true;
+		}
+
+		return oldNumTabs!=newNumTabs;
+	}
+
+	private void saveSettings() {
+		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=chkSemiTransparent.isChecked();
+		final boolean tabRefreshRequired = updateCurrentTab();
 
 		saveSharedPrefs();
 
-		if (oldNumTabs!=newNumTabs) {
-			// redraw tabs when changed
+		if (tabRefreshRequired) {
 			activity.redrawTabContainer();
 		}
 
@@ -248,15 +262,6 @@ public class PreferencesDialog extends Dialog {
 			if (chkSemiTransparent.isChecked() && transparencyAlphaHelper.isChanged()) {
 				activity.setBackgroundTransparency(false);
 			}
-			final int newHomeTabNum = prefSettings.getHomeTabNum();
-			if (newHomeTabNum>0 && newHomeTabNum!=oldHomeTabNum) {
-				// changed home tab
-				activity.forceNewTab(newHomeTabNum-1);
-			}
-			else if (newHomeTabNum==0 && oldHomeTabNum>0 && newNumTabs>0) {
-				// reset to first tab
-				activity.forceNewTab(0);
-			}
 			dismiss();
 		}
 	}
@@ -269,7 +274,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putInt(PrefSettings.KEY_ICON_SIZE, seekbarIconSize.getNewValue());
 		edit.putInt(PrefSettings.KEY_NUM_TABS, seekbarNumTabs.getNewValue());
 		edit.putInt(PrefSettings.KEY_TRANS_ALPHA, transparencyAlphaHelper.getNewValue());
-		edit.putInt(PrefSettings.KEY_HOME_TAB_NUM, seekbarNumTabs.getNewValue()>0 ? homeTabHelper.getSelectedPosition() : 0);
+		edit.putInt(PrefSettings.KEY_HOME_TAB_NUM, getNewHomeTabNum());
 
 		edit.putBoolean(PrefSettings.KEY_HIGH_RES, chkHighRes.isChecked());
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, chkAutoStartSingle.isChecked());

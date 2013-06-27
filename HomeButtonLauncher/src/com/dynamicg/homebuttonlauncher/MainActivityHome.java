@@ -330,13 +330,7 @@ public class MainActivityHome extends Activity {
 		}
 	}
 
-	public void forceNewTab(int tabindex) {
-		// this will call back to updateOnTabSwitch()
-		tabhost.setCurrentTab(tabindex);
-	}
-
 	public void redrawTabContainer() {
-		// note this can also return <null> if setting is changed from >0 to 0 tabs
 		tabhost = new TabHelperMain(this, preferences).redraw();
 	}
 

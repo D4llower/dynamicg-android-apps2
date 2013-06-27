@@ -9,10 +9,10 @@ import com.dynamicg.homebuttonlauncher.R;
 
 public class SeekBarHelper {
 
-	private static final int TAG_OLD_VALUE = R.id.buttonCancel;
 	private static final int TAG_NEW_VALUE = R.id.buttonOk;
 
 	public final SeekBar bar;
+	public final int initialValue;
 	private final Dialog dialog;
 	private final int[] values;
 	private ValueChangeListener onValueChangeListener;
@@ -22,8 +22,8 @@ public class SeekBarHelper {
 		this.values = values;
 		this.bar = (SeekBar)dialog.findViewById(id);
 		SizePrefsHelper.setSeekBar(bar, initialValue, values);
+		this.initialValue = initialValue;
 		bar.setTag(TAG_NEW_VALUE, initialValue);
-		bar.setTag(TAG_OLD_VALUE, initialValue);
 	}
 
 	public void attachDefaultIndicator(final int indicatorId) {
