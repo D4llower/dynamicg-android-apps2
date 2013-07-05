@@ -11,9 +11,11 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dynamicg.common.ErrorSender;
@@ -94,6 +96,7 @@ public class DialogHelper {
 			, final String defaultLabel
 			, final int inputType // e.g. InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
 			, final TextEditorListener callback
+			, final ViewGroup extraActions
 			)
 	{
 		final String label = defaultLabel!=null ? defaultLabel : "";
@@ -117,7 +120,14 @@ public class DialogHelper {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setPositiveButton(R.string.buttonOk, okListener );
 		builder.setNegativeButton(R.string.buttonCancel, null);
-		builder.setView(editor);
+
+		LinearLayout body = new LinearLayout(context);
+		body.setOrientation(LinearLayout.VERTICAL);
+		body.addView(editor);
+		if (extraActions!=null) {
+			body.addView(extraActions);
+		}
+		builder.setView(body);
 
 		final AlertDialog dialog = builder.show();
 		dialog.setCanceledOnTouchOutside(false);

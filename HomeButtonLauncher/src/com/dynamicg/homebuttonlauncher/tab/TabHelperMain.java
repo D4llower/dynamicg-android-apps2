@@ -10,6 +10,7 @@ import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.dialog.SpinnerHelper;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
@@ -32,8 +33,10 @@ public class TabHelperMain extends TabHelper {
 		TabHost.OnTabChangeListener onTabChangeListener = new TabHost.OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
-				int index = Integer.parseInt(tabId);
-				activity.updateOnTabSwitch(index);
+				int tabindex = Integer.parseInt(tabId);
+				if (preferences.getTabIndex()!=tabindex) {
+					activity.updateOnTabSwitch(tabindex);
+				}
 			};
 		};
 
@@ -55,16 +58,47 @@ public class TabHelperMain extends TabHelper {
 		return tabhost;
 	}
 
-	protected void editLabel(final int index) {
-		final String currentLabel = preferences.getTabTitle(index);
+	protected void editLabel(final int tabindex) {
+
+		/*
+		 * switch tab position
+		 */
+		SpinnerHelper.SpinnerEntries items = new SpinnerHelper.SpinnerEntries();
+		items.add(-1, "");
+		for (int i=0;i<preferences.prefSettings.getNumTabs();i++) {
+			if (i!=tabindex) {
+				items.addPadded(i, i+1);
+			}
+		}
+
+		ViewGroup moveTabPanel = (ViewGroup)activity.getLayoutInflater().inflate(R.layout.common_spinner_panel, null);
+		final SpinnerHelper switchTabSpinner = new SpinnerHelper(moveTabPanel.findViewById(R.id.spinnerPanelSpinner));
+		switchTabSpinner.bind(items, 0);
+
+		// "move" label and padding
+		((TextView)moveTabPanel.findViewById(R.id.spinnerPabelLabel)).setText(R.string.moveTab);
+		int padding = (int)context.getResources().getDimension(R.dimen.appLinePadding);
+		moveTabPanel.setPadding(padding, padding, padding, padding);
+
+		/*
+		 * label editor
+		 */
+		final String currentLabel = preferences.getTabTitle(tabindex);
 		TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
-				setLabel(index, text);
-				preferences.writeTabTitle(index, text);
+				setLabel(tabindex, text);
+				preferences.writeTabTitle(tabindex, text);
+
+				int newTabIndex = switchTabSpinner.getSelectedValue();
+				if (newTabIndex>=0) {
+					preferences.exchangeTabData(tabindex, newTabIndex);
+					activity.forceTabSwitch(newTabIndex);
+				}
 			}
 		};
-		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback);
+
+		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback, moveTabPanel);
 	}
 
 	private void setLabel(int index, String label) {

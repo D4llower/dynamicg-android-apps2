@@ -1,15 +1,21 @@
 package com.dynamicg.homebuttonlauncher.preferences;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
+import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PreferencesManager {
+
+	private static final Logger log = new Logger(PreferencesManager.class);
 
 	private static final String KEY_TAB_INDEX = "tabIndex";
 	private static final String KEY_TAB_LABEL_PREFIX = "tabTitle.";
@@ -90,6 +96,47 @@ public class PreferencesManager {
 
 	public void writeTabTitle(int index, String label) {
 		prefSettings.apply(KEY_TAB_LABEL_PREFIX+index, label);
+	}
+
+	private static void replaceAll(SharedPreferences prefs, Map<String, ?> map) {
+		Editor edit = prefs.edit();
+		edit.clear();
+		for (String key:map.keySet()) {
+			Object o = map.get(key);
+			// also see com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper.restoreSettings(Context, File)
+			if (o instanceof Boolean) {
+				edit.putBoolean(key, (Boolean)o);
+			}
+			else if (o instanceof Integer) {
+				edit.putInt(key, (Integer)o);
+			}
+			else if (o instanceof String) {
+				edit.putString(key, (String)o);
+			}
+			else if (log.isDebugEnabled){
+				throw new IllegalArgumentException("cannot copy ["+o+"]");
+			}
+		}
+		edit.apply();
+	}
+
+	public void exchangeTabData(int tabIndexA, int tabIndexB) {
+
+		log.debug("### SWITCH TABS ###", tabIndexA, tabIndexB);
+
+		// switch shortlist
+		SharedPreferences shortlistA = getShortlistPrefs(tabIndexA);
+		SharedPreferences shortlistB = getShortlistPrefs(tabIndexB);
+		Map<String, ?> itemsA = new HashMap<String, Object>(shortlistA.getAll());
+		Map<String, ?> itemsB = new HashMap<String, Object>(shortlistB.getAll());
+		replaceAll(shortlistA, itemsB);
+		replaceAll(shortlistB, itemsA);
+
+		// switch tab title
+		String labelA = prefSettings.getStringValue(KEY_TAB_LABEL_PREFIX+tabIndexA, "");
+		String labelB = prefSettings.getStringValue(KEY_TAB_LABEL_PREFIX+tabIndexB, "");
+		writeTabTitle(tabIndexA, labelB);
+		writeTabTitle(tabIndexB, labelA);
 	}
 
 }

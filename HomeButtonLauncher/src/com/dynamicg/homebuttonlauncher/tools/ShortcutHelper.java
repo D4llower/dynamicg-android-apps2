@@ -115,7 +115,7 @@ public class ShortcutHelper {
 				save(activity, optionalDialog, icon, iconResource, intent, text);
 			}
 		};
-		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback);
+		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback, null);
 
 		if (DEBUG_SHORTCUT) {
 			ShortcutDebugger.debug(activity, intent);

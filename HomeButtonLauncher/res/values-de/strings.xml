@@ -27,4 +27,6 @@
     <string name="prefsDriveBackup">Google Drive Backup</string>
     <string name="prefsDriveRestore">Google Drive Wiederherstellung</string>
     
+    <string name="moveTab">Neue Position</string>
+    
 </resources>

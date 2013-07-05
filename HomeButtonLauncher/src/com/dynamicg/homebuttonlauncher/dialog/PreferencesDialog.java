@@ -1,7 +1,5 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.SharedPreferences.Editor;
@@ -125,14 +123,12 @@ public class PreferencesDialog extends Dialog {
 				final int newHomeTab = maxTabs>=previousHomeTab?previousHomeTab:0; // previousHomeTab is tabnum not tabindex.
 
 				log.debug("tabs max/currentHome", maxTabs, newHomeTab);
-				ArrayList<String> items = new ArrayList<String>();
-				items.add(""); // pos 0 = none
-				String padding = "   ";
+				SpinnerHelper.SpinnerEntries items = new SpinnerHelper.SpinnerEntries();
+				items.add(0, ""); // pos 0 = none
 				for (int idx=0;idx<maxTabs;idx++) {
 					// pos 1 to n is "tabindex+1"
-					items.add(padding+(idx+1)+padding);
+					items.addPadded(idx+1, idx+1);
 				}
-
 				homeTabHelper.bind(items, newHomeTab);
 
 				// apply visibility
@@ -144,7 +140,7 @@ public class PreferencesDialog extends Dialog {
 			@Override
 			public void valueChanged(int newValue) {
 				// reuse current selection if applicable
-				spinnerUpdateHandler.valueChanged(homeTabHelper.getSelectedPosition());
+				spinnerUpdateHandler.valueChanged(homeTabHelper.getSelectedValue());
 			}
 		});
 
@@ -215,7 +211,7 @@ public class PreferencesDialog extends Dialog {
 	}
 
 	private int getNewHomeTabNum() {
-		return seekbarNumTabs.getNewValue()>0 ? homeTabHelper.getSelectedPosition() : 0;
+		return seekbarNumTabs.getNewValue()>0 ? homeTabHelper.getSelectedValue() : 0;
 	}
 
 	private boolean updateCurrentTab() {

@@ -35,4 +35,6 @@
     <string name="prefsDriveBackup">Google Drive Backup</string>
     <string name="prefsDriveRestore">Google Drive Restore</string>
     
+    <string name="moveTab">New position</string>
+    
 </resources>

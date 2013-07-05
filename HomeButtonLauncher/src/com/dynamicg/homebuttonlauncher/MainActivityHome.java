@@ -323,15 +323,19 @@ public class MainActivityHome extends Activity {
 	}
 
 	public void updateOnTabSwitch(int tabindex) {
-		if (preferences.getTabIndex()!=tabindex) {
-			log.debug("updateOnTabSwitch", tabindex);
-			preferences.updateCurrentTabIndex(tabindex);
-			refreshList();
-		}
+		log.debug("updateOnTabSwitch", tabindex);
+		preferences.updateCurrentTabIndex(tabindex);
+		refreshList();
 	}
 
 	public void redrawTabContainer() {
+		log.debug("redrawTabContainer");
 		tabhost = new TabHelperMain(this, preferences).redraw();
+	}
+
+	public void forceTabSwitch(int tabindex) {
+		updateOnTabSwitch(tabindex);
+		redrawTabContainer();
 	}
 
 	@Override

@@ -3,26 +3,57 @@ package com.dynamicg.homebuttonlauncher.dialog;
 import java.util.ArrayList;
 
 import android.app.Dialog;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class SpinnerHelper {
 
-	private final Spinner spinner;
+	private static final String PADDING = "   ";
+
+	public final Spinner spinner;
 
 	public SpinnerHelper(Dialog dialog, int id) {
 		this.spinner = (Spinner)dialog.findViewById(id);
 	}
 
-	public void bind(ArrayList<String> items, int selectedPosition) {
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(spinner.getContext(), android.R.layout.simple_spinner_item, items);
+	public SpinnerHelper(View spinner) {
+		this.spinner = (Spinner)spinner;
+	}
+
+	public void bind(SpinnerEntries items, int selectedPosition) {
+		final ArrayAdapter<SpinnerEntry> adapter = new ArrayAdapter<SpinnerEntry>(spinner.getContext(), android.R.layout.simple_spinner_item, items.list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		spinner.setSelection(selectedPosition);
 	}
 
-	public int getSelectedPosition() {
-		return spinner.getSelectedItemPosition();
+	public int getSelectedValue() {
+		return ((SpinnerEntry)spinner.getSelectedItem()).value;
+	}
+
+	public static class SpinnerEntry {
+		final int value;
+		final String label;
+		public SpinnerEntry(int value, String label) {
+			super();
+			this.value = value;
+			this.label = label;
+		}
+		@Override
+		public String toString() {
+			return label;
+		}
+	}
+
+	public static class SpinnerEntries {
+		public final ArrayList<SpinnerEntry> list = new ArrayList<SpinnerEntry>();
+		public void add(int value, String label) {
+			list.add(new SpinnerEntry(value, label));
+		}
+		public void addPadded(int value, int label) {
+			list.add(new SpinnerEntry(value, PADDING+label+PADDING));
+		}
 	}
 
 }
