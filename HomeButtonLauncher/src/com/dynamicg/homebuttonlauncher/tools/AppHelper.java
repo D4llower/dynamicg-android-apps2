@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.AppEntry;
@@ -152,6 +154,14 @@ public class AppHelper {
 		if (GlobalContext.prefSettings.isAppClearTask()) {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		}
+	}
+
+	public static void openAppDetails(Context context, String pkgname) {
+		Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+		i.addCategory(Intent.CATEGORY_DEFAULT);
+		Uri data = Uri.parse("package:"+pkgname);
+		i.setData(data);
+		context.startActivity(i);
 	}
 
 }

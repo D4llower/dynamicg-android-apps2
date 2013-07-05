@@ -1,8 +1,6 @@
 package com.dynamicg.homebuttonlauncher;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -11,6 +9,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
+import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
@@ -74,11 +73,7 @@ public class AppListContextMenu {
 	}
 
 	private void showAppDetails(AppEntry appEntry) {
-		Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-		i.addCategory(Intent.CATEGORY_DEFAULT);
-		Uri data = Uri.parse("package:"+appEntry.getPackage());
-		i.setData(data);
-		context.startActivity(i);
+		AppHelper.openAppDetails(context, appEntry.getPackage());
 	}
 
 	private void showInPlayStore(AppEntry appEntry) {

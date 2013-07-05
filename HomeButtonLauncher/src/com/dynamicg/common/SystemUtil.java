@@ -9,8 +9,6 @@ import android.content.pm.PackageManager;
 
 public class SystemUtil {
 
-	public static Throwable recentError;
-
 	public static final String AUTHOR = "dynamicg.android@gmail.com";
 	public static final String PACKAGE = "com.dynamicg.homebuttonlauncher";
 
@@ -56,7 +54,6 @@ public class SystemUtil {
 		if (log.isDebugEnabled) {
 			e.printStackTrace(System.err);
 		}
-		recentError = e;
 	}
 
 	public static String getFullStackTrace(Throwable exception) {

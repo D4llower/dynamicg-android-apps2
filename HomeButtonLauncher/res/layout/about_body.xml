@@ -26,6 +26,12 @@
 		/>
 
 	<TextView style="@style/DefaultText"
+	    android:id="@+id/aboutAppSysInfo"
+        android:layout_marginTop="18dp"
+        android:textColor="@color/hyperlink"
+		/>
+		
+	<TextView style="@style/DefaultText"
 	    android:id="@+id/aboutRate"
         android:layout_marginTop="18dp"
         android:textColor="@color/applink"
@@ -37,13 +43,5 @@
         android:layout_marginTop="24dp"
 		/>	
 	<include layout="@layout/about_credits" />
-	
-	<TextView style="@style/DefaultText"
-	    android:id="@+id/aboutErrorlog"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:text="Error log"
-        android:textColor="@color/hyperlink"
-		/>
 	
 </LinearLayout>
