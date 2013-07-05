@@ -39,17 +39,17 @@ public class AboutDialog extends Dialog {
 
 		DialogHelper.prepareCommonDialog(this, R.layout.about_body, R.layout.button_panel_1, false);
 
-		prepareAbout();
+		putAuthorLink();
 
 		setLine(R.id.aboutSrc, REPOSITORY);
 
-		prepareRate();
+		putRateLink();
 
 		SpannableString creditsLabel = new SpannableString("Credits, in chronological order");
 		DialogHelper.underline(creditsLabel, 0, creditsLabel.length());
 		setLine(R.id.aboutCredits, creditsLabel);
 
-		prepareAppInfo();
+		putAppInfo();
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
@@ -59,7 +59,7 @@ public class AboutDialog extends Dialog {
 		});
 	}
 
-	private void prepareAbout() {
+	private void putAuthorLink() {
 		TextView authorNode = (TextView)findViewById(R.id.aboutAuthor);
 		SpannableString authorLabel = new SpannableString("\u00A9 "+SystemUtil.AUTHOR);
 		DialogHelper.underline(authorLabel, 2, authorLabel.length());
@@ -73,7 +73,7 @@ public class AboutDialog extends Dialog {
 		});
 	}
 
-	private void prepareRate() {
+	private void putRateLink() {
 		TextView rateNode = (TextView)findViewById(R.id.aboutRate);
 		SpannableString rateLabel = new SpannableString("\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0");
 		DialogHelper.underline(rateLabel, 2, rateLabel.length()-2);
@@ -87,7 +87,7 @@ public class AboutDialog extends Dialog {
 		});
 	}
 
-	private void prepareAppInfo() {
+	private void putAppInfo() {
 		TextView appInfoNode = (TextView)findViewById(R.id.aboutAppSysInfo);
 		appInfoNode.setOnClickListener(new OnClickListenerWrapper() {
 			@Override
