@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dynamicg.homebuttonlauncher"
-    android:versionCode="25001"
-    android:versionName="2.5"
+    android:versionCode="25171"
+    android:versionName="2.5.1"
     android:installLocation="internalOnly"
     >
 
@@ -14,7 +14,7 @@
         />
     
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="17"
         android:targetSdkVersion="17"
         />
     
@@ -45,19 +45,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             <meta-data android:name="com.android.systemui.action_assist_icon" android:resource="@drawable/assist" />
-        </activity>
-        
-        <activity
-            android:name="com.dynamicg.homebuttonlauncher.MainActivityAltNoAssist"
-            android:label="HL/Samsung"
-            android:launchMode="singleTask"
-            android:excludeFromRecents="true"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.ASSIST" />
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
         </activity>
         
         <!-- for app drawer -->
