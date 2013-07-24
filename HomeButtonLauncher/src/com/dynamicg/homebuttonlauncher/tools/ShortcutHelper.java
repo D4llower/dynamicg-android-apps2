@@ -14,8 +14,11 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.InputType;
+import android.widget.CheckBox;
 
 import com.dynamicg.common.FileUtil;
 import com.dynamicg.common.Logger;
@@ -24,6 +27,7 @@ import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
+import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.drive.Hex;
 import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
@@ -37,7 +41,6 @@ import com.dynamicg.homebuttonlauncher.tools.icons.LargeIconLoader;
  */
 public class ShortcutHelper {
 
-	private static final boolean DEBUG_SHORTCUT = false;
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
 	private static final String SHORTCUT_PREFIX = "sc-";
@@ -109,25 +112,58 @@ public class ShortcutHelper {
 			return;
 		}
 
+		final CheckBox resolveContactBox = getContactExtraPanel(activity, intent);
 		DialogHelper.TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
-				save(activity, optionalDialog, icon, iconResource, intent, text);
+				boolean resolveContact = resolveContactBox!=null ? resolveContactBox.isChecked() : false;
+				save(activity, optionalDialog, icon, iconResource, intent, text, resolveContact);
 			}
 		};
-		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback, null);
-
-		if (DEBUG_SHORTCUT) {
-			ShortcutDebugger.debug(activity, intent);
-		}
+		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback, resolveContactBox);
 	}
 
-	private static void save(MainActivityHome activity, AppConfigDialog optionalDialog, Bitmap bitmap, Intent.ShortcutIconResource iconResource, Intent intent, String label) {
+	/*
+	 * contact shortcut crashes the contact app on XPeria Z, so we show an extra "resolve contact id" option.
+	 * see https://mail.google.com/mail/u/0/?ui=2&shva=1#inbox/140118c724029d62
+	 */
+	private static CheckBox getContactExtraPanel(Context context, Intent intent) {
+		if (intent==null || !"com.android.contacts.action.QUICK_CONTACT".equals(intent.getAction())) {
+			return null;
+		}
+		CheckBox box = new CheckBox(context);
+		box.setText(R.string.resolveContact);
+		int pad = DialogHelper.getDimension(R.dimen.labelMargin);
+		box.setPadding(box.getPaddingLeft(), pad, box.getPaddingRight(), pad);
+		box.setChecked(SystemUtil.isSony());
+		return box;
+	}
+
+	private static void save(
+			MainActivityHome activity
+			, AppConfigDialog optionalDialog
+			, Bitmap bitmap
+			, Intent.ShortcutIconResource iconResource
+			, Intent intent
+			, String label
+			, boolean resolveContactId
+			)
+	{
 		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
 		final int nextid = prefs.getInt(KEY_SC_MAXID, 0) + 1;
 		final String shortcutId = SHORTCUT_PREFIX+nextid;
 
-		final String intentString = intent.toUri(0);
+		final String intentString;
+		if (resolveContactId) {
+			String contactId = intent.getData().getLastPathSegment();
+			Uri contactUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, contactId);
+			Intent contactIntent = new Intent(Intent.ACTION_VIEW, contactUri);
+			intentString = contactIntent.toUri(0);
+		}
+		else {
+			intentString = intent.toUri(0);
+		}
+
 		Editor edit = prefs.edit();
 		edit.putInt(KEY_SC_MAXID, nextid);
 		edit.putString(shortcutId, intentString);
@@ -149,6 +185,7 @@ public class ShortcutHelper {
 		String shortcutId = getShortcutId(entry.getComponent());
 		log.debug("shortcut/getIntent", shortcutId);
 		String uri = prefs.getString(shortcutId, null);
+		log.debug(". uri", uri);
 		return Intent.parseUri(uri, 0);
 	}
 

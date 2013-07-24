@@ -11,7 +11,6 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -96,7 +95,7 @@ public class DialogHelper {
 			, final String defaultLabel
 			, final int inputType // e.g. InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
 			, final TextEditorListener callback
-			, final ViewGroup extraActions
+			, final View extraActions
 			)
 	{
 		final String label = defaultLabel!=null ? defaultLabel : "";

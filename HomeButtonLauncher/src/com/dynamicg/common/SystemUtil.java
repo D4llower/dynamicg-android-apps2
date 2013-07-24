@@ -2,10 +2,12 @@ package com.dynamicg.common;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 public class SystemUtil {
 
@@ -63,6 +65,20 @@ public class SystemUtil {
 		StringWriter sw = new StringWriter() ;
 		exception.printStackTrace(new PrintWriter(sw)) ;
 		return sw.getBuffer().toString();
+	}
+
+	private static boolean contains(String what, String... items) {
+		for (String s:items) {
+			if (s!=null && s.toLowerCase(Locale.getDefault()).contains(what)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isSony() {
+		// http://gfxbench.com/device.jsp?benchmark=gfx27&D=Sony+C6603+Xperia+Z&testgroup=system
+		return contains("sony", Build.MANUFACTURER, Build.BRAND, Build.FINGERPRINT);
 	}
 
 }
