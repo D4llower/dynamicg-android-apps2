@@ -64,7 +64,7 @@ android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree
 
 		<!-- copy final manifest -->
 		<copy
-			file="${workspace}/${projectname}/manifest/AndroidManifest-${apilevel}.xml" 
+			file="${workspace}/${projectname}/AndroidManifest.xml" 
 			tofile="${buildDirRoot}/${projectname}/AndroidManifest.xml" 
 			verbose="true"
 			failonerror="true"
@@ -77,18 +77,13 @@ android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree
 			<property name="manifest.abs.file" value="${buildDirRoot}/${projectname}/AndroidManifest.xml" />
 		</ant>
 		
-		<copy file="${buildDirProject}\bin\${projectname}-release.apk" tofile="${apkdir}/${projectname}-${apilevel}.apk" overwrite="true" verbose="true" />
+		<copy file="${buildDirProject}\bin\${projectname}-release.apk" tofile="${apkdir}/${projectname}.apk" overwrite="true" verbose="true" />
 	</target>
 	
 	<target name="main">
 		
 		<!-- api specific apks -->
-		<antcall target=".buildApk">
-			<param name="apilevel" value="16" />
-		</antcall>
-		<antcall target=".buildApk">
-			<param name="apilevel" value="17" />
-		</antcall>
+		<antcall target=".buildApk" />
 		
 		<!-- show in explorer -->
 		<exec executable="explorer">
