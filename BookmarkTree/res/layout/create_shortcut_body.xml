@@ -14,6 +14,12 @@
 	    android:inputType="textCapWords"
 	    />
 	    
+    <!-- URL -->
+    <TextView style="@style/EditBodyLabel" android:text="@string/editUrl" />
+    <EditText style="@style/EditBodyTextInput"
+    	android:id="@+id/shortcutUrl"
+	    />
+	
     <!-- ICON DENSITY -->
     <TextView style="@style/EditBodyLabel" android:id="@+id/shortcutIconDensityLabel" />
     <Spinner 

@@ -30,6 +30,10 @@ public class Main extends Activity {
 	 * 
 	 * app icon ICS:
 	 * http://www.iconarchive.com/show/touchdown-3D-icons-by-dario-arnaez/My-world-icon.html
+	 * 
+	 * yellow folder with hue&saturation patched: -10, -80, -10
+	 * http://findicons.com/icon/99617/generic_folder_yellow
+	 * http://findicons.com/icon/99618/generic_folder_yellow_open
 	 */
 
 	public static final int ACTION_COLLAPSE_ALL = 1;
@@ -72,7 +76,7 @@ public class Main extends Activity {
 		createMenu(menu, ACTION_EXPAND_ALL, R.string.menuExpandAll);
 		createMenu(menu, ACTION_COLLAPSE_ALL, R.string.menuCollapseAll);
 		createMenu(menu, ACTION_RELOAD, R.string.menuReload);
-		createMenu(menu, ACTION_NEW_BM, R.string.menuCreate);
+		createMenu(menu, ACTION_NEW_BM, R.string.commonNewBookmark);
 		createMenu(menu, ACTION_BACKUP_RESTORE, R.string.brDialogTitle);
 		createMenu(menu, ACTION_SETTINGS, R.string.menuPrefs);
 		return true;

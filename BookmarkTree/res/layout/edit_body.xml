@@ -70,7 +70,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_marginRight="5dip"
 		    android:focusable="true"
-		    android:src="@drawable/delete"
+		    android:src="@drawable/bm_delete"
 		    />
 	</LinearLayout>
 
@@ -96,7 +96,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_marginRight="5dip"
 		    android:focusable="true"
-		    android:src="@drawable/home"
+		    android:src="@drawable/bm_create_shortcut"
 		    />
 	</LinearLayout>
 	

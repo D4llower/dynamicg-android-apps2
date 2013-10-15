@@ -25,9 +25,8 @@ public class ColorPickerDialog extends Dialog {
 	private static final int TEXTSIZE = 22;
 	private static final int BUTTON_WIDTH = 110;
 
-	// alternatively, use max=255 increment=1
-	private static final int PROGRESS_MAX = 85;
-	private static final int PROGRESS_INCREMENT = 3;
+	private static final int PROGRESS_MAX = 51;
+	private static final int PROGRESS_INCREMENT = 5;
 
 	private final Context context;
 	private final ColorSelectedListener colorSelectedListener;
