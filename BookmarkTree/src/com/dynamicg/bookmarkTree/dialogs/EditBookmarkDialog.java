@@ -212,11 +212,12 @@ public class EditBookmarkDialog extends Dialog {
 			}
 		}
 		catch (final Throwable exception) {
-			String errortext = "Cannot save bookmark";
 			if (SystemUtil.isInvalidBrowserContentUrl(exception)) {
-				errortext = "Cannot save. Default Web Browser disabled?";
+				ErrorNotification.cannotResolveBookmarks(ctx.activity, exception);
 			}
-			ErrorNotification.notifyError(getContext(), errortext, exception);
+			else {
+				ErrorNotification.notifyError(getContext(), "Cannot save bookmark", exception);
+			}
 		}
 
 		ctx.reloadAndRefresh();

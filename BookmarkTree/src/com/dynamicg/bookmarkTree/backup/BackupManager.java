@@ -18,6 +18,7 @@ import com.dynamicg.bookmarkTree.backup.xml.XmlWriter;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
+import com.dynamicg.common.ErrorNotification;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.StringUtil;
@@ -240,10 +241,17 @@ public class BackupManager {
 			}
 
 			@Override
-			public String getErrorTitle(Throwable exception) {
+			public void handleError(Throwable exception) {
 				if (SystemUtil.isInvalidBrowserContentUrl(exception)) {
-					return "Cannot restore. Default Web Browser disabled?";
+					ErrorNotification.cannotResolveBookmarks(context, exception);
 				}
+				else {
+					super.handleError(exception);
+				}
+			}
+
+			@Override
+			public String getErrorTitle(Throwable exception) {
 				return "Cannot restore";
 			}
 

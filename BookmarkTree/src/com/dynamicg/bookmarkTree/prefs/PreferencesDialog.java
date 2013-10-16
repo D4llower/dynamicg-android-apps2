@@ -16,8 +16,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.StyleSpan;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -34,7 +32,6 @@ import com.dynamicg.bookmarkTree.data.writehandler.SeparatorChangedHandler;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog.ColorSelectedListener;
-import com.dynamicg.bookmarkTree.dialogs.PlainBookmarksDump;
 import com.dynamicg.bookmarkTree.prefs.SpinnerUtil.KeyValue;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
@@ -42,8 +39,6 @@ import com.dynamicg.common.LayoutUtil;
 import com.dynamicg.common.SystemUtil;
 
 public class PreferencesDialog extends Dialog {
-
-	private static final int ACTION_DUMP_BOOKMARKS = 1;
 
 	private final BookmarkTreeContext ctx;
 	private final Context context;
@@ -337,21 +332,6 @@ public class PreferencesDialog extends Dialog {
 		}
 
 		dataRefreshRequired = true;
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_DUMP_BOOKMARKS, 0, "Show plain bookmarks ...");
-		return true;
-	}
-
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		int id = item.getItemId();
-		if (id==ACTION_DUMP_BOOKMARKS) {
-			PlainBookmarksDump.show(ctx);
-		}
-		return true;
 	}
 
 }
