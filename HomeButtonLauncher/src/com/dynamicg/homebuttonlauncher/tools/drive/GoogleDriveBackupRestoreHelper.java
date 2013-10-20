@@ -90,8 +90,13 @@ public class GoogleDriveBackupRestoreHelper {
 			SharedPreferences sharedPreferences = context.getSharedPreferences(entryGroup, Context.MODE_PRIVATE);
 			Map<String, ?> all = sharedPreferences.getAll();
 			for (String entryKey:all.keySet()) {
-				final String entryType = all.get(entryKey).getClass().getSimpleName();
-				final String entryValue = all.get(entryKey).toString();
+				Object item = entryKey!=null ? all.get(entryKey) : null;
+				if (item==null) {
+					// see https://mail.google.com/mail/u/0/?shva=1#inbox/141d5f61e6546497
+					continue;
+				}
+				final String entryType = item.getClass().getSimpleName();
+				final String entryValue = item.toString();
 				log.debug("backup value", entryGroup, entryKey, entryType, entryValue);
 				Map<String, String> entry = new TreeMap<String, String>();
 				entry.put(XmlGlobals.ENTRY_GROUP, entryGroup);

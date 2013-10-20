@@ -108,36 +108,13 @@ public class AppHelper {
 		return new AppListContainer(list);
 	}
 
-	/**
-	 * neither "installerPackageName" nor "FLAG_SYSTEM / FLAG_UPDATED_SYSTEM_APP" gets us reliable info on whether
-	 * an app is actually available in play store or not.
-	 * e.g. "Maps" is system, "Calendar" is system+system_updated, "Browser" & "Settings" is system, but only the first two should have the "play store" link
-	 * 
-	 * also, some apps have installerPackageName==null even though they were installed through play store (??)
-	 * 
-	 * @param context
-	 * @param appEntry
-	 * @return
-	 * @return
-	 */
-	//	public static boolean showPlayStoreLink(Context context, AppEntry appEntry) {
-	//		return true;
-	//	}
-
 	public static AppListContainer getShortcutApps() {
-		final String scPhoneDialName = "alias.DialShortcut";
 		Intent shortcutsIntent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
 		List<ResolveInfo> shortcutApps = GlobalContext.packageManager.queryIntentActivities(shortcutsIntent, 0);
 		ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (ResolveInfo resolveInfo:shortcutApps) {
 			ActivityInfo ai = resolveInfo.activityInfo;
 			log.trace("shortcut apps", resolveInfo, ai, ai.packageName, ai.name );
-			if (scPhoneDialName.equals(ai.name)) {
-				// this would require permission <android.permission.CALL_PHONE>
-				// note <ai.packageName> is device specific, e.g. "com.android.contacts" for standard android or "com.sonyericsson..." for xperia)
-				// so we don't check against that
-				continue;
-			}
 			list.add(new AppEntry(resolveInfo, 0, false));
 		}
 

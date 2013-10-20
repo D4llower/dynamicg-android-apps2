@@ -105,11 +105,8 @@ public class ShortcutHelper {
 		log.debug("SHORTCUT", name, icon, iconResource, intent, creator);
 
 		if (Intent.ACTION_CALL.equals(intent.getAction())) {
-			String title = "Sorry, direct phone call not supported";
-			String details = creator!=null ?  "Component details:\n"+creator : "";
-			DialogHelper.showError(activity, title, details);
-			//ErrorSender.notifyError(activity, title, new RuntimeException(details));
-			return;
+			// action_call requires android.permission.CALL_PHONE so we change it to "dial" (which opens the dial pad with the given phone number)
+			intent.setAction(Intent.ACTION_DIAL);
 		}
 
 		final CheckBox resolveContactBox = getContactExtraPanel(activity, intent);
