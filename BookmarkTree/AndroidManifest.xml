@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.dynamicg.bookmarkTree"
       android:installLocation="auto"
-      android:versionCode="26"
-      android:versionName="2.03"
+      android:versionCode="27"
+      android:versionName="2.04"
       >
       
     <supports-screens 
