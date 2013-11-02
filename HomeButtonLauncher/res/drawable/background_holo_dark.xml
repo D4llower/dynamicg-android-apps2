@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- see http://stackoverflow.com/questions/14170678/4-2-1-background-holo-dark-xml -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient android:startColor="#ff000000" android:endColor="#ff22282e" android:angle="270.0" />
-</shape>
