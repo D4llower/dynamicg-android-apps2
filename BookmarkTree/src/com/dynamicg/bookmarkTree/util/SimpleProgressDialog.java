@@ -74,7 +74,7 @@ public abstract class SimpleProgressDialog {
 	/*
 	 * override in implementations if required
 	 */
-	public void handleError(Throwable e) {
+	public final void handleError(Throwable e) {
 		ErrorNotification.notifyError(context, getErrorTitle(e), e);
 	}
 

@@ -46,18 +46,4 @@ public class ErrorNotification {
 		Logger.dumpIfDevelopment(e);
 	}
 
-	public static void cannotResolveBookmarks(final Context context, final Throwable exception) {
-		String title = "ERROR - Default Browser Disabled?";
-		new SimpleAlertDialog(context, title, context.getString(R.string.commonClose)) {
-			@Override
-			public String getPlainBodyText() {
-				String msg = "Cannot access browser bookmarks.\nMake sure the default browser is enabled.";
-				if (exception!=null) {
-					msg += "\n\nException details:\n{"+exception.toString()+"}";
-				}
-				return msg;
-			}
-		};
-	}
-
 }

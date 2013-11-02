@@ -1,37 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+	android:background="#555"
+    android:padding="8dip"
 	android:layout_marginTop="-60dip"
     >
-    
-    <TextView
-        android:layout_height="1px"
-        android:layout_width="fill_parent"
-        android:background="#555" 
-        android:layout_marginTop="8dip"
+
+    <Button style="@style/DialogButton"
+    	android:id="@+id/button1"
         />
-    
-	<LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    >
-	
-	    <Button style="@style/DialogButton"
-	    	android:id="@+id/button2"
-	    	android:layout_weight="1"
-	        />
-	
-	    <TextView android:layout_width="1px" android:layout_height="26dip" android:background="#555" />
-	    
-	    <Button style="@style/DialogButton"
-	    	android:id="@+id/button1"
-	    	android:layout_weight="1"
-	        />
-	
-	</LinearLayout>
+
+    <Button style="@style/DialogButton"
+    	android:id="@+id/button2"
+        />
 
 </LinearLayout>

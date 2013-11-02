@@ -48,6 +48,32 @@
 	    android:layout_marginBottom="10dip"
 	    />
 	    
+	<!-- ====================== Tools ====================== -->
+	
+	<LinearLayout
+	    android:id="@+id/prefsToolsContainer"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    >
+	
+		<TextView style="@style/PrefsGroup" android:text="@string/prefsGroupTools" /> 
+		
+	    <Button
+	    	android:id="@+id/prefsActionSortAlpha"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/prefsSortAlphaTitle"
+		    android:layout_marginTop="10dip"
+		    />
+	   	<TextView style="@style/PrefsHint" 
+	   		android:layout_span="2"
+	   		android:text="@string/prefsSortAlphaHint"
+		    android:layout_marginBottom="5dip"
+	   		/>
+   	
+   	</LinearLayout>
+
 	<!-- ====================== ABOUT ====================== -->
 	<TextView style="@style/PrefsGroup" android:text="@string/commonAbout" android:layout_marginTop="10dip" /> 
 	

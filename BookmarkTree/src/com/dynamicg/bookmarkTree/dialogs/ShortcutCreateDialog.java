@@ -25,7 +25,6 @@ public class ShortcutCreateDialog extends Dialog {
 	private static final Logger log = new Logger(ShortcutCreateDialog.class);
 
 	private static final int DEFAULT_DENSITY = 160;
-	private static int LAST_USED_BG_COLOR = Color.WHITE;
 
 	private final Context context;
 	private final Bookmark bookmark;
@@ -34,10 +33,9 @@ public class ShortcutCreateDialog extends Dialog {
 	private final Dialog opener;
 
 	private TextView titleCell;
-	private TextView urlCell;
 	private ImageView previewCell;
 	private Spinner densitySpinner;
-	private int backgroundColor = LAST_USED_BG_COLOR;
+	private int backgroundColor = Color.WHITE;
 
 	public ShortcutCreateDialog(Dialog opener, BookmarkTreeContext ctx, Bookmark bookmark) {
 		super(ctx.activity);
@@ -62,7 +60,7 @@ public class ShortcutCreateDialog extends Dialog {
 			@Override
 			public void onPositiveButton() {
 				String title = titleCell.getText().toString();
-				String url = urlCell.getText().toString().trim();
+				String url = bookmark.getUrl();
 				shortcutCreateWorker.create(getIcon(), title, url);
 				// close window and opener (which is "edit dialog")
 				dismiss();
@@ -71,12 +69,10 @@ public class ShortcutCreateDialog extends Dialog {
 		};
 
 		/*
-		 * TITLE AND URL
+		 * TITLE
 		 */
 		titleCell = (TextView)findViewById(R.id.shortcutTitle);
 		titleCell.setText(bookmark.getDisplayTitle());
-		urlCell = (TextView)findViewById(R.id.shortcutUrl);
-		urlCell.setText(bookmark.getUrl());
 
 		/*
 		 * COLOR PICKER
@@ -89,7 +85,6 @@ public class ShortcutCreateDialog extends Dialog {
 					@Override
 					public void colorSelected(int selectedColor) {
 						backgroundColor = selectedColor;
-						LAST_USED_BG_COLOR = selectedColor;
 						if (log.isDebugEnabled) {
 							log.debug("ColorPickerDialog.ColorSelectedListener");
 						}
@@ -107,7 +102,7 @@ public class ShortcutCreateDialog extends Dialog {
 		int defaultDensity = DEFAULT_DENSITY;
 		densitySpinner = (Spinner)findViewById(R.id.shortcutIconDensity);
 		spinnerUtil.bind ( R.id.shortcutIconDensity, defaultDensity, SpinnerUtil.getShortcutBitmapDensity(), R.string.shortcutIconScale);
-
+		
 		// override the default "on change" listener:
 		final long initGracetime = System.currentTimeMillis() + 300l; // screen setup triggers "onItemSeleced" so we catch the initial call
 		densitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

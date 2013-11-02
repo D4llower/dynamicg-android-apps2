@@ -11,6 +11,7 @@ import com.dynamicg.bookmarkTree.data.writer.UriProvider;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SystemUtil;
 
 public class RestoreWriter {
 
@@ -21,13 +22,13 @@ public class RestoreWriter {
 		ContentValues entry;
 		for (RawDataBean b:rows) {
 			entry = new ContentValues();
-
+			
 			entry.put(Browser.BookmarkColumns.BOOKMARK, 1);
 			entry.put(Browser.BookmarkColumns.CREATED, b.created);
 			entry.put(Browser.BookmarkColumns.TITLE, b.fullTitle);
 			entry.put(Browser.BookmarkColumns.URL, b.url);
 			entry.put(Browser.BookmarkColumns.FAVICON, b.favicon);
-
+			
 			if (log.isDebugEnabled) {
 				log.debug("put item", b.fullTitle, b.url, b.favicon!=null?b.favicon.length:"-1");
 			}
@@ -35,28 +36,28 @@ public class RestoreWriter {
 		}
 		return list.toArray(new ContentValues[]{});
 	}
-
-	public static void replaceFull(BookmarkTreeContext ctx, ArrayList<RawDataBean> rows, SimpleProgressDialog progress)
-			throws Exception {
-
-		ContentResolver contentResolver = ctx.activity.getContentResolver();
-
+	
+	public static void replaceFull(BookmarkTreeContext ctx, ArrayList<RawDataBean> rows, SimpleProgressDialog progress) 
+	throws Exception {
+		
+		ContentResolver contentResolver = ctx.activity.getContentResolver(); 
+		
 		// prepare new rows
 		BackupManager.updateProgressMessageText(ctx, progress, 3);
 		ContentValues[] newValues = transform(rows);
-
+		
 		// delete existing entries
 		BackupManager.updateProgressMessageText(ctx, progress, 4);
-		final String whereClause = ""; //SystemUtil.isHoneycombOrNewer() ? "" : Browser.BookmarkColumns.BOOKMARK+"=1";
+		final String whereClause = SystemUtil.isHoneycombOrNewer() ? "" : Browser.BookmarkColumns.BOOKMARK+"=1";
 		contentResolver.delete ( UriProvider.DELETE
 				, whereClause
 				, new String[]{}
-				);
-
+		);
+		
 		// insert
 		BackupManager.updateProgressMessageText(ctx, progress, 5);
 		contentResolver.bulkInsert ( UriProvider.INSERT, newValues );
-
+		
 	}
-
+	
 }
