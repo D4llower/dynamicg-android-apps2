@@ -45,7 +45,7 @@ public class PreferencesDialog extends Dialog {
 	private CheckBox chkAutoStartSingle;
 	private CheckBox chkBackgroundIconLoader;
 	private CheckBox chkSemiTransparent;
-	private CheckBox chkAppClearTask;
+	private CheckBox chkStatusLine;
 
 	private SpinnerHelper homeTabHelper;
 
@@ -80,7 +80,7 @@ public class PreferencesDialog extends Dialog {
 		chkAutoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
 		chkBackgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
 		chkSemiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
-		chkAppClearTask = attachCheckbox(R.id.prefsAppClearTask, prefSettings.isAppClearTask());
+		chkStatusLine = attachCheckbox(R.id.prefsStatusLine, prefSettings.isShowStatusLine());
 
 		transparencyAlphaHelper = new TransparencyAlphaHelper();
 		transparencyAlphaHelper.setVisibility(chkSemiTransparent.isChecked()); // initial setting
@@ -108,7 +108,6 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 
-		legacyClearTask();
 		attachHomeTab();
 	}
 
@@ -146,16 +145,6 @@ public class PreferencesDialog extends Dialog {
 
 		// initial setup
 		spinnerUpdateHandler.valueChanged(prefSettings.getHomeTabNum());
-	}
-
-	private void legacyClearTask() {
-		// only show "clear task" checkbox if enabled in previous app versions
-		final String keepClearTask = "keepClearTask";
-		if (prefSettings.isAppClearTask() && !prefSettings.sharedPrefs.contains(keepClearTask)) {
-			prefSettings.apply(keepClearTask, 1);
-		}
-		boolean showClearTask = prefSettings.sharedPrefs.contains(keepClearTask);
-		chkAppClearTask.setVisibility(showClearTask?View.VISIBLE:View.GONE);
 	}
 
 	private CheckBox attachCheckbox(int id, boolean checked) {
@@ -237,6 +226,7 @@ public class PreferencesDialog extends Dialog {
 
 	private void saveSettings() {
 		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=chkSemiTransparent.isChecked();
+		final boolean statusLineChanged = prefSettings.isShowStatusLine()!=chkStatusLine.isChecked();
 		final boolean tabRefreshRequired = updateCurrentTab();
 
 		saveSharedPrefs();
@@ -249,7 +239,7 @@ public class PreferencesDialog extends Dialog {
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
 
-		if (transparencyChanged) {
+		if (transparencyChanged || statusLineChanged) {
 			Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();
 			dismiss();
 			activity.finish();
@@ -276,7 +266,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, chkAutoStartSingle.isChecked());
 		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, chkBackgroundIconLoader.isChecked());
 		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, chkSemiTransparent.isChecked());
-		edit.putBoolean(PrefSettings.KEY_APP_CLEAR_TASK, chkAppClearTask.isChecked());
+		edit.putBoolean(PrefSettings.KEY_STATUS_LINE, chkStatusLine.isChecked());
 
 		edit.apply();
 	}

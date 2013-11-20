@@ -18,9 +18,9 @@ public class PrefSettings {
 	public static final String KEY_NUM_TABS = "numTabs";
 	public static final String KEY_BACKGROUND_ICON_LOADER = "iconsInBG";
 	public static final String KEY_SEMI_TRANSPARENT = "semiTransp";
-	public static final String KEY_APP_CLEAR_TASK = "clearTask";
 	public static final String KEY_TRANS_ALPHA = "transAlpha";
 	public static final String KEY_HOME_TAB_NUM = "homeTab";
+	public static final String KEY_STATUS_LINE = "statusLine";
 
 	public static final int NUM_LAYOUTS = 5;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -33,7 +33,8 @@ public class PrefSettings {
 	public final SharedPreferences sharedPrefs;
 
 	public PrefSettings(Context context) {
-		this.sharedPrefs = context.getSharedPreferences(HBLConstants.PREFS_SETTINGS, Context.MODE_PRIVATE);
+		this.sharedPrefs = context.getSharedPreferences(
+				HBLConstants.PREFS_SETTINGS, Context.MODE_PRIVATE);
 	}
 
 	public void apply(String key, int value) {
@@ -120,10 +121,6 @@ public class PrefSettings {
 		return sharedPrefs.getBoolean(KEY_SEMI_TRANSPARENT, false);
 	}
 
-	public boolean isAppClearTask() {
-		return sharedPrefs.getBoolean(KEY_APP_CLEAR_TASK, false);
-	}
-
 	public int getTransparencyAlpha() {
 		return sharedPrefs.getInt(KEY_TRANS_ALPHA, DFLT_TRANSPARENCY_ALPHA);
 	}
@@ -131,6 +128,10 @@ public class PrefSettings {
 	// "HomeTab" pref is tabindex+1: 0=off, 1=tab1, 2=tab2
 	public int getHomeTabNum() {
 		return sharedPrefs.getInt(KEY_HOME_TAB_NUM, 0);
+	}
+
+	public boolean isShowStatusLine() {
+		return sharedPrefs.getBoolean(KEY_STATUS_LINE, false);
 	}
 
 }

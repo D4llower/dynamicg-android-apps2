@@ -130,8 +130,8 @@
         />
 
     <CheckBox style="@style/PrefLabel"
-        android:id="@+id/prefsAppClearTask" 
-        android:text="@string/prefsAppClearTask"
+        android:id="@+id/prefsStatusLine" 
+        android:text="@string/prefsStatusLine"
         />
     
 </LinearLayout>

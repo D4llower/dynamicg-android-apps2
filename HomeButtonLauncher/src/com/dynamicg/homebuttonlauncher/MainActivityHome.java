@@ -33,6 +33,7 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
+import com.dynamicg.homebuttonlauncher.tools.StatusLineHelper;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
@@ -102,6 +103,10 @@ public class MainActivityHome extends Activity {
 		}
 		setListAdapter();
 		setMinWidth();
+
+		if (preferences.prefSettings.isShowStatusLine()) {
+			StatusLineHelper.addStatus(this);
+		}
 
 	}
 

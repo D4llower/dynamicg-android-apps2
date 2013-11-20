@@ -128,9 +128,6 @@ public class AppHelper {
 
 	public static void flagAsNewTask(Intent intent) {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		if (GlobalContext.prefSettings.isAppClearTask()) {
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		}
 	}
 
 	public static void openAppDetails(Context context, String pkgname) {
