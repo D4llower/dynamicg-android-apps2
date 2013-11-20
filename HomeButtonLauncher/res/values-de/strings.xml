@@ -11,7 +11,6 @@
     <string name="aboutPleaseRate">Bitte App bewerten</string>
     <string name="openAppDetails">App Info</string>
     <string name="openPlayStore">Play Store</string>
-
     <string name="preferences">Einstellungen</string>
     <string name="prefsLayout">Ansicht</string>
     <string name="prefsLabelSize">Anschrift-Größe</string>
@@ -24,10 +23,8 @@
 	<string name="prefsPleaseRestart">Bitte App neu starten.</string>
 	<string name="prefsHomeTab">Start-Tab</string>
 	<string name="prefsStatusLine">Statuszeile anzeigen</string>
-		
     <string name="prefsDriveBackup">Google Drive Backup</string>
     <string name="prefsDriveRestore">Google Drive Wiederherstellung</string>
-    
     <string name="moveTab">Neue Position</string>
     <string name="resolveContact">Kontakt-ID auflösen</string>
     

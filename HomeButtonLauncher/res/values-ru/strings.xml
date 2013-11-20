@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menuAdd">Добавить</string>
+    <string name="menuRemove">Удалить</string>
+    <string name="menuAbout">О приложении</string>
+    <string name="menuSort">Сортировка</string>
+    <string name="menuReset">Сбросить</string>
+    <string name="buttonOk">Да</string>
+    <string name="buttonCancel">Отмена</string>
+    <string name="aboutOpenSource">Открытый исходный код</string>
+    <string name="aboutPleaseRate">Оцените приложение</string>
+    <string name="openAppDetails">Сведения о приложении</string>
+    <string name="openPlayStore">Google Play</string>
+    <string name="preferences">Настройки</string>
+    <string name="prefsLayout">Расположение</string>
+    <string name="prefsLabelSize">Размер текста</string>
+    <string name="prefsIconSize">Размер иконок</string>
+    <string name="prefsHiResIcon">Иконки высокого разрешения</string>
+    <string name="prefsAutoStartSingle">«Режим автозапуск» - только для одного выбранного приложения</string>
+    <string name="prefsNumTabs">Количество вкладок</string>
+    <string name="prefsBackgroundIconLoader">Загрузка иконок в фоне</string>
+    <string name="prefsSemiTransparent">Полупрозрачный фон</string>
+    <string name="prefsPleaseRestart">Пожалуйста, перезапустите приложение.</string>
+    <string name="prefsHomeTab">Начальная вкладка</string>
+	<string name="prefsDriveBackup">Резервную копию в Google Drive</string>
+    <string name="prefsDriveRestore">Восстановление из Google Drive</string>
+    <string name="moveTab">Позиция вкладки</string>
+</resources>
