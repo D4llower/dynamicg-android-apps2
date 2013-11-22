@@ -26,12 +26,6 @@
 		/>
 
 	<TextView style="@style/DefaultText"
-	    android:id="@+id/aboutAppSysInfo"
-        android:layout_marginTop="18dp"
-        android:textColor="@color/hyperlink"
-		/>
-		
-	<TextView style="@style/DefaultText"
 	    android:id="@+id/aboutRate"
         android:layout_marginTop="18dp"
         android:textColor="@color/applink"

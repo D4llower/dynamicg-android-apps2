@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
 style="@style/DefaultText"
-android:layout_marginBottom="6dp"
+android:layout_marginBottom="10dp"
 android:text="‪‪繁體中文: Sam Chen
 \n简体中文‬: Yeo Yin Yin
 \nPortuguês: Marcelo Luiz Onhate

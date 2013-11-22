@@ -15,7 +15,6 @@ import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.common.SystemUtil;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
-import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 
 public class AboutDialog extends Dialog {
@@ -48,8 +47,6 @@ public class AboutDialog extends Dialog {
 		SpannableString creditsLabel = new SpannableString("Credits, in chronological order");
 		DialogHelper.underline(creditsLabel, 0, creditsLabel.length());
 		setLine(R.id.aboutCredits, creditsLabel);
-
-		putAppInfo();
 
 		findViewById(R.id.buttonOk).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
@@ -85,19 +82,6 @@ public class AboutDialog extends Dialog {
 				MarketLinkHelper.openMarketIntent(context, SystemUtil.PACKAGE);
 			}
 		});
-	}
-
-	private void putAppInfo() {
-		TextView appInfoNode = (TextView)findViewById(R.id.aboutAppSysInfo);
-		appInfoNode.setOnClickListener(new OnClickListenerWrapper() {
-			@Override
-			public void onClickImpl(View view) {
-				AppHelper.openAppDetails(context, SystemUtil.PACKAGE);
-			}
-		});
-		SpannableString appInfoLabel = new SpannableString("App System Info");
-		DialogHelper.underline(appInfoLabel, 0, appInfoLabel.length());
-		appInfoNode.setText(appInfoLabel);
 	}
 
 	private void setLine(int id, CharSequence str) {
