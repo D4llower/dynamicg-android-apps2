@@ -7,7 +7,7 @@
     >
     
     <TextView
-        android:layout_height="1px"
+        android:layout_height="1dp"
         android:layout_width="fill_parent"
         android:background="#555" 
         />
@@ -25,7 +25,7 @@
 	    	android:text="@string/buttonCancel"
 	        />
 	
-	    <TextView android:layout_width="1px" android:layout_height="28dip" android:background="#555" />
+	    <TextView android:layout_width="1dp" android:layout_height="28dip" android:background="#555" />
 	    
 	    <Button style="@style/DialogButton"
 	    	android:id="@+id/buttonOk"
