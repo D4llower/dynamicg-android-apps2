@@ -10,7 +10,7 @@
 	<string name="help_title">Help</string>
 	<string name="help_url">file:///android_asset/help.html</string>
 
-	<string name="widget_name">ZH Weatherstation (mod)</string>
+	<string name="widget_name">ZH Weather</string>
 	<string name="widget_loading">Loading …</string>
 	
 	<string name="settings_weatherstations_summary">Weatherstation from where the data should be read.</string>
