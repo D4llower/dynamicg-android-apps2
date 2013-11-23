@@ -39,7 +39,7 @@ public class TemperatureWidget extends AppWidgetProvider {
 		 * set click intent
 		 */
 		if (RefreshTracker.needsInit(context)) {
-			RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_02);
+			RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 			setClickIntent(context, updateViews);
 			appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
 		}
@@ -70,7 +70,7 @@ public class TemperatureWidget extends AppWidgetProvider {
 
 		RemoteViews updateViews = null;
 
-		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_02);
+		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
 		String air = weatherData.getWeatherAirTemperature();
 		long lastRefresh = weatherData.parseTime();
