@@ -1,3 +1,0 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-	<dimen name="shortcutIconSize">48dip</dimen>
-</resources>
