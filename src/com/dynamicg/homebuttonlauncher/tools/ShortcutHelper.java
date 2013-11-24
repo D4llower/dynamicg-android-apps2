@@ -217,7 +217,7 @@ public class ShortcutHelper {
 	}
 
 	public static Drawable loadIcon(Context context, AppEntry appEntry, LargeIconLoader largeIconLoader, int iconSizePx) {
-		if (appEntry.widget || appEntry.sortnr<0) {
+		if (appEntry.isWidget() || appEntry.isCustom()) {
 			return IconProvider.getDefaultIcon();
 		}
 

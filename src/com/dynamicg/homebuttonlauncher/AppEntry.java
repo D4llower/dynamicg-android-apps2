@@ -12,13 +12,13 @@ public class AppEntry {
 
 	public static final int ID_SHORTCUT=1;
 	public static final int ID_WIDGET=2;
+	public static final int ID_CUSTOM=3;
 
 	private final String component;
 	public final ResolveInfo resolveInfo;
 	public final String label;
 	public final int sortnr;
-	public final boolean shortcut;
-	public final boolean widget;
+	public final int extra;
 
 	private Drawable icon;
 	private boolean checked;
@@ -27,8 +27,7 @@ public class AppEntry {
 		this.resolveInfo = resolveInfo;
 		this.component = AppHelper.getComponentName(resolveInfo);
 		this.sortnr = sortnr;
-		this.shortcut = false;
-		this.widget = false;
+		this.extra = 0;
 
 		if (forMainScreen) {
 			String label = GlobalContext.labels.get(component);
@@ -47,9 +46,8 @@ public class AppEntry {
 	public AppEntry(String component, int sortnr, boolean forMainScreen, int which) {
 		this.resolveInfo = null;
 		this.component = component;
-		this.shortcut = which==ID_SHORTCUT;
-		this.widget = which==ID_WIDGET;
-		this.label = widget ? "Widget" : ShortcutHelper.getLabel(component);
+		this.extra = which;
+		this.label = extra==ID_WIDGET ? "Widget" : ShortcutHelper.getLabel(component);
 		this.sortnr = sortnr;
 		if (forMainScreen) {
 			icon = GlobalContext.icons.get(this.component);
@@ -62,8 +60,7 @@ public class AppEntry {
 		this.component = component;
 		this.label = label;
 		this.sortnr = sortnr;
-		this.shortcut = true;
-		this.widget = false;
+		this.extra = ID_CUSTOM;
 	}
 
 	private static String toString(CharSequence c, String nullvalue) {
@@ -110,7 +107,7 @@ public class AppEntry {
 	}
 
 	public int getAppWidgetId() {
-		if (!widget) {
+		if (extra!=ID_WIDGET) {
 			return 0;
 		}
 		String id = ShortcutHelper.getShortcutDataPart(component);
@@ -120,5 +117,17 @@ public class AppEntry {
 		catch (NumberFormatException e) {
 			return 0;
 		}
+	}
+
+	public boolean isShortcut() {
+		return extra==ID_SHORTCUT;
+	}
+
+	public boolean isWidget() {
+		return extra==ID_WIDGET;
+	}
+
+	public boolean isCustom() {
+		return extra==ID_CUSTOM;
 	}
 }

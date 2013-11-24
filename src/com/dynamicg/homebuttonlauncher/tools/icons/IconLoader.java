@@ -31,10 +31,10 @@ public class IconLoader {
 		Drawable icon = null;
 
 		try {
-			if (appEntry.widget) {
+			if (appEntry.isWidget()) {
 				return IconProvider.getDefaultIcon(iconSizePx);
 			}
-			else if (appEntry.shortcut) {
+			else if (appEntry.isShortcut()) {
 				icon = ShortcutHelper.loadIcon(context, appEntry, largeIconLoader, iconSizePx); // note this returns "scaled"
 			}
 			else {
