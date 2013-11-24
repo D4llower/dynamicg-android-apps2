@@ -18,14 +18,14 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
-public class WidgetsSelector {
+public class WidgetHelper {
 
 	private MainActivityHome activity;
 	private AppWidgetManager mAppWidgetManager;
 	private AppWidgetHost mAppWidgetHost;
 	private AppConfigDialog configDialog;
 
-	public WidgetsSelector(MainActivityHome activity, AppConfigDialog configDialog) {
+	public WidgetHelper(MainActivityHome activity, AppConfigDialog configDialog) {
 		this.activity = activity;
 		this.configDialog = configDialog;
 		mAppWidgetManager = activity.getAppWidgetManager();

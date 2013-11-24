@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
-import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetsSelector;
+import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
 
 public class AppListAdapterMainStatic extends AppListAdapter {
 
@@ -28,7 +28,7 @@ public class AppListAdapterMainStatic extends AppListAdapter {
 		AppEntry entry = applist.get(position);
 		int appWidgetId = entry.getAppWidgetId();
 		if (appWidgetId>0) {
-			return WidgetsSelector.getWidgetView(activity, inflater, appWidgetId);
+			return WidgetHelper.getWidgetView(activity, inflater, appWidgetId);
 		}
 
 		if (list.get(position)==null) {

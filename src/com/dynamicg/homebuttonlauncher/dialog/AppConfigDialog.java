@@ -38,7 +38,7 @@ import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperAppAdd;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
-import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetsSelector;
+import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
 
 @SuppressLint("UseSparseArrays")
 public class AppConfigDialog extends Dialog {
@@ -249,7 +249,7 @@ public class AppConfigDialog extends Dialog {
 	private void startShortcutApp(AppEntry appEntry) {
 
 		if (HBLConstants.SC_WIDGETS.equals(appEntry.getComponent())) {
-			new WidgetsSelector(activity, this).selectWidget();
+			new WidgetHelper(activity, this).selectWidget();
 			return;
 		}
 

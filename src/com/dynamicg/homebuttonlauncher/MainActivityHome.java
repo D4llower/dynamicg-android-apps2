@@ -39,7 +39,7 @@ import com.dynamicg.homebuttonlauncher.tools.StatusLineHelper;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
-import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetsSelector;
+import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
 
 /*
  * Copyright 2012,2013 DynamicG (dynamicg.android@gmail.com)
@@ -358,7 +358,7 @@ public class MainActivityHome extends Activity {
 			ShortcutHelper.shortcutSelected(this, data);
 		}
 		else if (requestCode==R.id.REQUEST_PICK_APPWIDGET || requestCode==R.id.REQUEST_CREATE_APPWIDGET) {
-			new WidgetsSelector(this, ShortcutHelper.getDialogRef()).processResult(requestCode, resultCode, data);
+			new WidgetHelper(this, ShortcutHelper.getDialogRef()).processResult(requestCode, resultCode, data);
 		}
 	}
 

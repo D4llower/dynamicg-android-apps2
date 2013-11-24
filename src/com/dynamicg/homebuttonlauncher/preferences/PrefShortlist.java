@@ -15,7 +15,7 @@ import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
-import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetsSelector;
+import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
 
 public class PrefShortlist {
 
@@ -91,7 +91,7 @@ public class PrefShortlist {
 				shortcutIds.add(ShortcutHelper.getShortcutId(component));
 			}
 			else if (ShortcutHelper.isWidgetComponent(component)) {
-				WidgetsSelector.remove(activity, ShortcutHelper.getAppWidgetId(component));
+				WidgetHelper.remove(activity, ShortcutHelper.getAppWidgetId(component));
 			}
 		}
 		edit.apply();
