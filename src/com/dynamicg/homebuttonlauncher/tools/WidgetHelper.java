@@ -20,6 +20,9 @@ import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 
 public class WidgetHelper {
 
+	private static final String PREFIX_WIDGET = "wg-";
+	private static final String SEPARATOR_RES = "|";
+
 	private MainActivityHome activity;
 	private AppWidgetManager mAppWidgetManager;
 	private AppWidgetHost mAppWidgetHost;
@@ -92,7 +95,7 @@ public class WidgetHelper {
 		Bundle extras = data.getExtras();
 		int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 		if (appWidgetId>=0) {
-			ShortcutHelper.saveWidget(activity, configDialog, appWidgetId);
+			saveWidget(activity, configDialog, appWidgetId);
 		}
 	}
 
@@ -111,8 +114,30 @@ public class WidgetHelper {
 		return container;
 	}
 
-	public static void remove(MainActivityHome activity, int appWidgetId) {
+	public static void remove(MainActivityHome activity, String component) {
 		AppWidgetHost appWidgetHost = activity.getAppWidgetHost();
-		appWidgetHost.deleteAppWidgetId(appWidgetId);
+		appWidgetHost.deleteAppWidgetId(getAppWidgetId(component));
 	}
+
+
+	public static boolean isWidgetComponent(String component) {
+		return component.startsWith(PREFIX_WIDGET) && component.contains(SEPARATOR_RES);
+	}
+
+	public static void saveWidget(MainActivityHome activity, AppConfigDialog optionalDialog, int appWidgetId) {
+		String componentToSave = PREFIX_WIDGET + ShortcutHelper.getAndIncrementNextId() + SEPARATOR_RES + appWidgetId;
+		activity.saveShortcutComponent(componentToSave);
+		AppConfigDialog.afterSave(activity, optionalDialog);
+	}
+
+	public static int getAppWidgetId(String component) {
+		String id = component.substring(component.indexOf(SEPARATOR_RES)+1);
+		try {
+			return Integer.parseInt(id);
+		}
+		catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
 }

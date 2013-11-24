@@ -44,8 +44,6 @@ public class ShortcutHelper {
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
 	private static final String PREFIX_SHORTCUT = "sc-";
-	private static final String PREFIX_WIDGET = "wg-";
-
 	private static final String SEPARATOR_RES = "|";
 	private static final String SEPARATOR_PKG = ",";
 	private static final String SEPARATOR_LABEL = "#";
@@ -67,22 +65,8 @@ public class ShortcutHelper {
 		return component.startsWith(PREFIX_SHORTCUT) && component.contains(SEPARATOR_RES);
 	}
 
-	public static boolean isWidgetComponent(String component) {
-		return component.startsWith(PREFIX_WIDGET) && component.contains(SEPARATOR_RES);
-	}
-
 	public static String getShortcutId(String component) {
 		return component.substring(0, component.indexOf(SEPARATOR_RES));
-	}
-
-	public static int getAppWidgetId(String component) {
-		String id = component.substring(component.indexOf(SEPARATOR_RES)+1);
-		try {
-			return Integer.parseInt(id);
-		}
-		catch (NumberFormatException e) {
-			return 0;
-		}
 	}
 
 	public static String getLabel(String component) {
@@ -149,7 +133,7 @@ public class ShortcutHelper {
 		return box;
 	}
 
-	private static int getAndIncrementNextId() {
+	protected static int getAndIncrementNextId() {
 		final int nextid = GlobalContext.prefSettings.getIntValue(KEY_SC_MAXID) + 1;
 		GlobalContext.prefSettings.apply(KEY_SC_MAXID, nextid);
 		return nextid;
@@ -339,12 +323,6 @@ public class ShortcutHelper {
 
 	public static AppConfigDialog getDialogRef() {
 		return dialogRef!=null ? dialogRef.get() : null;
-	}
-
-	public static void saveWidget(MainActivityHome activity, AppConfigDialog optionalDialog, int appWidgetId) {
-		String componentToSave = PREFIX_WIDGET + getAndIncrementNextId() + SEPARATOR_RES + appWidgetId;
-		activity.saveShortcutComponent(componentToSave);
-		AppConfigDialog.afterSave(activity, optionalDialog);
 	}
 
 }

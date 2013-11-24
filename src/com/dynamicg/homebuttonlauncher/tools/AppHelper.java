@@ -97,7 +97,7 @@ public class AppHelper {
 				list.add(new AppEntry(component, sortnr, forMainScreen, AppEntry.TYPE_SHORTCUT));
 				continue;
 			}
-			else if (ShortcutHelper.isWidgetComponent(component)) {
+			else if (WidgetHelper.isWidgetComponent(component)) {
 				list.add(new AppEntry(component, sortnr, forMainScreen, AppEntry.TYPE_WIDGET));
 				continue;
 			}

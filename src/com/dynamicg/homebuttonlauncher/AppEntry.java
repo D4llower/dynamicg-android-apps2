@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
+import com.dynamicg.homebuttonlauncher.tools.WidgetHelper;
 import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
 
 public class AppEntry {
@@ -110,7 +111,7 @@ public class AppEntry {
 		if (extra!=TYPE_WIDGET) {
 			return 0;
 		}
-		return ShortcutHelper.getAppWidgetId(component);
+		return WidgetHelper.getAppWidgetId(component);
 	}
 
 	public boolean isShortcut() {
