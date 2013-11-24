@@ -10,15 +10,15 @@ import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
 
 public class AppEntry {
 
-	public static final int ID_SHORTCUT=1;
-	public static final int ID_WIDGET=2;
-	public static final int ID_CUSTOM=3;
+	public static final int TYPE_SHORTCUT=1;
+	public static final int TYPE_WIDGET=2;
+	public static final int TYPE_CUSTOM=3;
 
 	private final String component;
 	public final ResolveInfo resolveInfo;
 	public final String label;
 	public final int sortnr;
-	public final int extra;
+	private final int extra;
 
 	private Drawable icon;
 	private boolean checked;
@@ -43,11 +43,11 @@ public class AppEntry {
 		}
 	}
 
-	public AppEntry(String component, int sortnr, boolean forMainScreen, int which) {
+	public AppEntry(String component, int sortnr, boolean forMainScreen, int what) {
 		this.resolveInfo = null;
 		this.component = component;
-		this.extra = which;
-		this.label = extra==ID_WIDGET ? "Widget" : ShortcutHelper.getLabel(component);
+		this.extra = what;
+		this.label = extra==TYPE_WIDGET ? "Widget" : ShortcutHelper.getLabel(component);
 		this.sortnr = sortnr;
 		if (forMainScreen) {
 			icon = GlobalContext.icons.get(this.component);
@@ -60,7 +60,7 @@ public class AppEntry {
 		this.component = component;
 		this.label = label;
 		this.sortnr = sortnr;
-		this.extra = ID_CUSTOM;
+		this.extra = TYPE_CUSTOM;
 	}
 
 	private static String toString(CharSequence c, String nullvalue) {
@@ -107,21 +107,21 @@ public class AppEntry {
 	}
 
 	public int getAppWidgetId() {
-		if (extra!=ID_WIDGET) {
+		if (extra!=TYPE_WIDGET) {
 			return 0;
 		}
 		return ShortcutHelper.getAppWidgetId(component);
 	}
 
 	public boolean isShortcut() {
-		return extra==ID_SHORTCUT;
+		return extra==TYPE_SHORTCUT;
 	}
 
 	public boolean isWidget() {
-		return extra==ID_WIDGET;
+		return extra==TYPE_WIDGET;
 	}
 
 	public boolean isCustom() {
-		return extra==ID_CUSTOM;
+		return extra==TYPE_CUSTOM;
 	}
 }
