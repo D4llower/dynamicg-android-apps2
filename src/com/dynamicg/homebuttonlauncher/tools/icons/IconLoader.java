@@ -31,7 +31,7 @@ public class IconLoader {
 		Drawable icon = null;
 
 		try {
-			if (appEntry.isWidget()) {
+			if (appEntry.isWidget() || appEntry.isCustom()) {
 				return IconProvider.getDefaultIcon(iconSizePx);
 			}
 			else if (appEntry.isShortcut()) {

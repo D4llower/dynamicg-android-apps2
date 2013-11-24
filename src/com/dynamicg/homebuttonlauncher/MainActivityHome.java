@@ -33,11 +33,11 @@ import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
-import com.dynamicg.homebuttonlauncher.tools.WidgetHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 import com.dynamicg.homebuttonlauncher.tools.StatusLineHelper;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
+import com.dynamicg.homebuttonlauncher.tools.WidgetHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
 
@@ -355,7 +355,7 @@ public class MainActivityHome extends Activity {
 			GoogleDriveBackupRestoreHelper.restoreFromFile(data);
 		}
 		else if (requestCode==HBLConstants.SHORTCUT_RC) {
-			ShortcutHelper.shortcutSelected(this, data);
+			ShortcutHelper.shortcutSelected(this, ShortcutHelper.getDialogRef(), data);
 		}
 		else if (requestCode==R.id.REQUEST_PICK_APPWIDGET || requestCode==R.id.REQUEST_CREATE_APPWIDGET) {
 			new WidgetHelper(this, ShortcutHelper.getDialogRef()).processResult(requestCode, resultCode, data);

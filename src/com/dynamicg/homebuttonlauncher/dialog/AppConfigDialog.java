@@ -249,6 +249,7 @@ public class AppConfigDialog extends Dialog {
 	private void startShortcutApp(AppEntry appEntry) {
 
 		if (HBLConstants.SC_WIDGETS.equals(appEntry.getComponent())) {
+			ShortcutHelper.storeRef(this);
 			new WidgetHelper(activity, this).selectWidget();
 			return;
 		}
@@ -260,7 +261,7 @@ public class AppConfigDialog extends Dialog {
 
 		Intent intent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
 		intent.setComponent(ComponentName.unflattenFromString(appEntry.getComponent()));
-		ShortcutHelper.storeRef(this, intent);
+		ShortcutHelper.storeRef(this);
 		activity.startActivityForResult(intent, HBLConstants.SHORTCUT_RC);
 	}
 
