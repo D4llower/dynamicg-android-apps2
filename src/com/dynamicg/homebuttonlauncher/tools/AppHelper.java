@@ -92,15 +92,18 @@ public class AppHelper {
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (String component:components.keySet()) {
 
+			int sortnr = getSortNr(components, component);
 			if (ShortcutHelper.isShortcutComponent(component)) {
-				int sortnr = getSortNr(components, component);
-				list.add(new AppEntry(component, sortnr, forMainScreen));
+				list.add(new AppEntry(component, sortnr, forMainScreen, AppEntry.ID_SHORTCUT));
+				continue;
+			}
+			else if (ShortcutHelper.isWidgetComponent(component)) {
+				list.add(new AppEntry(component, sortnr, forMainScreen, AppEntry.ID_WIDGET));
 				continue;
 			}
 
 			ResolveInfo matchingApp = getMatchingApp(component);
 			if (matchingApp!=null) {
-				int sortnr = getSortNr(components, component);
 				list.add(new AppEntry(matchingApp, sortnr, forMainScreen));
 			}
 

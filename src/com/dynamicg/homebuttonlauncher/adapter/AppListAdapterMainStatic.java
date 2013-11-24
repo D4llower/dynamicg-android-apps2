@@ -6,6 +6,7 @@ import java.util.List;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetsSelector;
@@ -23,19 +24,13 @@ public class AppListAdapterMainStatic extends AppListAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		// TODO - use sc id
-		if (position==4 || position==5) {
-			int appWidgetId=0;
-			int which = position-4;
-			if (WidgetsSelector.widgetInfoList.size()>which) {
-				appWidgetId = WidgetsSelector.widgetInfoList.get(which);
-			}
-			if (appWidgetId>0) {
-				return WidgetsSelector.getWidgetView(activity, inflater, appWidgetId);
-			}
+		// TODO add to all adapters
+		AppEntry entry = applist.get(position);
+		System.err.println("WIDGET? "+entry+"  => "+entry.widget+"|"+entry.getAppWidgetId());
+		int appWidgetId = entry.getAppWidgetId();
+		if (appWidgetId>0) {
+			return WidgetsSelector.getWidgetView(activity, inflater, appWidgetId);
 		}
-
 
 		if (list.get(position)==null) {
 			final View row = getOrCreateView(null); // make sure we don't recycle views

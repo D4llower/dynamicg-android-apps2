@@ -43,34 +43,41 @@ public class ShortcutHelper {
 
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
-	private static final String SHORTCUT_PREFIX = "sc-";
+	private static final String PREFIX_SHORTCUT = "sc-";
+	private static final String PREFIX_WIDGET = "wg-";
+
 	private static final String SEPARATOR_RES = "|";
 	private static final String SEPARATOR_PKG = ",";
 	private static final String SEPARATOR_LABEL = "#";
 
-	private static final String WIDGET_PREFIX = "wg-";
 
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
 
-	private static WeakReference<MainActivityHome> activityRef;
 	private static WeakReference<AppConfigDialog> dialogRef;
 	private static WeakReference<Intent> creatorRef;
 
 	private static File iconDir;
 
-	public static void storeRef(MainActivityHome activity, AppConfigDialog appConfigDialog, Intent intent) {
-		activityRef = new WeakReference<MainActivityHome>(activity);
+	public static void storeRef(AppConfigDialog appConfigDialog, Intent intent) {
 		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
 		creatorRef = new WeakReference<Intent>(intent);
 	}
 
 	public static boolean isShortcutComponent(String component) {
-		return component.startsWith(SHORTCUT_PREFIX) && component.contains(SEPARATOR_RES);
+		return component.startsWith(PREFIX_SHORTCUT) && component.contains(SEPARATOR_RES);
+	}
+
+	public static boolean isWidgetComponent(String component) {
+		return component.startsWith(PREFIX_WIDGET) && component.contains(SEPARATOR_RES);
 	}
 
 	public static String getShortcutId(String component) {
 		return component.substring(0, component.indexOf(SEPARATOR_RES));
+	}
+
+	public static String getShortcutDataPart(String component) {
+		return component.substring(component.indexOf(SEPARATOR_RES)+1);
 	}
 
 	public static String getLabel(String component) {
@@ -82,8 +89,7 @@ public class ShortcutHelper {
 		}
 	}
 
-	public static void shortcutSelected(Intent data) {
-		final MainActivityHome activity = activityRef!=null ? activityRef.get() : null;
+	public static void shortcutSelected(final MainActivityHome activity, final Intent data) {
 		final AppConfigDialog optionalDialog = dialogRef!=null ? dialogRef.get() : null;
 		final Intent creator = creatorRef!=null ? creatorRef.get() : null;
 
@@ -138,6 +144,12 @@ public class ShortcutHelper {
 		return box;
 	}
 
+	private static int getAndIncrementNextId() {
+		final int nextid = GlobalContext.prefSettings.getIntValue(KEY_SC_MAXID) + 1;
+		GlobalContext.prefSettings.apply(KEY_SC_MAXID, nextid);
+		return nextid;
+	}
+
 	private static void save(
 			MainActivityHome activity
 			, AppConfigDialog optionalDialog
@@ -148,9 +160,8 @@ public class ShortcutHelper {
 			, boolean resolveContactId
 			)
 	{
-		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
-		final int nextid = prefs.getInt(KEY_SC_MAXID, 0) + 1;
-		final String shortcutId = SHORTCUT_PREFIX+nextid;
+		final int nextid = getAndIncrementNextId();
+		final String shortcutId = PREFIX_SHORTCUT+nextid;
 
 		final String intentString;
 		if (resolveContactId) {
@@ -163,10 +174,7 @@ public class ShortcutHelper {
 			intentString = intent.toUri(0);
 		}
 
-		Editor edit = prefs.edit();
-		edit.putInt(KEY_SC_MAXID, nextid);
-		edit.putString(shortcutId, intentString);
-		edit.apply();
+		GlobalContext.prefSettings.apply(shortcutId, intentString);
 
 		String iconpath = iconResource!=null ? iconResource.packageName + SEPARATOR_PKG + iconResource.resourceName : "";
 		String componentToSave = shortcutId + SEPARATOR_RES + iconpath + SEPARATOR_LABEL + label;
@@ -209,6 +217,10 @@ public class ShortcutHelper {
 	}
 
 	public static Drawable loadIcon(Context context, AppEntry appEntry, LargeIconLoader largeIconLoader, int iconSizePx) {
+		if (appEntry.widget) {
+			return null;
+		}
+
 		Drawable icon = null;
 		final String component = appEntry.getComponent();
 		final String respath = component.substring(component.indexOf(SEPARATOR_RES)+1, component.indexOf(SEPARATOR_LABEL));
@@ -282,7 +294,7 @@ public class ShortcutHelper {
 
 	public static boolean isShortcutWithLocalIcon(String entryGroup, String entryKey) {
 		return entryGroup.startsWith(HBLConstants.PREFS_APPS)
-				&& entryKey.startsWith(SHORTCUT_PREFIX)
+				&& entryKey.startsWith(PREFIX_SHORTCUT)
 				&& entryKey.contains(SEPARATOR_RES+SEPARATOR_LABEL)
 				;
 	}
@@ -306,7 +318,7 @@ public class ShortcutHelper {
 	}
 
 	public static void startExitSelfShortcut(MainActivityHome activity, AppConfigDialog dialog, AppEntry appEntry) {
-		ShortcutHelper.storeRef(activity, dialog, null);
+		ShortcutHelper.storeRef(dialog, null);
 		String label = "Exit";
 
 		Bundle extras = new Bundle();
@@ -319,13 +331,18 @@ public class ShortcutHelper {
 
 		Intent data = new Intent();
 		data.putExtras(extras);
-		ShortcutHelper.shortcutSelected(data);
+		ShortcutHelper.shortcutSelected(activity, data);
 	}
 
-	public static void saveWidget(int appWidgetId) {
-		// TODO ## implement "save"
-		//		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
-		//		Editor edit = prefs.edit();
+	public static AppConfigDialog getDialogRef() {
+		return dialogRef!=null ? dialogRef.get() : null;
+	}
+
+	public static void saveWidget(MainActivityHome activity, AppConfigDialog optionalDialog, int appWidgetId) {
+		final int nextid = getAndIncrementNextId();
+		String componentToSave = PREFIX_WIDGET + nextid + SEPARATOR_RES + appWidgetId;
+		activity.saveShortcutComponent(componentToSave);
+		AppConfigDialog.afterSave(activity, optionalDialog);
 	}
 
 	// TODO implement "remove"

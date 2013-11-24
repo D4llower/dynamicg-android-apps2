@@ -355,10 +355,10 @@ public class MainActivityHome extends Activity {
 			GoogleDriveBackupRestoreHelper.restoreFromFile(data);
 		}
 		else if (requestCode==HBLConstants.SHORTCUT_RC) {
-			ShortcutHelper.shortcutSelected(data);
+			ShortcutHelper.shortcutSelected(this, data);
 		}
 		else if (requestCode==R.id.REQUEST_PICK_APPWIDGET || requestCode==R.id.REQUEST_CREATE_APPWIDGET) {
-			new WidgetsSelector(this).processResult(requestCode, resultCode, data);
+			new WidgetsSelector(this, ShortcutHelper.getDialogRef()).processResult(requestCode, resultCode, data);
 		}
 	}
 

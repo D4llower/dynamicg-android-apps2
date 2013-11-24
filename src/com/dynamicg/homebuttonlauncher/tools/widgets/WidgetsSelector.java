@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class WidgetsSelector {
@@ -22,9 +23,11 @@ public class WidgetsSelector {
 	private MainActivityHome activity;
 	private AppWidgetManager mAppWidgetManager;
 	private AppWidgetHost mAppWidgetHost;
+	private AppConfigDialog configDialog;
 
-	public WidgetsSelector(MainActivityHome activity) {
+	public WidgetsSelector(MainActivityHome activity, AppConfigDialog configDialog) {
 		this.activity = activity;
+		this.configDialog = configDialog;
 		mAppWidgetManager = activity.getAppWidgetManager();
 		mAppWidgetHost = activity.getAppWidgetHost();
 	}
@@ -89,12 +92,9 @@ public class WidgetsSelector {
 		Bundle extras = data.getExtras();
 		int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 		if (appWidgetId>=0) {
-			ShortcutHelper.saveWidget(appWidgetId);
+			ShortcutHelper.saveWidget(activity, configDialog, appWidgetId);
 			widgetInfoList.add(appWidgetId);
 		}
-		//		AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
-		//		AppWidgetHostView hostView = mAppWidgetHost.createView(activity, appWidgetId, appWidgetInfo);
-		//		hostView.setAppWidget(appWidgetId, appWidgetInfo);
 	}
 
 	public static final ArrayList<Integer> widgetInfoList = new ArrayList<Integer>();

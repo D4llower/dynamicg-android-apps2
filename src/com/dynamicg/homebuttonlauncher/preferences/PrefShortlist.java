@@ -64,7 +64,7 @@ public class PrefShortlist {
 		final Collection<String> components = getComponentsSet();
 		final ArrayList<String> zombies = new ArrayList<String>();
 		for (String component:components) {
-			if (ShortcutHelper.isShortcutComponent(component)) {
+			if (ShortcutHelper.isShortcutComponent(component) || ShortcutHelper.isWidgetComponent(component)) {
 				continue;
 			}
 			ResolveInfo matchingApp = AppHelper.getMatchingApp(component);
@@ -86,6 +86,7 @@ public class PrefShortlist {
 			if (ShortcutHelper.isShortcutComponent(component)) {
 				shortcutIds.add(ShortcutHelper.getShortcutId(component));
 			}
+			// TODO ## implement widget remove
 		}
 		edit.apply();
 

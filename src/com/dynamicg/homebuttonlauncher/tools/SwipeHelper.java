@@ -15,7 +15,6 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 
 // see http://stackoverflow.com/questions/937313/android-basic-gesture-detection
-// TODO ## fling animation ??
 public class SwipeHelper {
 
 	private static final Logger log = new Logger(SwipeHelper.class);

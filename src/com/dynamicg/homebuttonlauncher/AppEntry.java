@@ -10,11 +10,15 @@ import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
 
 public class AppEntry {
 
+	public static final int ID_SHORTCUT=1;
+	public static final int ID_WIDGET=2;
+
 	private final String component;
 	public final ResolveInfo resolveInfo;
 	public final String label;
 	public final int sortnr;
 	public final boolean shortcut;
+	public final boolean widget;
 
 	private Drawable icon;
 	private boolean checked;
@@ -24,6 +28,7 @@ public class AppEntry {
 		this.component = AppHelper.getComponentName(resolveInfo);
 		this.sortnr = sortnr;
 		this.shortcut = false;
+		this.widget = false;
 
 		if (forMainScreen) {
 			String label = GlobalContext.labels.get(component);
@@ -39,23 +44,26 @@ public class AppEntry {
 		}
 	}
 
-	public AppEntry(String component, int sortnr, boolean forMainScreen) {
+	public AppEntry(String component, int sortnr, boolean forMainScreen, int which) {
 		this.resolveInfo = null;
 		this.component = component;
+		this.shortcut = which==ID_SHORTCUT;
+		this.widget = which==ID_WIDGET;
 		this.label = ShortcutHelper.getLabel(component);
 		this.sortnr = sortnr;
-		this.shortcut = true;
 		if (forMainScreen) {
 			icon = GlobalContext.icons.get(this.component);
 		}
 	}
 
+	// for extra items like "Widget"
 	public AppEntry(String component, int sortnr, String label) {
 		this.resolveInfo = null;
 		this.component = component;
-		this.label = "Widgets";
+		this.label = label;
 		this.sortnr = sortnr;
 		this.shortcut = true;
+		this.widget = false;
 	}
 
 	private static String toString(CharSequence c, String nullvalue) {
@@ -101,4 +109,16 @@ public class AppEntry {
 		return icon;
 	}
 
+	public int getAppWidgetId() {
+		if (!widget) {
+			return 0;
+		}
+		String id = ShortcutHelper.getShortcutDataPart(component);
+		try {
+			return Integer.parseInt(id);
+		}
+		catch (NumberFormatException e) {
+			return 0;
+		}
+	}
 }
