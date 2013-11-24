@@ -76,8 +76,14 @@ public class ShortcutHelper {
 		return component.substring(0, component.indexOf(SEPARATOR_RES));
 	}
 
-	public static String getShortcutDataPart(String component) {
-		return component.substring(component.indexOf(SEPARATOR_RES)+1);
+	public static int getAppWidgetId(String component) {
+		String id = component.substring(component.indexOf(SEPARATOR_RES)+1);
+		try {
+			return Integer.parseInt(id);
+		}
+		catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 	public static String getLabel(String component) {

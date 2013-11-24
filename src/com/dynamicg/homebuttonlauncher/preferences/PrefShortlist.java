@@ -12,14 +12,18 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
+import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetsSelector;
 
 public class PrefShortlist {
 
+	private MainActivityHome activity;
 	private SharedPreferences sharedPrefs;
 
-	public PrefShortlist(SharedPreferences appPrefs) {
+	public PrefShortlist(MainActivityHome activity, SharedPreferences appPrefs) {
+		this.activity = activity;
 		this.sharedPrefs = appPrefs;
 	}
 
@@ -86,7 +90,9 @@ public class PrefShortlist {
 			if (ShortcutHelper.isShortcutComponent(component)) {
 				shortcutIds.add(ShortcutHelper.getShortcutId(component));
 			}
-			// TODO ## implement widget remove
+			else if (ShortcutHelper.isWidgetComponent(component)) {
+				WidgetsSelector.remove(activity, ShortcutHelper.getAppWidgetId(component));
+			}
 		}
 		edit.apply();
 

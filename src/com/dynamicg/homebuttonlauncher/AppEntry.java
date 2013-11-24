@@ -110,13 +110,7 @@ public class AppEntry {
 		if (extra!=ID_WIDGET) {
 			return 0;
 		}
-		String id = ShortcutHelper.getShortcutDataPart(component);
-		try {
-			return Integer.parseInt(id);
-		}
-		catch (NumberFormatException e) {
-			return 0;
-		}
+		return ShortcutHelper.getAppWidgetId(component);
 	}
 
 	public boolean isShortcut() {

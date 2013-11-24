@@ -90,16 +90,11 @@ public class WidgetsSelector {
 
 	private void createWidget(Intent data) {
 		Bundle extras = data.getExtras();
-		System.err.println("(A) DATA="+data.toUri(0));
-		System.err.println("(B) EXTRAS="+extras.keySet());
 		int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 		if (appWidgetId>=0) {
 			ShortcutHelper.saveWidget(activity, configDialog, appWidgetId);
-			widgetInfoList.add(appWidgetId);
 		}
 	}
-
-	public static final ArrayList<Integer> widgetInfoList = new ArrayList<Integer>();
 
 	public static View getWidgetView(MainActivityHome activity, LayoutInflater inflater, int appWidgetId) {
 		AppWidgetProviderInfo appWidgetInfo = activity.getAppWidgetManager().getAppWidgetInfo(appWidgetId);
@@ -110,5 +105,10 @@ public class WidgetsSelector {
 		ViewGroup container = (ViewGroup)inflater.inflate(R.layout.widget_container, null);
 		container.addView(hostView);
 		return container;
+	}
+
+	public static void remove(MainActivityHome activity, int appWidgetId) {
+		AppWidgetHost appWidgetHost = activity.getAppWidgetHost();
+		appWidgetHost.deleteAppWidgetId(appWidgetId);
 	}
 }

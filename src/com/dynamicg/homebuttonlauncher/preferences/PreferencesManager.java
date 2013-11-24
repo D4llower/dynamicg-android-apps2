@@ -11,6 +11,7 @@ import android.content.SharedPreferences.Editor;
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 
 public class PreferencesManager {
@@ -39,13 +40,13 @@ public class PreferencesManager {
 		return context.getSharedPreferences(getShortlistName(tabindex), Context.MODE_PRIVATE);
 	}
 
-	public PreferencesManager(Context context) {
-		this.context = context;
+	public PreferencesManager(MainActivityHome activity) {
+		this.context = activity;
 		this.prefSettings = new PrefSettings(context);
 		GlobalContext.init(context, prefSettings);
 
 		currentTabIndex = getCurrentTabIndex(prefSettings);
-		this.prefShortlist = new PrefShortlist(getShortlistPrefs(currentTabIndex));
+		this.prefShortlist = new PrefShortlist(activity, getShortlistPrefs(currentTabIndex));
 		if (currentTabIndex==0) {
 			// skip for all extra tabs
 			checkOnStartup();

@@ -92,7 +92,7 @@ public class MainActivityHome extends Activity {
 			return;
 		}
 
-		preferences = new PreferencesManager(context);
+		preferences = new PreferencesManager(this);
 
 		if (preferences.prefSettings.isSemiTransparent()) {
 			setBackgroundTransparency(true);
