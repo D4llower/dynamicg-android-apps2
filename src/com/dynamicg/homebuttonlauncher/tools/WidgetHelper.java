@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
@@ -108,6 +110,8 @@ public class WidgetHelper {
 		AppWidgetHost appWidgetHost = activity.getAppWidgetHost();
 		AppWidgetHostView hostView = appWidgetHost.createView(activity, appWidgetId, appWidgetInfo);
 		hostView.setAppWidget(appWidgetId, appWidgetInfo);
+		int w=GlobalContext.getDimension(R.dimen.widgetW), h=GlobalContext.getDimension(R.dimen.widgetH);
+		hostView.setLayoutParams(new AbsListView.LayoutParams(w,h));
 
 		ViewGroup container = (ViewGroup)inflater.inflate(R.layout.widget_container, null);
 		container.addView(hostView);

@@ -245,7 +245,11 @@ public class MainActivityHome extends Activity {
 	private boolean startAppAndClose(AppEntry entry) {
 		Intent intent=null;
 		try {
-			if (entry.isShortcut()) {
+			if (entry.isWidget()) {
+				// no action when list cell background is clicked
+				return false;
+			}
+			else if (entry.isShortcut()) {
 				intent = ShortcutHelper.getIntent(entry);
 			}
 			else {
@@ -366,17 +370,34 @@ public class MainActivityHome extends Activity {
 		preferences.prefShortlist.add(Arrays.asList(component));
 	}
 
-	public AppWidgetHost getAppWidgetHost() {
-		if (appWidgetHost==null) {
-			appWidgetHost = new AppWidgetHost(this, R.id.APPWIDGET_HOST_ID);
-		}
-		return appWidgetHost;
-	}
-
 	public AppWidgetManager getAppWidgetManager() {
 		if (appWidgetManager==null) {
 			appWidgetManager = AppWidgetManager.getInstance(this);
 		}
 		return appWidgetManager;
 	}
+
+	public AppWidgetHost getAppWidgetHost() {
+		if (appWidgetHost==null) {
+			appWidgetHost = new AppWidgetHost(this, R.id.APPWIDGET_HOST_ID);
+			appWidgetHost.startListening();
+		}
+		return appWidgetHost;
+	}
+
+	//	@Override
+	//	public void onStart() {
+	//		super.onStart();
+	//		getAppWidgetHost();
+	//		appWidgetHost.startListening();
+	//	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		if (appWidgetHost!=null) {
+			appWidgetHost.stopListening();
+		}
+	}
+
 }

@@ -31,4 +31,8 @@ public class GlobalContext {
 		icons.clear();
 	}
 
+	public static int getDimension(int id) {
+		return (int)resources.getDimension(id);
+	}
+
 }

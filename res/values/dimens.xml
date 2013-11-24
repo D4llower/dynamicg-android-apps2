@@ -23,4 +23,7 @@
 	
 	<dimen name="labelMargin">12dp</dimen>	
 	
+	<dimen name="widgetW">84dp</dimen>	
+	<dimen name="widgetH">104dp</dimen>
+		
 </resources>
