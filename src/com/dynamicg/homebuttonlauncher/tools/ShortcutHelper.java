@@ -44,9 +44,9 @@ public class ShortcutHelper {
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
 	private static final String PREFIX_SHORTCUT = "sc-";
-	private static final String SEPARATOR_RES = "|";
-	private static final String SEPARATOR_PKG = ",";
-	private static final String SEPARATOR_LABEL = "#";
+	protected static final String SEPARATOR_RES = "|";
+	protected static final String SEPARATOR_PKG = ",";
+	protected static final String SEPARATOR_LABEL = "#";
 
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";

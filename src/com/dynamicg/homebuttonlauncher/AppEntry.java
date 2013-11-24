@@ -48,7 +48,7 @@ public class AppEntry {
 		this.resolveInfo = null;
 		this.component = component;
 		this.extra = what;
-		this.label = extra==TYPE_WIDGET ? "Widget" : ShortcutHelper.getLabel(component);
+		this.label = ShortcutHelper.getLabel(component); // valid for both shortcuts and widgets
 		this.sortnr = sortnr;
 		if (forMainScreen) {
 			icon = GlobalContext.icons.get(this.component);

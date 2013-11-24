@@ -23,7 +23,8 @@ import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 public class WidgetHelper {
 
 	private static final String PREFIX_WIDGET = "wg-";
-	private static final String SEPARATOR_RES = "|";
+	private static final String SEPARATOR_RES = ShortcutHelper.SEPARATOR_RES;
+	private static final String SEPARATOR_LABEL = ShortcutHelper.SEPARATOR_LABEL;
 
 	private MainActivityHome activity;
 	private AppWidgetManager mAppWidgetManager;
@@ -97,7 +98,8 @@ public class WidgetHelper {
 		Bundle extras = data.getExtras();
 		int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 		if (appWidgetId>=0) {
-			saveWidget(activity, configDialog, appWidgetId);
+			String label = mAppWidgetManager.getAppWidgetInfo(appWidgetId).label;
+			saveWidget(activity, configDialog, appWidgetId, label);
 		}
 	}
 
@@ -128,14 +130,20 @@ public class WidgetHelper {
 		return component.startsWith(PREFIX_WIDGET) && component.contains(SEPARATOR_RES);
 	}
 
-	public static void saveWidget(MainActivityHome activity, AppConfigDialog optionalDialog, int appWidgetId) {
-		String componentToSave = PREFIX_WIDGET + ShortcutHelper.getAndIncrementNextId() + SEPARATOR_RES + appWidgetId;
+	public static void saveWidget(MainActivityHome activity, AppConfigDialog optionalDialog, int appWidgetId, String label) {
+		String componentToSave = PREFIX_WIDGET
+				+ ShortcutHelper.getAndIncrementNextId()
+				+ SEPARATOR_RES
+				+ appWidgetId
+				+ SEPARATOR_LABEL
+				+ (label!=null?label:"")
+				;
 		activity.saveShortcutComponent(componentToSave);
 		AppConfigDialog.afterSave(activity, optionalDialog);
 	}
 
 	public static int getAppWidgetId(String component) {
-		String id = component.substring(component.indexOf(SEPARATOR_RES)+1);
+		String id = component.substring(component.indexOf(SEPARATOR_RES)+1, component.indexOf(SEPARATOR_LABEL));
 		try {
 			return Integer.parseInt(id);
 		}
