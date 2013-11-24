@@ -10,11 +10,13 @@ import com.dynamicg.homebuttonlauncher.tools.icons.IconLoader;
 
 public class AppEntry {
 
+	public static final int TYPE_SHORTCUT=1;
+
 	private final String component;
 	public final ResolveInfo resolveInfo;
 	public final String label;
 	public final int sortnr;
-	public final boolean shortcut;
+	private final int extra;
 
 	private Drawable icon;
 	private boolean checked;
@@ -23,7 +25,7 @@ public class AppEntry {
 		this.resolveInfo = resolveInfo;
 		this.component = AppHelper.getComponentName(resolveInfo);
 		this.sortnr = sortnr;
-		this.shortcut = false;
+		this.extra = 0;
 
 		if (forMainScreen) {
 			String label = GlobalContext.labels.get(component);
@@ -39,12 +41,12 @@ public class AppEntry {
 		}
 	}
 
-	public AppEntry(String component, int sortnr, boolean forMainScreen) {
+	public AppEntry(String component, int sortnr, boolean forMainScreen, int what) {
 		this.resolveInfo = null;
 		this.component = component;
 		this.label = ShortcutHelper.getLabel(component);
 		this.sortnr = sortnr;
-		this.shortcut = true;
+		this.extra = what;
 		if (forMainScreen) {
 			icon = GlobalContext.icons.get(this.component);
 		}
@@ -93,4 +95,7 @@ public class AppEntry {
 		return icon;
 	}
 
+	public boolean isShortcut() {
+		return extra==TYPE_SHORTCUT;
+	}
 }

@@ -31,7 +31,7 @@ public class IconLoader {
 		Drawable icon = null;
 
 		try {
-			if (appEntry.shortcut) {
+			if (appEntry.isShortcut()) {
 				icon = ShortcutHelper.loadIcon(context, appEntry, largeIconLoader, iconSizePx); // note this returns "scaled"
 			}
 			else {

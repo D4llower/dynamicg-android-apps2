@@ -3,17 +3,17 @@ package com.dynamicg.homebuttonlauncher.adapter;
 import java.util.Arrays;
 import java.util.List;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dynamicg.homebuttonlauncher.AppListContainer;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 
 public class AppListAdapterMainStatic extends AppListAdapter {
 
 	private final List<View> list;
 
-	public AppListAdapterMainStatic(Activity activity, AppListContainer apps) {
+	public AppListAdapterMainStatic(MainActivityHome activity, AppListContainer apps) {
 		super(activity, apps);
 		list = Arrays.asList(new View[apps.size()]);
 	}

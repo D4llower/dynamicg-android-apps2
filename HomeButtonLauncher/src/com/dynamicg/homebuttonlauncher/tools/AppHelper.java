@@ -91,16 +91,15 @@ public class AppHelper {
 		final Map<String, Integer> components = settings.getComponentsMap();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (String component:components.keySet()) {
+			int sortnr = getSortNr(components, component);
 
 			if (ShortcutHelper.isShortcutComponent(component)) {
-				int sortnr = getSortNr(components, component);
-				list.add(new AppEntry(component, sortnr, forMainScreen));
+				list.add(new AppEntry(component, sortnr, forMainScreen, AppEntry.TYPE_SHORTCUT));
 				continue;
 			}
 
 			ResolveInfo matchingApp = getMatchingApp(component);
 			if (matchingApp!=null) {
-				int sortnr = getSortNr(components, component);
 				list.add(new AppEntry(matchingApp, sortnr, forMainScreen));
 			}
 
@@ -118,7 +117,7 @@ public class AppHelper {
 			list.add(new AppEntry(resolveInfo, 0, false));
 		}
 
-		// for "Exit" shortcut:
+		// "Exit" shortcut:
 		ResolveInfo self = getMatchingApp(HBLConstants.SELF);
 		AppEntry appEntrySelf = new AppEntry(self, 0, false);
 		list.add(appEntrySelf);

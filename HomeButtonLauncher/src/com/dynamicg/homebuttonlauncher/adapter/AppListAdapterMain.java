@@ -1,14 +1,14 @@
 package com.dynamicg.homebuttonlauncher.adapter;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dynamicg.homebuttonlauncher.AppListContainer;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 
 public class AppListAdapterMain extends AppListAdapter {
 
-	public AppListAdapterMain(Activity activity, AppListContainer apps) {
+	public AppListAdapterMain(MainActivityHome activity, AppListContainer apps) {
 		super(activity, apps);
 	}
 

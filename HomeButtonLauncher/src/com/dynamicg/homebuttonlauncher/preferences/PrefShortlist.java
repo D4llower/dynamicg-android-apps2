@@ -12,14 +12,17 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
 
 import com.dynamicg.homebuttonlauncher.AppEntry;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class PrefShortlist {
 
+	private MainActivityHome activity;
 	private SharedPreferences sharedPrefs;
 
-	public PrefShortlist(SharedPreferences appPrefs) {
+	public PrefShortlist(MainActivityHome activity, SharedPreferences appPrefs) {
+		this.activity = activity;
 		this.sharedPrefs = appPrefs;
 	}
 

@@ -86,7 +86,7 @@ public class MainActivityHome extends Activity {
 			return;
 		}
 
-		preferences = new PreferencesManager(context);
+		preferences = new PreferencesManager(this);
 
 		if (preferences.prefSettings.isSemiTransparent()) {
 			setBackgroundTransparency(true);
@@ -239,7 +239,7 @@ public class MainActivityHome extends Activity {
 	private boolean startAppAndClose(AppEntry entry) {
 		Intent intent=null;
 		try {
-			if (entry.shortcut) {
+			if (entry.isShortcut()) {
 				intent = ShortcutHelper.getIntent(entry);
 			}
 			else {
@@ -262,7 +262,7 @@ public class MainActivityHome extends Activity {
 			SystemUtil.dumpError(t);
 
 			String appinfo = entry.getComponent();
-			if (entry.shortcut && intent!=null && intent.getComponent()!=null) {
+			if (entry.isShortcut() && intent!=null && intent.getComponent()!=null) {
 				// "entry.getComponent()" for shortcuts is "sc-<nn>|#<label>" so we show the shortcut intent instead
 				appinfo = intent.getComponent().flattenToString();
 			}
@@ -349,7 +349,7 @@ public class MainActivityHome extends Activity {
 			GoogleDriveBackupRestoreHelper.restoreFromFile(data);
 		}
 		else if (requestCode==HBLConstants.SHORTCUT_RC) {
-			ShortcutHelper.shortcutSelected(data);
+			ShortcutHelper.shortcutSelected(this, data);
 		}
 	}
 
