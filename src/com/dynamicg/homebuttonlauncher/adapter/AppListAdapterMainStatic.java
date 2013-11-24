@@ -26,7 +26,6 @@ public class AppListAdapterMainStatic extends AppListAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO add to all adapters
 		AppEntry entry = applist.get(position);
-		System.err.println("WIDGET? "+entry+"  => "+entry.widget+"|"+entry.getAppWidgetId());
 		int appWidgetId = entry.getAppWidgetId();
 		if (appWidgetId>0) {
 			return WidgetsSelector.getWidgetView(activity, inflater, appWidgetId);

@@ -3,4 +3,5 @@
     android:layout_width="64dp"
     android:layout_height="84dp"
     android:orientation="vertical"
+    android:gravity="center"
     />
