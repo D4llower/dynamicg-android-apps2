@@ -91,8 +91,8 @@ public class AppHelper {
 		final Map<String, Integer> components = settings.getComponentsMap();
 		final ArrayList<AppEntry> list = new ArrayList<AppEntry>();
 		for (String component:components.keySet()) {
-
 			int sortnr = getSortNr(components, component);
+
 			if (ShortcutHelper.isShortcutComponent(component)) {
 				list.add(new AppEntry(component, sortnr, forMainScreen, AppEntry.TYPE_SHORTCUT));
 				continue;

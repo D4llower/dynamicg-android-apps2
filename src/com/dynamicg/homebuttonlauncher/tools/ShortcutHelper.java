@@ -50,7 +50,6 @@ public class ShortcutHelper {
 	private static final String SEPARATOR_PKG = ",";
 	private static final String SEPARATOR_LABEL = "#";
 
-
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
 
