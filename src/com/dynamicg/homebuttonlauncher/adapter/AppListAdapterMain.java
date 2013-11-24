@@ -22,7 +22,7 @@ public class AppListAdapterMain extends AppListAdapter {
 		}
 
 		final View row = getOrCreateView(convertView);
-		bindView(position, applist.get(position), row);
+		bindView(position, entry, row);
 		return row;
 	}
 
