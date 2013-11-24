@@ -49,6 +49,10 @@ public class SwipeHelper {
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
+				if (e1==null || e2==null) {
+					return false;
+				}
+
 				log.debug("### SWIPE", Math.abs(e1.getX() - e2.getX())/1.5f, Math.abs(e1.getY() - e2.getY())/1.5f);
 
 				try {

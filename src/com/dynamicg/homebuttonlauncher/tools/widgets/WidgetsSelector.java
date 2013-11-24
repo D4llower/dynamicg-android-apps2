@@ -90,6 +90,8 @@ public class WidgetsSelector {
 
 	private void createWidget(Intent data) {
 		Bundle extras = data.getExtras();
+		System.err.println("(A) DATA="+data.toUri(0));
+		System.err.println("(B) EXTRAS="+extras.keySet());
 		int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 		if (appWidgetId>=0) {
 			ShortcutHelper.saveWidget(activity, configDialog, appWidgetId);

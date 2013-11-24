@@ -217,8 +217,8 @@ public class ShortcutHelper {
 	}
 
 	public static Drawable loadIcon(Context context, AppEntry appEntry, LargeIconLoader largeIconLoader, int iconSizePx) {
-		if (appEntry.widget) {
-			return null;
+		if (appEntry.widget || appEntry.sortnr<0) {
+			return IconProvider.getDefaultIcon();
 		}
 
 		Drawable icon = null;
@@ -344,7 +344,5 @@ public class ShortcutHelper {
 		activity.saveShortcutComponent(componentToSave);
 		AppConfigDialog.afterSave(activity, optionalDialog);
 	}
-
-	// TODO implement "remove"
 
 }
