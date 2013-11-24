@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
@@ -96,7 +97,11 @@ public class WidgetHelper {
 		}
 	}
 
-	public static View getWidgetView(MainActivityHome activity, LayoutInflater inflater, int appWidgetId) {
+	public static View getWidgetView(MainActivityHome activity, LayoutInflater inflater, AppEntry entry) {
+		int appWidgetId = entry.getAppWidgetId();
+		if (appWidgetId==0) {
+			return null;
+		}
 		AppWidgetProviderInfo appWidgetInfo = activity.getAppWidgetManager().getAppWidgetInfo(appWidgetId);
 		AppWidgetHost appWidgetHost = activity.getAppWidgetHost();
 		AppWidgetHostView hostView = appWidgetHost.createView(activity, appWidgetId, appWidgetInfo);

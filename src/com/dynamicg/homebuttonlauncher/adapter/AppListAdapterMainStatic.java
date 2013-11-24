@@ -14,21 +14,17 @@ import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
 public class AppListAdapterMainStatic extends AppListAdapter {
 
 	private final List<View> list;
-	private MainActivityHome activity;
 
 	public AppListAdapterMainStatic(MainActivityHome activity, AppListContainer apps) {
 		super(activity, apps);
-		this.activity = activity;
 		list = Arrays.asList(new View[apps.size()]);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO add to all adapters
 		AppEntry entry = applist.get(position);
-		int appWidgetId = entry.getAppWidgetId();
-		if (appWidgetId>0) {
-			return WidgetHelper.getWidgetView(activity, inflater, appWidgetId);
+		if (entry.isWidget()) {
+			return WidgetHelper.getWidgetView(activity, inflater, entry);
 		}
 
 		if (list.get(position)==null) {

@@ -1,6 +1,5 @@
 package com.dynamicg.homebuttonlauncher.adapter;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
+import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
@@ -21,6 +21,7 @@ import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
 
 public abstract class AppListAdapter extends BaseAdapter {
 
+	public final MainActivityHome activity;
 	protected final AppListContainer applist;
 	protected final LayoutInflater inflater;
 	protected final int appEntryLayoutId;
@@ -33,7 +34,8 @@ public abstract class AppListAdapter extends BaseAdapter {
 
 	private boolean dataSetChanged;
 
-	private AppListAdapter(Activity activity, AppListContainer apps, int viewId, boolean forMainScreen, int iconSizePx, int labelSize) {
+	private AppListAdapter(MainActivityHome activity, AppListContainer apps, int viewId, boolean forMainScreen, int iconSizePx, int labelSize) {
+		this.activity = activity;
 		final boolean useBackgroundLoader = GlobalContext.prefSettings.isBackgroundIconLoader();
 		this.applist = apps;
 		this.inflater = activity.getLayoutInflater();
@@ -55,14 +57,14 @@ public abstract class AppListAdapter extends BaseAdapter {
 	/*
 	 * for main screen
 	 */
-	public AppListAdapter(Activity activity, AppListContainer apps) {
+	public AppListAdapter(MainActivityHome activity, AppListContainer apps) {
 		this(activity, apps, GlobalContext.prefSettings.getAppEntryLayoutId(), true, IconProvider.getPreferredSizePX(), GlobalContext.prefSettings.getLabelSize());
 	}
 
 	/*
 	 * for config screens
 	 */
-	public AppListAdapter(Activity activity, AppListContainer apps, int viewId) {
+	public AppListAdapter(MainActivityHome activity, AppListContainer apps, int viewId) {
 		this(activity, apps, viewId, false, IconProvider.getDefaultSizePX(), SizePrefsHelper.DEFAULT_LABEL_SIZE);
 	}
 
