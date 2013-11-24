@@ -15,7 +15,7 @@ import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
-import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
+import com.dynamicg.homebuttonlauncher.tools.WidgetHelper;
 
 public class PrefShortlist {
 

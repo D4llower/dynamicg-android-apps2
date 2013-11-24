@@ -165,9 +165,7 @@ public class ShortcutHelper {
 			, boolean resolveContactId
 			)
 	{
-		final int nextid = getAndIncrementNextId();
-		final String shortcutId = PREFIX_SHORTCUT+nextid;
-
+		final String shortcutId = PREFIX_SHORTCUT + getAndIncrementNextId();
 		final String intentString;
 		if (resolveContactId) {
 			String contactId = intent.getData().getLastPathSegment();
@@ -344,8 +342,7 @@ public class ShortcutHelper {
 	}
 
 	public static void saveWidget(MainActivityHome activity, AppConfigDialog optionalDialog, int appWidgetId) {
-		final int nextid = getAndIncrementNextId();
-		String componentToSave = PREFIX_WIDGET + nextid + SEPARATOR_RES + appWidgetId;
+		String componentToSave = PREFIX_WIDGET + getAndIncrementNextId() + SEPARATOR_RES + appWidgetId;
 		activity.saveShortcutComponent(componentToSave);
 		AppConfigDialog.afterSave(activity, optionalDialog);
 	}

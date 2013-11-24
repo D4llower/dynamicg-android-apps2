@@ -1,4 +1,4 @@
-package com.dynamicg.homebuttonlauncher.tools.widgets;
+package com.dynamicg.homebuttonlauncher.tools;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,6 @@ import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
-import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class WidgetHelper {
 

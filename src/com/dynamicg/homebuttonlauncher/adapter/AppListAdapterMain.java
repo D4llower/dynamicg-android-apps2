@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.dynamicg.homebuttonlauncher.AppEntry;
 import com.dynamicg.homebuttonlauncher.AppListContainer;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
-import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
+import com.dynamicg.homebuttonlauncher.tools.WidgetHelper;
 
 public class AppListAdapterMain extends AppListAdapter {
 

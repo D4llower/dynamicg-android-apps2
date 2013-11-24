@@ -38,7 +38,7 @@ import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperAppAdd;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
-import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetHelper;
+import com.dynamicg.homebuttonlauncher.tools.WidgetHelper;
 
 @SuppressLint("UseSparseArrays")
 public class AppConfigDialog extends Dialog {
