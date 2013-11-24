@@ -32,7 +32,7 @@ public class IconLoader {
 
 		try {
 			if (appEntry.widget) {
-				return null;
+				return IconProvider.getDefaultIcon(iconSizePx);
 			}
 			else if (appEntry.shortcut) {
 				icon = ShortcutHelper.loadIcon(context, appEntry, largeIconLoader, iconSizePx); // note this returns "scaled"

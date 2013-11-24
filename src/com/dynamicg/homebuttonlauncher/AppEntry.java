@@ -49,7 +49,7 @@ public class AppEntry {
 		this.component = component;
 		this.shortcut = which==ID_SHORTCUT;
 		this.widget = which==ID_WIDGET;
-		this.label = ShortcutHelper.getLabel(component);
+		this.label = widget ? "Widget" : ShortcutHelper.getLabel(component);
 		this.sortnr = sortnr;
 		if (forMainScreen) {
 			icon = GlobalContext.icons.get(this.component);
