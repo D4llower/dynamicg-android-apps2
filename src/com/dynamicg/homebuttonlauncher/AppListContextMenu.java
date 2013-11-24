@@ -56,7 +56,7 @@ public class AppListContextMenu {
 		};
 
 		PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
-		if (!appEntry.isShortcut()) {
+		if (appEntry.isPlainApp()) {
 			menuWrapper.addItem(HBLConstants.MENU_SHOW_APP_DETAILS, R.string.openAppDetails);
 			menuWrapper.addItem(HBLConstants.SHOW_PLAY_STORE, R.string.openPlayStore);
 		}

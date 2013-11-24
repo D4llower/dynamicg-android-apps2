@@ -125,4 +125,8 @@ public class AppEntry {
 	public boolean isCustom() {
 		return extra==TYPE_CUSTOM;
 	}
+
+	public boolean isPlainApp() {
+		return extra==0;
+	}
 }
