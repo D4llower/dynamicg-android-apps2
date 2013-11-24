@@ -3,6 +3,8 @@ package com.dynamicg.homebuttonlauncher;
 import java.util.Arrays;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetHost;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -37,6 +39,7 @@ import com.dynamicg.homebuttonlauncher.tools.StatusLineHelper;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
+import com.dynamicg.homebuttonlauncher.tools.widgets.WidgetsSelector;
 
 /*
  * Copyright 2012,2013 DynamicG (dynamicg.android@gmail.com)
@@ -56,6 +59,9 @@ public class MainActivityHome extends Activity {
 	private Context context;
 	private PreferencesManager preferences;
 	private TabHost tabhost;
+
+	private AppWidgetManager appWidgetManager;
+	private AppWidgetHost appWidgetHost;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -351,10 +357,26 @@ public class MainActivityHome extends Activity {
 		else if (requestCode==HBLConstants.SHORTCUT_RC) {
 			ShortcutHelper.shortcutSelected(data);
 		}
+		else if (requestCode==R.id.REQUEST_PICK_APPWIDGET || requestCode==R.id.REQUEST_CREATE_APPWIDGET) {
+			new WidgetsSelector(this).processResult(requestCode, resultCode, data);
+		}
 	}
 
 	public void saveShortcutComponent(String component) {
 		preferences.prefShortlist.add(Arrays.asList(component));
 	}
 
+	public AppWidgetHost getAppWidgetHost() {
+		if (appWidgetHost==null) {
+			appWidgetHost = new AppWidgetHost(this, R.id.APPWIDGET_HOST_ID);
+		}
+		return appWidgetHost;
+	}
+
+	public AppWidgetManager getAppWidgetManager() {
+		if (appWidgetManager==null) {
+			appWidgetManager = AppWidgetManager.getInstance(this);
+		}
+		return appWidgetManager;
+	}
 }

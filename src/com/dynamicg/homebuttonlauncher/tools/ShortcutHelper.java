@@ -48,6 +48,8 @@ public class ShortcutHelper {
 	private static final String SEPARATOR_PKG = ",";
 	private static final String SEPARATOR_LABEL = "#";
 
+	private static final String WIDGET_PREFIX = "wg-";
+
 	private static final String KEY_SC_MAXID = "sc-max";
 	private static final String PNG = ".png";
 
@@ -319,5 +321,13 @@ public class ShortcutHelper {
 		data.putExtras(extras);
 		ShortcutHelper.shortcutSelected(data);
 	}
+
+	public static void saveWidget(int appWidgetId) {
+		// TODO ## implement "save"
+		//		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
+		//		Editor edit = prefs.edit();
+	}
+
+	// TODO implement "remove"
 
 }

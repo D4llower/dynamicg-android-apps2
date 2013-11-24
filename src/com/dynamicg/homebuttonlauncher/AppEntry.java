@@ -50,6 +50,14 @@ public class AppEntry {
 		}
 	}
 
+	public AppEntry(String component, int sortnr, String label) {
+		this.resolveInfo = null;
+		this.component = component;
+		this.label = "Widgets";
+		this.sortnr = sortnr;
+		this.shortcut = true;
+	}
+
 	private static String toString(CharSequence c, String nullvalue) {
 		return c!=null ? c.toString() : nullvalue;
 	}

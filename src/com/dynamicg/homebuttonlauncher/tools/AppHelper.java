@@ -118,10 +118,13 @@ public class AppHelper {
 			list.add(new AppEntry(resolveInfo, 0, false));
 		}
 
-		// for "Exit" shortcut:
+		// "Exit" shortcut:
 		ResolveInfo self = getMatchingApp(HBLConstants.SELF);
 		AppEntry appEntrySelf = new AppEntry(self, 0, false);
 		list.add(appEntrySelf);
+
+		// Widgets
+		list.add(new AppEntry(HBLConstants.SC_WIDGETS, -1, "Widgets"));
 
 		return new AppListContainer(list);
 	}
