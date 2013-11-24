@@ -52,13 +52,11 @@ public class ShortcutHelper {
 	private static final String PNG = ".png";
 
 	private static WeakReference<AppConfigDialog> dialogRef;
-	private static WeakReference<Intent> creatorRef;
 
 	private static File iconDir;
 
-	public static void storeRef(AppConfigDialog appConfigDialog, Intent intent) {
+	public static void storeRef(AppConfigDialog appConfigDialog) {
 		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
-		creatorRef = new WeakReference<Intent>(intent);
 	}
 
 	public static boolean isShortcutComponent(String component) {
@@ -78,10 +76,7 @@ public class ShortcutHelper {
 		}
 	}
 
-	public static void shortcutSelected(final MainActivityHome activity, final Intent data) {
-		final AppConfigDialog optionalDialog = dialogRef!=null ? dialogRef.get() : null;
-		final Intent creator = creatorRef!=null ? creatorRef.get() : null;
-
+	public static void shortcutSelected(final MainActivityHome activity, final AppConfigDialog optionalDialog, final Intent data) {
 		if (activity==null || data==null) {
 			return;
 		}
@@ -99,7 +94,7 @@ public class ShortcutHelper {
 			return;
 		}
 
-		log.debug("SHORTCUT", name, icon, iconResource, intent, creator);
+		log.debug("SHORTCUT", name, icon, iconResource, intent);
 
 		if (Intent.ACTION_CALL.equals(intent.getAction())) {
 			// action_call requires android.permission.CALL_PHONE so we change it to "dial" (which opens the dial pad with the given phone number)
@@ -133,6 +128,12 @@ public class ShortcutHelper {
 		return box;
 	}
 
+	protected static int getAndIncrementNextId() {
+		final int nextid = GlobalContext.prefSettings.getIntValue(KEY_SC_MAXID) + 1;
+		GlobalContext.prefSettings.apply(KEY_SC_MAXID, nextid);
+		return nextid;
+	}
+
 	private static void save(
 			MainActivityHome activity
 			, AppConfigDialog optionalDialog
@@ -143,10 +144,7 @@ public class ShortcutHelper {
 			, boolean resolveContactId
 			)
 	{
-		final SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
-		final int nextid = prefs.getInt(KEY_SC_MAXID, 0) + 1;
-		final String shortcutId = PREFIX_SHORTCUT+nextid;
-
+		final String shortcutId = PREFIX_SHORTCUT + getAndIncrementNextId();
 		final String intentString;
 		if (resolveContactId) {
 			String contactId = intent.getData().getLastPathSegment();
@@ -158,10 +156,7 @@ public class ShortcutHelper {
 			intentString = intent.toUri(0);
 		}
 
-		Editor edit = prefs.edit();
-		edit.putInt(KEY_SC_MAXID, nextid);
-		edit.putString(shortcutId, intentString);
-		edit.apply();
+		GlobalContext.prefSettings.apply(shortcutId, intentString);
 
 		String iconpath = iconResource!=null ? iconResource.packageName + SEPARATOR_PKG + iconResource.resourceName : "";
 		String componentToSave = shortcutId + SEPARATOR_RES + iconpath + SEPARATOR_LABEL + label;
@@ -301,9 +296,7 @@ public class ShortcutHelper {
 	}
 
 	public static void startExitSelfShortcut(MainActivityHome activity, AppConfigDialog dialog, AppEntry appEntry) {
-		ShortcutHelper.storeRef(dialog, null);
 		String label = "Exit";
-
 		Bundle extras = new Bundle();
 		extras.putParcelable(Intent.EXTRA_SHORTCUT_INTENT, AppHelper.getStartIntent(appEntry.getComponent()));
 		extras.putString(Intent.EXTRA_SHORTCUT_NAME, label);
@@ -314,7 +307,11 @@ public class ShortcutHelper {
 
 		Intent data = new Intent();
 		data.putExtras(extras);
-		ShortcutHelper.shortcutSelected(activity, data);
+		ShortcutHelper.shortcutSelected(activity, dialog, data);
+	}
+
+	public static AppConfigDialog getDialogRef() {
+		return dialogRef!=null ? dialogRef.get() : null;
 	}
 
 }
