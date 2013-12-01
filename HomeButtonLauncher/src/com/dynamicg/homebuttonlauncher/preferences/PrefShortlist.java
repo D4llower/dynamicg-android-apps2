@@ -18,11 +18,14 @@ import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
 public class PrefShortlist {
 
-	private MainActivityHome activity;
 	private SharedPreferences sharedPrefs;
 
+	/**
+	 * 
+	 * @param activity
+	 * @param appPrefs
+	 */
 	public PrefShortlist(MainActivityHome activity, SharedPreferences appPrefs) {
-		this.activity = activity;
 		this.sharedPrefs = appPrefs;
 	}
 
