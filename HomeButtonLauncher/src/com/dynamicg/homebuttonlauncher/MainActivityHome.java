@@ -255,7 +255,11 @@ public class MainActivityHome extends Activity {
 
 			AppHelper.flagAsNewTask(intent);
 			startActivity(intent);
-			finish();
+
+			boolean keepHomeLauncherOpen = entry.isShortcut() && ShortcutHelper.isKeepOpen(preferences.prefSettings, entry);
+			if (!keepHomeLauncherOpen) {
+				finish();
+			}
 			return true;
 		}
 		catch (Throwable t) {

@@ -29,6 +29,7 @@ import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
+import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.tools.drive.Hex;
 import com.dynamicg.homebuttonlauncher.tools.icons.IconProvider;
 import com.dynamicg.homebuttonlauncher.tools.icons.LargeIconLoader;
@@ -44,6 +45,7 @@ public class ShortcutHelper {
 	private static final Logger log = new Logger(ShortcutHelper.class);
 
 	private static final String PREFIX_SHORTCUT = "sc-";
+	private static final String EXTRA_PREFIX_KEEP_OPEN = "keepOpen.";
 	private static final String SEPARATOR_RES = "|";
 	private static final String SEPARATOR_PKG = ",";
 	private static final String SEPARATOR_LABEL = "#";
@@ -65,6 +67,9 @@ public class ShortcutHelper {
 
 	public static String getShortcutId(String component) {
 		return component.substring(0, component.indexOf(SEPARATOR_RES));
+	}
+	public static String getShortcutId(AppEntry entry) {
+		return getShortcutId(entry.getComponent());
 	}
 
 	public static String getLabel(String component) {
@@ -101,31 +106,59 @@ public class ShortcutHelper {
 			intent.setAction(Intent.ACTION_DIAL);
 		}
 
-		final CheckBox resolveContactBox = getContactExtraPanel(activity, intent);
+		final ExtraToggle extraToggle = new ExtraToggle(activity, intent);
 		DialogHelper.TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
-				boolean resolveContact = resolveContactBox!=null ? resolveContactBox.isChecked() : false;
-				save(activity, optionalDialog, icon, iconResource, intent, text, resolveContact);
+				save(activity, optionalDialog, icon, iconResource, intent, text, extraToggle);
 			}
 		};
-		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback, resolveContactBox);
+		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback, extraToggle.box);
 	}
 
-	/*
-	 * contact shortcut crashes the contact app on XPeria Z, so we show an extra "resolve contact id" option.
-	 * see https://mail.google.com/mail/u/0/?ui=2&shva=1#inbox/140118c724029d62
-	 */
-	private static CheckBox getContactExtraPanel(Context context, Intent intent) {
-		if (intent==null || !"com.android.contacts.action.QUICK_CONTACT".equals(intent.getAction())) {
-			return null;
+	public static class ExtraToggle {
+
+		private static final int CONTACT = 1;
+		private static final int KEEP_OPEN = 2;
+
+		private int what;
+		private CheckBox box;
+
+		public ExtraToggle(Context context, Intent intent) {
+			if (intent==null) {
+				return;
+			}
+
+			if ("com.android.contacts.action.QUICK_CONTACT".equals(intent.getAction())) {
+				/*
+				 * contact shortcut crashes the contact app on XPeria Z, so we show an extra "resolve contact id" option.
+				 * see https://mail.google.com/mail/u/0/?ui=2&shva=1#inbox/140118c724029d62
+				 */
+				what = CONTACT;
+				box = createBox(context, R.string.resolveContact, SystemUtil.isSony());
+			}
+			else if (intent.getComponent()!=null && "com.dynamicg.settings".equals(intent.getComponent().getPackageName())) {
+				what = KEEP_OPEN;
+				box = createBox(context, R.string.hblKeepOpen, true);
+			}
 		}
-		CheckBox box = new CheckBox(context);
-		box.setText(R.string.resolveContact);
-		int pad = DialogHelper.getDimension(R.dimen.labelMargin);
-		box.setPadding(box.getPaddingLeft(), pad, box.getPaddingRight(), pad);
-		box.setChecked(SystemUtil.isSony());
-		return box;
+
+		private static CheckBox createBox(Context context, int textId, boolean checked) {
+			CheckBox box = new CheckBox(context);
+			box.setText(textId);
+			int pad = DialogHelper.getDimension(R.dimen.labelMargin);
+			box.setPadding(box.getPaddingLeft(), pad, box.getPaddingRight(), pad);
+			box.setChecked(checked);
+			return box;
+		}
+
+		public boolean isResolveContactId() {
+			return what==CONTACT && box.isChecked();
+		}
+
+		public boolean isKeepHomeLauncherOpen() {
+			return what==KEEP_OPEN && box.isChecked();
+		}
 	}
 
 	protected static int getAndIncrementNextId() {
@@ -141,12 +174,12 @@ public class ShortcutHelper {
 			, Intent.ShortcutIconResource iconResource
 			, Intent intent
 			, String label
-			, boolean resolveContactId
+			, ExtraToggle extraToggle
 			)
 	{
 		final String shortcutId = PREFIX_SHORTCUT + getAndIncrementNextId();
 		final String intentString;
-		if (resolveContactId) {
+		if (extraToggle.isResolveContactId()) {
 			String contactId = intent.getData().getLastPathSegment();
 			Uri contactUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, contactId);
 			Intent contactIntent = new Intent(Intent.ACTION_VIEW, contactUri);
@@ -157,6 +190,9 @@ public class ShortcutHelper {
 		}
 
 		GlobalContext.prefSettings.apply(shortcutId, intentString);
+		if (extraToggle.isKeepHomeLauncherOpen()) {
+			GlobalContext.prefSettings.apply(EXTRA_PREFIX_KEEP_OPEN+shortcutId, 1);
+		}
 
 		String iconpath = iconResource!=null ? iconResource.packageName + SEPARATOR_PKG + iconResource.resourceName : "";
 		String componentToSave = shortcutId + SEPARATOR_RES + iconpath + SEPARATOR_LABEL + label;
@@ -171,7 +207,7 @@ public class ShortcutHelper {
 
 	public static Intent getIntent(AppEntry entry) throws URISyntaxException {
 		SharedPreferences prefs = GlobalContext.prefSettings.sharedPrefs;
-		String shortcutId = getShortcutId(entry.getComponent());
+		String shortcutId = getShortcutId(entry);
 		log.debug("shortcut/getIntent", shortcutId);
 		String uri = prefs.getString(shortcutId, null);
 		log.debug(". uri", uri);
@@ -255,6 +291,7 @@ public class ShortcutHelper {
 		Editor edit = GlobalContext.prefSettings.sharedPrefs.edit();
 		for (String shortcutId:shortcutIds) {
 			edit.remove(shortcutId);
+			edit.remove(EXTRA_PREFIX_KEEP_OPEN+shortcutId);
 		}
 		edit.apply();
 
@@ -312,6 +349,11 @@ public class ShortcutHelper {
 
 	public static AppConfigDialog getDialogRef() {
 		return dialogRef!=null ? dialogRef.get() : null;
+	}
+
+	public static boolean isKeepOpen(PrefSettings prefSettings, AppEntry entry) {
+		String key = EXTRA_PREFIX_KEEP_OPEN+getShortcutId(entry);
+		return prefSettings.getIntValue(key) == 1;
 	}
 
 }

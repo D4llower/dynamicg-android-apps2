@@ -34,7 +34,7 @@ public class StatusLineHelper {
 
 	public static void addStatus(Activity context) {
 		Date now = Calendar.getInstance().getTime();
-		java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
+		java.text.DateFormat dateFormat = android.text.format.DateFormat.getMediumDateFormat(context);
 		java.text.DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);
 		String datestr = dateFormat.format(now);
 		String timestr = timeFormat.format(now);

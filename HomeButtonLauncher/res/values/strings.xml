@@ -37,5 +37,6 @@
     
     <string name="moveTab">New position</string>
     <string name="resolveContact">Resolve contact ID</string>
+    <string name="hblKeepOpen">Keep Home Launcher open</string>
     
 </resources>

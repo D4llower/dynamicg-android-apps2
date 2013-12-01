@@ -27,5 +27,5 @@
     <string name="prefsDriveRestore">Google Drive Wiederherstellung</string>
     <string name="moveTab">Neue Position</string>
     <string name="resolveContact">Kontakt-ID auflösen</string>
-    
+    <string name="hblKeepOpen">Home Launcher offen lassen</string>
 </resources>
