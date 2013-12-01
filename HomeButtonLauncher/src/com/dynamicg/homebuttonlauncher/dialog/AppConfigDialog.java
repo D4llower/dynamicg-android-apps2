@@ -74,15 +74,15 @@ public class AppConfigDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
-	public static void afterSave(MainActivityHome activity, AppConfigDialog dialog) {
+	public static void afterSave(MainActivityHome activity, AppConfigDialog optionalDialog) {
 		GlobalContext.resetCache();
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(activity);
 
 		// close dialog
-		if (dialog!=null && dialog.isShowing()) {
+		if (optionalDialog!=null && optionalDialog.isShowing()) {
 			try {
-				dialog.dismiss();
+				optionalDialog.dismiss();
 			}
 			catch (IllegalArgumentException e) {
 				SystemUtil.dumpError(e);
@@ -254,7 +254,7 @@ public class AppConfigDialog extends Dialog {
 
 		Intent intent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
 		intent.setComponent(ComponentName.unflattenFromString(appEntry.getComponent()));
-		ShortcutHelper.storeRef(this);
+		ShortcutHelper.storeDialogRef(this);
 		activity.startActivityForResult(intent, HBLConstants.SHORTCUT_RC);
 	}
 

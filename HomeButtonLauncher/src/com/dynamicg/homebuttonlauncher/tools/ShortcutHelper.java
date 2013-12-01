@@ -57,10 +57,6 @@ public class ShortcutHelper {
 
 	private static File iconDir;
 
-	public static void storeRef(AppConfigDialog appConfigDialog) {
-		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
-	}
-
 	public static boolean isShortcutComponent(String component) {
 		return component.startsWith(PREFIX_SHORTCUT) && component.contains(SEPARATOR_RES);
 	}
@@ -81,7 +77,7 @@ public class ShortcutHelper {
 		}
 	}
 
-	public static void shortcutSelected(final MainActivityHome activity, final AppConfigDialog optionalDialog, final Intent data) {
+	public static void shortcutSelected(final MainActivityHome activity, final Intent data) {
 		if (activity==null || data==null) {
 			return;
 		}
@@ -110,7 +106,7 @@ public class ShortcutHelper {
 		DialogHelper.TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
-				save(activity, optionalDialog, icon, iconResource, intent, text, extraToggle);
+				save(activity, icon, iconResource, intent, text, extraToggle);
 			}
 		};
 		DialogHelper.openLabelEditor(activity, name, InputType.TYPE_TEXT_FLAG_CAP_WORDS, callback, extraToggle.box);
@@ -169,7 +165,6 @@ public class ShortcutHelper {
 
 	private static void save(
 			MainActivityHome activity
-			, AppConfigDialog optionalDialog
 			, Bitmap bitmap
 			, Intent.ShortcutIconResource iconResource
 			, Intent intent
@@ -198,7 +193,7 @@ public class ShortcutHelper {
 		String componentToSave = shortcutId + SEPARATOR_RES + iconpath + SEPARATOR_LABEL + label;
 
 		activity.saveShortcutComponent(componentToSave);
-		AppConfigDialog.afterSave(activity, optionalDialog);
+		AppConfigDialog.afterSave(activity, getDialogRef());
 
 		if (bitmap!=null) {
 			saveIcon(activity, shortcutId, bitmap);
@@ -344,10 +339,15 @@ public class ShortcutHelper {
 
 		Intent data = new Intent();
 		data.putExtras(extras);
-		ShortcutHelper.shortcutSelected(activity, dialog, data);
+		storeDialogRef(dialog);
+		ShortcutHelper.shortcutSelected(activity, data);
 	}
 
-	public static AppConfigDialog getDialogRef() {
+	public static void storeDialogRef(AppConfigDialog appConfigDialog) {
+		dialogRef = new WeakReference<AppConfigDialog>(appConfigDialog);
+	}
+
+	private static AppConfigDialog getDialogRef() {
 		return dialogRef!=null ? dialogRef.get() : null;
 	}
 

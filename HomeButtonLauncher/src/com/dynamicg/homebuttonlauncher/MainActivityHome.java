@@ -353,7 +353,7 @@ public class MainActivityHome extends Activity {
 			GoogleDriveBackupRestoreHelper.restoreFromFile(data);
 		}
 		else if (requestCode==HBLConstants.SHORTCUT_RC) {
-			ShortcutHelper.shortcutSelected(this, ShortcutHelper.getDialogRef(), data);
+			ShortcutHelper.shortcutSelected(this, data);
 		}
 	}
 
