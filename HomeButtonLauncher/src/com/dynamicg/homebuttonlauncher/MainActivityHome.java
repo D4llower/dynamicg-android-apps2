@@ -30,6 +30,7 @@ import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
+import com.dynamicg.homebuttonlauncher.tools.DirectDialWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
@@ -241,6 +242,7 @@ public class MainActivityHome extends Activity {
 		try {
 			if (entry.isShortcut()) {
 				intent = ShortcutHelper.getIntent(entry);
+				DirectDialWrapper.updateIntent(intent);
 			}
 			else {
 				intent = AppHelper.getStartIntent(entry.getComponent());

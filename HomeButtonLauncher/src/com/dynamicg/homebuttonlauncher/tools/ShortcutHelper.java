@@ -97,10 +97,7 @@ public class ShortcutHelper {
 
 		log.debug("SHORTCUT", name, icon, iconResource, intent);
 
-		if (Intent.ACTION_CALL.equals(intent.getAction())) {
-			// action_call requires android.permission.CALL_PHONE so we change it to "dial" (which opens the dial pad with the given phone number)
-			intent.setAction(Intent.ACTION_DIAL);
-		}
+		DirectDialWrapper.updateIntent(intent);
 
 		final ExtraToggle extraToggle = new ExtraToggle(activity, intent);
 		DialogHelper.TextEditorListener callback = new DialogHelper.TextEditorListener() {
