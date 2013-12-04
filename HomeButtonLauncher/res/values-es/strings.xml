@@ -8,6 +8,7 @@
     <string name="menuReset">Resetear</string>
     
     <string name="buttonOk">Aceptar</string>
+    <string name="buttonSave">Aceptar</string>
     <string name="buttonCancel">Cancelar</string>
     
     <string name="aboutOpenSource">Esta aplicación es de código abierto:</string>

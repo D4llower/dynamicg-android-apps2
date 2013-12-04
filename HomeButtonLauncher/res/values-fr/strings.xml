@@ -8,6 +8,7 @@
     <string name="menuReset">Réinitialiser</string>
     
     <string name="buttonOk">OK</string>
+    <string name="buttonSave">OK</string>
     <string name="buttonCancel">Annuler</string>
     
     <string name="aboutOpenSource">Ce programme est open source:</string>

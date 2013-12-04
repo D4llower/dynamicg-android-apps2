@@ -6,6 +6,7 @@
     <string name="menuSort">Sortieren</string>
     <string name="menuReset">Zurücksetzen</string>
     <string name="buttonOk">OK</string>
+    <string name="buttonSave">Speichern</string>
     <string name="buttonCancel">Abbrechen</string>
     <string name="aboutOpenSource">Diese App ist Open Source:</string>
     <string name="aboutPleaseRate">Bitte App bewerten</string>

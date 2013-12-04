@@ -6,6 +6,7 @@
     <string name="menuSort">Сортировка</string>
     <string name="menuReset">Сбросить</string>
     <string name="buttonOk">Да</string>
+    <string name="buttonSave">Да</string>
     <string name="buttonCancel">Отмена</string>
     <string name="aboutOpenSource">Открытый исходный код</string>
     <string name="aboutPleaseRate">Оцените приложение</string>

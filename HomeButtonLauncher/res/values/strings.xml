@@ -10,6 +10,7 @@
     <string name="menuReset">Reset</string>
     
     <string name="buttonOk">OK</string>
+    <string name="buttonSave">Save</string>
     <string name="buttonCancel">Cancel</string>
     
     <string name="aboutOpenSource">This app is open source:</string>

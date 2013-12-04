@@ -8,6 +8,7 @@
     <string name="menuReset">リセット</string>
     
     <string name="buttonOk">OK</string>
+    <string name="buttonSave">OK</string>
     <string name="buttonCancel">キャンセル</string>
     
     <string name="aboutOpenSource">このアプリはオープンソースです：</string>
