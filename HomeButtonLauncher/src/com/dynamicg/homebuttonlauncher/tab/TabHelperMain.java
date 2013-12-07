@@ -23,7 +23,11 @@ public class TabHelperMain extends TabHelper {
 	private final PreferencesManager preferences;
 
 	public TabHelperMain(MainActivityHome activity, PreferencesManager preferences) {
-		super(activity, preferences.prefSettings.getNumTabs(), activity.findViewById(R.id.headerContainer));
+		super(activity
+				, preferences.prefSettings.getNumTabs()
+				, activity.findViewById(R.id.headerContainer)
+				, preferences.prefSettings.isTabAtBottom()
+				);
 		this.preferences = preferences;
 	}
 

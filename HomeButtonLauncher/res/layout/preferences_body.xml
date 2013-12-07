@@ -74,6 +74,16 @@
 	
     <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
     
+    <CheckBox style="@style/PrefLabel"
+        android:id="@+id/prefsSemiTransparent" 
+        android:text="@string/prefsSemiTransparent"
+        />
+    <SeekBar style="@style/PrefSeekbar"
+        android:id="@+id/prefsTransparencyAlpha"
+		/>
+    
+    <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
+    
     <TextView style="@style/PrefLabel"
 	    android:text="@string/prefsNumTabs"
 	    />
@@ -90,8 +100,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginTop="4dp"
         >
-	    <TextView style="@style/PrefLabel"
+	    <com.dynamicg.homebuttonlauncher.view.LabelTextView style="@style/PrefLabel"
 		    android:text="@string/prefsHomeTab"
 		    android:layout_marginTop="0dp"
 		    />
@@ -102,16 +113,38 @@
 	        />
 	</LinearLayout>
     
-    <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
-    
-    <CheckBox style="@style/PrefLabel"
-        android:id="@+id/prefsSemiTransparent" 
-        android:text="@string/prefsSemiTransparent"
-        />
-    <SeekBar style="@style/PrefSeekbar"
-        android:id="@+id/prefsTransparencyAlpha"
-		/>
-    
+    <LinearLayout android:id="@+id/prefsTabPositionContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        >
+	    <com.dynamicg.homebuttonlauncher.view.LabelTextView style="@style/PrefLabel"
+		    android:text="@string/prefsTabPosition"
+		    android:layout_marginTop="0dp"
+		    />
+	    <RadioGroup android:id="@+id/prefsTabPosition"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        >
+	        <RadioButton android:id="@+id/prefsTabPositionTop"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="8dp"
+		        android:drawableEnd="@drawable/tab_pos_top"
+		        android:tag="0"
+	            />
+	        <RadioButton android:id="@+id/prefsTabPositionBottom"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="8dp"
+		        android:drawableEnd="@drawable/tab_pos_bottom"
+		        android:tag="1"
+	            />
+	    </RadioGroup>
+	</LinearLayout>
+	    
     <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
     
     <CheckBox style="@style/PrefLabel"

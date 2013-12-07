@@ -10,10 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dynamicg.homebuttonlauncher.R;
+import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 
 public class StatusLineHelper {
 
@@ -32,7 +34,7 @@ public class StatusLineHelper {
 		return pct+"%";
 	}
 
-	public static void addStatus(Activity context) {
+	public static void addStatus(Activity context, PrefSettings prefSettings) {
 		Date now = Calendar.getInstance().getTime();
 		java.text.DateFormat dateFormat = android.text.format.DateFormat.getMediumDateFormat(context);
 		java.text.DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);
@@ -58,7 +60,14 @@ public class StatusLineHelper {
 		TextView status = (TextView)context.getLayoutInflater().inflate(R.layout.footer_status, null);
 		status.setText(sb.toString());
 		ViewGroup parent = (ViewGroup)context.findViewById(R.id.mainContainer);
-		parent.addView(status);
+
+		if (prefSettings.isTabAtBottom() && prefSettings.getNumTabs()>1) {
+			View divider = parent.findViewById(R.id.tabBottomDivider);
+			parent.addView(status, parent.indexOfChild(divider));
+		}
+		else {
+			parent.addView(status);
+		}
 	}
 
 

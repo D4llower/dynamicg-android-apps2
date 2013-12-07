@@ -13,7 +13,7 @@ public class TabHelperAppAdd extends TabHelper {
 	private final int selectedIndex;
 
 	public TabHelperAppAdd(MainActivityHome activity, AppConfigDialog appConfigDialog, int selectedIndex) {
-		super(activity, 2, appConfigDialog.findViewById(R.id.headerContainer));
+		super(activity, 2, appConfigDialog.findViewById(R.id.headerContainer), false);
 		this.appConfigDialog = appConfigDialog;
 		this.selectedIndex = selectedIndex;
 	}
@@ -32,8 +32,7 @@ public class TabHelperAppAdd extends TabHelper {
 			};
 		};
 		String[] labels = new String[]{"APPS", "SHORTCUTS"};
-		TabHost tabhost = bindTabs(selectedIndex, labels, onTabChangeListener, null);
-		return tabhost;
+		return bindTabs(selectedIndex, labels, onTabChangeListener, null);
 	}
 
 }

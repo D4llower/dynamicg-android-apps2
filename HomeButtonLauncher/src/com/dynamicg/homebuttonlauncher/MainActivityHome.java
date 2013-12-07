@@ -106,7 +106,7 @@ public class MainActivityHome extends Activity {
 		setMinWidth();
 
 		if (preferences.prefSettings.isShowStatusLine()) {
-			StatusLineHelper.addStatus(this);
+			StatusLineHelper.addStatus(this, preferences.prefSettings);
 		}
 
 	}

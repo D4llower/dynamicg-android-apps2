@@ -19,6 +19,9 @@
 #   public *;
 #}
 
+### custom items:
+-keep public class com.dynamicg.homebuttonlauncher.view.*
+
 ### to keep line numbers:
 -printmapping out.map
 -renamesourcefileattribute SourceFile

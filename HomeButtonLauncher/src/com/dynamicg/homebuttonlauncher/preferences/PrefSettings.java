@@ -21,6 +21,7 @@ public class PrefSettings {
 	public static final String KEY_TRANS_ALPHA = "transAlpha";
 	public static final String KEY_HOME_TAB_NUM = "homeTab";
 	public static final String KEY_STATUS_LINE = "statusLine";
+	public static final String KEY_TAB_POSITION = "tabPosition";
 
 	public static final int NUM_LAYOUTS = 5;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -134,4 +135,11 @@ public class PrefSettings {
 		return sharedPrefs.getBoolean(KEY_STATUS_LINE, false);
 	}
 
+	public int getTabPosition() {
+		return sharedPrefs.getInt(KEY_TAB_POSITION, 0);
+	}
+
+	public boolean isTabAtBottom() {
+		return getTabPosition()==1;
+	}
 }

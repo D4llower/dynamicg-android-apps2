@@ -21,16 +21,18 @@ public abstract class TabHelper {
 	protected final MainActivityHome activity;
 	protected final int numTabs;
 	private final View header;
+	private final boolean atBottom;
 
 	protected TabSpec[] tabs;
 	protected View[] tabviews;
 
 
-	public TabHelper(MainActivityHome activity, int numTabs, View header) {
+	public TabHelper(MainActivityHome activity, int numTabs, View header, boolean atBottom) {
 		this.activity = activity;
 		this.context = activity;
 		this.numTabs = numTabs;
 		this.header = header;
+		this.atBottom = atBottom;
 	}
 
 	public abstract TabHost bindTabs();
@@ -59,9 +61,14 @@ public abstract class TabHelper {
 			tab.setPadding(0, tab.getPaddingTop(), 0, tab.getPaddingBottom());
 		}
 
-		// attach after header
 		ViewGroup main = (ViewGroup)header.getParent();
-		main.addView(tabhost, main.indexOfChild(header)+1);
+		int targetpos = main.indexOfChild(header) + (atBottom ? 2 : 1);
+		if (atBottom) {
+			View divider = activity.getLayoutInflater().inflate(R.layout.divider_h, null);
+			main.addView(divider, targetpos);
+			targetpos++;
+		}
+		main.addView(tabhost, targetpos);
 
 		return tabhost;
 	}

@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class PreferencesDialog extends Dialog {
 	private CheckBox chkStatusLine;
 
 	private SpinnerHelper homeTabHelper;
+	private RadioGroup rgTabPosition;
 
 	public PreferencesDialog(MainActivityHome activity, PreferencesManager preferences) {
 		super(activity);
@@ -75,6 +77,8 @@ public class PreferencesDialog extends Dialog {
 
 		seekbarNumTabs = new SeekBarHelper(this, R.id.prefsNumTabs, SizePrefsHelper.NUM_TABS, prefSettings.getNumTabs());
 		seekbarNumTabs.attachDefaultIndicator(R.id.prefsNumTabsIndicator);
+
+		rgTabPosition = attachRadioGroup(R.id.prefsTabPosition, prefSettings.getTabPosition());
 
 		chkHighRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
 		chkAutoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
@@ -108,12 +112,13 @@ public class PreferencesDialog extends Dialog {
 			}
 		});
 
-		attachHomeTab();
+		attachTabExtras();
 	}
 
-	private void attachHomeTab() {
+	private void attachTabExtras() {
 		homeTabHelper = new SpinnerHelper(this, R.id.prefsHomeTab);
-		final View container = findViewById(R.id.prefsHomeTabContainer);
+		final View containerHomeTab = findViewById(R.id.prefsHomeTabContainer);
+		final View containerTabPosition = findViewById(R.id.prefsTabPositionContainer);
 
 		final ValueChangeListener spinnerUpdateHandler = new ValueChangeListener() {
 			@Override
@@ -131,7 +136,9 @@ public class PreferencesDialog extends Dialog {
 				homeTabHelper.bind(items, newHomeTab);
 
 				// apply visibility
-				container.setVisibility(maxTabs>0?View.VISIBLE:View.GONE);
+				boolean hasTabs = maxTabs>0;
+				containerHomeTab.setVisibility(hasTabs?View.VISIBLE:View.GONE);
+				containerTabPosition.setVisibility(hasTabs?View.VISIBLE:View.GONE);
 			}
 		};
 
@@ -151,6 +158,18 @@ public class PreferencesDialog extends Dialog {
 		CheckBox box = (CheckBox)findViewById(id);
 		box.setChecked(checked);
 		return box;
+	}
+
+	private RadioGroup attachRadioGroup(int id, int selectedIndex) {
+		RadioGroup rg = (RadioGroup)findViewById(id);
+		int checkedIndex = rg.getChildCount()>selectedIndex ? selectedIndex : 0;
+		rg.check(rg.getChildAt(checkedIndex).getId());
+		return rg;
+	}
+
+	private static int getSelectedRadioButtonValue(RadioGroup grp) {
+		View rb = grp.findViewById(grp.getCheckedRadioButtonId());
+		return Integer.parseInt(rb.getTag().toString());
 	}
 
 	public class TransparencyAlphaHelper {
@@ -203,7 +222,7 @@ public class PreferencesDialog extends Dialog {
 		return seekbarNumTabs.getNewValue()>0 ? homeTabHelper.getSelectedValue() : 0;
 	}
 
-	private boolean updateCurrentTab() {
+	private boolean isTabRefreshRequired() {
 		final int currentTabIndex = preferences.getTabIndex();
 		final int oldNumTabs = seekbarNumTabs.initialValue;
 		final int newNumTabs = seekbarNumTabs.getNewValue();
@@ -225,9 +244,10 @@ public class PreferencesDialog extends Dialog {
 	}
 
 	private void saveSettings() {
-		final boolean transparencyChanged = prefSettings.isSemiTransparent()!=chkSemiTransparent.isChecked();
-		final boolean statusLineChanged = prefSettings.isShowStatusLine()!=chkStatusLine.isChecked();
-		final boolean tabRefreshRequired = updateCurrentTab();
+		final boolean transparencyChanged = prefSettings.isSemiTransparent() != chkSemiTransparent.isChecked();
+		final boolean statusLineChanged = prefSettings.isShowStatusLine() != chkStatusLine.isChecked();
+		final boolean tabPositionChanged = prefSettings.getTabPosition() != getSelectedRadioButtonValue(rgTabPosition);
+		final boolean tabRefreshRequired = isTabRefreshRequired();
 
 		saveSharedPrefs();
 
@@ -239,7 +259,7 @@ public class PreferencesDialog extends Dialog {
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
 
-		if (transparencyChanged || statusLineChanged) {
+		if (transparencyChanged || statusLineChanged || tabPositionChanged) {
 			Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();
 			dismiss();
 			activity.finish();
@@ -267,6 +287,8 @@ public class PreferencesDialog extends Dialog {
 		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, chkBackgroundIconLoader.isChecked());
 		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, chkSemiTransparent.isChecked());
 		edit.putBoolean(PrefSettings.KEY_STATUS_LINE, chkStatusLine.isChecked());
+
+		edit.putInt(PrefSettings.KEY_TAB_POSITION, getSelectedRadioButtonValue(rgTabPosition));
 
 		edit.apply();
 	}
