@@ -23,7 +23,10 @@
     <string name="prefsSemiTransparent">Полупрозрачный фон</string>
     <string name="prefsPleaseRestart">Пожалуйста, перезапустите приложение.</string>
     <string name="prefsHomeTab">Начальная вкладка</string>
-	<string name="prefsDriveBackup">Резервную копию в Google Drive</string>
+    <string name="prefsStatusLine">Показать статусную строку</string>
+    <string name="prefsTabPosition">Расположение вкладок</string>
+    <string name="prefsDriveBackup">Резервную копию в Google Drive</string>
     <string name="prefsDriveRestore">Восстановление из Google Drive</string>
     <string name="moveTab">Позиция вкладки</string>
+    <string name="hblKeepOpen">Оставить Home Launcher открытым</string>
 </resources>
