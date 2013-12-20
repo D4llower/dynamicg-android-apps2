@@ -18,8 +18,8 @@
 		
 	<dimen name="tabHeight">34dp</dimen>
 	
-	<dimen name="swipeMaxOff">100dp</dimen>
-	<dimen name="swipeMinDist">120dp</dimen>
+	<dimen name="swipeMaxOffY">120dp</dimen>
+	<dimen name="swipeMinDistX">100dp</dimen>
 	
 	<dimen name="labelMargin">12dp</dimen>	
 	

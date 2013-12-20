@@ -31,8 +31,8 @@ public class SwipeHelper {
 		final ViewConfiguration vc = ViewConfiguration.get(context);
 		final int swipeThresholdVelocity = vc.getScaledMinimumFlingVelocity();
 
-		final int swipeMaxOffPath = DialogHelper.getDimension(R.dimen.swipeMaxOff);
-		final int swipeMinDistance = DialogHelper.getDimension(R.dimen.swipeMinDist);
+		final int swipeMaxOffPath = DialogHelper.getDimension(R.dimen.swipeMaxOffY);
+		final int swipeMinDistance = DialogHelper.getDimension(R.dimen.swipeMinDistX);
 
 		final SimpleOnGestureListener onGestureListener = new SimpleOnGestureListener() {
 
@@ -42,6 +42,14 @@ public class SwipeHelper {
 				final int newIndex = current+direction;
 				if (newIndex>=0 && newIndex<count) {
 					tabhost.setCurrentTab(newIndex);
+				}
+				else if (newIndex<0) {
+					// round robin to last tab
+					tabhost.setCurrentTab(count-1);
+				}
+				else if (newIndex>=count) {
+					// round robin to first tab
+					tabhost.setCurrentTab(0);
 				}
 				return true;
 			}
