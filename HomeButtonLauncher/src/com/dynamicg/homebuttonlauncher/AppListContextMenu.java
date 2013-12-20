@@ -1,5 +1,6 @@
 package com.dynamicg.homebuttonlauncher;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AbsListView;
@@ -7,8 +8,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.dynamicg.common.MarketLinkHelper;
+import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
-import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
+import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
@@ -16,17 +18,16 @@ import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListe
 
 public class AppListContextMenu {
 
-	private final MainActivityHome context;
-	private final PrefShortlist prefShortlist;
+	private final MainActivityHome activity;
+	private final Context context;
+	private final PreferencesManager preferences;
+	private final boolean fromMainScreen;
 
-	public AppListContextMenu(MainActivityHome activity, PrefShortlist prefShortlist) {
+	public AppListContextMenu(MainActivityHome activity, boolean fromMainScreen) {
+		this.activity = activity;
 		this.context = activity;
-		this.prefShortlist = prefShortlist;
-	}
-
-	public AppListContextMenu(MainActivityHome activity) {
-		this.context = activity;
-		this.prefShortlist = null;
+		this.preferences = activity.getPreferences();
+		this.fromMainScreen = fromMainScreen;
 	}
 
 	public void attach(final AbsListView listview, final AppListContainer appList) {
@@ -47,6 +48,7 @@ public class AppListContextMenu {
 					case HBLConstants.MENU_SHOW_APP_DETAILS: showAppDetails(appEntry); break;
 					case HBLConstants.SHOW_PLAY_STORE: showInPlayStore(appEntry); break;
 					case HBLConstants.MENU_APPS_REMOVE: remove(appEntry); break;
+					case HBLConstants.MENU_PREFERENCES: new PreferencesDialog(activity, preferences).show(); break;
 					}
 				}
 				catch (Throwable t) {
@@ -60,8 +62,11 @@ public class AppListContextMenu {
 			menuWrapper.addItem(HBLConstants.MENU_SHOW_APP_DETAILS, R.string.openAppDetails);
 			menuWrapper.addItem(HBLConstants.SHOW_PLAY_STORE, R.string.openPlayStore);
 		}
-		if (prefShortlist!=null) {
+		if (fromMainScreen) {
 			menuWrapper.addItem(HBLConstants.MENU_APPS_REMOVE, R.string.menuRemove);
+		}
+		if (fromMainScreen && preferences.prefSettings.isNoHeader()) {
+			menuWrapper.addItem(HBLConstants.MENU_PREFERENCES, R.string.preferences);
 		}
 		if (menuWrapper.size()>0) {
 			menuWrapper.showMenu();
@@ -85,8 +90,8 @@ public class AppListContextMenu {
 			@Override
 			public void onClickImpl(DialogInterface d, int which) {
 				GlobalContext.resetCache();
-				prefShortlist.remove(appEntry);
-				context.refreshList();
+				preferences.prefShortlist.remove(appEntry);
+				activity.refreshList();
 				HomeLauncherBackupAgent.requestBackup(context);
 			}
 		};

@@ -133,13 +133,17 @@ public class MainActivityHome extends Activity {
 		return false;
 	}
 
+	private boolean isStartedFromLauncherApp() {
+		return getIntent().getBooleanExtra(MainActivityOpen.KEY, false) == true;
+	}
+
 	private boolean isAutoStartSingleSuccessful() {
 		if (!preferences.prefSettings.isAutoStartSingle()) {
 			log.debug("autoStart", "disabled");
 			return false;
 		}
 
-		if (getIntent().getBooleanExtra(MainActivityOpen.KEY, false) == true) {
+		if (isStartedFromLauncherApp()) {
 			// called through "OpenActivity" (i.e. app drawer or homescreen icon), not through swipe
 			// -> skip, otherwise we will lock ourselves out
 			log.debug("autoStart", "from OpenActivity");
@@ -177,6 +181,9 @@ public class MainActivityHome extends Activity {
 	private void setMinWidth() {
 		int minWidth = DialogHelper.getDimension(preferences.prefSettings.getMinWidthDimension());
 		findViewById(R.id.headerContainer).setMinimumWidth(minWidth);
+		if (preferences.prefSettings.isNoHeader() && !isStartedFromLauncherApp()) {
+			findViewById(R.id.headerTitleContainer).setVisibility(View.GONE);
+		}
 	}
 
 	private AbsListView getListView() {
@@ -230,7 +237,7 @@ public class MainActivityHome extends Activity {
 				startAppAndClose(appList.get(position));
 			}
 		});
-		new AppListContextMenu(this, preferences.prefShortlist).attach(listview, appList);
+		new AppListContextMenu(this, true).attach(listview, appList);
 
 		if (tabhost!=null) {
 			SwipeHelper.attach(this, preferences, tabhost, listview);
@@ -361,6 +368,10 @@ public class MainActivityHome extends Activity {
 
 	public void saveShortcutComponent(String component) {
 		preferences.prefShortlist.add(Arrays.asList(component));
+	}
+
+	public PreferencesManager getPreferences() {
+		return preferences;
 	}
 
 }

@@ -47,6 +47,7 @@ public class PreferencesDialog extends Dialog {
 	private CheckBox chkBackgroundIconLoader;
 	private CheckBox chkSemiTransparent;
 	private CheckBox chkStatusLine;
+	private CheckBox chkNoHeader;
 
 	private SpinnerHelper homeTabHelper;
 	private RadioGroup rgTabPosition;
@@ -85,6 +86,7 @@ public class PreferencesDialog extends Dialog {
 		chkBackgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
 		chkSemiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
 		chkStatusLine = attachCheckbox(R.id.prefsStatusLine, prefSettings.isShowStatusLine());
+		chkNoHeader = attachCheckbox(R.id.prefsNoHeader, prefSettings.isNoHeader());
 
 		transparencyAlphaHelper = new TransparencyAlphaHelper();
 		transparencyAlphaHelper.setVisibility(chkSemiTransparent.isChecked()); // initial setting
@@ -244,13 +246,9 @@ public class PreferencesDialog extends Dialog {
 	}
 
 	private void saveSettings() {
-		final boolean transparencyChanged = prefSettings.isSemiTransparent() != chkSemiTransparent.isChecked();
-		final boolean statusLineChanged = prefSettings.isShowStatusLine() != chkStatusLine.isChecked();
-		final boolean tabPositionChanged = prefSettings.getTabPosition() != getSelectedRadioButtonValue(rgTabPosition);
+		final boolean appRestartRequired = isAppRestartRequired();
 		final boolean tabRefreshRequired = isTabRefreshRequired();
-
 		saveSharedPrefs();
-
 		if (tabRefreshRequired) {
 			activity.redrawTabContainer();
 		}
@@ -259,7 +257,7 @@ public class PreferencesDialog extends Dialog {
 		activity.refreshList();
 		HomeLauncherBackupAgent.requestBackup(getContext());
 
-		if (transparencyChanged || statusLineChanged || tabPositionChanged) {
+		if (appRestartRequired) {
 			Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();
 			dismiss();
 			activity.finish();
@@ -270,6 +268,14 @@ public class PreferencesDialog extends Dialog {
 			}
 			dismiss();
 		}
+	}
+
+	private boolean isAppRestartRequired() {
+		return (prefSettings.isSemiTransparent() != chkSemiTransparent.isChecked())
+				|| (prefSettings.isShowStatusLine() != chkStatusLine.isChecked())
+				||  (prefSettings.getTabPosition() != getSelectedRadioButtonValue(rgTabPosition))
+				||  (prefSettings.isNoHeader() != chkNoHeader.isChecked())
+				;
 	}
 
 	private void saveSharedPrefs() {
@@ -287,6 +293,7 @@ public class PreferencesDialog extends Dialog {
 		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, chkBackgroundIconLoader.isChecked());
 		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, chkSemiTransparent.isChecked());
 		edit.putBoolean(PrefSettings.KEY_STATUS_LINE, chkStatusLine.isChecked());
+		edit.putBoolean(PrefSettings.KEY_NO_HEADER, chkNoHeader.isChecked());
 
 		edit.putInt(PrefSettings.KEY_TAB_POSITION, getSelectedRadioButtonValue(rgTabPosition));
 

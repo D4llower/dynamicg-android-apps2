@@ -195,7 +195,7 @@ public class AppConfigDialog extends Dialog {
 				}
 			});
 
-			new AppListContextMenu(activity).attach(listview, appList);
+			new AppListContextMenu(activity, false).attach(listview, appList);
 		}
 
 		if (actionAdd) {
@@ -215,7 +215,7 @@ public class AppConfigDialog extends Dialog {
 			}
 		});
 
-		new AppListContextMenu(activity).attach(listview, appList);
+		new AppListContextMenu(activity, false).attach(listview, appList);
 	}
 
 	private List<String> getSelectedComponents() {

@@ -153,6 +153,11 @@
         />
     
     <CheckBox style="@style/PrefLabel"
+        android:id="@+id/prefsNoHeader" 
+        android:text="@string/prefsNoHeader"
+        />
+   
+    <CheckBox style="@style/PrefLabel"
         android:id="@+id/prefsBackgroundIconLoader" 
         android:text="@string/prefsBackgroundIconLoader"
         />
@@ -166,5 +171,5 @@
         android:id="@+id/prefsStatusLine" 
         android:text="@string/prefsStatusLine"
         />
-    
+
 </LinearLayout>

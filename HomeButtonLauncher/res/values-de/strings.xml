@@ -27,6 +27,7 @@
     <string name="prefsDriveBackup">Google Drive Backup</string>
     <string name="prefsDriveRestore">Google Drive Wiederherstellung</string>
     <string name="prefsTabPosition">Tab-Position</string>
+    <string name="prefsNoHeader">Keine Kopfzeile</string>
     <string name="moveTab">Neue Position</string>
     <string name="resolveContact">Kontakt-ID auflösen</string>
     <string name="hblKeepOpen">Home Launcher offen lassen</string>
