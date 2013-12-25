@@ -42,12 +42,8 @@ public class AboutDialog extends Dialog {
 
 		setLine(R.id.aboutSrc, REPOSITORY);
 
-		link(findViewById(R.id.aboutRate)
-				, "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0"
-				, SystemUtil.PACKAGE);
-		link(findViewById(R.id.aboutDgSettings)
-				, "\u21d2 DG Settings \u21d0"
-				, "com.dynamicg.settings");
+		link(R.id.aboutRate, "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0", SystemUtil.PACKAGE);
+		link(R.id.aboutDgSettings, "\u21d2 DG Settings \u21d0", "com.dynamicg.settings");
 
 		SpannableString creditsLabel = new SpannableString("Credits, in chronological order");
 		DialogHelper.underline(creditsLabel, 0, creditsLabel.length());
@@ -75,7 +71,8 @@ public class AboutDialog extends Dialog {
 		});
 	}
 
-	private void link(final View node, final String title, final String pkg) {
+	private void link(final int nodeId, final String title, final String pkg) {
+		TextView node = (TextView)findViewById(nodeId);
 		node.setFocusable(true);
 		node.setOnClickListener(new OnClickListenerWrapper() {
 			@Override
@@ -85,7 +82,7 @@ public class AboutDialog extends Dialog {
 		});
 		SpannableString span = new SpannableString(title);
 		DialogHelper.underline(span, 2, span.length()-2);
-		((TextView)node).setText(span);
+		node.setText(span);
 	}
 
 	private void setLine(int id, CharSequence str) {
