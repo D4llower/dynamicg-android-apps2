@@ -42,7 +42,12 @@ public class AboutDialog extends Dialog {
 
 		setLine(R.id.aboutSrc, REPOSITORY);
 
-		putRateLink();
+		link(findViewById(R.id.aboutRate)
+				, "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0"
+				, SystemUtil.PACKAGE);
+		link(findViewById(R.id.aboutDgSettings)
+				, "\u21d2 DG Settings \u21d0"
+				, "com.dynamicg.settings");
 
 		SpannableString creditsLabel = new SpannableString("Credits, in chronological order");
 		DialogHelper.underline(creditsLabel, 0, creditsLabel.length());
@@ -70,18 +75,17 @@ public class AboutDialog extends Dialog {
 		});
 	}
 
-	private void putRateLink() {
-		TextView rateNode = (TextView)findViewById(R.id.aboutRate);
-		SpannableString rateLabel = new SpannableString("\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0");
-		DialogHelper.underline(rateLabel, 2, rateLabel.length()-2);
-		rateNode.setText(rateLabel);
-		rateNode.setFocusable(true);
-		rateNode.setOnClickListener(new OnClickListenerWrapper() {
+	private void link(final View node, final String title, final String pkg) {
+		node.setFocusable(true);
+		node.setOnClickListener(new OnClickListenerWrapper() {
 			@Override
 			public void onClickImpl(View v) {
-				MarketLinkHelper.openMarketIntent(context, SystemUtil.PACKAGE);
+				MarketLinkHelper.openMarketIntent(context, pkg);
 			}
 		});
+		SpannableString span = new SpannableString(title);
+		DialogHelper.underline(span, 2, span.length()-2);
+		((TextView)node).setText(span);
 	}
 
 	private void setLine(int id, CharSequence str) {
