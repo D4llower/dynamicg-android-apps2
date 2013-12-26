@@ -108,12 +108,19 @@ public class TabHelperMain extends TabHelper {
 			public void onTextChanged(String text) {
 				preferences.writeTabTitle(tabindex, text);
 				preferences.saveTabExtraHeight(heightSeekBar.getProgress());
-				activity.redrawTabContainer();
+				setLabel(tabindex, text);
 				applyMoveTab(tabindex, switchTabSpinner);
 			}
 		};
 
 		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback, extras);
+	}
+
+	private void setLabel(int index, String label) {
+		TextView title = (TextView)tabviews[index].findViewById(android.R.id.title);
+		if (title!=null) {
+			title.setText(label);
+		}
 	}
 
 	private void applyMoveTab(int tabindex, SpinnerHelper switchTabSpinner) {
