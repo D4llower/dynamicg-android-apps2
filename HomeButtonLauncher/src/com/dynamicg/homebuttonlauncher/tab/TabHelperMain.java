@@ -91,7 +91,7 @@ public class TabHelperMain extends TabHelper {
 		final SeekBar heightSeekBar = new SeekBar(context);
 		heightSeekBar.setMax(4);
 		heightSeekBar.setProgress(preferences.getTabExtraHeight());
-		heightSeekBar.setPadding(padding, padding, padding, padding);
+		heightSeekBar.setPadding(heightSeekBar.getPaddingLeft(), padding, heightSeekBar.getPaddingRight(), padding);
 
 		// extras panel
 		LinearLayout extras = new LinearLayout(context);
