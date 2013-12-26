@@ -3,10 +3,11 @@ package com.dynamicg.homebuttonlauncher.tab;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
@@ -17,8 +18,6 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
 
 public class TabHelperMain extends TabHelper {
-
-	private static final Logger log = new Logger(TabHelperMain.class);
 
 	private final PreferencesManager preferences;
 
@@ -76,14 +75,30 @@ public class TabHelperMain extends TabHelper {
 			}
 		}
 
+		int padding = (int)context.getResources().getDimension(R.dimen.gridViewPaddingTop);
+
 		ViewGroup moveTabPanel = (ViewGroup)activity.getLayoutInflater().inflate(R.layout.common_spinner_panel, null);
 		final SpinnerHelper switchTabSpinner = new SpinnerHelper(moveTabPanel.findViewById(R.id.spinnerPanelSpinner));
 		switchTabSpinner.bind(items, 0);
 
 		// "move" label and padding
-		((TextView)moveTabPanel.findViewById(R.id.spinnerPabelLabel)).setText(R.string.moveTab);
-		int padding = (int)context.getResources().getDimension(R.dimen.appLinePadding);
+		TextView newPosLabel = (TextView)moveTabPanel.findViewById(R.id.spinnerPabelLabel);
+		newPosLabel.setText(R.string.moveTab);
+		newPosLabel.append(":");
 		moveTabPanel.setPadding(padding, padding, padding, padding);
+
+		// tab height
+		final SeekBar heightSeekBar = new SeekBar(context);
+		heightSeekBar.setMax(4);
+		heightSeekBar.setProgress(preferences.getTabExtraHeight());
+		heightSeekBar.setPadding(padding, padding, padding, padding);
+
+		// extras panel
+		LinearLayout extras = new LinearLayout(context);
+		extras.setOrientation(LinearLayout.VERTICAL);
+		extras.setPadding(padding, padding, padding, padding);
+		extras.addView(heightSeekBar);
+		extras.addView(moveTabPanel);
 
 		/*
 		 * label editor
@@ -92,32 +107,27 @@ public class TabHelperMain extends TabHelper {
 		TextEditorListener callback = new DialogHelper.TextEditorListener() {
 			@Override
 			public void onTextChanged(String text) {
-				setLabel(tabindex, text);
 				preferences.writeTabTitle(tabindex, text);
-
-				int newTabIndex = switchTabSpinner.getSelectedValue();
-				if (newTabIndex>=0) {
-					try {
-						preferences.exchangeTabData(tabindex, newTabIndex);
-						activity.forceTabSwitch(newTabIndex);
-						HomeLauncherBackupAgent.requestBackup(context);
-					}
-					catch (Throwable t) {
-						DialogHelper.showCrashReport(context, t);
-					}
-				}
+				preferences.saveTabExtraHeight(heightSeekBar.getProgress());
+				activity.redrawTabContainer();
+				applyMoveTab(tabindex, switchTabSpinner);
 			}
 		};
 
-		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback, moveTabPanel);
+		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback, extras);
 	}
 
-	private void setLabel(int index, String label) {
-		log.debug("set label", label, index);
-		//tabs[index].setIndicator(label); // does not work
-		TextView title = (TextView)tabviews[index].findViewById(android.R.id.title);
-		if (title!=null) {
-			title.setText(label);
+	private void applyMoveTab(int tabindex, SpinnerHelper switchTabSpinner) {
+		int newTabIndex = switchTabSpinner.getSelectedValue();
+		if (newTabIndex>=0) {
+			try {
+				preferences.exchangeTabData(tabindex, newTabIndex);
+				activity.forceTabSwitch(newTabIndex);
+				HomeLauncherBackupAgent.requestBackup(context);
+			}
+			catch (Throwable t) {
+				DialogHelper.showCrashReport(context, t);
+			}
 		}
 	}
 

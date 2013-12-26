@@ -37,16 +37,25 @@ public abstract class TabHelper {
 
 	public abstract TabHost bindTabs();
 
+	private int getTabHeight() {
+		int height = DialogHelper.getDimension(R.dimen.tabHeight);
+		int extraCount = activity.getPreferences().getTabExtraHeight();
+		if (extraCount>0) {
+			int extraHeight = DialogHelper.getDimension(R.dimen.tabExtraHeight);
+			height += extraHeight*extraCount;
+		}
+		return height;
+	}
+
 	protected final TabHost bindTabs(int selectedIndex, String[] labels, TabHost.OnTabChangeListener onTabChangeListener, View.OnLongClickListener longClickListener) {
 		final LayoutInflater inflater = activity.getLayoutInflater();
 		final TabHost tabhost = (TabHost)inflater.inflate(R.layout.tabs_container, null);
 		tabhost.setup();
 		createTabs(tabhost, labels);
 		tabhost.setCurrentTab(selectedIndex);
-
 		tabhost.setOnTabChangedListener(onTabChangeListener);
+		int tabHeight = getTabHeight();
 
-		int tabHeight = DialogHelper.getDimension(R.dimen.tabHeight);
 		for (int i=0;i<numTabs;i++) {
 			View tab = tabviews[i];
 			tab.setTag(i);

@@ -19,6 +19,7 @@ public class PreferencesManager {
 	private static final Logger log = new Logger(PreferencesManager.class);
 
 	private static final String KEY_TAB_INDEX = "tabIndex";
+	private static final String KEY_TAB_EXTRA_HEIGHT = "tabExtraHeight";
 	private static final String KEY_TAB_LABEL_PREFIX = "tabTitle.";
 
 	public static final String[] DFLT_GOOGLE_SEARCH = new String[] {
@@ -138,6 +139,14 @@ public class PreferencesManager {
 		String labelB = prefSettings.getStringValue(KEY_TAB_LABEL_PREFIX+tabIndexB, "");
 		writeTabTitle(tabIndexA, labelB);
 		writeTabTitle(tabIndexB, labelA);
+	}
+
+	public int getTabExtraHeight() {
+		return prefSettings.getIntValue(KEY_TAB_EXTRA_HEIGHT);
+	}
+
+	public void saveTabExtraHeight(int value) {
+		prefSettings.apply(KEY_TAB_EXTRA_HEIGHT, value);
 	}
 
 }
