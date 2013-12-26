@@ -23,7 +23,7 @@ import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
-import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
+import com.dynamicg.homebuttonlauncher.preferences.SettingsBackupHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
@@ -84,7 +84,7 @@ public class GoogleDriveBackupRestoreHelper {
 
 	private void exportToFile(File file) throws Exception {
 		final ArrayList<String> localIcons = new ArrayList<String>();
-		final ArrayList<String> sharedPrefNames = HomeLauncherBackupAgent.getSharedPrefNames(activity);
+		final ArrayList<String> sharedPrefNames = SettingsBackupHelper.getSharedPrefNames(activity);
 		final XmlWriter writer = new XmlWriter(file);
 		for (String entryGroup:sharedPrefNames) {
 			SharedPreferences sharedPreferences = context.getSharedPreferences(entryGroup, Context.MODE_PRIVATE);

@@ -12,7 +12,6 @@ import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SpinnerHelper;
-import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
@@ -123,7 +122,6 @@ public class TabHelperMain extends TabHelper {
 			try {
 				preferences.exchangeTabData(tabindex, newTabIndex);
 				activity.forceTabSwitch(newTabIndex);
-				HomeLauncherBackupAgent.requestBackup(context);
 			}
 			catch (Throwable t) {
 				DialogHelper.showCrashReport(context, t);

@@ -21,7 +21,6 @@ import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderPreferences;
-import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
@@ -255,7 +254,6 @@ public class PreferencesDialog extends Dialog {
 
 		GlobalContext.resetCache();
 		activity.refreshList();
-		HomeLauncherBackupAgent.requestBackup(getContext());
 
 		if (appRestartRequired) {
 			Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();

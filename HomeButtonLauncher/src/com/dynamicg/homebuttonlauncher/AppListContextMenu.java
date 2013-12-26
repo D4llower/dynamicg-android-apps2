@@ -9,7 +9,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.dynamicg.common.MarketLinkHelper;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
-import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
@@ -92,7 +91,6 @@ public class AppListContextMenu {
 				GlobalContext.resetCache();
 				preferences.prefShortlist.remove(appEntry);
 				activity.refreshList();
-				HomeLauncherBackupAgent.requestBackup(context);
 			}
 		};
 		DialogHelper.confirm(context, R.string.menuRemove, okListener);

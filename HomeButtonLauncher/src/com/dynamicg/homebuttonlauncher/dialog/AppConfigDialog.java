@@ -32,7 +32,6 @@ import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterSort;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSearch;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAppSortReset;
-import com.dynamicg.homebuttonlauncher.preferences.HomeLauncherBackupAgent;
 import com.dynamicg.homebuttonlauncher.preferences.PrefShortlist;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperAppAdd;
@@ -77,7 +76,6 @@ public class AppConfigDialog extends Dialog {
 	public static void afterSave(MainActivityHome activity, AppConfigDialog optionalDialog) {
 		GlobalContext.resetCache();
 		activity.refreshList();
-		HomeLauncherBackupAgent.requestBackup(activity);
 
 		// close dialog
 		if (optionalDialog!=null && optionalDialog.isShowing()) {
