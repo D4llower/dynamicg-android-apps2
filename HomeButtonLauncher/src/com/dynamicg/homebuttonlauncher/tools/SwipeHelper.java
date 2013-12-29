@@ -36,10 +36,15 @@ public class SwipeHelper {
 		final SimpleOnGestureListener onGestureListener = new SimpleOnGestureListener() {
 
 			private boolean flip(int direction) {
+				final TabHost tabhost = activity.getTabHost();
+				if (tabhost==null) {
+					return true;
+				}
+
 				final int current = preferences.getTabIndex();
 				final int count = preferences.prefSettings.getNumTabs();
 				final int newIndex = current+direction;
-				final TabHost tabhost = activity.getTabHost();
+
 				if (newIndex>=0 && newIndex<count) {
 					log.debug("flip", newIndex);
 					tabhost.setCurrentTab(newIndex);
