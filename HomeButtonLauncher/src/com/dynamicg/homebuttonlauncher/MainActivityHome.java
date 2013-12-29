@@ -240,7 +240,7 @@ public class MainActivityHome extends Activity {
 		new AppListContextMenu(this, true).attach(listview, appList);
 
 		if (tabhost!=null) {
-			SwipeHelper.attach(this, preferences, tabhost, listview);
+			SwipeHelper.attach(this, preferences, listview);
 		}
 	}
 
@@ -372,6 +372,10 @@ public class MainActivityHome extends Activity {
 
 	public PreferencesManager getPreferences() {
 		return preferences;
+	}
+
+	public TabHost getTabHost() {
+		return tabhost;
 	}
 
 }

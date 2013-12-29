@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
@@ -18,6 +19,7 @@ import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
 
 public class TabHelperMain extends TabHelper {
 
+	private static final Logger log = new Logger(TabHelperMain.class);
 	private final PreferencesManager preferences;
 
 	public TabHelperMain(MainActivityHome activity, PreferencesManager preferences) {
@@ -37,6 +39,7 @@ public class TabHelperMain extends TabHelper {
 			@Override
 			public void onTabChanged(String tabId) {
 				int tabindex = Integer.parseInt(tabId);
+				log.debug("onTabChanged", tabindex);
 				if (preferences.getTabIndex()!=tabindex) {
 					activity.updateOnTabSwitch(tabindex);
 				}
@@ -57,8 +60,7 @@ public class TabHelperMain extends TabHelper {
 			labels[i] = preferences.getTabTitle(i);
 		}
 
-		TabHost tabhost = bindTabs(selectedIndex, labels, onTabChangeListener, longClickListener);
-		return tabhost;
+		return bindTabs(selectedIndex, labels, onTabChangeListener, longClickListener);
 	}
 
 	protected void editLabel(final int tabindex) {
@@ -108,19 +110,12 @@ public class TabHelperMain extends TabHelper {
 			public void onTextChanged(String text) {
 				preferences.writeTabTitle(tabindex, text);
 				preferences.saveTabExtraHeight(heightSeekBar.getProgress());
-				setLabel(tabindex, text);
 				applyMoveTab(tabindex, switchTabSpinner);
+				activity.redrawTabContainer();
 			}
 		};
 
 		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback, extras);
-	}
-
-	private void setLabel(int index, String label) {
-		TextView title = (TextView)tabviews[index].findViewById(android.R.id.title);
-		if (title!=null) {
-			title.setText(label);
-		}
 	}
 
 	private void applyMoveTab(int tabindex, SpinnerHelper switchTabSpinner) {

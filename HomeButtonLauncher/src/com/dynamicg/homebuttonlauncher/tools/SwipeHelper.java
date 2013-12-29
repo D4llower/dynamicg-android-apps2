@@ -22,7 +22,6 @@ public class SwipeHelper {
 	public static void attach(
 			final MainActivityHome activity
 			, final PreferencesManager preferences
-			, final TabHost tabhost
 			, final View anchor
 			)
 	{
@@ -40,15 +39,19 @@ public class SwipeHelper {
 				final int current = preferences.getTabIndex();
 				final int count = preferences.prefSettings.getNumTabs();
 				final int newIndex = current+direction;
+				final TabHost tabhost = activity.getTabHost();
 				if (newIndex>=0 && newIndex<count) {
+					log.debug("flip", newIndex);
 					tabhost.setCurrentTab(newIndex);
 				}
 				else if (newIndex<0) {
 					// round robin to last tab
+					log.debug("flip to last");
 					tabhost.setCurrentTab(count-1);
 				}
 				else if (newIndex>=count) {
 					// round robin to first tab
+					log.debug("flip to first");
 					tabhost.setCurrentTab(0);
 				}
 				return true;

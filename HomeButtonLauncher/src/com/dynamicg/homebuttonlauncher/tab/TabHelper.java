@@ -52,6 +52,7 @@ public abstract class TabHelper {
 		final TabHost tabhost = (TabHost)inflater.inflate(R.layout.tabs_container, null);
 		tabhost.setup();
 		createTabs(tabhost, labels);
+		log.debug("bindTabs", selectedIndex);
 		tabhost.setCurrentTab(selectedIndex);
 		tabhost.setOnTabChangedListener(onTabChangeListener);
 		int tabHeight = getTabHeight();
