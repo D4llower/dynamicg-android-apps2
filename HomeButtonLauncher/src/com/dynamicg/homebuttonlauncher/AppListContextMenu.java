@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.PopupMenu;
 
 import com.dynamicg.common.MarketLinkHelper;
-import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
@@ -41,13 +41,13 @@ public class AppListContextMenu {
 	private boolean openContextMenu(final View anchor, final AppEntry appEntry) {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
-			public void popupMenuItemSelected(int id) {
+			public void popupMenuItemSelected(PopupMenu popupMenu, int id) {
 				try {
 					switch (id) {
 					case HBLConstants.MENU_SHOW_APP_DETAILS: showAppDetails(appEntry); break;
 					case HBLConstants.SHOW_PLAY_STORE: showInPlayStore(appEntry); break;
 					case HBLConstants.MENU_APPS_REMOVE: remove(appEntry); break;
-					case HBLConstants.MENU_PREFERENCES: new PreferencesDialog(activity, preferences).show(); break;
+					case HBLConstants.MENU_PREFERENCES: showAllSettings(popupMenu, anchor); break;
 					}
 				}
 				catch (Throwable t) {
@@ -65,7 +65,7 @@ public class AppListContextMenu {
 			menuWrapper.addItem(HBLConstants.MENU_APPS_REMOVE, R.string.menuRemove);
 		}
 		if (fromMainScreen && preferences.prefSettings.isNoHeader()) {
-			menuWrapper.addItem(HBLConstants.MENU_PREFERENCES, R.string.preferences);
+			menuWrapper.addItem(HBLConstants.MENU_PREFERENCES, context.getString(R.string.preferences)+" \u00bb");
 		}
 		if (menuWrapper.size()>0) {
 			menuWrapper.showMenu();
@@ -74,6 +74,13 @@ public class AppListContextMenu {
 		else {
 			return false;
 		}
+	}
+
+	protected void showAllSettings(PopupMenu popupMenu, View anchor) {
+		// dismiss current popup and replace with the "main" menu, using the same anchor
+		popupMenu.dismiss();
+		PopupMenuWrapper wrapper = MainActivityHome.bindMainMenu(activity, anchor);
+		wrapper.showMenu();
 	}
 
 	private void showAppDetails(AppEntry appEntry) {

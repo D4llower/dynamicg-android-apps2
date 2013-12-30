@@ -1,5 +1,7 @@
 package com.dynamicg.homebuttonlauncher.dialog.header;
 
+import android.widget.PopupMenu;
+
 import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.R;
@@ -23,7 +25,7 @@ public class HeaderPreferences extends HeaderAbstract {
 	public void attach() {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
-			public void popupMenuItemSelected(int id) {
+			public void popupMenuItemSelected(PopupMenu popupMenu, int id) {
 				new GoogleDriveBackupRestoreHelper(activity, dialog).dispatch(id);
 			}
 		};

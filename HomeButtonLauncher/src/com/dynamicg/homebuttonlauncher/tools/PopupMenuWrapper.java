@@ -20,7 +20,7 @@ public class PopupMenuWrapper {
 	private static final Logger log = new Logger(PopupMenuWrapper.class);
 
 	public interface PopupMenuItemListener {
-		public void popupMenuItemSelected(int id);
+		public void popupMenuItemSelected(PopupMenu popupMenu, int id);
 	}
 
 	private final Context context;
@@ -38,7 +38,7 @@ public class PopupMenuWrapper {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				try {
-					listener.popupMenuItemSelected(item.getItemId());
+					listener.popupMenuItemSelected(popupMenu, item.getItemId());
 				}
 				catch (Throwable t) {
 					DialogHelper.showCrashReport(context, t);
@@ -63,6 +63,10 @@ public class PopupMenuWrapper {
 
 	public void addItem(int id, int titleResId) {
 		menu.add(id, id, 0, titleResId);
+	}
+
+	public void addItem(int id, String title) {
+		menu.add(id, id, 0, title);
 	}
 
 	public void addItem(int id, int titleResId, int imageId) {

@@ -1,6 +1,7 @@
 package com.dynamicg.homebuttonlauncher.dialog.header;
 
 import android.content.DialogInterface;
+import android.widget.PopupMenu;
 
 import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
@@ -23,7 +24,7 @@ public class HeaderAppSortReset extends HeaderAbstract {
 	public void attach() {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
-			public void popupMenuItemSelected(int id) {
+			public void popupMenuItemSelected(PopupMenu popupMenu, int id) {
 				if (id==HBLConstants.MENU_RESET) {
 					confirmSortReset();
 				}

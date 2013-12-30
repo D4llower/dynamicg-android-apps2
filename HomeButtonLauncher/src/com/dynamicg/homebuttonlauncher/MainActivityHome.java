@@ -17,6 +17,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.PopupMenu;
 import android.widget.TabHost;
 
 import com.dynamicg.common.Logger;
@@ -299,18 +300,18 @@ public class MainActivityHome extends Activity {
 			public void onClickImpl(View v) {
 				// create the popup only if actually required
 				if (wrapper==null) {
-					wrapper = bindMenu(anchor);
+					wrapper = bindMainMenu(MainActivityHome.this, anchor);
 				}
 				wrapper.showMenu();
 			}
 		});
 	}
 
-	private PopupMenuWrapper bindMenu(final View anchor) {
+	public static PopupMenuWrapper bindMainMenu(final MainActivityHome activity, final View anchor) {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
-			public void popupMenuItemSelected(int id) {
-				final MainActivityHome activity = MainActivityHome.this;
+			public void popupMenuItemSelected(PopupMenu popupMenu, int id) {
+				PreferencesManager preferences = activity.getPreferences();
 				switch (id) {
 				case HBLConstants.MENU_APPS_ADD:
 					AppConfigDialog.showAddDialog(activity, preferences);
@@ -331,7 +332,7 @@ public class MainActivityHome extends Activity {
 			}
 		};
 
-		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, anchor, listener);
+		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(activity, anchor, listener);
 		menuWrapper.addItem(HBLConstants.MENU_APPS_ADD, R.string.menuAdd, android.R.drawable.ic_menu_add);
 		menuWrapper.addItem(HBLConstants.MENU_APPS_REMOVE, R.string.menuRemove, android.R.drawable.ic_menu_close_clear_cancel);
 		menuWrapper.addItem(HBLConstants.MENU_APPS_SORT, R.string.menuSort, android.R.drawable.ic_menu_sort_by_size);
