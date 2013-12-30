@@ -79,19 +79,19 @@ public class AppListContextMenu {
 	protected void showAllSettings(PopupMenu popupMenu, View anchor) {
 		// dismiss current popup and replace with the "main" menu, using the same anchor
 		popupMenu.dismiss();
-		PopupMenuWrapper wrapper = MainActivityHome.bindMainMenu(activity, anchor);
+		PopupMenuWrapper wrapper = activity.bindMainMenu(anchor);
 		wrapper.showMenu();
 	}
 
-	private void showAppDetails(AppEntry appEntry) {
+	protected void showAppDetails(AppEntry appEntry) {
 		AppHelper.openAppDetails(context, appEntry.getPackage());
 	}
 
-	private void showInPlayStore(AppEntry appEntry) {
+	protected void showInPlayStore(AppEntry appEntry) {
 		MarketLinkHelper.openMarketIntent(context, appEntry.getPackage());
 	}
 
-	private void remove(final AppEntry appEntry) {
+	protected void remove(final AppEntry appEntry) {
 		OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
 			@Override
 			public void onClickImpl(DialogInterface d, int which) {
