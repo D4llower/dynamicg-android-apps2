@@ -18,22 +18,24 @@ public class ChromeWrapperKK extends ChromeWrapper {
 
 	private static final Logger log = new Logger(ChromeWrapperKK.class);
 
-	private final BookmarkTreeContext ctx;
 	private final SharedPreferences prefs;
 	private SharedPreferences.Editor loaderEdit;
 	private MigrationHelper migrationHelper;
 
-	public ChromeWrapperKK(BookmarkTreeContext ctx) {
-		this.ctx = ctx;
-		this.prefs = ctx.activity.getSharedPreferences("dynamicg.bmTitles", Context.MODE_PRIVATE);
+	public ChromeWrapperKK(Context context) {
+		this.prefs = context.getSharedPreferences("dynamicg.bmTitles", Context.MODE_PRIVATE);
 		if (log.isDebugEnabled) {
 			log.debug("number of local prefs", prefs.getAll().size());
 		}
 	}
 
 	private class MigrationHelper {
-		final String separatorLegacy = ctx.getFolderSeparator(BookmarkTreeContext.SP_LEGACY);
-		final String separatorKK = ctx.getFolderSeparator(BookmarkTreeContext.SP_CURRENT);
+		final String separatorLegacy;
+		final String separatorKK;
+		MigrationHelper(BookmarkTreeContext ctx) {
+			separatorLegacy = ctx.getFolderSeparator(BookmarkTreeContext.SP_LEGACY);
+			separatorKK = ctx.getFolderSeparator(BookmarkTreeContext.SP_CURRENT);
+		}
 		String getNewTitle(BrowserBookmarkBean bean) {
 			return bean.fullTitle.replace(separatorLegacy, separatorKK);
 		}
@@ -41,10 +43,10 @@ public class ChromeWrapperKK extends ChromeWrapper {
 
 	@SuppressLint("CommitPrefEdits")
 	@Override
-	public void bmLoadStart() {
+	public void bmLoadStart(BookmarkTreeContext ctx) {
 		loaderEdit = prefs.edit();
 		if (kkMigrationPending()) {
-			this.migrationHelper = new MigrationHelper();
+			this.migrationHelper = new MigrationHelper(null); // TODO
 		}
 		else {
 			this.migrationHelper = null;
@@ -60,6 +62,7 @@ public class ChromeWrapperKK extends ChromeWrapper {
 		else {
 			// new entry
 			if (migrationHelper!=null) {
+				log.debug("MIGRATION", bean.fullTitle, migrationHelper.getNewTitle(bean));
 				loaderEdit.putString(key, migrationHelper.getNewTitle(bean));
 			}
 			else {

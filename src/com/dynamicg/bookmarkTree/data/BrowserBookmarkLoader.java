@@ -35,22 +35,22 @@ public class BrowserBookmarkLoader {
 	}
 
 	public static ArrayList<BrowserBookmarkBean> forListAdapter(BookmarkTreeContext ctx) {
-		return readBrowserBookmarks(ctx.activity, FOR_DISPLAY);
+		return readBrowserBookmarks(ctx, FOR_DISPLAY);
 	}
 
 	public static ArrayList<RawDataBean> forInternalOps(BookmarkTreeContext ctx) {
-		return readBrowserBookmarks(ctx.activity, FOR_INTERNAL_OP);
+		return readBrowserBookmarks(ctx, FOR_INTERNAL_OP);
 	}
 
 	public static ArrayList<RawDataBean> forBackup(BookmarkTreeContext ctx) {
-		return readBrowserBookmarks(ctx.activity, FOR_BACKUP);
+		return readBrowserBookmarks(ctx, FOR_BACKUP);
 	}
 
-	private static <E> ArrayList<E> readBrowserBookmarks(Activity main, int what) {
+	private static <E> ArrayList<E> readBrowserBookmarks(BookmarkTreeContext ctx, int what) {
 		ChromeWrapper chromeWrapper = ChromeWrapper.getInstance();
-		chromeWrapper.bmLoadStart();
+		chromeWrapper.bmLoadStart(ctx);
 		try {
-			return readBrowserBookmarksImpl(main, what, chromeWrapper);
+			return readBrowserBookmarksImpl(ctx.activity, what, chromeWrapper);
 		}
 		catch (Throwable t) {
 			if (what==FOR_BACKUP) {
@@ -58,7 +58,7 @@ public class BrowserBookmarkLoader {
 				RuntimeException rt = t instanceof RuntimeException ? (RuntimeException)t : new RuntimeException(t);
 				throw rt;
 			}
-			ErrorNotification.notifyError(main, "Cannot read bookmarks", t);
+			ErrorNotification.notifyError(ctx.activity, "Cannot read bookmarks", t);
 			return new ArrayList<E>();
 		}
 		finally {

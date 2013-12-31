@@ -1,5 +1,8 @@
 package com.dynamicg.bookmarkTree.chrome;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
@@ -17,15 +20,14 @@ public abstract class ChromeWrapper {
 	private static ChromeWrapper instance;
 	private static boolean kk;
 
-	public abstract void bmLoadStart();
+	public abstract void bmLoadStart(BookmarkTreeContext ctx);
 	public abstract void bmLoadProcess(BrowserBookmarkBean bean);
 	public abstract void bmLoadDone();
 
-	public static void init(BookmarkTreeContext ctx) {
+	public static void init(Context context) {
 		kk = android.os.Build.VERSION.SDK_INT>=19 || log.isDebugEnabled;
 		if (kk) {
-			markPendingMigration();
-			instance = new ChromeWrapperKK(ctx);
+			instance = new ChromeWrapperKK(context);
 		}
 		else {
 			instance = new ChromeWrapperOff();
@@ -44,13 +46,9 @@ public abstract class ChromeWrapper {
 		return kk;
 	}
 
-	public static void markPendingMigration() {
+	public static void markPendingMigration(SharedPreferences mainSettings) {
 		// this kicks in if user opens app first time on KK after having it used before
-		if (BookmarkTreeContext.settings.contains(PreferencesWrapper.KEY_DISCLAIMER)
-				&& ChromeWrapper.isKitKat()
-				&& ChromeWrapper.getKitKatInstance().isPrefsEmpty()
-				)
-		{
+		if (kk && mainSettings.contains(PreferencesWrapper.KEY_DISCLAIMER) && getKitKatInstance().isPrefsEmpty()) {
 			PreferencesUpdater.writeIntPref(KEY_KK_MIGRATION, KK_MIG_PENDING);
 		}
 	}

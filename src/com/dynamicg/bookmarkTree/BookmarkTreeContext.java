@@ -31,6 +31,7 @@ public class BookmarkTreeContext {
 
 		PreferencesWrapper.initialSetup();
 		BitmapScaleManager.init();
+		ChromeWrapper.markPendingMigration(settings);
 
 		this.activity = activity;
 		this.bookmarkManager = new BookmarkManager(this);

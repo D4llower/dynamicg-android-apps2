@@ -55,8 +55,8 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		try {
 			setContentView(R.layout.main);
+			ChromeWrapper.init(this);
 			this.ctx = new BookmarkTreeContext(this);
-			ChromeWrapper.init(ctx);
 			BackupPrefs.onStartup(ctx);
 			AboutDialog.showOnce(ctx, false); // for debugging
 		}
