@@ -17,6 +17,7 @@ import com.dynamicg.common.Logger;
 public class ChromeWrapperKK extends ChromeWrapper {
 
 	private static final Logger log = new Logger(ChromeWrapperKK.class);
+	private static final boolean TEST_MIGRATION = false;
 
 	private final SharedPreferences prefs;
 	private SharedPreferences.Editor loaderEdit;
@@ -25,10 +26,11 @@ public class ChromeWrapperKK extends ChromeWrapper {
 	public ChromeWrapperKK(Context context) {
 		this.prefs = context.getSharedPreferences("dynamicg.bmTitles", Context.MODE_PRIVATE);
 
-		// FOR DEBUGGING:
-		Editor edit = prefs.edit();
-		edit.clear();
-		edit.commit();
+		if (TEST_MIGRATION) {
+			Editor edit = prefs.edit();
+			edit.clear();
+			edit.commit();
+		}
 
 		if (log.isDebugEnabled) {
 			log.debug("number of local prefs", prefs.getAll().size());
