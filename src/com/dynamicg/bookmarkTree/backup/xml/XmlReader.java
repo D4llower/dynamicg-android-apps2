@@ -21,6 +21,7 @@ public class XmlReader {
 	private int evtype;
 
 	public final ArrayList<PreferenceEntry> settings = new ArrayList<PreferenceEntry>();
+	public final ArrayList<PreferenceEntry> labels = new ArrayList<PreferenceEntry>();
 
 	public XmlReader(File xmlfile)
 			throws Exception {
@@ -91,6 +92,9 @@ public class XmlReader {
 				}
 				else if (equals(tag, Tags.PREF_ENTRY)) {
 					XmlSettingsHelper.readSettings(parser, settings);
+				}
+				else if (equals(tag, Tags.LABEL_ENTRY)) {
+					XmlSettingsHelper.readSettings(parser, labels);
 				}
 
 			}

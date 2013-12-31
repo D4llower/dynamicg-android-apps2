@@ -102,4 +102,8 @@ public class ChromeWrapperKK extends ChromeWrapper {
 		return prefs.getAll().size()==0;
 	}
 
+	public SharedPreferences getSharedPrefs() {
+		return prefs;
+	}
+
 }

@@ -15,6 +15,7 @@ import com.dynamicg.bookmarkTree.backup.xml.XmlReader;
 import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper;
 import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper.PreferenceEntry;
 import com.dynamicg.bookmarkTree.backup.xml.XmlWriter;
+import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.bookmarkTree.data.BrowserBookmarkLoader;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
@@ -191,6 +192,7 @@ public class BackupManager {
 
 			int numberOfRows;
 			ArrayList<PreferenceEntry> settingsFromXml;
+			ArrayList<PreferenceEntry> labelsFromXml;
 
 			@Override
 			public void backgroundWork() {
@@ -200,6 +202,7 @@ public class BackupManager {
 					ArrayList<RawDataBean> rows = xmlReader.read();
 					numberOfRows = rows.size();
 					settingsFromXml = xmlReader.settings;
+					labelsFromXml = xmlReader.labels;
 					RestoreWriter.replaceFull(ctx, rows, this);
 				}
 				catch (RuntimeException e) {
@@ -220,7 +223,10 @@ public class BackupManager {
 				new SimpleAlertDialog(ctx.activity, R.string.confirmImportSettings, R.string.buttonYes, R.string.buttonNo) {
 					@Override
 					public void onPositiveButton() {
-						XmlSettingsHelper.restore(settingsFromXml);
+						XmlSettingsHelper.restore(BookmarkTreeContext.settings, settingsFromXml);
+						if (ChromeWrapper.isKitKat()) {
+							XmlSettingsHelper.restore(ChromeWrapper.getKitKatInstance().getSharedPrefs(), labelsFromXml);
+						}
 						restoreDone();
 					}
 					@Override

@@ -11,6 +11,8 @@ import org.xmlpull.v1.XmlSerializer;
 import android.text.format.Time;
 import android.util.Xml;
 
+import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.XmlBackupException;
@@ -134,8 +136,17 @@ public class XmlWriter {
 		 * 2.02 append settings
 		 */
 		serializer.startTag(null, Tags.SETTINGS);
-		XmlSettingsHelper.writeSettings(serializer);
+		XmlSettingsHelper.writeSettings(BookmarkTreeContext.settings, serializer, Tags.PREF_ENTRY);
 		serializer.endTag(null, Tags.SETTINGS);
+
+		/*
+		 * 2.05 kk
+		 */
+		if (ChromeWrapper.isKitKat()) {
+			serializer.startTag(null, Tags.LABELS);
+			XmlSettingsHelper.writeSettings(ChromeWrapper.getKitKatInstance().getSharedPrefs(), serializer, Tags.LABEL_ENTRY);
+			serializer.endTag(null, Tags.LABELS);
+		}
 
 		// DONE
 		serializer.endTag(null, Tags.BODY);

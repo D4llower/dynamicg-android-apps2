@@ -8,9 +8,9 @@ import java.util.TreeSet;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlSerializer;
 
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.Logger;
 
@@ -21,17 +21,17 @@ public class XmlSettingsHelper {
 	private static final String TYPE_STRING = "String";
 	private static final String TYPE_INTEGER = "Integer";
 
-	public static void writeSettings(XmlSerializer serializer)
+	public static void writeSettings(SharedPreferences sharedPreferences, XmlSerializer serializer, String valuesTag)
 			throws IOException {
-		Map<String, ?> prefs = BookmarkTreeContext.settings.getAll();
+		Map<String, ?> prefs = sharedPreferences.getAll();
 		TreeSet<String> sortedKeys = new TreeSet<String>(prefs.keySet());
 		for (String key : sortedKeys) {
 			Object o = prefs.get(key);
-			serializer.startTag(null, Tags.PREF_ENTRY);
+			serializer.startTag(null, valuesTag);
 			serializer.attribute(null, Tags.PREF_NAME, key);
 			serializer.attribute(null, Tags.PREF_TYPE, o.getClass().getSimpleName());
 			serializer.attribute(null, Tags.PREF_VALUE, o.toString());
-			serializer.endTag(null, Tags.PREF_ENTRY);
+			serializer.endTag(null, valuesTag);
 		}
 	}
 
@@ -53,8 +53,8 @@ public class XmlSettingsHelper {
 		}
 	}
 
-	public static void restore(ArrayList<PreferenceEntry> settingsFromXml) {
-		Editor edit = BookmarkTreeContext.settings.edit();
+	public static void restore(SharedPreferences sharedPreferences, ArrayList<PreferenceEntry> settingsFromXml) {
+		Editor edit = sharedPreferences.edit();
 		for (PreferenceEntry entry:settingsFromXml) {
 			if (TYPE_STRING.equals(entry.datatype)) {
 				edit.putString(entry.name, entry.value);

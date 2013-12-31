@@ -81,7 +81,7 @@
 	<string name="hintAutoBackupEnabled">Auto backup enabled</string>
 	<string name="hintAutoBackupDisabled">Auto backup disabled</string>
     
-	<string name="brDialogTitle">Backup &amp; restore</string>
+	<string name="brDialogTitle">Backup &amp; Restore</string>
 	<string name="brRestoreConfirmation">Restore bookmarks?</string>
 	<string name="brSelectedFileLabel">Selected file:\n{1}</string>
 	<string name="brProgressCreateBackup">Creating backup \u2026</string>

@@ -15,4 +15,7 @@ public class Tags {
 	public static final String PREF_VALUE = "value";
 	public static final String PREF_TYPE = "type";
 
+	public static final String LABELS = "labels";
+	public static final String LABEL_ENTRY = "labelEntry";
+
 }
