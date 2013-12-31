@@ -1,7 +1,5 @@
 package com.dynamicg.bookmarkTree.chrome;
 
-import android.content.Context;
-
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
@@ -19,14 +17,14 @@ public abstract class ChromeWrapper {
 	private static ChromeWrapper instance;
 	private static boolean kk;
 
-	public abstract void loaderStart();
-	public abstract void loaderProcess(BrowserBookmarkBean bean);
-	public abstract void loaderDone();
+	public abstract void bmLoadStart();
+	public abstract void bmLoadProcess(BrowserBookmarkBean bean);
+	public abstract void bmLoadDone();
 
-	public static void init(Context context) {
+	public static void init(BookmarkTreeContext ctx) {
 		kk = android.os.Build.VERSION.SDK_INT>=19 || log.isDebugEnabled;
 		if (kk) {
-			instance = new ChromeWrapperKK(context);
+			instance = new ChromeWrapperKK(ctx);
 		}
 		else {
 			instance = new ChromeWrapperOff();

@@ -48,7 +48,7 @@ public class BrowserBookmarkLoader {
 
 	private static <E> ArrayList<E> readBrowserBookmarks(Activity main, int what) {
 		ChromeWrapper chromeWrapper = ChromeWrapper.getInstance();
-		chromeWrapper.loaderStart();
+		chromeWrapper.bmLoadStart();
 		try {
 			return readBrowserBookmarksImpl(main, what, chromeWrapper);
 		}
@@ -62,7 +62,7 @@ public class BrowserBookmarkLoader {
 			return new ArrayList<E>();
 		}
 		finally {
-			chromeWrapper.loaderDone();
+			chromeWrapper.bmLoadDone();
 		}
 	}
 
@@ -121,7 +121,7 @@ public class BrowserBookmarkLoader {
 				bean.id = crs.getInt(0);
 				bean.fullTitle = nvl(crs.getString(2));
 				bean.url = nvl(crs.getString(3));
-				chromeWrapper.loaderProcess(bean);
+				chromeWrapper.bmLoadProcess(bean);
 				if (what==FOR_DISPLAY) {
 					try {
 						bean.favicon = BitmapScaleManager.getIcon(crs.getBlob(4));

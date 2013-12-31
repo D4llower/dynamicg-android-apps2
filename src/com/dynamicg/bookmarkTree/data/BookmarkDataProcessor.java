@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
-import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.bookmarkTree.data.TitleTokenizer.TitleItem;
 import com.dynamicg.bookmarkTree.model.Bookmark;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
@@ -36,14 +35,11 @@ public class BookmarkDataProcessor {
 	}
 
 	private void buildTree(ArrayList<BrowserBookmarkBean> rows) {
-
-		int separatorType = ChromeWrapper.kkMigrationPending() ? BookmarkTreeContext.SP_LEGACY : BookmarkTreeContext.SP_CURRENT;
-
 		String bookmarkTitle;
 		FolderBean currentParent;
 		int currentLevel;
-		final String folderSeparator = ctx.getFolderSeparator(separatorType);
-		final String nodeConcatenation = ctx.getNodeConcatenation(separatorType);
+		final String folderSeparator = ctx.getFolderSeparator(BookmarkTreeContext.SP_CURRENT);
+		final String nodeConcatenation = ctx.getNodeConcatenation(BookmarkTreeContext.SP_CURRENT);
 
 		final FolderCache folderCache = new FolderCache();
 		TitleTokenizer titleTokenizer;

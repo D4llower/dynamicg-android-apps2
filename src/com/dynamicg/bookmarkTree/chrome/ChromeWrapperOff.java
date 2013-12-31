@@ -4,12 +4,12 @@ import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 
 public class ChromeWrapperOff extends ChromeWrapper {
 	@Override
-	public void loaderStart() {
+	public void bmLoadStart() {
 	}
 	@Override
-	public void loaderProcess(BrowserBookmarkBean bean) {
+	public void bmLoadProcess(BrowserBookmarkBean bean) {
 	}
 	@Override
-	public void loaderDone() {
+	public void bmLoadDone() {
 	}
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.Logger;
 
@@ -17,36 +18,56 @@ public class ChromeWrapperKK extends ChromeWrapper {
 
 	private static final Logger log = new Logger(ChromeWrapperKK.class);
 
+	private final BookmarkTreeContext ctx;
 	private final SharedPreferences prefs;
 	private SharedPreferences.Editor loaderEdit;
+	private MigrationHelper migrationHelper;
 
-	public ChromeWrapperKK(Context context) {
-		prefs = context.getSharedPreferences("dynamicg.bmTitles", Context.MODE_PRIVATE);
+
+	public ChromeWrapperKK(BookmarkTreeContext ctx) {
+		this.ctx = ctx;
+		this.prefs = ctx.activity.getSharedPreferences("dynamicg.bmTitles", Context.MODE_PRIVATE);
 		if (log.isDebugEnabled) {
 			log.debug("number of local prefs", prefs.getAll().size());
 		}
 	}
 
+	private class MigrationHelper {
+		final String separatorLegacy = ctx.getFolderSeparator(BookmarkTreeContext.SP_LEGACY);
+		final String separatorKK = ctx.getFolderSeparator(BookmarkTreeContext.SP_CURRENT);
+		String getNewTitle(BrowserBookmarkBean bean) {
+			return bean.fullTitle.replace(separatorLegacy, separatorKK);
+		}
+	}
+
 	@SuppressLint("CommitPrefEdits")
 	@Override
-	public void loaderStart() {
+	public void bmLoadStart() {
 		loaderEdit = prefs.edit();
+		if (kkMigrationPending()) {
+			this.migrationHelper = new MigrationHelper();
+		}
 	}
 
 	@Override
-	public void loaderProcess(BrowserBookmarkBean bean) {
+	public void bmLoadProcess(BrowserBookmarkBean bean) {
 		String key = Integer.toString(bean.id);
 		if (prefs.contains(key)) {
 			bean.fullTitle = prefs.getString(key, bean.fullTitle);
 		}
 		else {
 			// new entry
-			loaderEdit.putString(key, bean.fullTitle);
+			if (migrationHelper!=null) {
+				loaderEdit.putString(key, migrationHelper.getNewTitle(bean));
+			}
+			else {
+				loaderEdit.putString(key, bean.fullTitle);
+			}
 		}
 	}
 
 	@Override
-	public void loaderDone() {
+	public void bmLoadDone() {
 		loaderEdit.apply();
 		loaderEdit = null;
 	}
