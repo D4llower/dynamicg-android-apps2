@@ -18,15 +18,15 @@ public abstract class ChromeWrapper {
 	private static final int KK_MIG_DONE = 2;
 
 	private static ChromeWrapper instance;
-	private static boolean kk;
+	private static boolean kitkat;
 
 	public abstract void bmLoadStart(BookmarkTreeContext ctx);
 	public abstract void bmLoadProcess(BrowserBookmarkBean bean);
 	public abstract void bmLoadDone();
 
 	public static void init(Context context) {
-		kk = android.os.Build.VERSION.SDK_INT>=19 || log.isDebugEnabled;
-		if (kk) {
+		kitkat = android.os.Build.VERSION.SDK_INT>=19 || log.isDebugEnabled;
+		if (kitkat) {
 			instance = new ChromeWrapperKK(context);
 		}
 		else {
@@ -43,12 +43,12 @@ public abstract class ChromeWrapper {
 	}
 
 	public static boolean isKitKat() {
-		return kk;
+		return kitkat;
 	}
 
 	public static void markPendingMigration(SharedPreferences mainSettings) {
 		// this kicks in if user opens app first time on KK after having it used before
-		if (kk && mainSettings.contains(PreferencesWrapper.KEY_DISCLAIMER) && getKitKatInstance().isPrefsEmpty()) {
+		if (kitkat && mainSettings.contains(PreferencesWrapper.KEY_DISCLAIMER) && getKitKatInstance().isPrefsEmpty()) {
 			PreferencesUpdater.writeIntPref(KEY_KK_MIGRATION, KK_MIG_PENDING);
 		}
 	}

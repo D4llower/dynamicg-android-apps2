@@ -204,6 +204,11 @@ public class BackupManager {
 					settingsFromXml = xmlReader.settings;
 					labelsFromXml = xmlReader.labels;
 					RestoreWriter.replaceFull(ctx, rows, this);
+					if (ChromeWrapper.isKitKat()) {
+						ChromeWrapper.getKitKatInstance().resetPrefs();
+					}
+					// TODO ## add "app version" to backup file
+					// TODO ## if no "app version" available in restore file and on kk then mark "migration"
 				}
 				catch (RuntimeException e) {
 					throw (RuntimeException)e;

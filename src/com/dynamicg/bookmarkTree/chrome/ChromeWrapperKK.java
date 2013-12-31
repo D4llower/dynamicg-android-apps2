@@ -10,9 +10,15 @@ import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.Logger;
 
 /*
- * TODO backup/restore needs to handle the "local titles" prefs file
  * TODO catch "custom ROM sql error"
- * TODO import toggle: [x] Browser Bookmark Data, [x] App Settings, hint: do not import "Broswer Bookmark Data" when browser sync is enabled
+ * TODO reset current SharedPreferences on "restore" and make sure migration kicks in again
+
+ * TODO import toggle:
+ * [x] Browser Bookmark Data
+ * [x] App Settings
+ * hint: do not import "Broswer Bookmark Data" when browser sync is enabled
+ * -> if opt1 = on then do not import labels
+ * -> always reset "labels shared prefs" before restore (regardless of settings)
  */
 public class ChromeWrapperKK extends ChromeWrapper {
 
@@ -108,6 +114,12 @@ public class ChromeWrapperKK extends ChromeWrapper {
 
 	public String getLabel(int id, String title) {
 		return prefs.getString(Integer.toString(id), title);
+	}
+
+	public void resetPrefs() {
+		Editor edit = prefs.edit();
+		edit.clear();
+		edit.apply();
 	}
 
 }
