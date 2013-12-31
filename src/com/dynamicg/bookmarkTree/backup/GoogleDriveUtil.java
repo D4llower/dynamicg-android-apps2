@@ -75,7 +75,6 @@ public class GoogleDriveUtil {
 	}
 
 	private static void showPermissionError(final Context context, final SecurityException e) {
-		// TODO link this to the timerec online help (error27)
 		ErrorNotification.notifyError(context, "SecurityException", e);
 	}
 

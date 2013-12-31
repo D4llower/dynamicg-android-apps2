@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.common.Logger;
 
 public class BookmarkWriter extends BookmarkWriterA {
@@ -17,7 +18,7 @@ public class BookmarkWriter extends BookmarkWriterA {
 		super(ctx);
 	}
 
-	private void doUpdate(Integer bookmarkId) {
+	private void doUpdate(int bookmarkId) {
 
 		if (log.isDebugEnabled) {
 			log.debug("doUpdate ...", bookmarkId, values);
@@ -32,14 +33,24 @@ public class BookmarkWriter extends BookmarkWriterA {
 		}
 	}
 
-	public void updateTitle(Integer bookmarkId, String title) {
-		values.put(Browser.BookmarkColumns.TITLE, title);
-		doUpdate(bookmarkId);
+	public void updateTitle(int bookmarkId, String title) {
+		if (ChromeWrapper.isKitKat()) {
+			ChromeWrapper.getKitKatInstance().saveTitle(bookmarkId, title);
+		}
+		else {
+			values.put(Browser.BookmarkColumns.TITLE, title);
+			doUpdate(bookmarkId);
+		}
 	}
 
-	public void updateTitleAndUrl(Integer bookmarkId, String title, String url) {
-		values.put(Browser.BookmarkColumns.TITLE, title);
+	public void updateTitleAndUrl(int bookmarkId, String title, String url) {
 		values.put(Browser.BookmarkColumns.URL, url);
+		if (ChromeWrapper.isKitKat()) {
+			ChromeWrapper.getKitKatInstance().saveTitle(bookmarkId, title);
+		}
+		else {
+			values.put(Browser.BookmarkColumns.TITLE, title);
+		}
 		doUpdate(bookmarkId);
 	}
 
@@ -54,9 +65,13 @@ public class BookmarkWriter extends BookmarkWriterA {
 		if (log.isDebugEnabled) {
 			log.debug("row created", result);
 		}
+		if (ChromeWrapper.isKitKat()) {
+			String newId = result.getLastPathSegment();
+			ChromeWrapper.getKitKatInstance().saveTitle(Integer.parseInt(newId), title);;
+		}
 	}
 
-	public void deleteBrowserBookmark(Integer id) {
+	public void deleteBrowserBookmark(int id) {
 		if (log.isDebugEnabled) {
 			log.debug("delete bookmark", id);
 		}
@@ -64,6 +79,9 @@ public class BookmarkWriter extends BookmarkWriterA {
 				, Browser.BookmarkColumns._ID+"=?"
 				, new String[]{Integer.toString(id)}
 				);
+		if (ChromeWrapper.isKitKat()) {
+			ChromeWrapper.getKitKatInstance().delete(id);
+		}
 	}
 
 }

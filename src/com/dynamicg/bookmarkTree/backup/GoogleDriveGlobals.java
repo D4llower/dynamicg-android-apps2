@@ -2,7 +2,6 @@ package com.dynamicg.bookmarkTree.backup;
 
 public class GoogleDriveGlobals {
 
-	// TODO new action for "bookmarks" (?)
 	public static final int ACTION_BACKUP = 201;
 	public static final int ACTION_RESTORE = 204;
 
