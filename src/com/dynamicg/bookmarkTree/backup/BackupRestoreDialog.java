@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.backup.BackupManager.BackupEventListener;
+import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.bookmarkTree.prefs.SpinnerUtil;
 import com.dynamicg.bookmarkTree.util.DialogButtonPanelWrapper;
 import com.dynamicg.bookmarkTree.util.DialogHelper;
@@ -186,11 +189,20 @@ implements BackupEventListener {
 	}
 
 	protected void restore(final RadioGroup group, final File backupFile) {
+		if (ChromeWrapper.isKitKat()) {
+			restoreKK(group, backupFile);
+		}
+		else {
+			restoreLegacy(group, backupFile);
+		}
+	}
+
+	private void restoreLegacy(final RadioGroup group, final File backupFile) {
 		new SimpleAlertDialog.OkCancelDialog(context, R.string.brRestoreConfirmation) {
 
 			@Override
 			public void onPositiveButton() {
-				BackupManager.restore(ctx, backupFile, BackupRestoreDialog.this);
+				BackupManager.restore(ctx, backupFile, BackupRestoreDialog.this, 0, 0);
 			}
 
 			@Override
@@ -203,6 +215,56 @@ implements BackupEventListener {
 			@Override
 			public String getPlainBodyText() {
 				return StringUtil.textWithParam(context, R.string.brSelectedFileLabel, backupFile.getName() );
+			}
+
+		};
+	}
+
+	private void restoreKK(final RadioGroup group, final File backupFile) {
+		new SimpleAlertDialog.OkCancelDialog(context, R.string.brRestoreConfirmation) {
+
+			CheckBox bookmarks;
+			CheckBox settings;
+
+			@Override
+			public void onPositiveButton() {
+				BackupManager.restore(ctx, backupFile, BackupRestoreDialog.this, bookmarks.isChecked()?1:-1, settings.isChecked()?1:-1);
+			}
+
+			@Override
+			public void onNegativeButton() {
+				if (group!=null) {
+					group.clearCheck();
+				}
+			}
+
+			@Override
+			public View getBody() {
+				String fnameLabel = StringUtil.textWithParam(context, R.string.brSelectedFileLabel, backupFile.getName());
+				TextView fnameNode = new TextView(context);
+				fnameNode.setText(fnameLabel);
+
+				bookmarks = new CheckBox(context);
+				bookmarks.setText(R.string.restoreBookmarks);
+				bookmarks.setChecked(true);
+				TextView cautionNode = new TextView(context);
+				cautionNode.setText(R.string.restoreCaution);
+
+				settings = new CheckBox(context);
+				settings.setText(R.string.restoreSettings);
+				settings.setChecked(true);
+
+				LinearLayout layout = new LinearLayout(context);
+				layout.setOrientation(LinearLayout.VERTICAL);
+				layout.addView(fnameNode);
+				layout.addView(bookmarks);
+				layout.addView(cautionNode);
+				layout.addView(settings);
+
+				int padding = (int)context.getResources().getDimension(R.dimen.mainPadding);
+				layout.setPadding(padding, padding, padding, padding);
+
+				return layout;
 			}
 
 		};

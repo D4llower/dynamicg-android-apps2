@@ -127,5 +127,9 @@
     <string name="confirmImportSettings">Restore settings?</string>
     <string name="buttonYes">Yes</string>
     <string name="buttonNo">No</string>
-    
+
+	<string name="restoreBookmarks">Restore Browser Bookmarks</string>
+	<string name="restoreSettings">Restore App Settings</string>
+	<string name="restoreCaution">\u2192 Caution: do not restore bookmarks if browser sync is enabled</string>
+	
 </resources>

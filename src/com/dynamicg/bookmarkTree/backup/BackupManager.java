@@ -179,6 +179,8 @@ public class BackupManager {
 	public synchronized static void restore ( final BookmarkTreeContext ctx
 			, final File xmlfile
 			, final BackupEventListener backupDoneListener
+			, final int restoreBookmarks
+			, final int restoreSettings
 			)
 	{
 
@@ -204,7 +206,11 @@ public class BackupManager {
 					numberOfRows = rows.size();
 					settingsFromXml = xmlReader.settings;
 					labelsFromXml = xmlReader.labels;
-					RestoreWriter.replaceFull(ctx, rows, this);
+
+					if (restoreBookmarks!=-1) {
+						RestoreWriter.replaceFull(ctx, rows, this);
+					}
+
 					if (ChromeWrapper.isKitKat()) {
 						ChromeWrapper.getKitKatInstance().resetPrefs();
 						int importFileVersion = xmlReader.getImportFileVersion();
@@ -232,9 +238,6 @@ public class BackupManager {
 					@Override
 					public void onPositiveButton() {
 						XmlSettingsHelper.restore(BookmarkTreeContext.settings, settingsFromXml);
-						if (ChromeWrapper.isKitKat()) {
-							XmlSettingsHelper.restore(ChromeWrapper.getKitKatInstance().getSharedPrefs(), labelsFromXml);
-						}
 						restoreDone();
 					}
 					@Override
@@ -246,7 +249,19 @@ public class BackupManager {
 
 			@Override
 			public void done() {
-				if (settingsFromXml!=null && settingsFromXml.size()>0) {
+				boolean hasSettings = settingsFromXml!=null && settingsFromXml.size()>0;
+				if (ChromeWrapper.isKitKat()) {
+					if (restoreSettings==1 && hasSettings) {
+						XmlSettingsHelper.restore(BookmarkTreeContext.settings, settingsFromXml);
+						if (restoreBookmarks==-1) {
+							// only import labels if "boomarks" is OFF
+							// (import of bookmarks will assign new bm ids so the old labels are useless)
+							XmlSettingsHelper.restore(ChromeWrapper.getKitKatInstance().getSharedPrefs(), labelsFromXml);
+						}
+					}
+					restoreDone();
+				}
+				else if (hasSettings) {
 					askForSettingsImport();
 				}
 				else {

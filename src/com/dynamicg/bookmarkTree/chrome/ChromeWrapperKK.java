@@ -11,13 +11,6 @@ import com.dynamicg.common.Logger;
 
 /*
  * TODO catch "custom ROM sql error"
-
- * TODO import toggle:
- * [x] Browser Bookmark Data
- * [x] App Settings
- * hint: do not import "Broswer Bookmark Data" when browser sync is enabled
- * -> if opt1 = on then do not import labels
- * -> always reset "labels shared prefs" before restore (regardless of settings)
  */
 public class ChromeWrapperKK extends ChromeWrapper {
 
