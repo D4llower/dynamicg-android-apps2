@@ -77,11 +77,17 @@ public class WeatherView extends ListActivity {
 	public void upateWeatherValues() {
 		values = currentWeatherData
 				.getWeatherValues("name", "value");
+
+		HashMap<String, String> station = new HashMap<String, String>();
+		station.put("name", "Station");
+		station.put("value", SettingsView.isTiefenbrunnen(getBaseContext())?"T":"M");
+		values.add(station);
+
 		setListAdapter(new SimpleAdapter(this, values, R.layout.list_item,
 				new String[] { "name", "value" }, new int[] { R.id.NAME_CELL,
-						R.id.VALUE_CELL }));
+				R.id.VALUE_CELL }));
 	}
-	
+
 	public void startChartFlotView(int pos) {
 		Intent chartIntent = new Intent(this,ChartFlotView.class);
 		HashMap<String, String> hashMap = values.get(pos);
@@ -102,6 +108,7 @@ public class WeatherView extends ListActivity {
 		lv.setTextFilterEnabled(true);
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				startChartFlotView(position);
@@ -110,6 +117,7 @@ public class WeatherView extends ListActivity {
 
 	}
 
+	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
@@ -118,6 +126,7 @@ public class WeatherView extends ListActivity {
 	}
 
 	/* Creates the menu items */
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
@@ -125,6 +134,7 @@ public class WeatherView extends ListActivity {
 	}
 
 	/* Handles item selections */
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.listview_menu_refesh:
@@ -135,20 +145,20 @@ public class WeatherView extends ListActivity {
 			Log.i(this.getClass().getName(), "help");
 			startActivity(new Intent(this,HelpWebView.class));
 
-//			View webViewLayout = getLayoutInflater().inflate(R.layout.help,
-//					null);
-//
-//			WebView webView = (WebView) webViewLayout
-//					.findViewById(R.id.help_web_view);
-//			webView.loadUrl(getString(R.string.help_url));
-//			
-//			setContentView(webView);
-//
-//
-//			new AlertDialog.Builder(this).setView(webViewLayout)
-//					.setTitle(R.string.help_title)
-//					.setPositiveButton(android.R.string.ok, null).create()
-//					.show();
+			//			View webViewLayout = getLayoutInflater().inflate(R.layout.help,
+			//					null);
+			//
+			//			WebView webView = (WebView) webViewLayout
+			//					.findViewById(R.id.help_web_view);
+			//			webView.loadUrl(getString(R.string.help_url));
+			//
+			//			setContentView(webView);
+			//
+			//
+			//			new AlertDialog.Builder(this).setView(webViewLayout)
+			//					.setTitle(R.string.help_title)
+			//					.setPositiveButton(android.R.string.ok, null).create()
+			//					.show();
 
 			return true;
 		case R.id.listview_menu_preferences:
@@ -159,6 +169,7 @@ public class WeatherView extends ListActivity {
 		return false;
 	}
 
+	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		if (onOptionsItemSelected(item)) {
 			return true;
@@ -169,5 +180,5 @@ public class WeatherView extends ListActivity {
 	public static String getStationIndicator(Context context) {
 		return SettingsView.isTiefenbrunnen(context) ? "T" : "M";
 	}
-	
+
 }
