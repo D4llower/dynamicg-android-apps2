@@ -106,4 +106,8 @@ public class ChromeWrapperKK extends ChromeWrapper {
 		return prefs;
 	}
 
+	public String getLabel(int id, String title) {
+		return prefs.getString(Integer.toString(id), title);
+	}
+
 }

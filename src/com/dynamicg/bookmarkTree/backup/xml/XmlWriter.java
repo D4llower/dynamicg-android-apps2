@@ -121,7 +121,13 @@ public class XmlWriter {
 				//				if (log.debugEnabled) {
 				//					b.fullTitle = b.fullTitle.toLowerCase() + "\udbba"+" " + b.fullTitle.toUpperCase() + "\udbba";
 				//				}
-				addTextNode(Tags.TITLE, b.fullTitle, true);
+
+				String label = b.fullTitle;
+				if (ChromeWrapper.isKitKat()) {
+					label = ChromeWrapper.getKitKatInstance().getLabel(b.id, b.fullTitle);
+				}
+				addTextNode(Tags.TITLE, label, true);
+
 				addTextNode(Tags.URL, b.url, false);
 				addTextNode(Tags.FAVICON, getIconData(b), false);
 
