@@ -24,6 +24,7 @@ public abstract class ChromeWrapper {
 	public static void init(BookmarkTreeContext ctx) {
 		kk = android.os.Build.VERSION.SDK_INT>=19 || log.isDebugEnabled;
 		if (kk) {
+			markPendingMigration();
 			instance = new ChromeWrapperKK(ctx);
 		}
 		else {

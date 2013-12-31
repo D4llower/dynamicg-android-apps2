@@ -23,7 +23,6 @@ public class ChromeWrapperKK extends ChromeWrapper {
 	private SharedPreferences.Editor loaderEdit;
 	private MigrationHelper migrationHelper;
 
-
 	public ChromeWrapperKK(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
 		this.prefs = ctx.activity.getSharedPreferences("dynamicg.bmTitles", Context.MODE_PRIVATE);
@@ -46,6 +45,9 @@ public class ChromeWrapperKK extends ChromeWrapper {
 		loaderEdit = prefs.edit();
 		if (kkMigrationPending()) {
 			this.migrationHelper = new MigrationHelper();
+		}
+		else {
+			this.migrationHelper = null;
 		}
 	}
 
