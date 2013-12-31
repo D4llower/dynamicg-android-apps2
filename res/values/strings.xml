@@ -39,7 +39,7 @@
     <string name="prefsGroupSetup">App setup</string>
     <string name="prefsGroupTools">Tools</string>
     
-    <string name="prefsGroupColors">Text colors (tap to change)</string>
+    <string name="prefsGroupColors">Text colors</string>
     <string name="prefsColorFolder">Folder title</string>
     <string name="prefsColorBookmarkTitle">Bookmark title</string>
     <string name="prefsColorBookmarkUrl">Bookmark address</string>

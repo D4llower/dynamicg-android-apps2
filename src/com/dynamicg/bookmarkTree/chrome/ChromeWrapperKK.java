@@ -9,7 +9,6 @@ import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.Logger;
 
 /*
- * TODO dedicated prefs page for KK without tabs
  * TODO use "//" as separator on KK
  * TODO backup/restore needs to handle the "local titles" prefs file
  */

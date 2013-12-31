@@ -3,6 +3,7 @@ package com.dynamicg.bookmarkTree.prefs;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.bookmarkTree.data.writehandler.SeparatorChangedHandler;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.ColorPickerDialog;
@@ -38,6 +40,7 @@ import com.dynamicg.bookmarkTree.util.SimpleProgressDialog;
 import com.dynamicg.common.LayoutUtil;
 import com.dynamicg.common.SystemUtil;
 
+@SuppressLint("HandlerLeak")
 public class PreferencesDialog extends Dialog {
 
 	private final BookmarkTreeContext ctx;
@@ -47,10 +50,10 @@ public class PreferencesDialog extends Dialog {
 
 	private final float dialogWidth;
 	private final float tabHeight;
+	private final boolean kitkat = ChromeWrapper.isKitKat();
 
 	private EditText separatorItem;
 	private CheckBox doFullUpdateCheckbox;
-	//private CheckBox scaleIconsCheckbox;
 
 	private boolean dataRefreshRequired;
 
@@ -79,13 +82,16 @@ public class PreferencesDialog extends Dialog {
 
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.prefs_tab_control);
-		prepareTabs();
-
-		setupSeparatorItem();
-
-		doFullUpdateCheckbox = (CheckBox)findViewById(R.id.prefsFullUpdateOnChange);
-		checkForChangedSeparator(); // inactivate intially
+		if (kitkat) {
+			setContentView(R.layout.prefs_kk);
+		}
+		else {
+			setContentView(R.layout.prefs_tab_control);
+			prepareTabs();
+			setupSeparatorItem();
+			doFullUpdateCheckbox = (CheckBox)findViewById(R.id.prefsFullUpdateOnChange);
+			checkForChangedSeparator(); // inactivate intially
+		}
 
 		// bind checkboxes
 		bindCheckbox(R.id.prefsSortCaseInsensitive, PreferencesWrapper.sortCaseInsensitive);
@@ -108,10 +114,11 @@ public class PreferencesDialog extends Dialog {
 			}
 		};
 
-		setLinks();
-
-		// see http://devstream.stefanklumpp.com/2010/07/android-display-dialogs-in-fullscreen.html
-		getWindow().setLayout( (int)this.dialogWidth, LayoutParams.FILL_PARENT);
+		if (!kitkat) {
+			setLinks();
+			// see http://devstream.stefanklumpp.com/2010/07/android-display-dialogs-in-fullscreen.html
+			getWindow().setLayout( (int)this.dialogWidth, LayoutParams.FILL_PARENT);
+		}
 	}
 
 	private void setLinks() {
@@ -245,7 +252,7 @@ public class PreferencesDialog extends Dialog {
 			}
 		};
 
-		boolean massUpdateTitles = this.doFullUpdateCheckbox.isChecked();
+		boolean massUpdateTitles = kitkat ? false : this.doFullUpdateCheckbox.isChecked();
 		if (!massUpdateTitles) {
 			saveMain(pleaseReloadToastHandler);
 			savePostprocessing();
@@ -318,6 +325,10 @@ public class PreferencesDialog extends Dialog {
 	}
 
 	private void processSeparatorUpdate() {
+
+		if (kitkat) {
+			return;
+		}
 
 		String newSeparator = separatorItem.getText().toString();
 		if (newSeparator==null || newSeparator.trim().length()==0 || newSeparator.equals(currentSeparator) ) {
