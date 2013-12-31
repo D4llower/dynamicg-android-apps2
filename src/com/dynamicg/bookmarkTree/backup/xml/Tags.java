@@ -18,4 +18,7 @@ public class Tags {
 	public static final String LABELS = "labels";
 	public static final String LABEL_ENTRY = "labelEntry";
 
+	public static final String VERSION = "version";
+	public static final int V19 = 19;
+
 }

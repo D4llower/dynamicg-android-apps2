@@ -23,6 +23,8 @@ public class XmlReader {
 	public final ArrayList<PreferenceEntry> settings = new ArrayList<PreferenceEntry>();
 	public final ArrayList<PreferenceEntry> labels = new ArrayList<PreferenceEntry>();
 
+	private String importFileVersion;
+
 	public XmlReader(File xmlfile)
 			throws Exception {
 		InputStream fis = new FileInputStream(xmlfile);
@@ -96,6 +98,9 @@ public class XmlReader {
 				else if (equals(tag, Tags.LABEL_ENTRY)) {
 					XmlSettingsHelper.readSettings(parser, labels);
 				}
+				else if (equals(tag, Tags.BODY)) {
+					importFileVersion = parser.getAttributeValue(null, Tags.VERSION);
+				}
 
 			}
 
@@ -120,6 +125,15 @@ public class XmlReader {
 		catch (RuntimeException e) {
 			Logger.dumpIfDevelopment(e);
 			return null;
+		}
+	}
+
+	public int getImportFileVersion() {
+		try {
+			return importFileVersion!=null ? Integer.parseInt(importFileVersion) : 0;
+		}
+		catch (NumberFormatException e) {
+			return 0;
 		}
 	}
 

@@ -109,6 +109,7 @@ public class XmlWriter {
 			throws Exception {
 
 		serializer.startTag(null, Tags.BODY);
+		serializer.attribute(null, Tags.VERSION, Integer.toString(Tags.V19));
 
 		for (RawDataBean b:bookmarks) {
 

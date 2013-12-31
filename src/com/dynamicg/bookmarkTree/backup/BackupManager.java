@@ -11,6 +11,7 @@ import android.text.format.Time;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.R;
+import com.dynamicg.bookmarkTree.backup.xml.Tags;
 import com.dynamicg.bookmarkTree.backup.xml.XmlReader;
 import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper;
 import com.dynamicg.bookmarkTree.backup.xml.XmlSettingsHelper.PreferenceEntry;
@@ -206,9 +207,11 @@ public class BackupManager {
 					RestoreWriter.replaceFull(ctx, rows, this);
 					if (ChromeWrapper.isKitKat()) {
 						ChromeWrapper.getKitKatInstance().resetPrefs();
+						int importFileVersion = xmlReader.getImportFileVersion();
+						if (importFileVersion<Tags.V19) {
+							ChromeWrapper.forceMarkPendingMigration();
+						}
 					}
-					// TODO ## add "app version" to backup file
-					// TODO ## if no "app version" available in restore file and on kk then mark "migration"
 				}
 				catch (RuntimeException e) {
 					throw (RuntimeException)e;

@@ -53,6 +53,10 @@ public abstract class ChromeWrapper {
 		}
 	}
 
+	public static void forceMarkPendingMigration() {
+		PreferencesUpdater.writeIntPref(KEY_KK_MIGRATION, KK_MIG_PENDING);
+	}
+
 	public static boolean kkMigrationPending() {
 		int value = BookmarkTreeContext.settings.getInt(KEY_KK_MIGRATION, 0);
 		if (value==KK_MIG_PENDING) {

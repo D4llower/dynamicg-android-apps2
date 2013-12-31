@@ -11,7 +11,6 @@ import com.dynamicg.common.Logger;
 
 /*
  * TODO catch "custom ROM sql error"
- * TODO reset current SharedPreferences on "restore" and make sure migration kicks in again
 
  * TODO import toggle:
  * [x] Browser Bookmark Data
