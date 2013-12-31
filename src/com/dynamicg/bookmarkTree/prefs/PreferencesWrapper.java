@@ -36,6 +36,9 @@ public class PreferencesWrapper {
 	public static final String KEY_DISCLAIMER = "disclaimerLastDisplayed";
 	private static final String KEY_DATE_INITIALISED = "dateInitialised";
 
+	public static final String VALUE_KK_SEPARATOR = "//";
+	public static final String VALUE_KK_CONCAT = " // ";
+
 	/*
 	 * PREFERENCE ITEMS
 	 */
@@ -90,6 +93,10 @@ public class PreferencesWrapper {
 		int value = Integer.parseInt(t.format("%Y%m%d"));
 		PreferencesUpdater.writeIntPref(KEY_DATE_INITIALISED, value);
 
+		// 2.05
+		String separator = VALUE_KK_SEPARATOR;
+		PreferencesUpdater.writeStringPref(KEY_FOLDER_SEPARATOR, separator);
+		PreferencesUpdater.setFolderSeparator(separator);
 	}
 
 	public static void afterRestore() {

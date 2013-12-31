@@ -9,8 +9,9 @@ import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.Logger;
 
 /*
- * TODO use "//" as separator on KK
  * TODO backup/restore needs to handle the "local titles" prefs file
+ * TODO catch "custom ROM sql error"
+ * TODO import toggle: [x] Browser Bookmark Data, [x] App Settings, hint: do not import "Broswer Bookmark Data" when browser sync is enabled
  */
 public class ChromeWrapperKK extends ChromeWrapper {
 
@@ -53,13 +54,17 @@ public class ChromeWrapperKK extends ChromeWrapper {
 	public void saveTitle(int id, String title) {
 		Editor edit = prefs.edit();
 		edit.putString(Integer.toString(id), title);
-		edit.commit();
+		edit.apply();
 	}
 
 	public void delete(int id) {
 		Editor edit = prefs.edit();
 		edit.remove(Integer.toString(id));
-		edit.commit();
+		edit.apply();
+	}
+
+	public boolean isPrefsEmpty() {
+		return prefs.getAll().size()==0;
 	}
 
 }

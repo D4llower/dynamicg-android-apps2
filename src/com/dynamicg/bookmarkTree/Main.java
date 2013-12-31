@@ -58,6 +58,7 @@ public class Main extends Activity {
 			ChromeWrapper.init(this);
 			this.ctx = new BookmarkTreeContext(this);
 			BackupPrefs.onStartup(ctx);
+			ChromeWrapper.markPendingMigration();
 			AboutDialog.showOnce(ctx, false); // for debugging
 		}
 		catch (Throwable t) {

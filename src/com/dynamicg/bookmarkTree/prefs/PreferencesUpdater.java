@@ -28,7 +28,7 @@ public class PreferencesUpdater {
 			}
 		}
 
-		editor.commit();
+		editor.apply();
 	}
 
 	public static void setFolderSeparator(String folderSeparator) {
@@ -46,7 +46,13 @@ public class PreferencesUpdater {
 		}
 		Editor edit = BookmarkTreeContext.settings.edit();
 		edit.putInt(key, value);
-		edit.commit();
+		edit.apply();
+	}
+
+	public static void writeStringPref(String key, String value) {
+		Editor edit = BookmarkTreeContext.settings.edit();
+		edit.putString(key, value);
+		edit.apply();
 	}
 
 	public static void updateAndWrite(PrefEntryInt item, int newValue) {
@@ -60,7 +66,7 @@ public class PreferencesUpdater {
 	public static void deletePref(String key) {
 		Editor edit = BookmarkTreeContext.settings.edit();
 		edit.remove(key);
-		edit.commit();
+		edit.apply();
 	}
 
 }

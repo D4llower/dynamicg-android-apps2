@@ -68,7 +68,7 @@ public class XmlSettingsHelper {
 				catch (NumberFormatException e) {}
 			}
 		}
-		edit.commit();
+		edit.apply();
 
 		// DONE - RELOAD CACHE
 		PreferencesWrapper.afterRestore();

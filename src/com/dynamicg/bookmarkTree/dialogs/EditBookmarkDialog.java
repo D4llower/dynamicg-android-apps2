@@ -186,7 +186,7 @@ public class EditBookmarkDialog extends Dialog {
 		}
 
 		if (addToNewFolderTitle!=null && addToNewFolderTitle.length()>0) {
-			newNodeTitle = addToNewFolderTitle + ctx.getNodeConcatenation() + newNodeTitle;
+			newNodeTitle = addToNewFolderTitle + ctx.getNodeConcatenation(BookmarkTreeContext.SP_CURRENT) + newNodeTitle;
 		}
 
 		FolderBean newParentFolder = (FolderBean)parentFolderSpinner.getSelectedItem();
@@ -202,7 +202,7 @@ public class EditBookmarkDialog extends Dialog {
 			if (bookmark==NEW_BOOKMARK) {
 				if (newParentFolder!=null) {
 					// prepend the folder path
-					newNodeTitle = newParentFolder.getFullTitle() + ctx.getNodeConcatenation() + newNodeTitle;
+					newNodeTitle = newParentFolder.getFullTitle() + ctx.getNodeConcatenation(BookmarkTreeContext.SP_CURRENT) + newNodeTitle;
 				}
 				new BookmarkWriter(ctx).insert(newNodeTitle, BookmarkUtil.patchProtocol(newUrl) );
 			}

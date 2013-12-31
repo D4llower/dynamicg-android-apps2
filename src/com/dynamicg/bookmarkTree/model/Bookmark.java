@@ -112,29 +112,6 @@ public abstract class Bookmark {
 		return true;
 	}
 
-	private void shiftWithChildren(int shift) {
-		if (log.isTraceEnabled) {
-			log.debug("shiftWithChildren", this.level, getFullTitle());
-		}
-		this.level = this.level + shift;
-		if (isFolder()) {
-			for (Bookmark child:getChildren() ) {
-				child.shiftWithChildren(shift);
-			}
-		}
-	}
-
-	public void attachToGrandparent(BookmarkTreeContext ctx) {
-		// merge title with parent and attach to grandparent
-		this.setNodeTitle(parentFolder.getDisplayTitle() + ctx.getNodeConcatenation() + this.getDisplayTitle() );
-		this.setParentFolder(parentFolder.getParentFolder());
-		// patch indention on item including children
-		if (log.isDebugEnabled) {
-			log.debug("attachToGrandparent ----------> shift children", this.level, getFullTitle());
-		}
-		shiftWithChildren(-1);
-	}
-
 	private static void collectChildren(Bookmark bm, Collection<Bookmark> allChildren) {
 		if (!bm.isFolder()) {
 			return;
@@ -175,7 +152,7 @@ public abstract class Bookmark {
 		Bookmark item=this;
 		String insertText;
 		while (item!=null) {
-			insertText = item.getDisplayTitle() + ( buffer.length()>0 ? ctx.getNodeConcatenation() : "" );
+			insertText = item.getDisplayTitle() + ( buffer.length()>0 ? ctx.getNodeConcatenation(BookmarkTreeContext.SP_CURRENT) : "" );
 			buffer.insert ( 0, insertText );
 			if (log.isDebugEnabled) {
 				log.debug("prependParentTitle iteration", buffer.toString());

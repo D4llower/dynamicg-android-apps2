@@ -66,7 +66,7 @@ public class PreferencesDialog extends Dialog {
 		this.spinnerUtil = new SpinnerUtil(this);
 
 		PrefEntryInt.resetUpdatedValue();
-		currentSeparator = ctx.getFolderSeparator();
+		currentSeparator = ctx.getFolderSeparator(BookmarkTreeContext.SP_LEGACY);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
