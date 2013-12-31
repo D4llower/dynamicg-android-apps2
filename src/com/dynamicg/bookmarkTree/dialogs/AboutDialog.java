@@ -9,7 +9,6 @@ import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.backup.BackupRestoreDialog;
 import com.dynamicg.bookmarkTree.prefs.PreferencesUpdater;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
-import com.dynamicg.common.ContextUtil;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.SystemUtil;
 
@@ -31,35 +30,17 @@ public abstract class AboutDialog {
 	public static void show(final BookmarkTreeContext ctx) {
 
 		final Context context = ctx.activity;
-		final String[] appinfo = ContextUtil.getVersion(context);
 		final String apptitle = context.getString(R.string.app_name);
 
 		new SimpleAlertDialog(context, apptitle, R.string.bckCreateBackup, R.string.commonClose) {
 			@Override
 			public View getBody() {
 				View body = SystemUtil.getLayoutInflater(context).inflate(R.layout.about, null);
-
-				String txtOpenSource = "\nThis app is open source:"
+				String label = "\nThis app is open source:"
 						+ "\nhttps://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree"
 						+ "\n";
-				String txtAuthor = "\nProgrammed by "+AUTHOR
-						+ "\nVersion: " + (appinfo[0])
-						+ "\nSVN Revision: " + (appinfo[1])
-						+ "\n"
-						;
-
-				String revisionText = txtOpenSource + txtAuthor;
 				TextView revisionItem = (TextView)body.findViewById(R.id.aboutBodyLinks);
-				revisionItem.setText(revisionText);
-
-				//				View backupHint = body.findViewById(R.id.aboutBackupHint);
-				//				backupHint.setOnClickListener(new View.OnClickListener() {
-				//					@Override
-				//					public void onClick(View v) {
-				//						new BackupRestoreDialog(ctx);
-				//					}
-				//				});
-
+				revisionItem.setText(label);
 				return body;
 			}
 

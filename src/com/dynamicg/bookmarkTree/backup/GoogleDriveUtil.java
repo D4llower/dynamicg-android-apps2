@@ -25,12 +25,13 @@ public class GoogleDriveUtil {
 	public static final String PLUGIN_APP = "com.dynamicg.timerec.plugin3";
 	private static final String PLUGIN_ACTIVITY = "com.dynamicg.timerec.plugin3.gdrive.FileProviderActivity";
 
-	private static Intent getBaseIntent(int requestCode) {
+	private static Intent getBaseIntent(Context context, int requestCode) {
 		ComponentName component = new ComponentName(PLUGIN_APP, PLUGIN_ACTIVITY);
 		Intent intent = new Intent();
 		intent.setComponent(component);
 		intent.putExtra(GoogleDriveGlobals.KEY_APP_INSTANCE, "F"); // F=free see com.dynamicg.timerecording.util.GoogleDriveUtil.setIntentBasics(Intent, int)
 		intent.putExtra(GoogleDriveGlobals.KEY_REQUEST_CODE, requestCode);
+		intent.putExtra(GoogleDriveGlobals.KEY_APP_NAME, context.getString(R.string.app_name));
 		return intent;
 	}
 
@@ -41,7 +42,7 @@ public class GoogleDriveUtil {
 		if (file==null) {
 			return;
 		}
-		Intent intent = getBaseIntent(requestCode);
+		Intent intent = getBaseIntent(context, requestCode);
 		intent.putExtra(GoogleDriveGlobals.KEY_FNAME_ABS, file.getAbsolutePath());
 
 		try {
@@ -59,7 +60,7 @@ public class GoogleDriveUtil {
 
 		final int requestCode = GoogleDriveGlobals.ACTION_RESTORE;
 
-		Intent intent = getBaseIntent(requestCode);
+		Intent intent = getBaseIntent(context, requestCode);
 		intent.putExtra(GoogleDriveGlobals.KEY_FNAME_DRIVE, BackupManager.GOOGLE_DRIVE_FILE_NAME);
 		intent.putExtra(GoogleDriveGlobals.KEY_FNAME_LOCAL, BackupManager.GOOGLE_DRIVE_FILE_NAME);
 
