@@ -24,6 +24,12 @@ public class ChromeWrapperKK extends ChromeWrapper {
 
 	public ChromeWrapperKK(Context context) {
 		this.prefs = context.getSharedPreferences("dynamicg.bmTitles", Context.MODE_PRIVATE);
+
+		// FOR DEBUGGING:
+		Editor edit = prefs.edit();
+		edit.clear();
+		edit.commit();
+
 		if (log.isDebugEnabled) {
 			log.debug("number of local prefs", prefs.getAll().size());
 		}
@@ -33,8 +39,8 @@ public class ChromeWrapperKK extends ChromeWrapper {
 		final String separatorLegacy;
 		final String separatorKK;
 		MigrationHelper(BookmarkTreeContext ctx) {
-			separatorLegacy = ctx.getFolderSeparator(BookmarkTreeContext.SP_LEGACY);
-			separatorKK = ctx.getFolderSeparator(BookmarkTreeContext.SP_CURRENT);
+			separatorLegacy = ctx.getNodeConcatenation(BookmarkTreeContext.SP_LEGACY);
+			separatorKK = ctx.getNodeConcatenation(BookmarkTreeContext.SP_CURRENT);
 		}
 		String getNewTitle(BrowserBookmarkBean bean) {
 			return bean.fullTitle.replace(separatorLegacy, separatorKK);
@@ -46,7 +52,7 @@ public class ChromeWrapperKK extends ChromeWrapper {
 	public void bmLoadStart(BookmarkTreeContext ctx) {
 		loaderEdit = prefs.edit();
 		if (kkMigrationPending()) {
-			this.migrationHelper = new MigrationHelper(null); // TODO
+			this.migrationHelper = new MigrationHelper(ctx);
 		}
 		else {
 			this.migrationHelper = null;
@@ -59,15 +65,16 @@ public class ChromeWrapperKK extends ChromeWrapper {
 		if (prefs.contains(key)) {
 			bean.fullTitle = prefs.getString(key, bean.fullTitle);
 		}
+		else if (migrationHelper!=null) {
+			// first run on KK after upgrade
+			log.debug("MIGRATION", bean.fullTitle, migrationHelper.getNewTitle(bean));
+			String migratedTitle = migrationHelper.getNewTitle(bean);
+			loaderEdit.putString(key, migratedTitle);
+			bean.fullTitle = migratedTitle;
+		}
 		else {
-			// new entry
-			if (migrationHelper!=null) {
-				log.debug("MIGRATION", bean.fullTitle, migrationHelper.getNewTitle(bean));
-				loaderEdit.putString(key, migrationHelper.getNewTitle(bean));
-			}
-			else {
-				loaderEdit.putString(key, bean.fullTitle);
-			}
+			// new bookmark
+			loaderEdit.putString(key, bean.fullTitle);
 		}
 	}
 
