@@ -1,5 +1,0 @@
--- apk dir
-http://dynamicg-android-apps2.googlecode.com/svn/trunk/apk/HomeButtonLauncher/
-
--- src
-https://dynamicg-android-apps2.googlecode.com/svn/trunk/HomeButtonLauncher/

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string name="app_name">Bookmark Folders</string>
+    
+    <string name="menuExpandAll">Expand all</string>
+    <string name="menuCollapseAll">Collapse all</string>
+    <string name="menuReload">Reload</string>
+    <string name="menuPrefs">Preferences</string>
+
+    <string name="commonOK">OK</string>
+    <string name="commonSave">Save</string>
+    <string name="commonCancel">Cancel</string>
+    <string name="commonEditFolder">Edit folder</string>
+    <string name="commonEditBookmark">Edit bookmark</string>
+    <string name="commonNewBookmark">New bookmark</string>
+    <string name="commonPleaseWait">Please wait \u2026</string>
+    <string name="commonClose">Close</string>
+    <string name="commonCreate">Create</string>
+    <string name="commonCreateShortcut">Create shortcut</string>
+    <string name="commonAbout">About</string>
+    
+    <string name="prefsHintRestart">\u2192 Restart app when changed.</string>
+    <string name="prefsListStyle">List style:</string>
+    <string name="prefsSortLabel">Sort:</string>
+    <string name="prefsSortAlphaTitle">Sort bookmarks A-Z</string>
+    <string name="prefsSortAlphaHint">\u2192 This will sort the bookmarks A-Z for usage within the browser</string>
+    <string name="prefsSeparator">Folder separator:</string>
+    <string name="prefsUpdateWithNewSep">Update all bookmarks\nwith new separator</string>
+    <string name="prefsSortCaseInsensitive">Case insensitive sort</string>
+    <string name="prefsLinkToMarket">Please rate the app</string>
+    <string name="prefsLinkDonationApp">Link to Donation App</string>
+    <string name="prefsIconScaling">Icon\nscaling:</string>
+    <string name="prefsIconScalingHint">\u2192 second value is for small icons</string>
+
+    <string name="prefsGroupLayout">Layout</string>
+    <string name="prefsGroupToolsAndSetup">Tools &amp; Setup</string>
+    <string name="prefsGroupPresentation">Presentation</string>
+    <string name="prefsGroupSetup">App setup</string>
+    <string name="prefsGroupTools">Tools</string>
+    
+    <string name="prefsGroupColors">Text colors (tap to change)</string>
+    <string name="prefsColorFolder">Folder title</string>
+    <string name="prefsColorBookmarkTitle">Bookmark title</string>
+    <string name="prefsColorBookmarkUrl">Bookmark address</string>
+    
+    <string name="editTitle">Title:</string>
+    <string name="editUrl">URL:</string>
+    <string name="editParentFolder">Parent folder:</string>
+    <string name="editAddToNewFolder">Add to new folder:</string>
+    <string name="editLinkDeleteFolder">Delete folder</string>
+    <string name="editLinkDeleteBookmark">Delete bookmark</string>
+
+    <string name="actionDeleteBookmark">Delete this bookmark?</string>
+    <string name="actionDeleteFolderOne">Delete this folder?</string>
+    <string name="actionDeleteFolderMany">Delete this folder with all {1} bookmarks?</string>
+    <string name="actionSortBookmarksConfirm">Sort browser bookmarks?</string>
+    <string name="actionSortBookmarksDone">Bookmark sort done</string>
+
+    <string name="domainListStyleLarge">Large font</string>
+    <string name="domainListStyleMedium">Medium font, 18sp</string>
+    <string name="domainListStyleSmall">Medium font, 16sp</string>
+    <string name="domainSortAlphaOverall">Alpha overall</string>
+    <string name="domainSortFoldersFirst">Folders first</string>
+    <string name="domainSortBookmarksFirst">Bookmarks first</string>
+    
+    <string name="hintEmptyUrl">URL is empty. Cannot open.</string>
+    <string name="hintTitleMissing">Title is empty. Cannot save.</string>
+    <string name="hintUrlMissing">URL is empty. Cannot save.</string>
+    <string name="hintReloaded">Reloaded {1} bookmarks</string>
+	<string name="titleColorPicker">Choose color</string>
+	<string name="hintRestartApp">Please restart the app</string>
+
+    <string name="shortcutIconScale">Icon scaling</string>
+    <string name="shortcutIconPreviewLabel">Icon preview:</string>
+    <string name="shortcutBackgroundColor">Background color</string>
+    
+    <string name="bckBackup">Backup to SD Card</string>
+    <string name="bckCreateBackup">Create backup</string>
+    <string name="bckRestoreSelection">Restore from SD Card</string>
+	<string name="hintAutoBackupEnabled">Auto backup enabled</string>
+	<string name="hintAutoBackupDisabled">Auto backup disabled</string>
+    
+	<string name="brDialogTitle">Backup &amp; restore</string>
+	<string name="brRestoreConfirmation">Restore bookmarks?</string>
+	<string name="brSelectedFileLabel">Selected file:\n{1}</string>
+	<string name="brProgressCreateBackup">Creating backup \u2026</string>
+	<string name="brHintBackupCreated">Backup file created with {2} bookmarks:\n{1}</string>
+	<string name="brProgressRestoreBookmarks">Restoring bookmarks (step {1}/5) \u2026</string>
+	<string name="brHintBookmarksRestored">Restore done, imported {1} bookmarks</string>
+	<string name="brNoFilesForRestore">\u2192 No backup files available</string>
+	<string name="brStorageHint">\u2192 Backup files are stored here:</string>
+	<string name="brDeleteOld">Delete backups >{1} days</string>
+	<string name="brDeleteAll">Delete all backups</string>
+	<string name="brAutoBackupLabel">Auto backup every x days:</string>
+	<string name="brDeleteOldGrp">Admin</string>
+	<string name="brDeleteOldBackups">Delete old backups</string>
+	<string name="commonNone">None</string>
+			
+	<string name="sdcardErrorTitle">SD Card access error</string>
+	<string name="sdcardErrorDirReadOnly">Directory {1} is read only</string>
+	<string name="sdcardErrorDirCreateFailed">Could not create backup directory:\n{1}</string>
+	<string name="sdcardErrorDirMissing">Backup directory does not exist:\n{1}</string>
+	<string name="sdcardErrorNotAvailable">SD Card is not available.\nCurrent state is \'{1}\'</string>
+	
+	<string name="aboutUsage">\nBasic Usage:
+\n\u2022 Long-click to edit selected item and define the folder structure.
+\n\u2022 Short-click on bookmark to open link.
+\n\u2022 Short-click on folder to expand/collapse.
+\n\u2022 Menu/Preferences for advanced settings
+</string>
+	<string name="aboutDoBackup">\u2022 Back up your bookmarks before first edit! See Menu/Backup.</string>
+	
+	<string name="prefsSeparatorHint">\u2192 The \'Folder separator\' splits the browser bookmarks title into folders and links.
+\n\u2192 Sample: With separator \'-\', the original bookmark \'A - B - C\' will become folder \'A\', subfolder \'B\' and link \'C\'.
+\n\u2192 Also see Menu/Internal bookmarks
+</string>
+	
+	<string name="googleDrive">Google Drive</string>
+	<string name="driveBackup">Backup to Google Drive</string>
+	<string name="driveRestore">Restore from Google Drive</string>
+	
+	<string name="missingAppTitle">Missing App</string>
+	<string name="missingAppBody">Plugin required. Click here to install.</string>
+
+    <string name="largeFileTitle">Large backup file</string>
+    <string name="largeFileBody">Caution: File size is {1} MB. Continue?</string>
+    <string name="confirmImportSettings">Restore settings?</string>
+    <string name="buttonYes">Yes</string>
+    <string name="buttonNo">No</string>
+    
+</resources>
