@@ -11,6 +11,7 @@ import com.dynamicg.bookmarkTree.backup.BackupPrefs;
 import com.dynamicg.bookmarkTree.backup.BackupRestoreCloudHelper;
 import com.dynamicg.bookmarkTree.backup.BackupRestoreDialog;
 import com.dynamicg.bookmarkTree.backup.GoogleDriveGlobals;
+import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
 import com.dynamicg.bookmarkTree.dialogs.EditBookmarkDialog;
 import com.dynamicg.bookmarkTree.prefs.PreferencesDialog;
@@ -54,6 +55,7 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		try {
 			setContentView(R.layout.main);
+			ChromeWrapper.init(this);
 			this.ctx = new BookmarkTreeContext(this);
 			BackupPrefs.onStartup(ctx);
 			AboutDialog.showOnce(ctx, false); // for debugging

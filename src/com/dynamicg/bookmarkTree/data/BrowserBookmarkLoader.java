@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.provider.Browser;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
+import com.dynamicg.bookmarkTree.chrome.ChromeWrapper;
 import com.dynamicg.bookmarkTree.data.writer.UriProvider;
 import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.bookmarkTree.model.RawDataBean;
@@ -20,34 +21,36 @@ public class BrowserBookmarkLoader {
 	private static final Logger log = new Logger(BrowserBookmarkLoader.class);
 
 	private static final int FOR_DISPLAY = 1;
-	private static final int FOR_INTERNAL_OP = 2;
+	private static final int FOR_INTERNAL_OP = 2; // only for pre KK "change separator"
 	private static final int FOR_BACKUP = 3;
-	
+
 	private static String EMPTY = "";
-	
+
 	private static final String SORT_STD = Browser.BookmarkColumns.TITLE;
 	private static final String SORT_CASE_INSENSITIVE = Browser.BookmarkColumns.TITLE+" COLLATE NOCASE";
-	
+
 	private static String nvl(String value) {
 		// mask nulls - we got one error report with an NPE on bookmark title (?)
 		return value==null?EMPTY:value;
 	}
-	
+
 	public static ArrayList<BrowserBookmarkBean> forListAdapter(BookmarkTreeContext ctx) {
 		return readBrowserBookmarks(ctx.activity, FOR_DISPLAY);
 	}
-	
+
 	public static ArrayList<RawDataBean> forInternalOps(BookmarkTreeContext ctx) {
 		return readBrowserBookmarks(ctx.activity, FOR_INTERNAL_OP);
 	}
-	
+
 	public static ArrayList<RawDataBean> forBackup(BookmarkTreeContext ctx) {
 		return readBrowserBookmarks(ctx.activity, FOR_BACKUP);
 	}
-	
+
 	private static <E> ArrayList<E> readBrowserBookmarks(Activity main, int what) {
+		ChromeWrapper chromeWrapper = ChromeWrapper.getInstance();
+		chromeWrapper.loaderStart();
 		try {
-			return readBrowserBookmarksImpl(main, what);
+			return readBrowserBookmarksImpl(main, what, chromeWrapper);
 		}
 		catch (Throwable t) {
 			if (what==FOR_BACKUP) {
@@ -58,10 +61,13 @@ public class BrowserBookmarkLoader {
 			ErrorNotification.notifyError(main, "Cannot read bookmarks", t);
 			return new ArrayList<E>();
 		}
+		finally {
+			chromeWrapper.loaderDone();
+		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private static <E> ArrayList<E> readBrowserBookmarksImpl(Activity main, int what) {
+	private static <E> ArrayList<E> readBrowserBookmarksImpl(Activity main, int what, ChromeWrapper chromeWrapper) {
 
 		String[] columns = new String[] {
 				Browser.BookmarkColumns._ID
@@ -70,27 +76,27 @@ public class BrowserBookmarkLoader {
 				, Browser.BookmarkColumns.URL
 				, Browser.BookmarkColumns.FAVICON
 		};
-		
+
 		// query on bookmarks only, skip history
-		String query = Browser.BookmarkColumns.BOOKMARK+"=1"; 
-		
+		String query = Browser.BookmarkColumns.BOOKMARK+"=1";
+
 		// order by, optionally case-insensitive
 		String sortOrder = PreferencesWrapper.sortCaseInsensitive.isOn() ? SORT_CASE_INSENSITIVE : SORT_STD;
-		
+
 		Cursor crs = main.managedQuery ( UriProvider.QUERY
 				, columns
 				, query
 				, null
 				, sortOrder
-		);
+				);
 
 		ArrayList<E> rows = new ArrayList<E>();
-		
+
 		// see error report "Aug 13, 2010 10:19:37 PM"
 		if (crs==null) {
 			return rows;
 		}
-		
+
 		if (what==FOR_BACKUP || what==FOR_INTERNAL_OP) {
 			RawDataBean bean;
 			while ( crs.moveToNext() ) {
@@ -100,7 +106,7 @@ public class BrowserBookmarkLoader {
 				bean.fullTitle = nvl(crs.getString(2));
 				bean.url = nvl(crs.getString(3));
 				bean.favicon = crs.getBlob(4);
-				
+
 				rows.add((E)bean);
 				if (log.isTraceEnabled) {
 					log.debug("loadBrowserBookmarks", bean.fullTitle, bean.url, bean.created);
@@ -111,10 +117,11 @@ public class BrowserBookmarkLoader {
 			// display
 			BrowserBookmarkBean bean;
 			while ( crs.moveToNext() ) {
-				bean = new BrowserBookmarkBean(); 
+				bean = new BrowserBookmarkBean();
 				bean.id = crs.getInt(0);
 				bean.fullTitle = nvl(crs.getString(2));
 				bean.url = nvl(crs.getString(3));
+				chromeWrapper.loaderProcess(bean);
 				if (what==FOR_DISPLAY) {
 					try {
 						bean.favicon = BitmapScaleManager.getIcon(crs.getBlob(4));
@@ -123,26 +130,26 @@ public class BrowserBookmarkLoader {
 						// ignore, leave icon empty (got the occasional report ... maybe some very large favicon?)
 					}
 				}
-				
+
 				rows.add((E)bean);
 				if (log.isTraceEnabled) {
 					log.debug("loadBrowserBookmarks", bean.id, bean.fullTitle, bean.url);
 				}
 			}
 		}
-		
+
 		/*
 		 * we don't close the cursor, this will hopefully solve this one:
 		 * java.lang.RuntimeException: Unable to resume activity {com.dynamicg.bookmarkTree/com.dynamicg.bookmarkTree.Main}: java.lang.IllegalStateException: trying to requery an already closed cursor
 		 * 
 		 * if this does not work we should change from "managedQuery" to ContentResolver
 		 */
-//		if (!crs.isClosed()) {
-//			crs.close();
-//		}
-		
-		
+		//		if (!crs.isClosed()) {
+		//			crs.close();
+		//		}
+
+
 		return rows;
 	}
-	
+
 }

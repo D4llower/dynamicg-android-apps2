@@ -11,28 +11,29 @@ public class FolderBean extends Bookmark {
 	static {
 		ROOT = new FolderBean("<no folder>","",-1);
 	}
-	
+
 	private String fullTitle;
 	private boolean expanded = false;
 	private ArrayList<Bookmark> children = new ArrayList<Bookmark>();
-	
+
 	public FolderBean(String fullTitle, String nodeTitle, int level) {
 		super(nodeTitle, level);
 		this.fullTitle = fullTitle;
 	}
-	
+
+	@Override
 	public String toString() {
 		return fullTitle; // for Spinner
 	}
-	
+
 	public void addChild(Bookmark child) {
 		children.add(child);
 	}
-	
+
 	public void removeChild(Bookmark child) {
 		children.remove(child);
 	}
-	
+
 	@Override
 	public Bitmap getFavicon() {
 		return null; // icon is hardcoded in layout
@@ -56,12 +57,13 @@ public class FolderBean extends Bookmark {
 	public String getFullTitle() {
 		return fullTitle;
 	}
-	
+
 	@Override
-	public Integer getId() {
+	public int getId() {
 		throw new UnsupportedOperationException();
 	}
-	
+
+	@Override
 	public Collection<Bookmark> getChildren() {
 		return children;
 	}

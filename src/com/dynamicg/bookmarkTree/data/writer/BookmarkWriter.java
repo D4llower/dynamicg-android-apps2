@@ -10,7 +10,7 @@ import com.dynamicg.common.Logger;
 public class BookmarkWriter extends BookmarkWriterA {
 
 	private static final Logger log = new Logger(BookmarkWriter.class);
-	
+
 	private final ContentValues values = new ContentValues();
 
 	public BookmarkWriter(BookmarkTreeContext ctx) {
@@ -18,7 +18,7 @@ public class BookmarkWriter extends BookmarkWriterA {
 	}
 
 	private void doUpdate(Integer bookmarkId) {
-		
+
 		if (log.isDebugEnabled) {
 			log.debug("doUpdate ...", bookmarkId, values);
 		}
@@ -26,12 +26,12 @@ public class BookmarkWriter extends BookmarkWriterA {
 				, values
 				, Browser.BookmarkColumns._ID+"=?"
 				, new String[]{Integer.toString(bookmarkId)}
-		);
+				);
 		if (log.isDebugEnabled) {
 			log.debug("doUpdate done", result);
 		}
 	}
-	
+
 	public void updateTitle(Integer bookmarkId, String title) {
 		values.put(Browser.BookmarkColumns.TITLE, title);
 		doUpdate(bookmarkId);
@@ -42,7 +42,7 @@ public class BookmarkWriter extends BookmarkWriterA {
 		values.put(Browser.BookmarkColumns.URL, url);
 		doUpdate(bookmarkId);
 	}
-	
+
 	public void insert(String title, String url) {
 		if (log.isDebugEnabled) {
 			log.debug("create bookmark", title, url);
@@ -55,7 +55,7 @@ public class BookmarkWriter extends BookmarkWriterA {
 			log.debug("row created", result);
 		}
 	}
-	
+
 	public void deleteBrowserBookmark(Integer id) {
 		if (log.isDebugEnabled) {
 			log.debug("delete bookmark", id);
@@ -65,5 +65,5 @@ public class BookmarkWriter extends BookmarkWriterA {
 				, new String[]{Integer.toString(id)}
 				);
 	}
-	
+
 }

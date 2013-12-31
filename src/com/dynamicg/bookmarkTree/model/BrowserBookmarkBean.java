@@ -6,15 +6,15 @@ import android.graphics.Bitmap;
 
 public class BrowserBookmarkBean extends Bookmark {
 
-	public Integer id;
+	public int id;
 	public String fullTitle;
 	public String url;
 	public Bitmap favicon;
-	
+
 	public BrowserBookmarkBean() {
 		super();
 	}
-	
+
 	public static BrowserBookmarkBean createNew() {
 		BrowserBookmarkBean bean = new BrowserBookmarkBean();
 		bean.id = -1;
@@ -23,18 +23,22 @@ public class BrowserBookmarkBean extends Bookmark {
 		return bean;
 	}
 
+	@Override
 	public String toString() {
 		return fullTitle + " {B}"; // for debug
 	}
-	
-	public Integer getId() {
+
+	@Override
+	public int getId() {
 		return id;
 	}
 
+	@Override
 	public String getFullTitle() {
 		return fullTitle;
 	}
 
+	@Override
 	public String getUrl() {
 		return url;
 	}
@@ -42,6 +46,7 @@ public class BrowserBookmarkBean extends Bookmark {
 		this.url = url;
 	}
 
+	@Override
 	public Bitmap getFavicon() {
 		return favicon;
 	}
@@ -65,5 +70,5 @@ public class BrowserBookmarkBean extends Bookmark {
 	public int getBookmarkType() {
 		return TYPE_BROWSER_BOOKMARK;
 	}
-	
+
 }
