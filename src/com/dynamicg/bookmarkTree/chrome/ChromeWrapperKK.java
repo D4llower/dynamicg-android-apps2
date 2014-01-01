@@ -11,6 +11,7 @@ import com.dynamicg.common.Logger;
 
 /*
  * TODO: set 19 as minSdk on production roll out
+ * TODO: add as new project to trunk - https://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTreeKK
  */
 public class ChromeWrapperKK extends ChromeWrapper {
 

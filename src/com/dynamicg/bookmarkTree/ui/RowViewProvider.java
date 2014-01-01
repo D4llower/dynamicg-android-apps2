@@ -1,5 +1,6 @@
 package com.dynamicg.bookmarkTree.ui;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import com.dynamicg.common.Logger;
 public abstract class RowViewProvider {
 
 	private static final Logger log = new Logger(RowViewProvider.class);
-	private static final int childLevelIndention = 32;
 
 	public final LayoutInflater inflater;
 	public final boolean listStyleMedium;
@@ -48,12 +48,14 @@ public abstract class RowViewProvider {
 	public static class ProviderModern extends RowViewProvider {
 
 		private final int layoutId;
+		private final int childLevelIndention;
 
-		public ProviderModern(LayoutInflater inflater) {
+		public ProviderModern(Context context, LayoutInflater inflater) {
 			super(inflater);
 			this.layoutId = listStyleSmall ? R.layout.list_row_style_small
 					: listStyleMedium ? R.layout.list_row_style_medium
 							: R.layout.list_row_style_large;
+			this.childLevelIndention = (int)context.getResources().getDimension(R.dimen.childLevelIndention);
 		}
 
 		private void prepare(ViewHolder holder, Bookmark bm) {

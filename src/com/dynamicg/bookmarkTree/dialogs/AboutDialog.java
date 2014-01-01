@@ -37,7 +37,7 @@ public abstract class AboutDialog {
 			public View getBody() {
 				View body = SystemUtil.getLayoutInflater(context).inflate(R.layout.about, null);
 				String label = "\nThis app is open source:"
-						+ "\nhttps://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTree"
+						+ "\nhttps://dynamicg-android-apps2.googlecode.com/svn/trunk/BookmarkTreeKK"
 						+ "\n";
 				TextView revisionItem = (TextView)body.findViewById(R.id.aboutBodyLinks);
 				revisionItem.setText(label);

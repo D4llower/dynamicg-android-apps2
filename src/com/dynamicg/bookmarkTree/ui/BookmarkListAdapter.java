@@ -24,38 +24,38 @@ import com.dynamicg.common.SystemUtil;
 public class BookmarkListAdapter extends BaseAdapter {
 
 	private static final Logger log = new Logger(BookmarkListAdapter.class);
-	
+
 	private final BookmarkTreeContext ctx;
 	private final ListView listview;
 	private final LayoutInflater layoutInflater;
-	
+
 	private ArrayList<Bookmark> bookmarks;
 	private RowViewProvider rowViewProvider;
 
 	public BookmarkListAdapter(BookmarkTreeContext ctx) {
 		this.ctx = ctx;
 		this.layoutInflater = SystemUtil.getLayoutInflater(ctx.activity);
-		
-		this.rowViewProvider = new RowViewProvider.ProviderModern(layoutInflater);
-		
+
+		this.rowViewProvider = new RowViewProvider.ProviderModern(ctx.activity, layoutInflater);
+
 		this.listview = (ListView)ctx.activity.findViewById(R.id.mainList);
-		
+
 		// prepare rounded white bg image
 		FaviconImageView.setBackground(ctx.activity.getResources());
-		
+
 		updateBookmarkList();
 		listview.setAdapter(this);
-		
+
 		// do *not* handle the "click" events on the individual view items
 		// see http://www.mail-archive.com/android-developers@googlegroups.com/msg28348.html
-		
+
 		listview.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				itemClicked(position);
 			}
 		});
-		
+
 		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,34 +63,35 @@ public class BookmarkListAdapter extends BaseAdapter {
 			}
 		});
 		listview.setLongClickable(true);
-		
-		
+
+
 		// FOR TESTING:
-//		Bookmark b = bookmarks.get(bookmarks.size()-1);
-//    	new EditBookmarkDialog(ctx, b);
-		
+		//		Bookmark b = bookmarks.get(bookmarks.size()-1);
+		//    	new EditBookmarkDialog(ctx, b);
+
 	}
-	
+
+	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		return rowViewProvider.getView ( bookmarks.get(position), convertView, parent);
-		
+
 	}
-	
+
 	@Override
 	public long getItemId(int position) {
 		return position;
 	}
-	
+
 	@Override
 	public Object getItem(int position) {
 		return bookmarks.get(position);
 	}
-	
+
 	@Override
 	public int getCount() {
 		return bookmarks.size();
 	}
-	
+
 	private void itemClicked(int position) {
 		Bookmark bm = bookmarks.get(position);
 		if (bm==null) {
@@ -98,13 +99,13 @@ public class BookmarkListAdapter extends BaseAdapter {
 		}
 		else if (bm.isFolder()) {
 			bm.setExpanded(!bm.isExpanded());
-			
-//			if (bm.isExpanded() && position==bookmarks.size()-1) {
-//				listview.scrollBy(0, 15);
-//			}
+
+			//			if (bm.isExpanded() && position==bookmarks.size()-1) {
+			//				listview.scrollBy(0, 15);
+			//			}
 			// this does not properly work - display is shifted but internally click events get routed to the "original item" at that position
 			// also, content below that item is not drawn
-			
+
 			redraw();
 			if (PreferencesWrapper.isKeepState) {
 				FolderStateHandler.folderClicked(bm);
@@ -114,7 +115,7 @@ public class BookmarkListAdapter extends BaseAdapter {
 			new UrlOpener(ctx, bm.getUrl());
 		}
 	}
-	
+
 	private boolean itemLongClicked(int position) {
 		Bookmark bm = bookmarks.get(position);
 		if (bm==null) {
@@ -126,22 +127,22 @@ public class BookmarkListAdapter extends BaseAdapter {
 			return true;
 		}
 	}
-	
+
 	private void updateBookmarkList() {
 		bookmarks = ctx.bookmarkManager.getPresentationList();
 	}
-	
+
 	// called by click event and via menu actions
 	public void redraw() {
 		rowViewProvider.beforeRedraw();
 		updateBookmarkList();
-//		if (rowViewProvider!=null) {
-//			rowViewProvider.compact = ctx.preferencesWrapper.isCompact();
-//		}
+		//		if (rowViewProvider!=null) {
+		//			rowViewProvider.compact = ctx.preferencesWrapper.isCompact();
+		//		}
 		// => does not work with 2.0++ due to convert view caching
-		
+
 		// force repaint
 		listview.invalidateViews();
 	}
-	
+
 }

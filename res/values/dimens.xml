@@ -8,4 +8,5 @@
 	<dimen name="faviconSize">32dp</dimen>
 	<dimen name="cornerRadiusFavicon">3dp</dimen>
 	<dimen name="cornerRadiusShortcut">4dp</dimen>
+	<dimen name="childLevelIndention">20dp</dimen>
 </resources>

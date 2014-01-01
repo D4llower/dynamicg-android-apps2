@@ -15,7 +15,7 @@ public class BackupPrefs {
 	public static final int BCK_10 = 2;
 	public static final int BCK_20 = 1;
 
-	private static final String KEY_LAST_BACKUP = "backup.last";
+	public static final String KEY_LAST_BACKUP = "backup.last";
 	private static final String KEY_AUTO_BACKUP = "backup.auto";
 
 	private static final SharedPreferences settings = BookmarkTreeContext.settings;
