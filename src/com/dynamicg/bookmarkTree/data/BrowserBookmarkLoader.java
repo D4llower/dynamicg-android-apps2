@@ -1,6 +1,9 @@
 package com.dynamicg.bookmarkTree.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -34,19 +37,19 @@ public class BrowserBookmarkLoader {
 		return value==null?EMPTY:value;
 	}
 
-	public static ArrayList<BrowserBookmarkBean> forListAdapter(BookmarkTreeContext ctx) {
+	public static List<BrowserBookmarkBean> forListAdapter(BookmarkTreeContext ctx) {
 		return readBrowserBookmarks(ctx, FOR_DISPLAY);
 	}
 
-	public static ArrayList<RawDataBean> forInternalOps(BookmarkTreeContext ctx) {
+	public static List<RawDataBean> forInternalOps(BookmarkTreeContext ctx) {
 		return readBrowserBookmarks(ctx, FOR_INTERNAL_OP);
 	}
 
-	public static ArrayList<RawDataBean> forBackup(BookmarkTreeContext ctx) {
+	public static List<RawDataBean> forBackup(BookmarkTreeContext ctx) {
 		return readBrowserBookmarks(ctx, FOR_BACKUP);
 	}
 
-	private static <E> ArrayList<E> readBrowserBookmarks(BookmarkTreeContext ctx, int what) {
+	private static <E> List<E> readBrowserBookmarks(BookmarkTreeContext ctx, int what) {
 		ChromeWrapper chromeWrapper = ChromeWrapper.getInstance();
 		chromeWrapper.bmLoadStart(ctx);
 		try {
@@ -81,7 +84,7 @@ public class BrowserBookmarkLoader {
 		String query = Browser.BookmarkColumns.BOOKMARK+"=1";
 
 		// order by, optionally case-insensitive
-		String sortOrder = PreferencesWrapper.sortCaseInsensitive.isOn() ? SORT_CASE_INSENSITIVE : SORT_STD;
+		String sortOrder = ChromeWrapper.isKitKat() ? null : PreferencesWrapper.sortCaseInsensitive.isOn() ? SORT_CASE_INSENSITIVE : SORT_STD;
 
 		Cursor crs = main.managedQuery ( UriProvider.QUERY
 				, columns
@@ -136,6 +139,9 @@ public class BrowserBookmarkLoader {
 					log.debug("loadBrowserBookmarks", bean.id, bean.fullTitle, bean.url);
 				}
 			}
+			if (ChromeWrapper.isKitKat()) {
+				kkSort((List<BrowserBookmarkBean>)rows, PreferencesWrapper.sortCaseInsensitive.isOn());
+			}
 		}
 
 		/*
@@ -150,6 +156,19 @@ public class BrowserBookmarkLoader {
 
 
 		return rows;
+	}
+
+	private static void kkSort(final List<BrowserBookmarkBean> rows, final boolean sortCaseInsensitive) {
+		Comparator<BrowserBookmarkBean> comparator = new Comparator<BrowserBookmarkBean>() {
+			@Override
+			public int compare(BrowserBookmarkBean lhs, BrowserBookmarkBean rhs) {
+				if (sortCaseInsensitive) {
+					return lhs.fullTitle.compareToIgnoreCase(rhs.fullTitle);
+				}
+				return lhs.fullTitle.compareTo(rhs.fullTitle);
+			}
+		};
+		Collections.sort(rows, comparator);
 	}
 
 }

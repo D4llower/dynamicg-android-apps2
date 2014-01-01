@@ -2,6 +2,7 @@ package com.dynamicg.bookmarkTree.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.dynamicg.bookmarkTree.BookmarkTreeContext;
 import com.dynamicg.bookmarkTree.data.TitleTokenizer.TitleItem;
@@ -25,7 +26,7 @@ public class BookmarkDataProcessor {
 		if (log.isDebugEnabled) {
 			log.debug("start");
 		}
-		ArrayList<BrowserBookmarkBean> rows = BrowserBookmarkLoader.forListAdapter(ctx);
+		List<BrowserBookmarkBean> rows = BrowserBookmarkLoader.forListAdapter(ctx);
 		numBrowserBookmarks = rows.size();
 		buildTree(rows);
 	}
@@ -34,7 +35,7 @@ public class BookmarkDataProcessor {
 		return bookmarkSortCache.getList();
 	}
 
-	private void buildTree(ArrayList<BrowserBookmarkBean> rows) {
+	private void buildTree(List<BrowserBookmarkBean> rows) {
 		String bookmarkTitle;
 		FolderBean currentParent;
 		int currentLevel;

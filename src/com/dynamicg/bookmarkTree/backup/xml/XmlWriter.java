@@ -3,7 +3,7 @@ package com.dynamicg.bookmarkTree.backup.xml;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
 import org.xmlpull.v1.XmlSerializer;
@@ -26,7 +26,7 @@ public class XmlWriter {
 	private final OutputStream fileos;
 	private final XmlSerializer serializer;
 
-	public XmlWriter(File xmlfile, ArrayList<RawDataBean> bookmarks, boolean useGZ)
+	public XmlWriter(File xmlfile, List<RawDataBean> bookmarks, boolean useGZ)
 			throws Exception {
 		if (useGZ) {
 			fileos = new GZIPOutputStream(new FileOutputStream(xmlfile));
@@ -105,7 +105,7 @@ public class XmlWriter {
 	}
 
 
-	private void writeXmlFile(ArrayList<RawDataBean> bookmarks)
+	private void writeXmlFile(List<RawDataBean> bookmarks)
 			throws Exception {
 
 		serializer.startTag(null, Tags.BODY);
