@@ -2,6 +2,8 @@ package com.dynamicg.bookmarkTree.backup.xml;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -11,6 +13,7 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.dynamicg.bookmarkTree.backup.BackupPrefs;
 import com.dynamicg.bookmarkTree.prefs.PreferencesWrapper;
 import com.dynamicg.common.Logger;
 
@@ -20,6 +23,8 @@ public class XmlSettingsHelper {
 
 	private static final String TYPE_STRING = "String";
 	private static final String TYPE_INTEGER = "Integer";
+
+	private static List<String> SKIPPED_SETTINGS = Arrays.asList(BackupPrefs.KEY_LAST_BACKUP);
 
 	public static void writeSettings(SharedPreferences sharedPreferences, XmlSerializer serializer, String valuesTag)
 			throws IOException {
@@ -46,8 +51,11 @@ public class XmlSettingsHelper {
 		entry.name = parser.getAttributeValue(null, Tags.PREF_NAME);
 		entry.value = parser.getAttributeValue(null, Tags.PREF_VALUE);
 		entry.datatype = parser.getAttributeValue(null, Tags.PREF_TYPE);
-		settings.add(entry);
 
+		if (SKIPPED_SETTINGS.contains(entry.name)) {
+			return;
+		}
+		settings.add(entry);
 		if (log.isDebugEnabled) {
 			log.debug("pref entry loaded", entry.name, entry.value, entry.datatype);
 		}
