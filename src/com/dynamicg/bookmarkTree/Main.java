@@ -63,6 +63,10 @@ public class Main extends Activity {
 		catch (Throwable t) {
 			ErrorNotification.notifyError(this, "App error", t);
 		}
+
+		// error testing:
+		//		ErrorNotification.notifyError(this, "test", new SQLiteException("near \"OR\": syntax error (code 1): , while compiling"));
+		//		ErrorNotification.notifyError(this, "test", new IllegalArgumentException("Unknown URL /bookmarks"));
 	}
 
 

@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 
 import com.dynamicg.bookmarkTree.R;
 import com.dynamicg.bookmarkTree.dialogs.AboutDialog;
@@ -28,36 +29,66 @@ public class ErrorNotification {
 		createIntent(context, title, body);
 	}
 
-	public static void notifyError(final Context context, final String title, final Throwable e) {
-		final String alertTitle =  "Error: "+title;
-		new SimpleAlertDialog ( context, alertTitle, "Email DEV", context.getString(R.string.commonClose)) {
-
-			@Override
-			public String getScrollViewText() {
-				return SystemUtil.getExceptionText(e);
-			}
-
-			@Override
-			public void onPositiveButton() {
-				emailError(context, alertTitle, e);
-			}
-
-		};
-		Logger.dumpIfDevelopment(e);
+	private static boolean isInvalidBrowserContentUrl(Throwable exception) {
+		// java.lang.IllegalArgumentException: Unknown URL content://browser/bookmarks
+		// java.lang.IllegalArgumentException: Unknown URL content://com.android.browser/bookmarks
+		String str = exception!=null ? exception.toString() : "";
+		return exception instanceof IllegalArgumentException
+				&& str.contains("Unknown URL")
+				&& str.contains("/bookmarks")
+				;
 	}
 
-	public static void cannotResolveBookmarks(final Context context, final Throwable exception) {
-		String title = "ERROR - Default Browser Disabled?";
-		new SimpleAlertDialog(context, title, context.getString(R.string.commonClose)) {
+	private static boolean isSqlSyntaxError(Throwable exception) {
+		String str = exception!=null ? exception.toString() : "";
+		return exception instanceof SQLiteException
+				&& str.contains("syntax error")
+				&& str.contains("while compiling")
+				;
+	}
+
+	private static void plainError(Context context, String title, final String bodytext, final Throwable exception) {
+		new SimpleAlertDialog(context, title, R.string.commonClose) {
 			@Override
 			public String getPlainBodyText() {
-				String msg = "Cannot access browser bookmarks.\nMake sure the default browser is enabled.";
+				String msg = bodytext;
 				if (exception!=null) {
 					msg += "\n\nException details:\n{"+exception.toString()+"}";
 				}
 				return msg;
 			}
 		};
+	}
+
+	public static void notifyError(final Context context, final String title, final Throwable exception) {
+		if (isInvalidBrowserContentUrl(exception)) {
+			plainError(context
+					, "Cannot read bookmarks"
+					, "Cannot access browser bookmarks.\nMake sure the default browser is enabled."
+					, exception
+					);
+		}
+		else if (isSqlSyntaxError(exception)) {
+			plainError(context
+					, "Unsupported Android Version"
+					, "This custom ROM is not supported."
+					, exception
+					);
+		}
+		else {
+			final String alertTitle =  "Error: "+title;
+			new SimpleAlertDialog ( context, alertTitle, "Email DEV", context.getString(R.string.commonClose)) {
+				@Override
+				public String getScrollViewText() {
+					return SystemUtil.getExceptionText(exception);
+				}
+				@Override
+				public void onPositiveButton() {
+					emailError(context, alertTitle, exception);
+				}
+			};
+		}
+		Logger.dumpIfDevelopment(exception);
 	}
 
 }

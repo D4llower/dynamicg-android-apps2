@@ -26,7 +26,6 @@ import com.dynamicg.common.ErrorNotification;
 import com.dynamicg.common.Logger;
 import com.dynamicg.common.SimpleAlertDialog;
 import com.dynamicg.common.StringUtil;
-import com.dynamicg.common.SystemUtil;
 
 public class EditBookmarkDialog extends Dialog {
 
@@ -212,12 +211,7 @@ public class EditBookmarkDialog extends Dialog {
 			}
 		}
 		catch (final Throwable exception) {
-			if (SystemUtil.isInvalidBrowserContentUrl(exception)) {
-				ErrorNotification.cannotResolveBookmarks(ctx.activity, exception);
-			}
-			else {
-				ErrorNotification.notifyError(getContext(), "Cannot save bookmark", exception);
-			}
+			ErrorNotification.notifyError(getContext(), "Cannot save bookmark", exception);
 		}
 
 		ctx.reloadAndRefresh();

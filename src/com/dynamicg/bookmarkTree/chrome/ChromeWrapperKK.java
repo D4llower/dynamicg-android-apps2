@@ -10,7 +10,6 @@ import com.dynamicg.bookmarkTree.model.BrowserBookmarkBean;
 import com.dynamicg.common.Logger;
 
 /*
- * TODO catch "custom ROM sql error"
  * TODO: set 19 as minSdk on production roll out
  */
 public class ChromeWrapperKK extends ChromeWrapper {
