@@ -33,7 +33,7 @@
     <string name="prefsHomeTab">Home Tab</string>
     <string name="prefsStatusLine">Show status line</string>
     <string name="prefsTabPosition">Tab position</string>
-    <string name="prefsNoHeader">No header</string>
+    <string name="prefsNoHeader">No title bar</string>
     
     <string name="prefsDriveBackup">Google Drive Backup</string>
     <string name="prefsDriveRestore">Google Drive Restore</string>

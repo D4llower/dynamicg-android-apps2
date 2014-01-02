@@ -28,8 +28,15 @@
     <string name="prefsBackgroundIconLoader">アイコンをバックグラウンドで読み込む</string>
     <string name="prefsSemiTransparent">背景を半透明に</string>
     <string name="prefsPleaseRestart">アプリをリスタートしてください</string>
-    
+    <string name="prefsHomeTab">ホームタブ</string>
+    <string name="prefsStatusLine">ステータスラインを表示</string>
+    <string name="prefsTabPosition">タブポジション</string>
+    <string name="prefsNoHeader">ヘッダなし</string>
     <string name="prefsDriveBackup">Google Drive バックアップ</string>
     <string name="prefsDriveRestore">Google Drive リストア</string>
     
+    <string name="moveTab">新しいポジション</string>
+    <string name="resolveContact">コンタクトIDを解決</string>
+    <string name="hblKeepOpen">開いたままにする</string>
+	
 </resources>
