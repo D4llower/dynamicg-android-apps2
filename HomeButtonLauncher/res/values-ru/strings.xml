@@ -25,6 +25,7 @@
     <string name="prefsHomeTab">Начальная вкладка</string>
     <string name="prefsStatusLine">Показать статусную строку</string>
     <string name="prefsTabPosition">Расположение вкладок</string>
+    <string name="prefsNoHeader">Скрыть название программы</string>
     <string name="prefsDriveBackup">Резервную копию в Google Drive</string>
     <string name="prefsDriveRestore">Восстановление из Google Drive</string>
     <string name="moveTab">Позиция вкладки</string>
