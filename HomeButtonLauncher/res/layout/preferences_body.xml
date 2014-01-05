@@ -9,6 +9,8 @@
     android:paddingRight="6dp"
     >
     
+    <!-- ===================== LAYOUT ===================== -->
+    
     <TextView style="@style/PrefLabel"
 	    android:text="@string/prefsLayout"
 	    />
@@ -72,6 +74,13 @@
 	    <TextView style="@style/PrefSeekbarHint" android:id="@+id/prefsIconSizeIndicator" />
 	</LinearLayout>
 	
+    <CheckBox style="@style/PrefLabel"
+        android:id="@+id/prefsNoHeader" 
+        android:text="@string/prefsNoHeader"
+        />
+    
+    <!-- ===================== TRANSPARENCY ===================== -->
+    
     <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
     
     <CheckBox style="@style/PrefLabel"
@@ -81,6 +90,8 @@
     <SeekBar style="@style/PrefSeekbar"
         android:id="@+id/prefsTransparencyAlpha"
 		/>
+    
+    <!-- ===================== TABS ===================== -->
     
     <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
     
@@ -144,7 +155,9 @@
 	            />
 	    </RadioGroup>
 	</LinearLayout>
-	    
+
+    <!-- ===================== OTHERS ===================== -->
+    
     <View style="@style/Divider" android:layout_marginTop="@dimen/labelMargin" />
     
     <CheckBox style="@style/PrefLabel"
@@ -152,11 +165,6 @@
         android:text="@string/prefsAutoStartSingle"
         />
     
-    <CheckBox style="@style/PrefLabel"
-        android:id="@+id/prefsNoHeader" 
-        android:text="@string/prefsNoHeader"
-        />
-   
     <CheckBox style="@style/PrefLabel"
         android:id="@+id/prefsBackgroundIconLoader" 
         android:text="@string/prefsBackgroundIconLoader"
