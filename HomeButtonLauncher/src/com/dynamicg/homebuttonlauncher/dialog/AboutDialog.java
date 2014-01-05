@@ -1,11 +1,8 @@
 package com.dynamicg.homebuttonlauncher.dialog;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.view.View;
@@ -38,8 +35,6 @@ public class AboutDialog extends Dialog {
 
 		DialogHelper.prepareCommonDialog(this, R.layout.about_body, R.layout.button_panel_1, false);
 
-		putAuthorLink();
-
 		setLine(R.id.aboutSrc, REPOSITORY);
 
 		link(R.id.aboutRate, "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0", SystemUtil.PACKAGE);
@@ -53,20 +48,6 @@ public class AboutDialog extends Dialog {
 			@Override
 			public void onClickImpl(View view) {
 				dismiss();
-			}
-		});
-	}
-
-	private void putAuthorLink() {
-		TextView authorNode = (TextView)findViewById(R.id.aboutAuthor);
-		SpannableString authorLabel = new SpannableString("\u00A9 "+SystemUtil.AUTHOR);
-		DialogHelper.underline(authorLabel, 2, authorLabel.length());
-		authorNode.setText(authorLabel);
-		authorNode.setFocusable(true);
-		authorNode.setOnClickListener(new OnClickListenerWrapper() {
-			@Override
-			public void onClickImpl(View view) {
-				composeEmail();
 			}
 		});
 	}
@@ -87,15 +68,6 @@ public class AboutDialog extends Dialog {
 
 	private void setLine(int id, CharSequence str) {
 		((TextView)findViewById(id)).setText(str);
-	}
-
-	private void composeEmail() {
-		String label = "Home Button Launcher ("+Locale.getDefault().getLanguage()+")";
-		Intent intent = new Intent(Intent.ACTION_SEND);
-		intent.setType("message/rfc822");
-		intent.putExtra(Intent.EXTRA_EMAIL, new String[]{SystemUtil.AUTHOR});
-		intent.putExtra(Intent.EXTRA_SUBJECT, label);
-		context.startActivity(Intent.createChooser(intent, "Send Email"));
 	}
 
 }

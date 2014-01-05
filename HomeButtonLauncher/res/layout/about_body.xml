@@ -7,12 +7,6 @@
     >
     
 	<TextView style="@style/DefaultText"
-	    android:id="@+id/aboutAuthor"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/hyperlink"
-		/>
-		
-	<TextView style="@style/DefaultText"
         android:layout_marginTop="12dp"
         android:text="@string/aboutOpenSource"
 		/>
