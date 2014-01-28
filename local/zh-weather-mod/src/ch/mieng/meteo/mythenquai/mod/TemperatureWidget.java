@@ -29,27 +29,35 @@ import android.widget.RemoteViews;
 public class TemperatureWidget extends AppWidgetProvider {
 
 	private static final long MAX_AGE_MILLI = 3l * 60l * 60l * 1000l;
+	private boolean initRequired = true;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 
 		/*
-		 * set initial click intent
+		 * set click intent
 		 */
 		if (RefreshTracker.needsInit(context)) {
 			RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 			setClickIntent(context, updateViews);
 			appWidgetManager.updateAppWidget(appWidgetIds, updateViews);
-
-			delayedInit(context, 20);
-			delayedInit(context, 120);
 		}
 
 		/*
 		 * refresh data
 		 */
 		context.startService(new Intent(context, UpdateService.class));
+
+		/*
+		 * delayed init on first start
+		 */
+		if (initRequired) {
+			delayedInit(context, 20);
+			delayedInit(context, 120);
+			initRequired = false;
+		}
+
 	}
 
 	private static void setClickIntent(Context context, RemoteViews updateViews) {
@@ -75,6 +83,7 @@ public class TemperatureWidget extends AppWidgetProvider {
 		updateViews.setTextViewText(R.id.ZEIT, time);
 
 		setClickIntent(context, updateViews);
+		RefreshTracker.registerDataLoaded(context);
 		return updateViews;
 	}
 
