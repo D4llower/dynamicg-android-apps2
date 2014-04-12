@@ -25,48 +25,47 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 public class UpdateService extends Service implements Runnable{
-	
-    private static final String TAG = "UpdateService";
-	
-    /**
-     * Lock used when maintaining queue of requested updates.
-     */
-    private static Object sLock = new Object();
 
-    /**
-     * Flag if there is an update thread already running. We only launch a new
-     * thread if one isn't already running.
-     */
-    private static boolean sThreadRunning = false;
+	private static final String TAG = "UpdateService";
+
+	/**
+	 * Lock used when maintaining queue of requested updates.
+	 */
+	private static Object sLock = new Object();
+
+	/**
+	 * Flag if there is an update thread already running. We only launch a new
+	 * thread if one isn't already running.
+	 */
+	private static boolean sThreadRunning = false;
 
 	@Override
-    public void onStart(Intent intent, int startId) {
-		
+	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-        
-        // Only start processing thread if not already running
-        synchronized (sLock) {
-            if (!sThreadRunning) {
-                sThreadRunning = true;
-                new Thread(this).start();
-            }
-        }
-    }
 
-    
-    @Override
-    public IBinder onBind(Intent intent) {
-        // We don't need to bind to this service
-        return null;
-    }
+		// Only start processing thread if not already running
+		synchronized (sLock) {
+			if (!sThreadRunning) {
+				sThreadRunning = true;
+				new Thread(this).start();
+			}
+		}
+	}
+
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		// We don't need to bind to this service
+		return null;
+	}
 
 
 	@Override
 	public void run() {
-        Log.d(TAG, "Processing thread started");
-	    AppWidgetManager manager = AppWidgetManager.getInstance(this);
-	    
-	    try {
+		Log.d(TAG, "Processing thread started");
+		AppWidgetManager manager = AppWidgetManager.getInstance(this);
+
+		try {
 			WeatherData weatherData = new WeatherData(SettingsView.isTiefenbrunnen(getBaseContext()));
 			if (!weatherData.hasJson()) {
 				// certain devices have not the internet connectin ready during startup, lets wait ten seconds for it ...
@@ -80,27 +79,27 @@ public class UpdateService extends Service implements Runnable{
 
 			if (weatherData.hasJson()) {
 				// Build the widget update for today
-			    RemoteViews updateViews = TemperatureWidget.buildUpdate(this, weatherData);
-			    
-			    WeatherView.currentWeatherData = weatherData;
+				RemoteViews updateViews = TemperatureWidget.buildUpdate(this, weatherData);
 
-			    // Push update for this widget to the home screen
-			    ComponentName thisWidget = new ComponentName(this, TemperatureWidget.class);
-			    manager.updateAppWidget(thisWidget, updateViews);
-			    
-			    // Send Broadcast to active View
-			    sendBroadcast(new Intent(WeatherView.ACTION_UPDATE));
+				WeatherView.currentWeatherData = weatherData;
+
+				// Push update for this widget to the home screen
+				ComponentName thisWidget = new ComponentName(this, TemperatureWidget.class);
+				manager.updateAppWidget(thisWidget, updateViews);
+
+				// Send Broadcast to active View
+				sendBroadcast(new Intent(WeatherView.ACTION_UPDATE));
 			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
-		} 
-        
-        synchronized (sLock) {
-            sThreadRunning = false;
-        }
-        
-        // No updates remaining, so stop service
-        stopSelf();
-        Log.d(TAG, "Processing thread stopped");
+		}
+
+		synchronized (sLock) {
+			sThreadRunning = false;
+		}
+
+		// No updates remaining, so stop service
+		stopSelf();
+		Log.d(TAG, "Processing thread stopped");
 	}
 }
