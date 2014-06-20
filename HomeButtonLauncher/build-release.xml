@@ -7,9 +7,9 @@ cd /d C:\PROGRA~2\Android\android-sdk\tools
 android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree\HomeButtonLauncher
 	--> 
 	
-	<property file="z:/android-keystore/keystore.properties" />
-	<property name="apkdir" value="D:\ant.tmp\apk" />
-	<property name="buildDirRoot" value="D:/ant.tmp/build" />
+	<property file="f:/keystore/keystore.properties" />
+	<property name="apkdir" value="f:\android" />
+	<property name="buildDirRoot" value="f:/build" />
 	
 	<property name="workspace" value="${basedir}/.." />
 	<property name="projectname" value="HomeButtonLauncher" />
