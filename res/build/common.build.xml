@@ -3,16 +3,16 @@
 
 	<property name="workspace" value="${basedir}/.." />
 	
-	<property name="tmpdir" value="d:/ant.tmp" />
-	<property name="apkdirWin" value="d:\ant.tmp\apk" />
+	<property name="apkdir" value="f:/android" />
+	<property name="apkdirWin" value="f:\android" />
 	
-	<property name="buildproject" value="${tmpdir}/build/Build.${projectname}" />	
+	<property name="buildproject" value="f:/build/Build.${projectname}" />	
 	
 	<property name="buildprops" value="${workspace}/res/build" />
     <property file="${buildprops}/local.properties" />
     <property file="${buildprops}/build.properties" />
     <property file="project.properties" />
-	<property file="z:/android-keystore/keystore.properties" />
+	<property file="f:/keystore/keystore.properties" />
 
     <path id="android.antlibs">
         <pathelement path="${sdk.dir}/tools/lib/anttasks.jar" />
@@ -69,7 +69,6 @@
 		
 		<antcall target="release" />
 		
-		<property name="apkdir" value="${tmpdir}/apk" />
 		<mkdir dir="${apkdir}" />
 		<move file="${buildproject}/bin/common-build-release.apk" tofile="${apkdir}/${projectname}.apk" overwrite="true" />
 
