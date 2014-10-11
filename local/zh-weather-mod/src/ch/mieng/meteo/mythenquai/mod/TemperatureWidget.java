@@ -68,6 +68,8 @@ public class TemperatureWidget extends AppWidgetProvider {
 		updateViews.setTextViewText(R.id.ZEIT, time);
 
 		setClickIntent(context, updateViews);
+		DashClockZhWeatherExtension.saveCurrentCondition(context, air, time);
 		return updateViews;
 	}
+
 }
