@@ -58,6 +58,7 @@ public class TemperatureWidget extends AppWidgetProvider {
 		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
 		String air = weatherData.getWeatherAirTemperature();
+		air = applyFormat(air);
 		long lastRefresh = weatherData.parseTime();
 		if (lastRefresh<System.currentTimeMillis()-MAX_AGE_MILLI) {
 			air = "--";
@@ -70,6 +71,21 @@ public class TemperatureWidget extends AppWidgetProvider {
 		setClickIntent(context, updateViews);
 		DashClockZhWeatherExtension.saveCurrentCondition(context, air, time);
 		return updateViews;
+	}
+
+	private static String applyFormat(String air) {
+		String deg = "\u00B0";
+		String str = air.replace(deg, "");
+		try {
+			float f = Float.parseFloat(str);
+			if (f%1f==0.0f) {
+				// change 14 to 14.0
+				return str+".0"+deg;
+			}
+		}
+		catch (NumberFormatException e) {
+		}
+		return str+deg;
 	}
 
 }
