@@ -85,7 +85,7 @@ public class TemperatureWidget extends AppWidgetProvider {
 		}
 		catch (NumberFormatException e) {
 		}
-		return str+deg;
+		return air;
 	}
 
 }
