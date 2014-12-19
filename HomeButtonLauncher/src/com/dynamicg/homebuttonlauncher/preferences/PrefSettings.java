@@ -10,19 +10,23 @@ import com.dynamicg.homebuttonlauncher.dialog.SizePrefsHelper;
 
 public class PrefSettings {
 
+	public static final String KEY_THEME = "theme";
 	public static final String KEY_LAYOUT = "layout";
 	public static final String KEY_LABEL_SIZE = "labelSize";
 	public static final String KEY_ICON_SIZE = "iconSize";
 	public static final String KEY_HIGH_RES = "highRes";
 	public static final String KEY_AUTO_START_SINGLE = "autoStart";
 	public static final String KEY_NUM_TABS = "numTabs";
-	public static final String KEY_BACKGROUND_ICON_LOADER = "iconsInBG";
-	public static final String KEY_SEMI_TRANSPARENT = "semiTransp";
 	public static final String KEY_TRANS_ALPHA = "transAlpha";
 	public static final String KEY_HOME_TAB_NUM = "homeTab";
 	public static final String KEY_STATUS_LINE = "statusLine";
 	public static final String KEY_TAB_POSITION = "tabPosition";
 	public static final String KEY_NO_HEADER = "noHeader";
+
+	public static final int NUM_THEMES = 3;
+	public static final int THEME_DARK = 0;
+	public static final int THEME_LIGHT = 1;
+	public static final int THEME_TRANSPARENT = 2;
 
 	public static final int NUM_LAYOUTS = 5;
 	private static final int LAYOUT_PLAIN_2 = 1;
@@ -115,12 +119,8 @@ public class PrefSettings {
 		return sharedPrefs.getBoolean(KEY_AUTO_START_SINGLE, false);
 	}
 
-	public boolean isBackgroundIconLoader() {
-		return sharedPrefs.getBoolean(KEY_BACKGROUND_ICON_LOADER, false);
-	}
-
-	public boolean isSemiTransparent() {
-		return sharedPrefs.getBoolean(KEY_SEMI_TRANSPARENT, false);
+	public int getThemeId() {
+		return sharedPrefs.getInt(KEY_THEME, THEME_DARK);
 	}
 
 	public int getTransparencyAlpha() {

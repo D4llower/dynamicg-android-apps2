@@ -1,7 +1,7 @@
 package com.dynamicg.homebuttonlauncher.tools.drive;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,75 +11,74 @@ import java.util.TreeMap;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.widget.Toast;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.HBLConstants;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerDialogWrapper;
-import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.preferences.SettingsBackupHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 
-public class GoogleDriveBackupRestoreHelper {
+public abstract class HBLBackupRestore {
 
-	public static final String GOOGLE_DRIVE_FOLDER_NAME = "HomeButtonLauncher";
-	public static final String GOOGLE_DRIVE_FILE_NAME = "settings.xml.gz";
 	public static final String GROUP_ICONS = "icons";
 
-	private static final Logger log = new Logger(GoogleDriveBackupRestoreHelper.class);
+	private static final Logger log = new Logger(HBLBackupRestore.class);
 
-	private static WeakReference<MainActivityHome> refActivity;
-	private static WeakReference<Dialog> refDialog;
-
-	private final MainActivityHome activity;
-	private final Context context;
+	protected final MainActivityHome activity;
+	protected final Context context;
 	private final PreferencesDialog dialog;
 
-	public GoogleDriveBackupRestoreHelper(MainActivityHome activity, PreferencesDialog dialog) {
+	public HBLBackupRestore(MainActivityHome activity, PreferencesDialog dialog) {
 		this.activity = activity;
 		this.context = activity;
 		this.dialog = dialog;
 	}
 
-	public void dispatch(int what) {
-		if (!GoogleDriveUtil.isPluginAvailable(context)) {
-			GoogleDriveUtil.alertMissingPlugin(context);
+	public abstract File getBackupFile() throws IOException;
+	public abstract boolean isReady();
+	public abstract void executeUpload(File file);
+	public abstract void triggerImport(Dialog dialog);
+	public abstract int getTitleResId(int action);
+
+	public static void create(MainActivityHome activity, PreferencesDialog dialog, int what) {
+		HBLBackupRestore helper = null;
+		if (what==HBLConstants.MENU_DRIVE_BACKUP || what==HBLConstants.MENU_DRIVE_RESTORE) {
+			helper = new HBLBackupRestoreGoogleDrive(activity, dialog);
 		}
-		else if (what==HBLConstants.MENU_DRIVE_BACKUP) {
+		else if (what==HBLConstants.MENU_SDCARD_BACKUP || what==HBLConstants.MENU_SDCARD_RESTORE) {
+			helper = new HBLBackupRestoreSdCard(activity, dialog);
+		}
+		if (!helper.isReady()) {
+			return;
+		}
+		helper.dispatch(what);
+	}
+
+	private void dispatch(int what) {
+		if (what==HBLConstants.MENU_DRIVE_BACKUP || what==HBLConstants.MENU_SDCARD_BACKUP) {
 			OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
 				@Override
 				public void onClickImpl(DialogInterface d, int which) {
 					startBackup();
 				}
 			};
-			DialogHelper.confirm(context, R.string.prefsDriveBackup, okListener);
+			DialogHelper.confirm(context, getTitleResId(what), okListener);
 		}
-		else if (what==HBLConstants.MENU_DRIVE_RESTORE) {
+		else {
 			OnClickListenerDialogWrapper okListener = new OnClickListenerDialogWrapper(context) {
 				@Override
 				public void onClickImpl(DialogInterface d, int which) {
-					triggerImport();
+					triggerImport(dialog);
 				}
 			};
-			DialogHelper.confirm(context, R.string.prefsDriveRestore, okListener);
+			DialogHelper.confirm(context, getTitleResId(what), okListener);
 		}
-	}
-
-	private File prepareBackupFile() throws Exception {
-		File file = new File(context.getFilesDir(), GOOGLE_DRIVE_FILE_NAME);
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-		file.setReadable(true, false); // read=true, owner=false
-		file.setWritable(true, false);
-		return file;
 	}
 
 	private void exportToFile(File file) throws Exception {
@@ -125,21 +124,10 @@ public class GoogleDriveBackupRestoreHelper {
 
 	private void startBackup() {
 		try {
-			File file = prepareBackupFile();
+			File file = getBackupFile();
 			exportToFile(file);
 			log.debug("BACKUP", file);
-			GoogleDriveUtil.upload(context, file);
-		}
-		catch (Throwable t) {
-			DialogHelper.showCrashReport(context, t);
-		}
-	}
-
-	private void triggerImport() {
-		try {
-			refActivity = new WeakReference<MainActivityHome>(activity);
-			refDialog = new WeakReference<Dialog>(dialog);
-			GoogleDriveUtil.startDownload(activity, prepareBackupFile());
+			executeUpload(file);
 		}
 		catch (Throwable t) {
 			DialogHelper.showCrashReport(context, t);
@@ -150,7 +138,8 @@ public class GoogleDriveBackupRestoreHelper {
 		return s==null || s.length()==0;
 	}
 
-	private static void restoreSettings(Context context, File file) throws Exception {
+	protected static void restoreSettings(Context context, File file, boolean deleteAfterRestore)
+			throws Exception {
 		final HashMap<String, Editor> editors = new HashMap<String, Editor>();
 		XmlReader reader = new XmlReader(file);
 		List<Map<String, String>> content = reader.getContent(context);
@@ -195,29 +184,20 @@ public class GoogleDriveBackupRestoreHelper {
 			edit.apply();
 		}
 
-		file.delete();
-
+		if (deleteAfterRestore) {
+			file.delete();
+		}
 	}
 
-	public static void restoreFromFile(Intent data) {
-		String path = data!=null ? data.getStringExtra(GoogleDriveGlobals.KEY_FNAME_ABS) : null;
-		if (path==null || path.length()==0) {
-			return;
+	public static void restoreImpl(MainActivityHome activity, Dialog dialog, File file, boolean deleteAfterRestore) {
+		try {
+			restoreSettings(activity, file, deleteAfterRestore);
+			GlobalContext.resetCache(); // make sure we don't retain icons scaled to previous size
+			dialog.dismiss();
+			activity.recreate();
 		}
-		File file = new File(path);
-		MainActivityHome activity = refActivity!=null ? refActivity.get() : null;
-
-		if (file!=null && activity!=null) {
-			try {
-				restoreSettings(activity, file);
-				Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();
-				GlobalContext.resetCache(); // make sure we don't retain icons scaled to previous size
-				refDialog.get().dismiss();
-				activity.finish();
-			}
-			catch (Throwable t) {
-				DialogHelper.showCrashReport(activity, t);
-			}
+		catch (Throwable t) {
+			DialogHelper.showCrashReport(activity, t);
 		}
 	}
 

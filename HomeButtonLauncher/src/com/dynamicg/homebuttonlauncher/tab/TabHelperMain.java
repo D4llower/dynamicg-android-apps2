@@ -3,16 +3,15 @@ package com.dynamicg.homebuttonlauncher.tab;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TabHost;
-import android.widget.TextView;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnLongClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.SpinnerHelper;
+import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper.TextEditorListener;
@@ -43,13 +42,14 @@ public class TabHelperMain extends TabHelper {
 				if (preferences.getTabIndex()!=tabindex) {
 					activity.updateOnTabSwitch(tabindex);
 				}
+				decorate(tabindex);
 			};
 		};
 
 		View.OnLongClickListener longClickListener = new OnLongClickListenerWrapper() {
 			@Override
 			public boolean onLongClickImpl(View v) {
-				int index = (Integer)v.getTag();
+				int index = (Integer)v.getTag(R.id.tag_tab_index);
 				editLabel(index);
 				return true;
 			}
@@ -60,7 +60,9 @@ public class TabHelperMain extends TabHelper {
 			labels[i] = preferences.getTabTitle(i);
 		}
 
-		return bindTabs(selectedIndex, labels, onTabChangeListener, longClickListener);
+		TabHost host = bindTabs(selectedIndex, labels, onTabChangeListener, longClickListener);
+		decorate(selectedIndex);
+		return host;
 	}
 
 	protected void editLabel(final int tabindex) {
@@ -69,37 +71,21 @@ public class TabHelperMain extends TabHelper {
 		 * switch tab position
 		 */
 		SpinnerHelper.SpinnerEntries items = new SpinnerHelper.SpinnerEntries();
-		items.add(-1, "");
+		items.add(-1, SpinnerHelper.PADDED_DASH);
 		for (int i=0;i<preferences.prefSettings.getNumTabs();i++) {
 			if (i!=tabindex) {
 				items.addPadded(i, i+1);
 			}
 		}
 
-		int padding = (int)context.getResources().getDimension(R.dimen.gridViewPaddingTop);
+		ViewGroup panel = (ViewGroup)activity.getLayoutInflater().inflate(R.layout.edit_tab, null);
 
-		ViewGroup moveTabPanel = (ViewGroup)activity.getLayoutInflater().inflate(R.layout.common_spinner_panel, null);
-		final SpinnerHelper switchTabSpinner = new SpinnerHelper(moveTabPanel.findViewById(R.id.spinnerPanelSpinner));
+		final SpinnerHelper switchTabSpinner = new SpinnerHelper(panel.findViewById(R.id.editTabNewPosition));
 		switchTabSpinner.bind(items, 0);
 
-		// "move" label and padding
-		TextView newPosLabel = (TextView)moveTabPanel.findViewById(R.id.spinnerPabelLabel);
-		newPosLabel.setText(R.string.moveTab);
-		newPosLabel.append(":");
-		moveTabPanel.setPadding(padding, padding, padding, padding);
-
-		// tab height
-		final SeekBar heightSeekBar = new SeekBar(context);
+		final SeekBar heightSeekBar = (SeekBar)panel.findViewById(R.id.editTabHeight);
 		heightSeekBar.setMax(4);
 		heightSeekBar.setProgress(preferences.getTabExtraHeight());
-		heightSeekBar.setPadding(heightSeekBar.getPaddingLeft(), padding, heightSeekBar.getPaddingRight(), padding);
-
-		// extras panel
-		LinearLayout extras = new LinearLayout(context);
-		extras.setOrientation(LinearLayout.VERTICAL);
-		extras.setPadding(padding, padding, padding, padding);
-		extras.addView(heightSeekBar);
-		extras.addView(moveTabPanel);
 
 		/*
 		 * label editor
@@ -115,7 +101,7 @@ public class TabHelperMain extends TabHelper {
 			}
 		};
 
-		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback, extras);
+		DialogHelper.openLabelEditor(context, currentLabel, InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS, callback, panel);
 	}
 
 	private void applyMoveTab(int tabindex, SpinnerHelper switchTabSpinner) {
@@ -144,4 +130,13 @@ public class TabHelperMain extends TabHelper {
 		return bindTabs();
 	}
 
+	// lollipop does not decorate TabHost tabs "touch event"
+	protected void decorate(int currentTabIndex) {
+		int themeId = preferences.prefSettings.getThemeId();
+		if (preferences.prefSettings.getThemeId()!=PrefSettings.THEME_TRANSPARENT) {
+			for (int i=0;i<tabviews.length;i++) {
+				BackgroundHelper.setBackground(themeId, tabviews[i], i==currentTabIndex);
+			}
+		}
+	}
 }

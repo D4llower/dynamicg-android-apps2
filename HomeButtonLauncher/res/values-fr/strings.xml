@@ -25,12 +25,10 @@
     <string name="prefsHiResIcon">Charger les icônes haute résolution</string>
     <string name="prefsAutoStartSingle">«mode Démarrage Automatique» si seulement une seule application est sélectionnée</string>
     <string name="prefsNumTabs">Nombre d\'onglets</string>
-    <string name="prefsBackgroundIconLoader">Charger les icônes en arrière-plan</string>
     
     <string name="prefsDriveBackup">Sauvegarde Google Drive</string>
     <string name="prefsDriveRestore">Restauration Google Drive</string>
     
     <!-- 2.1 -->
-    <string name="prefsSemiTransparent">Fond semi-transparent</string>
     
 </resources>

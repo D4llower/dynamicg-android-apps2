@@ -38,7 +38,7 @@ public class AboutDialog extends Dialog {
 		setLine(R.id.aboutSrc, REPOSITORY);
 
 		link(R.id.aboutRate, "\u21d2 "+context.getString(R.string.aboutPleaseRate)+" \u21d0", SystemUtil.PACKAGE);
-		link(R.id.aboutDgSettings, "\u21d2 DG Settings \u21d0", "com.dynamicg.settings");
+		link(R.id.aboutDgSettings, "\u21d2 Home Button Launcher Tools \u21d0", "com.dynamicg.settings");
 
 		SpannableString creditsLabel = new SpannableString("Credits, in chronological order");
 		DialogHelper.underline(creditsLabel, 0, creditsLabel.length());
@@ -62,7 +62,7 @@ public class AboutDialog extends Dialog {
 			}
 		});
 		SpannableString span = new SpannableString(title);
-		DialogHelper.underline(span, 2, span.length()-2);
+		DialogHelper.bold(span, 2, span.length()-2);
 		node.setText(span);
 	}
 

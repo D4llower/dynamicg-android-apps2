@@ -12,7 +12,7 @@ android update project -n HomeButtonLauncher -p C:\workspace\androidBookmarkTree
 	<property name="buildDirRoot" value="f:/build" />
 	
 	<property name="workspace" value="${basedir}/.." />
-	<property name="projectname" value="HomeButtonLauncher" />
+	<property name="projectname" value="${ant.project.name}" />
 
 	<target name=".copysrc">
 		<delete dir="${buildDirRoot}/${projectname}" />

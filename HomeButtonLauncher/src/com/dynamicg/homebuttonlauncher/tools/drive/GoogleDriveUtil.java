@@ -33,7 +33,7 @@ public class GoogleDriveUtil {
 		ComponentName component = new ComponentName(PLUGIN_APP, PLUGIN_ACTIVITY);
 		Intent intent = new Intent();
 		intent.setComponent(component);
-		intent.putExtra(GoogleDriveGlobals.KEY_CUSTOM_MAIN_FOLDER, GoogleDriveBackupRestoreHelper.GOOGLE_DRIVE_FOLDER_NAME);
+		intent.putExtra(GoogleDriveGlobals.KEY_CUSTOM_MAIN_FOLDER, HBLBackupRestoreGoogleDrive.GOOGLE_DRIVE_FOLDER_NAME);
 		intent.putExtra(GoogleDriveGlobals.KEY_REQUEST_CODE, requestCode);
 		intent.putExtra(GoogleDriveGlobals.KEY_APP_NAME, GlobalContext.resources.getString(R.string.app_name));
 		return intent;
@@ -66,7 +66,7 @@ public class GoogleDriveUtil {
 		final int requestCode = GoogleDriveGlobals.ACTION_CUSTOM_GET;
 
 		Intent intent = getBaseIntent(requestCode);
-		intent.putExtra(GoogleDriveGlobals.KEY_FNAME_DRIVE, GoogleDriveBackupRestoreHelper.GOOGLE_DRIVE_FILE_NAME);
+		intent.putExtra(GoogleDriveGlobals.KEY_FNAME_DRIVE, HBLBackupRestoreGoogleDrive.GOOGLE_DRIVE_FILE_NAME);
 		intent.putExtra(GoogleDriveGlobals.KEY_FNAME_LOCAL, file.getAbsolutePath());
 
 		try {

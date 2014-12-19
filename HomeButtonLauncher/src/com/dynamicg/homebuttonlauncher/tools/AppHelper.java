@@ -117,10 +117,10 @@ public class AppHelper {
 			list.add(new AppEntry(resolveInfo, 0, false));
 		}
 
-		// "Exit" shortcut:
-		ResolveInfo self = getMatchingApp(HBLConstants.SELF);
-		AppEntry appEntrySelf = new AppEntry(self, 0, false);
-		list.add(appEntrySelf);
+		// "Exit Self" shortcut - disabled with 4.0, there's other apps for that
+		//		ResolveInfo self = getMatchingApp(HBLConstants.SELF);
+		//		AppEntry appEntrySelf = new AppEntry(self, 0, false);
+		//		list.add(appEntrySelf);
 
 		return new AppListContainer(list);
 	}

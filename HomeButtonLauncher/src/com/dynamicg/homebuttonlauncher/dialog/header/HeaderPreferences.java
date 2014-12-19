@@ -8,7 +8,7 @@ import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper;
 import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListener;
-import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
+import com.dynamicg.homebuttonlauncher.tools.drive.HBLBackupRestore;
 
 public class HeaderPreferences extends HeaderAbstract {
 
@@ -26,13 +26,18 @@ public class HeaderPreferences extends HeaderAbstract {
 		final PopupMenuItemListener listener = new PopupMenuItemListener() {
 			@Override
 			public void popupMenuItemSelected(PopupMenu popupMenu, int id) {
-				new GoogleDriveBackupRestoreHelper(activity, dialog).dispatch(id);
+				if (id!=HBLConstants.MENU_BLANK) {
+					HBLBackupRestore.create(activity, dialog, id);
+				}
 			}
 		};
 		final PopupMenuWrapper menuWrapper = new PopupMenuWrapper(context, iconNode, listener);
 		menuWrapper.attachToAnchorClick();
 		menuWrapper.addItem(HBLConstants.MENU_DRIVE_BACKUP, R.string.prefsDriveBackup);
 		menuWrapper.addItem(HBLConstants.MENU_DRIVE_RESTORE, R.string.prefsDriveRestore);
+		menuWrapper.addItem(HBLConstants.MENU_BLANK, "");
+		menuWrapper.addItem(HBLConstants.MENU_SDCARD_BACKUP, R.string.prefsSdCardBackup);
+		menuWrapper.addItem(HBLConstants.MENU_SDCARD_RESTORE, R.string.prefsSdCardRestore);
 	}
 
 }

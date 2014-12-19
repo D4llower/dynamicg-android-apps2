@@ -19,9 +19,6 @@
 	<string name="prefsHiResIcon">High-Res Icons laden</string>
     <string name="prefsAutoStartSingle">«Auto Start Modus» wenn nur eine einzige App gewählt</string>
 	<string name="prefsNumTabs">Anzahl Tabs</string>
-    <string name="prefsBackgroundIconLoader">Icons im Hintergrund laden</string>
-    <string name="prefsSemiTransparent">Halbtransparenter Hintergrund</string>
-	<string name="prefsPleaseRestart">Bitte App neu starten.</string>
 	<string name="prefsHomeTab">Start-Tab</string>
 	<string name="prefsStatusLine">Statuszeile anzeigen</string>
     <string name="prefsDriveBackup">Google Drive Backup</string>

@@ -25,9 +25,6 @@
     <string name="prefsHiResIcon">Cargar iconos de alta resolución</string>
     <string name="prefsAutoStartSingle">«Modo autoarranque» sólo si se ha seleccionado una aplicación</string>
     <string name="prefsNumTabs">Número de pestañas</string>
-    <string name="prefsBackgroundIconLoader">Cargar iconos en fondo</string>
-    <string name="prefsSemiTransparent">Fondo semitransparente</string>
-    <string name="prefsPleaseRestart">Por favor, reinicia la aplicación</string>
     
     <string name="prefsDriveBackup">Google Drive: Copia de seguridad</string>
     <string name="prefsDriveRestore">Google Drive: Restaurar copia</string>

@@ -26,7 +26,6 @@ public abstract class TabHelper {
 	protected TabSpec[] tabs;
 	protected View[] tabviews;
 
-
 	public TabHelper(MainActivityHome activity, int numTabs, View header, boolean atBottom) {
 		this.activity = activity;
 		this.context = activity;
@@ -59,7 +58,7 @@ public abstract class TabHelper {
 
 		for (int i=0;i<numTabs;i++) {
 			View tab = tabviews[i];
-			tab.setTag(i);
+			tab.setTag(R.id.tag_tab_index, i);
 
 			if (longClickListener!=null) {
 				tab.setLongClickable(true);
@@ -105,7 +104,8 @@ public abstract class TabHelper {
 			spec.setContent(factory);
 			tabhost.addTab(spec);
 			tabs[i] = spec;
-			tabviews[i] = tabWidget.getChildAt(i); // up to 4.2 we have one child view (LinerarLayout) per tab
+			tabviews[i] = tabWidget.getChildAt(i);
+			//(View)(tabviews[i].findViewById(android.R.id.title)).getParent();
 		}
 	}
 

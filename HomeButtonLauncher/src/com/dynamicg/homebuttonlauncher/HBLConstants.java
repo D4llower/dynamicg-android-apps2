@@ -17,6 +17,9 @@ public class HBLConstants {
 	public static final int MENU_RESET = 8;
 	public static final int MENU_DRIVE_BACKUP = 9;
 	public static final int MENU_DRIVE_RESTORE = 10;
+	public static final int MENU_SDCARD_BACKUP = 11;
+	public static final int MENU_SDCARD_RESTORE = 12;
+	public static final int MENU_BLANK = 99;
 
 	public static final int SHORTCUT_RC = 31;
 

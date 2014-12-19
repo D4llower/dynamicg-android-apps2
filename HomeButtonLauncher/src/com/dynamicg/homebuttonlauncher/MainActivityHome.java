@@ -27,6 +27,7 @@ import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMainStatic;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
+import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
 import com.dynamicg.homebuttonlauncher.tools.AppHelper;
@@ -37,8 +38,8 @@ import com.dynamicg.homebuttonlauncher.tools.PopupMenuWrapper.PopupMenuItemListe
 import com.dynamicg.homebuttonlauncher.tools.ShortcutHelper;
 import com.dynamicg.homebuttonlauncher.tools.StatusLineHelper;
 import com.dynamicg.homebuttonlauncher.tools.SwipeHelper;
-import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveBackupRestoreHelper;
 import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
+import com.dynamicg.homebuttonlauncher.tools.drive.HBLBackupRestoreGoogleDrive;
 
 /*
  * Copyright 2012,2013 DynamicG (dynamicg.android@gmail.com)
@@ -46,9 +47,11 @@ import com.dynamicg.homebuttonlauncher.tools.drive.GoogleDriveGlobals;
  * http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-// see https://plus.google.com/104570711580136846518/posts/QpqfXXigAWW
-//note we cannot filter the app on "needs soft home button" (i.e. a non-physical home button like galaxy nexus)
-//http://developer.android.com/guide/topics/manifest/uses-feature-element.html
+/*
+ * android 5 ref
+ * http://www.google.com/design/spec/style/color.html#color-color-palette
+ * http://developer.android.com/training/material/theme.html#ColorPalette
+ */
 public class MainActivityHome extends Activity {
 
 	private static final Logger log = new Logger(MainActivityHome.class);
@@ -73,13 +76,19 @@ public class MainActivityHome extends Activity {
 		}
 	}
 
-	public void setBackgroundTransparency(boolean setTheme) {
-		if (setTheme) {
+	private void setAppTheme() {
+		int theme = preferences.prefSettings.getThemeId();
+		if (theme==PrefSettings.THEME_TRANSPARENT) {
 			setTheme(R.style.ThemeSemiTransparent);
+			int alpha = preferences.prefSettings.getTransparencyAlpha();
+			alpha--; // strange android 5.0 issue: background breaks and shows ghost images when setting solid color (i.e. alpha 0xff)
+			Drawable drawable = new ColorDrawable(Color.argb(alpha, 0x00, 0x00, 0x00));
+			getWindow().setBackgroundDrawable(drawable);
 		}
-		int alpha = preferences.prefSettings.getTransparencyAlpha();
-		Drawable drawable = new ColorDrawable(Color.argb(alpha, 0x00, 0x00, 0x00));
-		getWindow().setBackgroundDrawable(drawable);
+		else if (theme==PrefSettings.THEME_LIGHT) {
+			setTheme(R.style.ThemeLight);
+		}
+		// default app theme is "dark"
 	}
 
 	private void main() {
@@ -89,11 +98,7 @@ public class MainActivityHome extends Activity {
 		}
 
 		preferences = new PreferencesManager(this);
-
-		if (preferences.prefSettings.isSemiTransparent()) {
-			setBackgroundTransparency(true);
-		}
-
+		setAppTheme();
 		setContentView(R.layout.activity_main);
 
 		if (isAutoStartSingleSuccessful()) {
@@ -183,7 +188,7 @@ public class MainActivityHome extends Activity {
 		int minWidth = DialogHelper.getDimension(preferences.prefSettings.getMinWidthDimension());
 		findViewById(R.id.headerContainer).setMinimumWidth(minWidth);
 		if (preferences.prefSettings.isNoHeader() && !isStartedFromLauncherApp()) {
-			findViewById(R.id.headerTitleContainer).setVisibility(View.GONE);
+			findViewById(R.id.headerContainer).setVisibility(View.GONE);
 		}
 	}
 
@@ -360,7 +365,7 @@ public class MainActivityHome extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode==GoogleDriveGlobals.ACTION_CUSTOM_GET) {
-			GoogleDriveBackupRestoreHelper.restoreFromFile(data);
+			HBLBackupRestoreGoogleDrive.restoreFromFile(data);
 		}
 		else if (requestCode==HBLConstants.SHORTCUT_RC) {
 			ShortcutHelper.shortcutSelected(this, data);

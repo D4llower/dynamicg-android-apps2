@@ -93,7 +93,8 @@ public class PreferencesManager {
 	}
 
 	public String getTabTitle(int index) {
-		return prefSettings.getStringValue(KEY_TAB_LABEL_PREFIX+index, "");
+		// default tab name is "Tn"
+		return prefSettings.getStringValue(KEY_TAB_LABEL_PREFIX+index, "T"+(index+1));
 	}
 
 	public void writeTabTitle(int index, String label) {

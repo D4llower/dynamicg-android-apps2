@@ -8,11 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.dynamicg.common.Logger;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
@@ -21,6 +18,7 @@ import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
 import com.dynamicg.homebuttonlauncher.R;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
 import com.dynamicg.homebuttonlauncher.dialog.header.HeaderPreferences;
+import com.dynamicg.homebuttonlauncher.preferences.IntHolder;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tools.DialogHelper;
@@ -34,7 +32,8 @@ public class PreferencesDialog extends Dialog {
 	private final PrefSettings prefSettings;
 	private final MainActivityHome activity;
 
-	private int selectedLayout;
+	private final IntHolder theme;
+	private final IntHolder layout;
 
 	private SeekBarHelper seekbarLabelSize;
 	private SeekBarHelper seekbarIconSize;
@@ -43,8 +42,6 @@ public class PreferencesDialog extends Dialog {
 
 	private CheckBox chkHighRes;
 	private CheckBox chkAutoStartSingle;
-	private CheckBox chkBackgroundIconLoader;
-	private CheckBox chkSemiTransparent;
 	private CheckBox chkStatusLine;
 	private CheckBox chkNoHeader;
 
@@ -57,6 +54,8 @@ public class PreferencesDialog extends Dialog {
 		this.activity = activity;
 		this.preferences = preferences;
 		this.prefSettings = preferences.prefSettings;
+		this.theme = new IntHolder(prefSettings.getThemeId());
+		this.layout = new IntHolder(prefSettings.getLayoutType());
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
@@ -82,15 +81,13 @@ public class PreferencesDialog extends Dialog {
 
 		chkHighRes = attachCheckbox(R.id.prefsHighResIcon, prefSettings.isHighResIcons());
 		chkAutoStartSingle = attachCheckbox(R.id.prefsAutoStartSingle, prefSettings.isAutoStartSingle());
-		chkBackgroundIconLoader = attachCheckbox(R.id.prefsBackgroundIconLoader, prefSettings.isBackgroundIconLoader());
-		chkSemiTransparent = attachCheckbox(R.id.prefsSemiTransparent, prefSettings.isSemiTransparent());
 		chkStatusLine = attachCheckbox(R.id.prefsStatusLine, prefSettings.isShowStatusLine());
 		chkNoHeader = attachCheckbox(R.id.prefsNoHeader, prefSettings.isNoHeader());
 
 		transparencyAlphaHelper = new TransparencyAlphaHelper();
-		transparencyAlphaHelper.setVisibility(chkSemiTransparent.isChecked()); // initial setting
 
-		setupLayoutToggle();
+		bindTogglePanel(R.id.prefThemeToggle, PrefSettings.NUM_THEMES, theme);
+		bindTogglePanel(R.id.prefLayoutToggle, PrefSettings.NUM_LAYOUTS, layout);
 
 		findViewById(R.id.buttonCancel).setOnClickListener(new OnClickListenerWrapper() {
 			@Override
@@ -103,13 +100,6 @@ public class PreferencesDialog extends Dialog {
 			@Override
 			public void onClickImpl(View v) {
 				saveSettings();
-			}
-		});
-
-		chkSemiTransparent.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				transparencyAlphaHelper.setVisibility(isChecked);
 			}
 		});
 
@@ -129,7 +119,7 @@ public class PreferencesDialog extends Dialog {
 
 				log.debug("tabs max/currentHome", maxTabs, newHomeTab);
 				SpinnerHelper.SpinnerEntries items = new SpinnerHelper.SpinnerEntries();
-				items.add(0, ""); // pos 0 = none
+				items.add(0, SpinnerHelper.PADDED_DASH); // pos 0 = none
 				for (int idx=0;idx<maxTabs;idx++) {
 					// pos 1 to n is "tabindex+1"
 					items.addPadded(idx+1, idx+1);
@@ -195,28 +185,38 @@ public class PreferencesDialog extends Dialog {
 		}
 	}
 
-	private void setLayoutSelection(View parent, int which) {
-		selectedLayout = which;
-		for (int i=0;i<PrefSettings.NUM_LAYOUTS;i++) {
-			View toggle = parent.findViewWithTag("toggle_"+i);
-			toggle.setBackgroundResource(which==i?android.R.color.holo_blue_light:0);
+	private void onToggleChanged(IntHolder valueHolder, int value) {
+		// this also fires on startup
+		if (valueHolder==theme) {
+			transparencyAlphaHelper.setVisibility(value==PrefSettings.THEME_TRANSPARENT);
 		}
 	}
 
-	private void setupLayoutToggle() {
-		final ViewGroup parent = (ViewGroup)findViewById(R.id.prefLayoutToggle);
+	private void setToggleSelection(View parent, int numItems, IntHolder valueHolder, int value) {
+		int highlightColorId = prefSettings.getThemeId()==PrefSettings.THEME_LIGHT ? R.color.l5AccentLight : R.color.l5AccentDark;
+		int highlightColorValue = getContext().getResources().getColor(highlightColorId);
+		valueHolder.value = value;
+		for (int i=0;i<numItems;i++) {
+			View toggle = parent.findViewWithTag("toggle_"+i);
+			toggle.setBackgroundColor(value==i ? highlightColorValue : 0);
+		}
+		onToggleChanged(valueHolder, value);
+	}
+
+	private void bindTogglePanel(final int panelId, final int numItems, final IntHolder valueHolder) {
+		final ViewGroup parent = (ViewGroup)findViewById(panelId);
 		final View.OnClickListener clickListener = new OnClickListenerWrapper() {
 			@Override
 			public void onClickImpl(View v) {
 				int which = Integer.parseInt(v.getTag().toString());
-				setLayoutSelection(parent, which);
+				setToggleSelection(parent, numItems, valueHolder, which);
 			}
 		};
-		for (int i=0;i<PrefSettings.NUM_LAYOUTS;i++) {
+		for (int i=0;i<numItems;i++) {
 			View image = parent.findViewWithTag(Integer.toString(i));
 			image.setOnClickListener(clickListener);
 		}
-		setLayoutSelection(parent, prefSettings.getLayoutType());
+		setToggleSelection(parent, numItems, valueHolder, valueHolder.value);
 	}
 
 	private int getNewHomeTabNum() {
@@ -255,31 +255,26 @@ public class PreferencesDialog extends Dialog {
 		GlobalContext.resetCache();
 		activity.refreshList();
 
+		dismiss();
 		if (appRestartRequired) {
-			Toast.makeText(activity, R.string.prefsPleaseRestart, Toast.LENGTH_SHORT).show();
-			dismiss();
-			activity.finish();
-		}
-		else {
-			if (chkSemiTransparent.isChecked() && transparencyAlphaHelper.isChanged()) {
-				activity.setBackgroundTransparency(false);
-			}
-			dismiss();
+			activity.recreate();
 		}
 	}
 
 	private boolean isAppRestartRequired() {
-		return (prefSettings.isSemiTransparent() != chkSemiTransparent.isChecked())
+		return (prefSettings.getThemeId() != theme.value)
 				|| (prefSettings.isShowStatusLine() != chkStatusLine.isChecked())
-				||  (prefSettings.getTabPosition() != getSelectedRadioButtonValue(rgTabPosition))
-				||  (prefSettings.isNoHeader() != chkNoHeader.isChecked())
+				|| (prefSettings.getTabPosition() != getSelectedRadioButtonValue(rgTabPosition))
+				|| (prefSettings.isNoHeader() != chkNoHeader.isChecked())
+				|| transparencyAlphaHelper.isChanged()
 				;
 	}
 
 	private void saveSharedPrefs() {
 		Editor edit = prefSettings.sharedPrefs.edit();
 
-		edit.putInt(PrefSettings.KEY_LAYOUT, selectedLayout);
+		edit.putInt(PrefSettings.KEY_THEME, theme.value);
+		edit.putInt(PrefSettings.KEY_LAYOUT, layout.value);
 		edit.putInt(PrefSettings.KEY_LABEL_SIZE, seekbarLabelSize.getNewValue());
 		edit.putInt(PrefSettings.KEY_ICON_SIZE, seekbarIconSize.getNewValue());
 		edit.putInt(PrefSettings.KEY_NUM_TABS, seekbarNumTabs.getNewValue());
@@ -288,8 +283,6 @@ public class PreferencesDialog extends Dialog {
 
 		edit.putBoolean(PrefSettings.KEY_HIGH_RES, chkHighRes.isChecked());
 		edit.putBoolean(PrefSettings.KEY_AUTO_START_SINGLE, chkAutoStartSingle.isChecked());
-		edit.putBoolean(PrefSettings.KEY_BACKGROUND_ICON_LOADER, chkBackgroundIconLoader.isChecked());
-		edit.putBoolean(PrefSettings.KEY_SEMI_TRANSPARENT, chkSemiTransparent.isChecked());
 		edit.putBoolean(PrefSettings.KEY_STATUS_LINE, chkStatusLine.isChecked());
 		edit.putBoolean(PrefSettings.KEY_NO_HEADER, chkNoHeader.isChecked());
 

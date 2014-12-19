@@ -10,6 +10,7 @@ import android.widget.Spinner;
 public class SpinnerHelper {
 
 	private static final String PADDING = "   ";
+	public static final String PADDED_DASH = PADDING + "\u2013" + PADDING;
 
 	public final Spinner spinner;
 
