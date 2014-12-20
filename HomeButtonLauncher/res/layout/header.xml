@@ -28,7 +28,6 @@
 	        />
 	    
 	    <ImageView android:id="@+id/headerIcon"
-	        android:src="@drawable/ic_menu_moreoverflow_material"
 	        android:padding="@dimen/headerPadding"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"

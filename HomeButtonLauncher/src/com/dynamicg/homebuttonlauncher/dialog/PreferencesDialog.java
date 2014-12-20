@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 
 import com.dynamicg.common.Logger;
+import com.dynamicg.common.SdkLevel;
 import com.dynamicg.homebuttonlauncher.GlobalContext;
 import com.dynamicg.homebuttonlauncher.MainActivityHome;
 import com.dynamicg.homebuttonlauncher.OnClickListenerWrapper;
@@ -193,7 +194,13 @@ public class PreferencesDialog extends Dialog {
 	}
 
 	private void setToggleSelection(View parent, int numItems, IntHolder valueHolder, int value) {
-		int highlightColorId = prefSettings.getThemeId()==PrefSettings.THEME_LIGHT ? R.color.l5AccentLight : R.color.l5AccentDark;
+		int highlightColorId;
+		if (SdkLevel.BEFORE_LOLLIPOP) {
+			highlightColorId = android.R.color.holo_blue_light;
+		}
+		else {
+			highlightColorId = prefSettings.getThemeId()==PrefSettings.THEME_LIGHT ? R.color.l5AccentLight : R.color.l5AccentDark;
+		}
 		int highlightColorValue = getContext().getResources().getColor(highlightColorId);
 		valueHolder.value = value;
 		for (int i=0;i<numItems;i++) {

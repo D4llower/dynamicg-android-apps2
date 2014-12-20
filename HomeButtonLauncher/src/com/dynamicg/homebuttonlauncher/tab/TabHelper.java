@@ -72,11 +72,6 @@ public abstract class TabHelper {
 
 		ViewGroup main = (ViewGroup)header.getParent();
 		int targetpos = main.indexOfChild(header) + (atBottom ? 2 : 1);
-		if (atBottom) {
-			View divider = activity.getLayoutInflater().inflate(R.layout.divider_h, null);
-			main.addView(divider, targetpos);
-			targetpos++;
-		}
 		main.addView(tabhost, targetpos);
 
 		return tabhost;

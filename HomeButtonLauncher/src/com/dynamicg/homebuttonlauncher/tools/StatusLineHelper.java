@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -62,8 +61,8 @@ public class StatusLineHelper {
 		ViewGroup parent = (ViewGroup)context.findViewById(R.id.mainContainer);
 
 		if (prefSettings.isTabAtBottom() && prefSettings.getNumTabs()>1) {
-			View divider = parent.findViewById(R.id.tabBottomDivider);
-			parent.addView(status, parent.indexOfChild(divider));
+			// footer status is second last before the tabs
+			parent.addView(status, parent.getChildCount()-1);
 		}
 		else {
 			parent.addView(status);

@@ -17,6 +17,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TabHost;
 
@@ -27,6 +28,7 @@ import com.dynamicg.homebuttonlauncher.adapter.AppListAdapterMainStatic;
 import com.dynamicg.homebuttonlauncher.dialog.AboutDialog;
 import com.dynamicg.homebuttonlauncher.dialog.AppConfigDialog;
 import com.dynamicg.homebuttonlauncher.dialog.PreferencesDialog;
+import com.dynamicg.homebuttonlauncher.dialog.header.HeaderAbstract;
 import com.dynamicg.homebuttonlauncher.preferences.PrefSettings;
 import com.dynamicg.homebuttonlauncher.preferences.PreferencesManager;
 import com.dynamicg.homebuttonlauncher.tab.TabHelperMain;
@@ -298,7 +300,7 @@ public class MainActivityHome extends Activity {
 	}
 
 	private void attachContextMenu() {
-		final View anchor = findViewById(R.id.headerIcon);
+		final ImageView anchor = (ImageView)findViewById(R.id.headerIcon);
 		anchor.setOnClickListener(new OnClickListenerWrapper() {
 			private PopupMenuWrapper wrapper;
 			@Override
@@ -310,6 +312,7 @@ public class MainActivityHome extends Activity {
 				wrapper.showMenu();
 			}
 		});
+		anchor.setImageResource(HeaderAbstract.getMenuIconId(preferences.prefSettings));
 	}
 
 	public PopupMenuWrapper bindMainMenu(final View anchor) {

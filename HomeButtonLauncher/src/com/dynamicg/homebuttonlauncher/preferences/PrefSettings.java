@@ -39,8 +39,7 @@ public class PrefSettings {
 	public final SharedPreferences sharedPrefs;
 
 	public PrefSettings(Context context) {
-		this.sharedPrefs = context.getSharedPreferences(
-				HBLConstants.PREFS_SETTINGS, Context.MODE_PRIVATE);
+		this.sharedPrefs = context.getSharedPreferences(HBLConstants.PREFS_SETTINGS, Context.MODE_PRIVATE);
 	}
 
 	public void apply(String key, int value) {
