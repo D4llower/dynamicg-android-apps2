@@ -2,14 +2,16 @@ package com.dynamicg.common;
 
 import android.util.Log;
 
+import com.dynamicg.homebuttonlauncher.BuildConfig;
+
 /*
- * ==>> THIS CLASS IS STRIPPED WHEN BUILDING THE APP <<==
+ * strip this class when building the app
  * see build-release.xml
  */
 public class Logger {
 
-	private static boolean TRACE_ENABLED = true;
-	private static boolean DEBUG_ENABLED = true;
+	private static boolean TRACE_ENABLED = BuildConfig.DEBUG;
+	private static boolean DEBUG_ENABLED = false;
 
 	public final boolean isTraceEnabled = TRACE_ENABLED;
 	public final boolean isDebugEnabled = DEBUG_ENABLED;
