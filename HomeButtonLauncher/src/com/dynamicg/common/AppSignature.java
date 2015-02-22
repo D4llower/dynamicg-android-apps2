@@ -16,6 +16,8 @@ import android.content.pm.Signature;
 
 public class AppSignature {
 
+	private static final String PUBKEY_DYNAMIC_G = "b634fd91174b8252eb20f9ee1cfba7e2dc5fbee5";
+
 	public static String get(Context context) {
 		PackageManager pm = context.getPackageManager();
 		PackageInfo packageInfo = null;
@@ -60,4 +62,12 @@ public class AppSignature {
 		}
 	}
 
+	/*
+	 * backup/restore over google drive only works if the app is compiled with the DynamicG certificate
+	 * (permission com.dynamicg.timerec.plugin3.ACCESS with android:protectionLevel="signature")
+	 * hence we hide these items on other builds (f-droid)
+	 */
+	public static boolean isMatchingCertificate(Context context) {
+		return PUBKEY_DYNAMIC_G.equals(AppSignature.get(context));
+	}
 }

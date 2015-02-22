@@ -17,7 +17,9 @@ public class ErrorSender {
 		msg.setType("message/rfc822");
 		msg.putExtra(Intent.EXTRA_SUBJECT, title);
 		msg.putExtra(Intent.EXTRA_TEXT, body);
-		msg.putExtra(Intent.EXTRA_EMAIL, new String[]{SystemUtil.AUTHOR} );
+		if (AppSignature.isMatchingCertificate(context)) {
+			msg.putExtra(Intent.EXTRA_EMAIL, new String[]{"dynamicg.info@gmail.com"} );
+		}
 		context.startActivity(Intent.createChooser(msg, "Send error report"));
 	}
 

@@ -11,7 +11,6 @@ import android.os.Build;
 
 public class SystemUtil {
 
-	public static final String AUTHOR = "dynamicg.android@gmail.com";
 	public static final String PACKAGE = "com.dynamicg.homebuttonlauncher";
 
 	private static final Logger log = new Logger(SystemUtil.class);
